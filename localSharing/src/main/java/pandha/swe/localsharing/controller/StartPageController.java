@@ -5,14 +5,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @Controller
 public class StartPageController {
-	
-    @RequestMapping("/")
-    public String startPage(@RequestParam(value="name", required=false, defaultValue="Benutzer") String name, Model model) {
-        model.addAttribute("name", name);
-        return "startPage";
-    }
+
+	@RequestMapping("/startPage")
+	public String startPage(
+			@RequestParam(value = "name", required = false, defaultValue = "Benutzer") String name,
+			Model model) {
+		model.addAttribute("name", name);
+		return "startPage";
+	}
 
 }

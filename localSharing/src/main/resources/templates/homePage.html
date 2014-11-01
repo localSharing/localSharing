@@ -5,9 +5,9 @@
         <title>Hello Secret World!</title>
     </head>
     <body>
-        <h1 th:inline="text">Hello Secret [[${#httpServletRequest.remoteUser}]]!</h1>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
+        <h1 th:inline="text">Wilkommen bei LocalSharing bitte unten auf anmelden klicken!</h1>
+        <form th:action="@{/login}" method="post">
+            <input type="submit" value="Login"/>
         </form>
     </body>
 </html>
