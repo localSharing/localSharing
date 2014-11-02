@@ -13,7 +13,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import pandha.swe.localsharing.dao.BenutzerDao;
 import pandha.swe.localsharing.model.Benutzer;
@@ -26,14 +25,18 @@ public class PandhaUserDetailsService implements UserDetailsService {
 	@Autowired
 	private BenutzerDao benutzerDao;
 
-	@Transactional(readOnly = true)
 	@Override
 	public UserDetails loadUserByUsername(String email)
 			throws UsernameNotFoundException {
 
 		Benutzer benutzer = benutzerDao.findByEmail(email);
+		
+		if(benutzer == null){
+			throw new UsernameNotFoundException("User existiert nicht!!");
+		}
 		List<GrantedAuthority> authorities = buildUserAuthority(benutzer
 				.getBenutzerRolle());
+		
 
 		return buildUserForSpringSecurityAuthentication(benutzer, authorities);
 	}

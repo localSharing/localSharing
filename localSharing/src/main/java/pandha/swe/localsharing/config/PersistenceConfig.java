@@ -11,13 +11,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTemplate;
-import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @Configuration
-@EnableTransactionManagement
-public class PersistanceyConfig {
+public class PersistenceConfig {
 	// ${jdbc.driverClassName}
 	@Value("${jdbc.driverClassName}")
 	private String driverClassName;
@@ -35,7 +32,7 @@ public class PersistanceyConfig {
 	@Value("${hibernate.hbm2ddl.auto}")
 	private String hibernateHbm2ddlAuto;
 
-	@Bean
+	@Bean(name = "dataSource")
 	public DataSource getDataSource() {
 		DriverManagerDataSource ds = new DriverManagerDataSource();
 		ds.setDriverClassName(driverClassName);
@@ -46,18 +43,13 @@ public class PersistanceyConfig {
 	}
 
 	@Bean
-    public HibernateTransactionManager txManager() {
-            return new HibernateTransactionManager(sessionFactory());
-    }
-
-	@Bean
 	@Autowired
 	public HibernateTemplate getHibernateTemplate(SessionFactory sessionFactory) {
 		HibernateTemplate hibernateTemplate = new HibernateTemplate(
 				sessionFactory);
+		hibernateTemplate.setCheckWriteOperations(false);
 		return hibernateTemplate;
 	}
-
 
 	@Bean
 	public SessionFactory sessionFactory() {
@@ -69,7 +61,6 @@ public class PersistanceyConfig {
 		return builder.buildSessionFactory();
 	}
 
-	@Bean
 	public Properties getHibernateProperties() {
 		Properties properties = new Properties();
 		properties.put("hibernate.dialect", hibernateDialect);

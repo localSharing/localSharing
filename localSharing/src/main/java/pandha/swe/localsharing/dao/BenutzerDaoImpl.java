@@ -1,6 +1,7 @@
 package pandha.swe.localsharing.dao;
 
 import java.util.List;
+import java.util.Set;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
@@ -9,6 +10,7 @@ import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.BenutzerRolle;
 
 @Repository("benutzerDao")
 public class BenutzerDaoImpl implements BenutzerDao {
@@ -32,16 +34,35 @@ public class BenutzerDaoImpl implements BenutzerDao {
 	@Override
 	public void save(Benutzer benutzer) {
 		hibernateTemplate.saveOrUpdate(benutzer);
+
+		Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+
+		for (BenutzerRolle benutzerRolle : a) {
+			hibernateTemplate.saveOrUpdate(benutzerRolle);
+		}
+
 	}
 
 	@Override
 	public void update(Benutzer benutzer) {
 		hibernateTemplate.saveOrUpdate(benutzer);
+
+		Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+
+		for (BenutzerRolle benutzerRolle : a) {
+			hibernateTemplate.saveOrUpdate(benutzerRolle);
+		}
 	}
 
 	@Override
 	public void delete(Benutzer benutzer) {
 		hibernateTemplate.delete(benutzer);
+
+		Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+
+		for (BenutzerRolle benutzerRolle : a) {
+			hibernateTemplate.delete(benutzerRolle);
+		}
 	}
 
 	@Override

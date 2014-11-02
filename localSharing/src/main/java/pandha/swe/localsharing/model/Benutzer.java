@@ -30,11 +30,9 @@ public class Benutzer {
 
 	@Column(name = "ENABLED", nullable = false)
 	private boolean enabled;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "benutzer")
 	private Set<BenutzerRolle> benutzerRolle = new HashSet<BenutzerRolle>(0);
-	
-	
 
 	@Column(name = "GESCHLECHT")
 	private Geschlecht geschlecht;
@@ -54,12 +52,10 @@ public class Benutzer {
 	private String stadt;
 
 	// Kontakt
-	@Column(name = "EMAIL",unique=true)
+	@Column(name = "EMAIL")
 	private String email;
 	@Column(name = "TELNR")
 	private String telefonNr;
-
-	
 
 	public Benutzer() {
 

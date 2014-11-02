@@ -12,7 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "benutzer_rollen", uniqueConstraints = @UniqueConstraint(columnNames = {
+@Table(name = "ROLLEN", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"ROLLE", "ID" }))
 public class BenutzerRolle {
 
@@ -36,6 +36,10 @@ public class BenutzerRolle {
 		this.beutzerRollenId = beutzerRollenId;
 		this.benutzer = benutzer;
 		this.rolle = rolle;
+	}
+
+	public BenutzerRolle() {
+
 	}
 
 	public long getBeutzerRollenId() {

@@ -13,6 +13,7 @@ public class StartPageController {
 			@RequestParam(value = "name", required = false, defaultValue = "Benutzer") String name,
 			Model model) {
 		model.addAttribute("name", name);
+
 		return "startPage";
 	}
 
