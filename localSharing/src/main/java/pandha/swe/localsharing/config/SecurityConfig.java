@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// .and().logout().logoutSuccessUrl("/login?logout").and().csrf()
 		// .and().exceptionHandling().accessDeniedPage("/403");
 
-		http.authorizeRequests().antMatchers("/", "/homepage").permitAll()
+		http.authorizeRequests().antMatchers("/", "/homepage","/register").permitAll()
 				.anyRequest().authenticated();
 		http.formLogin().loginPage("/login").permitAll().and().logout()
 				.permitAll();

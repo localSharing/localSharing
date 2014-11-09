@@ -23,7 +23,7 @@ public class BenutzerRolle {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
-	private long beutzerRollenId;
+	private Long beutzerRollenId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "userID", nullable = false)
@@ -32,7 +32,7 @@ public class BenutzerRolle {
 	@Column(name = "ROLLE", nullable = false)
 	private Rollen rolle;
 
-	public BenutzerRolle(long beutzerRollenId, Benutzer benutzer, Rollen rolle) {
+	public BenutzerRolle(Long beutzerRollenId, Benutzer benutzer, Rollen rolle) {
 		this.beutzerRollenId = beutzerRollenId;
 		this.benutzer = benutzer;
 		this.rolle = rolle;
@@ -46,7 +46,7 @@ public class BenutzerRolle {
 		return beutzerRollenId;
 	}
 
-	public void setBeutzerRollenId(long beutzerRollenId) {
+	public void setBeutzerRollenId(Long beutzerRollenId) {
 		this.beutzerRollenId = beutzerRollenId;
 	}
 
@@ -64,6 +64,12 @@ public class BenutzerRolle {
 
 	public void setRolle(Rollen rolle) {
 		this.rolle = rolle;
+	}
+
+	@Override
+	public String toString() {
+		return "BenutzerRolle [beutzerRollenId=" + beutzerRollenId
+				+ ", benutzer=" + benutzer + ", rolle=" + rolle + "]";
 	}
 
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import pandha.swe.localsharing.dto.BenutzerRegisterDto;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 
@@ -19,7 +20,7 @@ public class BenutzerDaoImpl implements BenutzerDao {
 	private HibernateTemplate hibernateTemplate;
 
 	@Override
-	public Benutzer findById(long id) {
+	public Benutzer findById(Long id) {
 		Benutzer benutzer = (Benutzer) hibernateTemplate
 				.get(Benutzer.class, id);
 		return benutzer;
@@ -33,35 +34,41 @@ public class BenutzerDaoImpl implements BenutzerDao {
 
 	@Override
 	public void save(Benutzer benutzer) {
-		hibernateTemplate.saveOrUpdate(benutzer);
 
-		Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+		if (benutzer != null) {
+			hibernateTemplate.saveOrUpdate(benutzer);
 
-		for (BenutzerRolle benutzerRolle : a) {
-			hibernateTemplate.saveOrUpdate(benutzerRolle);
+			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+
+			for (BenutzerRolle benutzerRolle : a) {
+				hibernateTemplate.saveOrUpdate(benutzerRolle);
+			}
 		}
-
 	}
 
 	@Override
 	public void update(Benutzer benutzer) {
-		hibernateTemplate.saveOrUpdate(benutzer);
+		if (benutzer != null) {
+			hibernateTemplate.saveOrUpdate(benutzer);
 
-		Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
 
-		for (BenutzerRolle benutzerRolle : a) {
-			hibernateTemplate.saveOrUpdate(benutzerRolle);
+			for (BenutzerRolle benutzerRolle : a) {
+				hibernateTemplate.saveOrUpdate(benutzerRolle);
+			}
 		}
 	}
 
 	@Override
 	public void delete(Benutzer benutzer) {
-		hibernateTemplate.delete(benutzer);
+		if (benutzer != null) {
+			hibernateTemplate.delete(benutzer);
 
-		Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
 
-		for (BenutzerRolle benutzerRolle : a) {
-			hibernateTemplate.delete(benutzerRolle);
+			for (BenutzerRolle benutzerRolle : a) {
+				hibernateTemplate.delete(benutzerRolle);
+			}
 		}
 	}
 
@@ -74,16 +81,27 @@ public class BenutzerDaoImpl implements BenutzerDao {
 	@Override
 	public Benutzer findByEmail(String email) {
 
-		List<?> benutzerList = hibernateTemplate
-				.findByCriteria(DetachedCriteria.forClass(Benutzer.class).add(
-						Restrictions.eq("email", email)));
+		if (email != null) {
 
-		if (benutzerList != null && benutzerList.size() == 1
-				&& benutzerList.get(0) instanceof Benutzer) {
+			List<?> benutzerList = hibernateTemplate
+					.findByCriteria(DetachedCriteria.forClass(Benutzer.class)
+							.add(Restrictions.eq("email", email)));
 
-			return (Benutzer) benutzerList.get(0);
+			if (benutzerList != null && benutzerList.size() > 0
+					&& benutzerList.get(0) instanceof Benutzer) {
+
+				return (Benutzer) benutzerList.get(0);
+			}
 		}
 		return null;
+	}
+
+	@Override
+	public void registerBenzuter(BenutzerRegisterDto benutzerRegisterDto) {
+
+		Benutzer benutzer = null;
+
+		this.save(benutzer);
 	}
 
 }

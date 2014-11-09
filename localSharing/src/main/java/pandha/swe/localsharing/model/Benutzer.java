@@ -16,20 +16,16 @@ import javax.persistence.Table;
 @Table(name = "BENUTZER")
 public class Benutzer {
 
-	public enum Geschlecht {
-		MANN, FRAU
-	};
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "userID")
-	private long userid;
+	private Long userid;
 
 	@Column(name = "PASSWORT", nullable = false)
 	private String passwort;
 
 	@Column(name = "ENABLED", nullable = false)
-	private boolean enabled;
+	private Boolean enabled;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "benutzer")
 	private Set<BenutzerRolle> benutzerRolle = new HashSet<BenutzerRolle>(0);
@@ -47,12 +43,12 @@ public class Benutzer {
 	@Column(name = "HAUSNR")
 	private String hausnummer;
 	@Column(name = "PLZ")
-	private String plz;
+	private Integer plz;
 	@Column(name = "STADT")
 	private String stadt;
 
 	// Kontakt
-	@Column(name = "EMAIL")
+	@Column(name = "EMAIL", nullable = false, unique = true)
 	private String email;
 	@Column(name = "TELNR")
 	private String telefonNr;
@@ -61,9 +57,9 @@ public class Benutzer {
 
 	}
 
-	public Benutzer(long id, String passwort, boolean enabled,
+	public Benutzer(Long id, String passwort, Boolean enabled,
 			Geschlecht geschlecht, String vorname, String nachname,
-			String strasse, String hausnummer, String plz, String stadt,
+			String strasse, String hausnummer, Integer plz, String stadt,
 			String email, String telefonNr, Set<BenutzerRolle> benutzerRolle) {
 		this.userid = id;
 		this.passwort = passwort;
@@ -80,11 +76,11 @@ public class Benutzer {
 		this.benutzerRolle = benutzerRolle;
 	}
 
-	public long getId() {
+	public Long getId() {
 		return userid;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.userid = id;
 	}
 
@@ -136,11 +132,11 @@ public class Benutzer {
 		this.hausnummer = hausnummer;
 	}
 
-	public String getPlz() {
+	public Integer getPlz() {
 		return plz;
 	}
 
-	public void setPlz(String plz) {
+	public void setPlz(Integer plz) {
 		this.plz = plz;
 	}
 
@@ -168,11 +164,11 @@ public class Benutzer {
 		this.telefonNr = telefonNr;
 	}
 
-	public boolean isEnabled() {
+	public Boolean isEnabled() {
 		return enabled;
 	}
 
-	public void setEnabled(boolean enabled) {
+	public void setEnabled(Boolean enabled) {
 		this.enabled = enabled;
 	}
 
@@ -182,6 +178,16 @@ public class Benutzer {
 
 	public void setBenutzerRolle(Set<BenutzerRolle> benutzerRolle) {
 		this.benutzerRolle = benutzerRolle;
+	}
+
+	@Override
+	public String toString() {
+		return "Benutzer [userid=" + userid + ", passwort=" + passwort
+				+ ", enabled=" + enabled + ", benutzerRolle=" + benutzerRolle
+				+ ", geschlecht=" + geschlecht + ", vorname=" + vorname
+				+ ", nachname=" + nachname + ", strasse=" + strasse
+				+ ", hausnummer=" + hausnummer + ", plz=" + plz + ", stadt="
+				+ stadt + ", email=" + email + ", telefonNr=" + telefonNr + "]";
 	}
 
 }
