@@ -3,12 +3,12 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Hello Secret World!</title>
+<title>Registrierung</title>
 </head>
 <body>
 
 	<h1>Registrierung</h1>
-	<div th:if="${message}">Benutzer Registriert</div>
+	<div th:if="${message}" th:text="${message}">Benutzer Registriert</div>
 	<form action="#" th:action="@{/register}" th:object="${newUser}"
 		method="post">
 		<table>

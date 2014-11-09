@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,11 +43,16 @@ public class AuthenticationController {
 
 		if (result.hasErrors()) {
 			return "register";
+		} else if (!newUser.getPassword1().equals(newUser.getPassword2())) {
+			result.addError(new ObjectError("password1",
+					"Passwörter stimmen nicht überein"));
+			return "register";
 		}
+
+		benutzerService.registerBenzuter(newUser);
 
 		model.addAttribute("message",
 				"Successfully saved person: " + newUser.toString());
 		return "register";
 	}
-
 }

@@ -18,7 +18,6 @@ public interface BenutzerDao {
 
 	public void delete(Benutzer benutzer);
 	
-	public void registerBenzuter(BenutzerRegisterDto benutzerRegisterDto);
 
 	public void shutdown();
 

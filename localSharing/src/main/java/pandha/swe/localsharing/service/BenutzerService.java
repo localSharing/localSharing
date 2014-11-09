@@ -2,6 +2,7 @@ package pandha.swe.localsharing.service;
 
 import java.util.List;
 
+import pandha.swe.localsharing.dto.BenutzerRegisterDto;
 import pandha.swe.localsharing.model.Benutzer;
 
 public interface BenutzerService {
@@ -14,6 +15,8 @@ public interface BenutzerService {
 	public void update(Benutzer benutzer);
 
 	public void delete(Benutzer benutzer);
+	
+	public void registerBenzuter(BenutzerRegisterDto benutzerRegisterDto);
 
 	public void shutdown();
 }

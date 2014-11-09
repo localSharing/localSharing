@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import pandha.swe.localsharing.dto.BenutzerRegisterDto;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 
@@ -96,12 +95,6 @@ public class BenutzerDaoImpl implements BenutzerDao {
 		return null;
 	}
 
-	@Override
-	public void registerBenzuter(BenutzerRegisterDto benutzerRegisterDto) {
 
-		Benutzer benutzer = null;
-
-		this.save(benutzer);
-	}
 
 }
