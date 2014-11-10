@@ -16,9 +16,6 @@ import javax.persistence.UniqueConstraint;
 		"ROLLE", "ID" }))
 public class BenutzerRolle {
 
-	public enum Rollen {
-		USER, ADMIN
-	};
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +29,8 @@ public class BenutzerRolle {
 	@Column(name = "ROLLE", nullable = false)
 	private Rollen rolle;
 
-	public BenutzerRolle(Long beutzerRollenId, Benutzer benutzer, Rollen rolle) {
-		this.beutzerRollenId = beutzerRollenId;
+	public BenutzerRolle(Long benutzerRollenId, Benutzer benutzer, Rollen rolle) {
+		this.beutzerRollenId = benutzerRollenId;
 		this.benutzer = benutzer;
 		this.rolle = rolle;
 	}

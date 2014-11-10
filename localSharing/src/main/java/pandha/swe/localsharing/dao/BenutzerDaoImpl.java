@@ -35,13 +35,14 @@ public class BenutzerDaoImpl implements BenutzerDao {
 	public void save(Benutzer benutzer) {
 
 		if (benutzer != null) {
-			hibernateTemplate.saveOrUpdate(benutzer);
-
 			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
 
 			for (BenutzerRolle benutzerRolle : a) {
 				hibernateTemplate.saveOrUpdate(benutzerRolle);
 			}
+
+			hibernateTemplate.saveOrUpdate(benutzer);
+
 		}
 	}
 
@@ -94,7 +95,5 @@ public class BenutzerDaoImpl implements BenutzerDao {
 		}
 		return null;
 	}
-
-
 
 }

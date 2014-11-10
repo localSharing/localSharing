@@ -1,6 +1,8 @@
 package pandha.swe.localsharing.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +11,8 @@ import org.springframework.stereotype.Service;
 import pandha.swe.localsharing.dao.BenutzerDao;
 import pandha.swe.localsharing.dto.BenutzerRegisterDto;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.BenutzerRolle;
+import pandha.swe.localsharing.model.Rollen;
 
 @Service("benutzerService")
 public class BenutzerServiceImpl implements BenutzerService {
@@ -50,15 +54,22 @@ public class BenutzerServiceImpl implements BenutzerService {
 	}
 
 	@Override
-	public void registerBenzuter(BenutzerRegisterDto benutzerRegisterDto) {
-		// TODO Implentieren
+	public void registerBenutzer(BenutzerRegisterDto benutzerRegisterDto) {
 		String encodedPassword = encoder.encode(benutzerRegisterDto
 				.getPassword1());
 
-		// Benutzer benutzer = new
-		// Benutzer(Long.valueOf(1l),encodedPassword,true,);
+		Set<BenutzerRolle> rollen = new HashSet<>();
 
-		Benutzer benutzer = null;
+		Benutzer benutzer = new Benutzer(null, encodedPassword, true,
+				benutzerRegisterDto.getGeschlecht(),
+				benutzerRegisterDto.getVorname(),
+				benutzerRegisterDto.getNachname(),
+				benutzerRegisterDto.getStrasse(),
+				benutzerRegisterDto.getHausnummer(),
+				benutzerRegisterDto.getPlz(), benutzerRegisterDto.getStadt(),
+				benutzerRegisterDto.getEmail(),
+				benutzerRegisterDto.getTelefonNummer(), rollen);
+		rollen.add(new BenutzerRolle(null, benutzer, Rollen.USER));
 		save(benutzer);
 
 	}

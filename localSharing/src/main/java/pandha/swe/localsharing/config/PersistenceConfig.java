@@ -13,15 +13,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 
-/**
- * Diese Klasse enthält die Einstellungen um eine DB zuverwenden.
- * Welche Datenbank und zugangsdaten zu dieser sind in der application.properties Datei enthalten.
- * Desweiteren sind dort auch hibernate spezifische Einstellungen zufinden.
- * Diese Klasse dient nur dem setzten dieser Informationen.
- * 
- * @author Johannes Grün
- *
- */
+
 @Configuration
 public class PersistenceConfig {
 	// ${jdbc.driverClassName}

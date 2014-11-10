@@ -49,7 +49,7 @@ public class AuthenticationController {
 			return "register";
 		}
 
-		benutzerService.registerBenzuter(newUser);
+		benutzerService.registerBenutzer(newUser);
 
 		model.addAttribute("message",
 				"Successfully saved person: " + newUser.toString());

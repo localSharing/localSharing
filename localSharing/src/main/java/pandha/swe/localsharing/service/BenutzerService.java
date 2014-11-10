@@ -16,7 +16,7 @@ public interface BenutzerService {
 
 	public void delete(Benutzer benutzer);
 	
-	public void registerBenzuter(BenutzerRegisterDto benutzerRegisterDto);
+	public void registerBenutzer(BenutzerRegisterDto benutzerRegisterDto);
 
 	public void shutdown();
 }

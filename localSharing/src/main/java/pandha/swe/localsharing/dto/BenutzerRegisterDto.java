@@ -1,7 +1,5 @@
 package pandha.swe.localsharing.dto;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -24,7 +22,7 @@ public class BenutzerRegisterDto {
 	@Email
 	@NotEmpty
 	private String email;
-	
+
 	@Size(min = 2, max = 20)
 	private String vorname;
 
@@ -33,14 +31,14 @@ public class BenutzerRegisterDto {
 
 	@Size(min = 2, max = 20)
 	private String strasse;
-	
+
 	@Size(min = 1, max = 5)
 	private String hausnummer;
 
 	@NotNull
-	@Min(00000) @Max(99999)
+	// @Size(min = 5, max = 5)
 	private Integer plz;
-	
+
 	@Size(min = 2, max = 20)
 	private String stadt;
 
@@ -64,122 +62,98 @@ public class BenutzerRegisterDto {
 		this.stadt = stadt;
 		this.telefonNummer = telefonNummer;
 	}
-	
-	
-	public BenutzerRegisterDto(){
-		
-	}
 
+	public BenutzerRegisterDto() {
+
+	}
 
 	public Geschlecht getGeschlecht() {
 		return geschlecht;
 	}
 
-
 	public void setGeschlecht(Geschlecht geschlecht) {
 		this.geschlecht = geschlecht;
 	}
-
 
 	public String getPassword1() {
 		return password1;
 	}
 
-
 	public void setPassword1(String password1) {
 		this.password1 = password1;
 	}
-
 
 	public String getPassword2() {
 		return password2;
 	}
 
-
 	public void setPassword2(String password2) {
 		this.password2 = password2;
 	}
-
 
 	public String getEmail() {
 		return email;
 	}
 
-
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
 
 	public String getVorname() {
 		return vorname;
 	}
 
-
 	public void setVorname(String vorname) {
 		this.vorname = vorname;
 	}
-
 
 	public String getNachname() {
 		return nachname;
 	}
 
-
 	public void setNachname(String nachname) {
 		this.nachname = nachname;
 	}
-
 
 	public String getStrasse() {
 		return strasse;
 	}
 
-
 	public void setStrasse(String strasse) {
 		this.strasse = strasse;
 	}
-
 
 	public String getHausnummer() {
 		return hausnummer;
 	}
 
-
 	public void setHausnummer(String hausnummer) {
 		this.hausnummer = hausnummer;
 	}
-
 
 	public Integer getPlz() {
 		return plz;
 	}
 
-
 	public void setPlz(Integer plz) {
 		this.plz = plz;
 	}
-
 
 	public String getStadt() {
 		return stadt;
 	}
 
-
 	public void setStadt(String stadt) {
 		this.stadt = stadt;
 	}
-
 
 	public String getTelefonNummer() {
 		return telefonNummer;
 	}
 
-
 	public void setTelefonNummer(String telefonNummer) {
 		this.telefonNummer = telefonNummer;
 	}
-
 
 	@Override
 	public String toString() {
@@ -190,9 +164,5 @@ public class BenutzerRegisterDto {
 				+ ", plz=" + plz + ", stadt=" + stadt + ", telefonNummer="
 				+ telefonNummer + "]";
 	}
-	
-	
 
-	
-	
 }

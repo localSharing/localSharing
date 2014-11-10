@@ -27,7 +27,7 @@ public class Benutzer {
 	@Column(name = "ENABLED", nullable = false)
 	private Boolean enabled;
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "benutzer")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "benutzer")
 	private Set<BenutzerRolle> benutzerRolle = new HashSet<BenutzerRolle>(0);
 
 	@Column(name = "GESCHLECHT")
