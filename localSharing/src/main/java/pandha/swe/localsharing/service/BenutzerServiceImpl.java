@@ -8,17 +8,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import pandha.swe.localsharing.dao.BenutzerDao;
-import pandha.swe.localsharing.dto.BenutzerRegisterDto;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 import pandha.swe.localsharing.model.Rollen;
+import pandha.swe.localsharing.model.dao.BenutzerDAO;
+import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 
 @Service("benutzerService")
 public class BenutzerServiceImpl implements BenutzerService {
 
 	@Autowired
-	private BenutzerDao benutzerDao;
+	private BenutzerDAO benutzerDao;
 
 	@Autowired
 	private PasswordEncoder encoder;
@@ -54,7 +54,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 	}
 
 	@Override
-	public void registerBenutzer(BenutzerRegisterDto benutzerRegisterDto) {
+	public void registerBenutzer(BenutzerRegisterDTO benutzerRegisterDto) {
 		String encodedPassword = encoder.encode(benutzerRegisterDto
 				.getPassword1());
 

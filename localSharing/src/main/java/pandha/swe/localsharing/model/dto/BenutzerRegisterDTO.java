@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.dto;
+package pandha.swe.localsharing.model.dto;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -8,7 +8,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 
 import pandha.swe.localsharing.model.Geschlecht;
 
-public class BenutzerRegisterDto {
+public class BenutzerRegisterDTO {
 
 	@NotNull
 	private Geschlecht geschlecht;
@@ -45,11 +45,10 @@ public class BenutzerRegisterDto {
 	@Size(min = 3, max = 20)
 	private String telefonNummer;
 
-	public BenutzerRegisterDto(Geschlecht geschlecht, String password1,
+	public BenutzerRegisterDTO(Geschlecht geschlecht, String password1,
 			String password2, String email, String vorname, String nachname,
 			String strasse, String hausnummer, Integer plz, String stadt,
 			String telefonNummer) {
-		super();
 		this.geschlecht = geschlecht;
 		this.password1 = password1;
 		this.password2 = password2;
@@ -63,7 +62,7 @@ public class BenutzerRegisterDto {
 		this.telefonNummer = telefonNummer;
 	}
 
-	public BenutzerRegisterDto() {
+	public BenutzerRegisterDTO() {
 
 	}
 

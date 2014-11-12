@@ -14,16 +14,16 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import pandha.swe.localsharing.dao.BenutzerDao;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
+import pandha.swe.localsharing.model.dao.BenutzerDAO;
 
 
 @Service("userDetailsService")
-public class PandhaUserDetailsService implements UserDetailsService {
+public class LocalSharingUserDetailsService implements UserDetailsService {
 
 	@Autowired
-	private BenutzerDao benutzerDao;
+	private BenutzerDAO benutzerDao;
 
 	@Override
 	public UserDetails loadUserByUsername(String email)

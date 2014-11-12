@@ -28,7 +28,7 @@ public class Benutzer {
 	private Boolean enabled;
 
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "benutzer")
-	private Set<BenutzerRolle> benutzerRolle = new HashSet<BenutzerRolle>(0);
+	private Set<BenutzerRolle> benutzerRolle;
 
 	@Column(name = "GESCHLECHT")
 	private Geschlecht geschlecht;
@@ -54,6 +54,7 @@ public class Benutzer {
 	private String telefonNr;
 
 	public Benutzer() {
+		this.benutzerRolle = new HashSet<BenutzerRolle>(0);
 
 	}
 

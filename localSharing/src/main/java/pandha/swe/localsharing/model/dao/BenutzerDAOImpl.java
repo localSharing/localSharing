@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.dao;
+package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 import java.util.Set;
@@ -13,7 +13,7 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 
 @Repository("benutzerDao")
-public class BenutzerDaoImpl implements BenutzerDao {
+public class BenutzerDAOImpl implements BenutzerDAO {
 
 	@Autowired
 	private HibernateTemplate hibernateTemplate;

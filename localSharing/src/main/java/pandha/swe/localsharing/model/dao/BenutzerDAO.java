@@ -1,10 +1,10 @@
-package pandha.swe.localsharing.dao;
+package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 
 import pandha.swe.localsharing.model.Benutzer;
 
-public interface BenutzerDao {
+public interface BenutzerDAO {
 	Benutzer findById(Long id);
 
 	public Benutzer findByEmail(String email);
