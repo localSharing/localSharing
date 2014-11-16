@@ -16,17 +16,16 @@ import javax.persistence.UniqueConstraint;
 		"ROLLE", "ID" }))
 public class BenutzerRolle {
 
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "ID")
 	private Long beutzerRollenId;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "userID", nullable = false)
+	@JoinColumn(name = "userID")
 	private Benutzer benutzer;
 
-	@Column(name = "ROLLE", nullable = false)
+	@Column(name = "ROLLE")
 	private Rollen rolle;
 
 	public BenutzerRolle(Long benutzerRollenId, Benutzer benutzer, Rollen rolle) {

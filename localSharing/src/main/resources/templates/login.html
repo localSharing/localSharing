@@ -7,40 +7,65 @@
 <head>
 <title>Sign In</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../../../resources/css/bootstrap.min.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/bootstrap.min.css}" />
-<link href="../../../resources/css/core.css" rel="stylesheet"
-	media="screen" th:href="@{/resources/css/core.css}" />
+<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
 </head>
 
 <body>
-	<th:block th:if="${messages}">
-		<div
-			th:replace="fragments/alert :: alert (type='danger', message='Sign in error. Please try again.')">Alert</div>
-	</th:block>
+	<form class="form-horizontal" th:action="@{/login}" method="post">
+		<fieldset>
 
-	<th:block th:if="${param.logout}">
-		<div
-			th:replace="fragments/alert :: alert (type='danger', message='You have been logged out.')">Alert</div>
-	</th:block>
+			<!-- Form Name -->
+			<legend>Login</legend>
 
-	<form th:action="@{/login}" method="post">
-		<div>
-			<label> User Name : <input type="text" name="username" />
-			</label>
-		</div>
-		<div>
-			<label> Password: <input type="password" name="password" />
-			</label>
-		</div>
-		<div>
-			<input type="submit" value="Sign In" />
-		</div>
+			<!-- Text input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="username">Email</label>
+				<div class="col-md-4">
+					<input id="username" name="username" type="text"
+						placeholder="beispiel@123.de" class="form-control input-md"
+						required="true" /> <span class="help-block">Bitte die
+						Email Adresse angeben</span>
+				</div>
+			</div>
+
+			<!-- Password input-->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="password">Password</label>
+				<div class="col-md-4">
+					<input id="password" name="password" type="password"
+						placeholder="placeholder" class="form-control input-md"
+						required="true" /> <span class="help-block">Bitte Passwort
+						eingeben</span>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<div class="col-lg-offset-2 col-lg-10">
+					<p>
+						New here? <a href="signup" th:href="@{/register}">Register</a>
+					</p>
+				</div>
+			</div>
+
+			<!-- Button -->
+			<div class="form-group">
+				<label class="col-md-4 control-label" for="btnLogin"></label>
+				<div class="col-md-4">
+					<button id="btnLogin" name="btnLogin" type="submit"
+						class="btn btn-success">Login</button>
+				</div>
+			</div>
+
+		</fieldset>
 	</form>
-	<form th:action="@{/register}" method="post">
-		<div>
-			<input type="submit" value="Register" />
-		</div>
-	</form>
+
+
+
+
+
 </body>
 </html>

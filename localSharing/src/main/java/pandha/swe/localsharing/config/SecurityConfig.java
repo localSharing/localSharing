@@ -20,7 +20,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Qualifier("userDetailsService")
 	UserDetailsService userDetailsService;
 
-
 	@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth)
 			throws Exception {
@@ -44,8 +43,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		// .and().logout().logoutSuccessUrl("/login?logout").and().csrf()
 		// .and().exceptionHandling().accessDeniedPage("/403");
 
-		http.authorizeRequests().antMatchers("/", "/homepage","/register").permitAll()
-				.anyRequest().authenticated();
+		http.authorizeRequests()
+				.antMatchers("/", "/homepage", "/register", "/webjars/**",
+						"/static/**").permitAll().anyRequest().authenticated();
 		http.formLogin().loginPage("/login").permitAll().and().logout()
 				.permitAll();
 	}

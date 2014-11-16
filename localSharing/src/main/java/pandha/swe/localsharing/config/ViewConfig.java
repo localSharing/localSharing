@@ -1,16 +1,14 @@
 package pandha.swe.localsharing.config;
 
-import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.thymeleaf.spring4.SpringTemplateEngine;
-import org.thymeleaf.spring4.view.ThymeleafViewResolver;
-import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
+@EnableAutoConfiguration
 @Configuration
-public class ViewConfig extends WebMvcConfigurerAdapter {
+public class ViewConfig extends WebMvcAutoConfigurationAdapter {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("homePage");
@@ -18,27 +16,25 @@ public class ViewConfig extends WebMvcConfigurerAdapter {
 		// registry.addViewController("/login").setViewName("login");
 	}
 
-	// @Bean
-	// public SpringTemplateEngine templateEngine() {
-	// SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+	@Override
+	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+		if (!registry.hasMappingForPattern("/webjars/**")) {
+			registry.addResourceHandler("/webjars/**").addResourceLocations(
+					"classpath:/META-INF/resources/webjars/");
+		}
+	}
+
+	// @Override
+	// public void addResourceHandlers(ResourceHandlerRegistry registry) {
+	// registry.addResourceHandler("/static/**").addResourceLocations(
+	// "classpath:/WEB-INF/classes/resources/static/");
 	//
-	// templateEngine.addDialect(new LayoutDialect());
-	// return templateEngine;
+	// registry.addResourceHandler("/webjars/**").addResourceLocations(
+	// "classpath:/WEB-INF/resources/webjars/");
+	//
+	// registry.addResourceHandler("/public/**").addResourceLocations(
+	// "classpath:/public/");
+	//
 	// }
-	//
-	// @Bean
-	// public ViewResolver viewResolver() {
-	// ClassLoaderTemplateResolver templateResolver = new
-	// ClassLoaderTemplateResolver();
-	// templateResolver.setTemplateMode("XHTML");
-	// templateResolver.setPrefix("../resources/templates/");
-	// templateResolver.setSuffix(".html");
-	//
-	// SpringTemplateEngine engine = new SpringTemplateEngine();
-	// engine.setTemplateResolver(templateResolver);
-	//
-	// ThymeleafViewResolver viewResolver = new ThymeleafViewResolver();
-	// viewResolver.setTemplateEngine(engine);
-	// return viewResolver;
-	// }
+
 }
