@@ -7,23 +7,37 @@
 </head>
 <body>
 
-	<h1>Registrierung</h1>
-	<div th:if="${message}" th:text="${message}">Benutzer Registriert</div>
-	<form action="#" th:action="@{/register}" th:object="${newUser}"
-		method="post">
-		<table>
-			<tr>
-				<td>Vorname:</td>
-				<td><input type="text" th:field="*{vorname}" /></td>
-				<td th:if="${#fields.hasErrors('vorname')}" th:errors="*{vorname}">Vorname
-					Error</td>
-			</tr>
-			<tr>
-				<td>Nachname:</td>
-				<td><input type="text" th:field="*{nachname}" /></td>
-				<td th:if="${#fields.hasErrors('nachname')}" th:errors="*{nachname}">Error</td>
+<div th:if="${message}" th:text="${message}">Benutzer Registriert</div>
+	
 
-			</tr>
+<form class="form-horizontal" action="#" th:action="@{/register}" th:object="${newUser}"
+		method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Registrierung</legend>
+
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="vorname">Vorname</label>  
+  <div class="col-md-4">
+  <input id="vorname" th:field="*{vorname} name="vorname" type="text" placeholder="Peter" class="form-control input-md" required="">
+  <span class="help-block" th:if="${#fields.hasErrors('vorname')}" th:errors="*{vorname}">Bitte den Vornamen eingeben</span>  
+  </div>
+</div>
+
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-4 control-label" for="nachname">Nachname</label>  
+  <div class="col-md-4">
+  <input id="nachname" th:field="*{nachname}" name="nachname" type="text" placeholder="Lustig" class="form-control input-md" required="">
+  <span class="help-block" th:if="${#fields.hasErrors('nachname')}" th:errors="*{nachname}">Bitte den Nachnamen eingeben</span>  
+  </div>
+</div>
+
 			<tr>
 				<td>Geschlecht:</td>
 				<td><select th:field="*{geschlecht}">

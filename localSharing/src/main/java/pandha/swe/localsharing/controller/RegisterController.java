@@ -41,8 +41,7 @@ public class RegisterController {
 
 		benutzerService.registerBenutzer(newUser);
 
-		model.addAttribute("message",
-				"Successfully saved person: " + newUser.toString());
+		model.addAttribute("message","Benutzer wurde angelegt!");
 		return "register";
 	}
 
