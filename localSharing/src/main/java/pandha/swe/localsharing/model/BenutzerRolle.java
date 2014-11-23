@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import pandha.swe.localsharing.model.enums.Rollen;
+
 @Entity
 @Table(name = "ROLLEN", uniqueConstraints = @UniqueConstraint(columnNames = {
 		"ROLLE", "ID" }))

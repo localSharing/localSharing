@@ -7,6 +7,8 @@ import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 
 public interface BenutzerService {
 	public Benutzer findById(long id);
+	
+	public Benutzer findByEmail(String email);
 
 	public List<Benutzer> findAll();
 

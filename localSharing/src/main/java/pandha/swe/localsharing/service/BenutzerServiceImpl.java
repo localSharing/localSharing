@@ -10,9 +10,9 @@ import org.springframework.stereotype.Service;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
-import pandha.swe.localsharing.model.Rollen;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
+import pandha.swe.localsharing.model.enums.Rollen;
 
 @Service("benutzerService")
 public class BenutzerServiceImpl implements BenutzerService {
@@ -72,5 +72,10 @@ public class BenutzerServiceImpl implements BenutzerService {
 		rollen.add(new BenutzerRolle(null, benutzer, Rollen.USER));
 		save(benutzer);
 
+	}
+
+	@Override
+	public Benutzer findByEmail(String email) {
+		return benutzerDao.findByEmail(email);
 	}
 }

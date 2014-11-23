@@ -80,7 +80,7 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 
 	@Override
 	public Benutzer findByEmail(String email) {
- 		
+
 		if (email != null) {
 
 			List<?> benutzerList = hibernateTemplate

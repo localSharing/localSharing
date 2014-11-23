@@ -13,7 +13,6 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 
-
 @Configuration
 public class PersistenceConfig {
 	// ${jdbc.driverClassName}
@@ -48,10 +47,10 @@ public class PersistenceConfig {
 	public HibernateTemplate getHibernateTemplate(SessionFactory sessionFactory) {
 		HibernateTemplate hibernateTemplate = new HibernateTemplate(
 				sessionFactory);
+
 		hibernateTemplate.setCheckWriteOperations(false);
 		return hibernateTemplate;
 	}
-
 
 	@Bean
 	public SessionFactory sessionFactory() {

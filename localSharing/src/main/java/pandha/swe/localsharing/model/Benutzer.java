@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import pandha.swe.localsharing.model.enums.Geschlecht;
+
 @Entity
 @Table(name = "BENUTZER")
 public class Benutzer {
