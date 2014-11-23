@@ -1,5 +1,6 @@
 package pandha.swe.localsharing.model.dto;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -37,6 +38,7 @@ public class BenutzerRegisterDTO {
 
 	@NotNull
 	// @Size(min = 5, max = 5)
+	@Min(0)
 	private Integer plz;
 
 	@Size(min = 2, max = 20)
