@@ -18,7 +18,7 @@
 		<h2>Registrieren</h2>
 
 		<form class="form-horizontal" action="#" th:action="@{/register}"
-			th:object="${newUser}" method="post" role="form">
+			th:object="${newUser}" method="post">
 
 			<div class="row">
 				<div class="form-group">
@@ -190,24 +190,17 @@
 							</table>
 						</div>
 
-						<!-- Button Registrieren & Reset -->
+						<!-- Button Registrieren-->
 						<div class="col-md-4">
 							<button id="btnRegister" name="btnRegister" type="submit"
 								class="btn btn-success">Registrieren</button>
 						</div>
 
-						<div class="col-md-4">
-							<button id="btnReset" name="btnReset" type="reset"
-								class="btn btn-danger">Reset</button>
+						<div class="pull-right">
+							<p>
+								Bereits registriert? <a href="signup" th:href="@{/login}">Login</a>
+							</p>
 						</div>
-					</div>
-				</div>
-
-				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-10">
-						<p>
-							Bereits registriert? <a href="signup" th:href="@{/login}">Login</a>
-						</p>
 					</div>
 				</div>
 			</div>
