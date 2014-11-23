@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Registrierung</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+	<div th:if="${message}" th:text="${message}">Benutzer Registriert</div>
+
+	<div class="container">
+		<h2>Registrieren</h2>
+
+		<form class="form-horizontal" action="#" th:action="@{/register}"
+			th:object="${newUser}" method="post">
+
+			<div class="row">
+				<div class="form-group">
+
+					<!-- UserBild & Geschlecht -->
+					<div class="col-md-4">
+
+						<!-- Profilbid -->
+						<!-- TODO img draus machen, circle  -->
+						<span class="glyphicon glyphicon-user"></span>
+
+						<!-- Link zum Bild hochladen hinzufuegen -->
+						<a href="#"> <span class="glyphicon glyphicon-plus"></span>
+						</a> <br />
+
+						<!-- Geschlecht -->
+						<label class="col-md-4 control-label" for="geschlecht">Geschlecht</label>
+						<div class="col-md-4">
+							<select class="form-control" id="geschlecht"
+								th:field="*{geschlecht}">
+								<option value="MANN">Mann</option>
+								<option value="FRAU">Frau</option>
+							</select>
+							<!-- TODO Error meldung -->
+							<label th:if="${#fields.hasErrors('geschlecht')}"
+								th:errors="*{geschlecht}">Error</label>
+						</div>
+						<br />
+					</div>
+
+
+
+					<!-- Userinformationen -->
+					<div class="col-md-8">
+
+						<!-- Adressinformationen -->
+						<div class="jumbotron">
+							<table class="table">
+								<thead>
+									<tr>
+										<td><b>Adressinformationen</b></td>
+									</tr>
+
+								</thead>
+								<tr>
+									<td>
+										<!-- Vorname --> <input type="text" class="form-control"
+										id="vorname" th:field="*{vorname}" placeholder="Vorname"
+										required="required" /> <span class="help-block">Bitte
+											Vorname eingeben</span> <!-- TODO Error meldung  --> <label
+										th:if="${#fields.hasErrors('vorname')}" th:errors="*{vorname}">Vorname
+											Error</label>
+
+									</td>
+									<td>
+										<!-- Nachname --> <input type="text" class="form-control"
+										id="nachname" th:field="*{nachname}" placeholder="Nachname"
+										required="required" /> <span class="help-block">Bitte
+											Nachname eingeben</span> <!-- TODO Error meldung  --> <label
+										th:if="${#fields.hasErrors('nachname')}"
+										th:errors="*{nachname}">Error</label>
+
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<!-- Straße --> <input type="text" class="form-control"
+										id="strasse" th:field="*{strasse}" placeholder="Straße"
+										required="required" /> <span class="help-block">Bitte
+											Straße eingeben</span> <!-- TODO Error meldung  --> <label
+										th:if="${#fields.hasErrors('strasse')}" th:errors="*{strasse}">Error</label>
+									</td>
+									<td>
+										<!-- Hausnummer --> <input type="text" class="form-control"
+										id="hausnummer" th:field="*{hausnummer}"
+										placeholder="Hausnummer" required="required" /> <span
+										class="help-block">Bitte Hausnummer eingeben</span> <!-- TODO Error meldung  -->
+										<label th:if="${#fields.hasErrors('hausnummer')}"
+										th:errors="*{hausnummer}">Error</label>
+									</td>
+								</tr>
+
+								<tr>
+									<td>
+										<!-- PLZ --> <input type="text" class="form-control" id="plz"
+										th:field="*{plz}" placeholder="Postleitzahl"
+										required="required" /> <span class="help-block">Bitte
+											Postleitzahl eingeben</span> <!-- TODO Error meldung  --> <label
+										th:if="${#fields.hasErrors('plz')}" th:errors="*{plz}">Error</label>
+									</td>
+									<td>
+										<!-- Stadt --> <input type="text" class="form-control"
+										id="stadt" th:field="*{stadt}" placeholder="Stadt"
+										required="required" /> <span class="help-block">Bitte
+											Stadt eingeben</span> <!-- TODO Error meldung  --> <label
+										th:if="${#fields.hasErrors('stadt')}" th:errors="*{stadt}">Error</label>
+									</td>
+								</tr>
+
+							</table>
+
+						</div>
+
+
+						<!-- Kontaktinformationen -->
+						<div class="jumbotron">
+							<table class="table">
+								<thead>
+									<tr>
+										<td><b>Kontaktinformationen</b></td>
+									</tr>
+
+								</thead>
+								<tr>
+									<td>
+										<!-- Telefonnummer --> <input type="text" class="form-control"
+										id="telefonNummer" th:field="*{telefonNummer}"
+										placeholder="Telefonnummer" required="required" /> <span
+										class="help-block">Bitte Telefonnummer eingeben</span> <!-- TODO Error meldung  -->
+										<label th:if="${#fields.hasErrors('telefonNummer')}"
+										th:errors="*{telefonNummer}">Error</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- Email --> <input type="email" class="form-control"
+										id="email" placeholder="Email" th:field="*{email}"
+										required="required" /> <span class="help-block">Bitte
+											Email eingeben</span> <!-- TODO Error meldung --> <label
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Vorname
+											Error</label>
+									</td>
+								</tr>
+
+							</table>
+
+						</div>
+
+						<!-- Password -->
+						<div class="jumbotron">
+							<table class="table">
+								<thead>
+									<tr>
+										<td><b>Password setzen</b></td>
+									</tr>
+
+								</thead>
+								<tr>
+									<td>
+										<!-- Password1 --> <input type="password" class="form-control"
+										id="password1" placeholder="Password" th:field="*{password1}"
+										required="required" /> <span class="help-block">Bitte
+											Passwort eingeben</span> <!--  TODO Error meldung --> <label
+										th:if="${#fields.hasErrors('password1')}"
+										th:errors="*{password1}">Vorname Error</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<!-- Password2 --> <input type="password" class="form-control"
+										id="password2" placeholder="Password wiederholen"
+										th:field="*{password2}" required="required" /> <span
+										class="help-block">Bitte Passwort wiederholen</span> <!--  TODO Error meldung -->
+										<label th:if="${#fields.hasErrors('password2')}"
+										th:errors="*{password1}">Vorname Error</label>
+									</td>
+								</tr>
+							</table>
+						</div>
+
+						<!-- Button Registrieren-->
+						<div class="col-md-4">
+							<button id="btnRegister" name="btnRegister" type="submit"
+								class="btn btn-success">Registrieren</button>
+						</div>
+
+						<div class="pull-right">
+							<p>
+								Bereits registriert? <a href="signup" th:href="@{/login}">Login</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+	</div>
+
+
+</body>
+</html>
