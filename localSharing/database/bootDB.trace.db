@@ -1,0 +1,4 @@
+11-24 09:39:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLException: Tabelle "ROLLEN" nicht gefunden
+Table "ROLLEN" not found; SQL statement:
+alter table ROLLEN drop constraint FK_bsd4je1xprfv5yvbg4gi8bfk7 if exists [42102-176]
