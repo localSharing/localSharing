@@ -14,8 +14,83 @@
 </head>
 
 <body>
-	<img th:src="@{/images/user/{id}(id=${user.id})}" src="/imageUser/" />
-	Profilansicht!!
 
+	<div class="container">
+		<h2>Profil</h2>
+
+		<div class="row">
+			<div class="col-md-4">
+				<div class="jumbotron">
+					<img class="img-circle"
+						th:src="@{/images/user/{id}(id=${user.id})}" src="/imageUser/"
+						width="100px" height="100px" />
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="jumbotron">
+					<table class="table">
+						<thead>
+							<tr>
+								<td><b>Adressinformationen</b></td>
+							</tr>
+
+						</thead>
+						<tr>
+							<td>
+								<!-- Vorname --> <label>Vorname</label>
+							</td>
+							<td>
+								<!-- Nachname --> <label>Nachname</label>
+
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<!-- Straße --> <label>Straße</label>
+							</td>
+							<td>
+								<!-- Hausnummer --> <label>Hausnummer</label>
+							</td>
+						</tr>
+
+						<tr>
+							<td>
+								<!-- PLZ --> <label>PLZ</label>
+							</td>
+							<td>
+								<!-- Stadt --> <label>Stadt</label>
+							</td>
+						</tr>
+
+					</table>
+				</div>
+
+				<div class="jumbotron">
+					<table class="table">
+						<thead>
+							<tr>
+								<td><b>Kontaktinformationen</b></td>
+							</tr>
+
+						</thead>
+						<tr>
+							<td>
+								<!-- Telefonnummer --> <label>Telefonnummer</label>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<!-- Email --> <label>Email </label> <span
+								class="glyphicon glyphicon-ok"></span>
+							</td>
+						</tr>
+
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

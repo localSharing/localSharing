@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-    <head>
-        <title>Hello Secret World!</title>
-    </head>
-    <body>
-        <h1 th:inline="text">Hello Secret [[${#httpServletRequest.remoteUser}]]!</h1>
-        <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Sign Out"/>
-        </form>
-    </body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+<title>Hello Secret World!</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+</head>
+<body>
+	<div class="container">
+		<h1 th:inline="text">Hallo User
+			[[${#httpServletRequest.remoteUser}]]!</h1>
+		<form th:action="@{/logout}" method="post">
+			<button id="btnLogin" name="btnLogin" type="submit"
+				class="btn btn-success">Sign Out</button>
+		</form>
+
+		<form th:action="@{/profil}" method="post">
+			<button id="btnProfil" name="btnProfil" type="submit"
+				class="btn btn-success">Profil</button>
+		</form>
+	</div>
+</body>
 </html>
