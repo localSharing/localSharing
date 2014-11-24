@@ -17,6 +17,7 @@ public class FrontendConfig extends WebMvcAutoConfigurationAdapter {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("homePage");
 		registry.addViewController("/homepage").setViewName("homePage");
+		registry.addViewController("/login").setViewName("login");
 	}
 
 	@Override
