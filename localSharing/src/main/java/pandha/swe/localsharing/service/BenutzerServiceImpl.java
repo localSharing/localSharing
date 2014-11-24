@@ -66,8 +66,8 @@ public class BenutzerServiceImpl implements BenutzerService {
 				benutzerRegisterDto.getNachname(),
 				benutzerRegisterDto.getStrasse(),
 				benutzerRegisterDto.getHausnummer(),
-				benutzerRegisterDto.getPlz(), benutzerRegisterDto.getStadt(),
-				benutzerRegisterDto.getEmail(),
+				Integer.parseInt(benutzerRegisterDto.getPlz()),
+				benutzerRegisterDto.getStadt(), benutzerRegisterDto.getEmail(),
 				benutzerRegisterDto.getTelefonNummer(), rollen);
 		rollen.add(new BenutzerRolle(null, benutzer, Rollen.USER));
 		save(benutzer);

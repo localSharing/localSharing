@@ -1,7 +1,7 @@
 package pandha.swe.localsharing.model.dto;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
@@ -14,42 +14,40 @@ public class BenutzerRegisterDTO {
 	@NotNull
 	private Geschlecht geschlecht;
 
-	@Size(min = 8, max = 20)
+	@Size(min = 8, max = 20, message = "Mindestens 8 Zeichen, maximal 20")
 	private String password1;
 
-	@Size(min = 8, max = 20)
+	@Size(min = 8, max = 20, message = "Mindestens 8 Zeichen, maximal 20")
 	private String password2;
 
 	@Email
 	@NotEmpty
 	private String email;
 
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = 20, message = "Mindestens 2 Zeichen, maximal 20")
 	private String vorname;
 
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = 20, message = "Mindestens 2 Zeichen, maximal 20")
 	private String nachname;
 
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = 20, message = "Mindestens 2 Zeichen, maximal 20")
 	private String strasse;
 
-	@Size(min = 1, max = 5)
+	@Pattern(regexp = "[0-9]{1,4}[a-z]?", message = "Mindestens 1 Zeichen, maximal 5")
 	private String hausnummer;
 
-	@NotNull
-	// @Size(min = 5, max = 5)
-	@Min(0)
-	private Integer plz;
+	@Pattern(regexp = "[0-9]{5}", message = "PLZ muss 5 Ziffern lang sein")
+	private String plz;
 
-	@Size(min = 2, max = 20)
+	@Size(min = 2, max = 20, message = "Mindestens 2 Zeichen, maximal 20")
 	private String stadt;
 
-	@Size(min = 3, max = 20)
+	@Size(min = 3, max = 20, message = "Mindestens 3 Zeichen, maximal 20")
 	private String telefonNummer;
 
 	public BenutzerRegisterDTO(Geschlecht geschlecht, String password1,
 			String password2, String email, String vorname, String nachname,
-			String strasse, String hausnummer, Integer plz, String stadt,
+			String strasse, String hausnummer, String plz, String stadt,
 			String telefonNummer) {
 		this.geschlecht = geschlecht;
 		this.password1 = password1;
@@ -132,11 +130,11 @@ public class BenutzerRegisterDTO {
 		this.hausnummer = hausnummer;
 	}
 
-	public Integer getPlz() {
+	public String getPlz() {
 		return plz;
 	}
 
-	public void setPlz(Integer plz) {
+	public void setPlz(String plz) {
 		this.plz = plz;
 	}
 

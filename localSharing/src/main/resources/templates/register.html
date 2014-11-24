@@ -71,8 +71,8 @@
 										required="required" /> <span class="help-block">Bitte
 											Vorname eingeben</span> <!-- TODO Error meldung  -->
 										<div class="alert alert-danger"
-											th:if="${#fields.hasErrors('vorname')}">Hinweis:
-											mindestens 2 Zeichen, maximal 20</div>
+											th:if="${#fields.hasErrors('vorname')}"
+											th:errors="*{vorname}">Error</div>
 
 									</td>
 									<td>
