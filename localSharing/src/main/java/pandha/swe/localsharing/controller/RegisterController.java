@@ -41,8 +41,8 @@ public class RegisterController {
 
 		benutzerService.registerBenutzer(newUser);
 
-		model.addAttribute("message","Benutzer wurde angelegt!");
-		return "register";
+		model.addAttribute("messageRegSuccess", "Benutzer wurde angelegt!");
+		return "redirect:login";
 	}
 
 }
