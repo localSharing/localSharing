@@ -2,9 +2,9 @@ package pandha.swe.localsharing.controller;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -67,8 +67,14 @@ public class FileController {
 
 			byte[] data;
 			try {
-				data = Files.readAllBytes(Paths
-						.get("target/classes/static/images/user_default.jpg"));
+
+				ClassPathResource classPathResource = new ClassPathResource(
+						"static/images/user_default.jpg");
+
+				data = Files.readAllBytes(classPathResource.getFile().toPath());
+
+				// data = Files.readAllBytes(Paths
+				// .get("target/classes/static/images/user_default.jpg"));
 
 				fileUpload.setFile(data);
 
