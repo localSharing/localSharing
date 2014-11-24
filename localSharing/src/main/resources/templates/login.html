@@ -20,52 +20,50 @@
 		<form class="form-horizontal" th:action="@{/login}" method="post">
 			<fieldset>
 
-				<!-- Text input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="username">Email</label>
-					<div class="col-md-4">
-						<input id="username" name="username" type="text"
-							placeholder="beispiel@123.de" class="form-control input-md"
-							required="required" /> <span class="help-block">Bitte die
-							Email Adresse angeben</span>
+				<div class="jumbotron">
+					<!-- Text input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="username">Email</label>
+						<div class="col-md-4">
+							<input id="username" name="username" type="text"
+								placeholder="beispiel@123.de" class="form-control input-md"
+								required="required" /> <span class="help-block">Bitte
+								die Email Adresse angeben</span>
+						</div>
+					</div>
+
+					<!-- Password input-->
+					<div class="form-group">
+						<label class="col-md-4 control-label" for="password">Passwort</label>
+						<div class="col-md-4">
+							<input id="password" name="password" type="password"
+								placeholder="Passwort" class="form-control input-md"
+								required="required" /> <span class="help-block">Bitte
+								Passwort eingeben</span>
+						</div>
 					</div>
 				</div>
 
-				<!-- Password input-->
-				<div class="form-group">
-					<label class="col-md-4 control-label" for="password">Passwort</label>
-					<div class="col-md-4">
-						<input id="password" name="password" type="password"
-							placeholder="Passwort" class="form-control input-md"
-							required="required" /> <span class="help-block">Bitte
-							Passwort eingeben</span>
-					</div>
-				</div>
-
-
-				<div class="form-group">
-					<div class="col-lg-offset-2 col-lg-10">
-						<p>
-							Neu hier? <a href="signup" th:href="@{/register}">Registrieren</a>
-						</p>
-					</div>
-				</div>
 
 				<!-- Button -->
 				<div class="form-group">
-					<label class="col-md-4 control-label" for="btnLogin"></label>
-					<div class="col-md-4">
+					<div class="col-md-12">
 						<button id="btnLogin" name="btnLogin" type="submit"
 							class="btn btn-success">Login</button>
+
+
+						<div class="pull-right">
+							<p>
+								Neu hier? <a href="signup" th:href="@{/register}">Registrieren</a>
+							</p>
+
+						</div>
 					</div>
 				</div>
 
 			</fieldset>
 		</form>
 	</div>
-
-
-
 
 </body>
 </html>
