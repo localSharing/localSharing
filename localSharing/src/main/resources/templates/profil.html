@@ -25,6 +25,11 @@
 						th:src="@{/images/user/{id}(id=${user.id})}" src="/imageUser/"
 						width="100px" height="100px" />
 				</div>
+				<div class="col-md-4">
+					<form th:action="@{/profil}" method="get">
+						<button id="btnProfilBearbeiten" class="btn btn-success">Bearbeiten</button>
+					</form>
+				</div>
 			</div>
 			<div class="col-md-8">
 				<div class="jumbotron">
@@ -90,6 +95,12 @@
 
 				</div>
 			</div>
+		</div>
+
+		<div class="col-md-4">
+			<form th:action="@{/startPage}" method="get">
+				<button id="btnStart" class="btn btn-success">Startseite</button>
+			</form>
 		</div>
 	</div>
 </body>
