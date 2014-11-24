@@ -73,9 +73,6 @@ public class FileController {
 
 				data = Files.readAllBytes(classPathResource.getFile().toPath());
 
-				// data = Files.readAllBytes(Paths
-				// .get("target/classes/static/images/user_default.jpg"));
-
 				fileUpload.setFile(data);
 
 				fileService.save(fileUpload);
