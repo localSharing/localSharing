@@ -1,12 +1,12 @@
 Feature: Tausch-Angebote verwalten
   The use case "Tausch-Angebote verwalten" enables the user to create,
-  update and delete his own exchange offers which can then be inquired by other users.
+  update and delete his own exchange offers which then can be inquired by other users.
   
   As a logged in user
   I want to create a exchange offer
-  And I want to be abel to edit the offers information
-  And I want to be abel to delete the offer
-  So that other users can find and inquire after them
+  And I want to be able to edit the offers information
+  And I want to be able to delete the offer
+  So that other users can find and inquire them
 
   Scenario: Create offer for an item to be exchanged
     Given I am logged in
@@ -18,8 +18,8 @@ Feature: Tausch-Angebote verwalten
     And I enter a start date
     And I enter a description
     And I click on "Speichern"
-    Then the offer gets saved
-    And I get directed to "Eigene Angebote"
+    Then the offer is saved
+    And I am directed to "Eigene Angebote"
 
   Scenario: Edit offer
     Given I am logged in
@@ -54,4 +54,4 @@ Feature: Tausch-Angebote verwalten
     And I click on a special offer
     And I click on "Löschen"
     Then my offer is deleted
-    And my offer is not diyplayed any longer in "Eigene Angebote"
+    And my offer is not displayed any longer in "Eigene Angebote"
