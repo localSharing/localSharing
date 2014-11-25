@@ -42,14 +42,16 @@ public class ProfilController {
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/profilEdit")
-	public String editProfil(Model model, Principal principal,
-			@RequestParam(value = "image", required = false) MultipartFile image) {
+	public String editProfil(
+			Model model,
+			Principal principal,
+			@RequestParam(value = "userImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
 		// benutzerService.update(user);
 		if (!image.isEmpty()) {
-			fileService.save(user, image);
+			// fileService.save(user, image);
 		}
 
 		return "profilEdit";

@@ -19,7 +19,7 @@
 		<h2>Registrieren</h2>
 
 		<form class="form-horizontal" th:action="@{/register}"
-			th:object="${newUser}" method="post">
+			th:object="${newUser}" method="post" enctype="multipart/form-data">
 
 			<div class="row">
 				<div class="form-group">
@@ -34,7 +34,7 @@
 									<span class="glyphicon glyphicon-user"></span> Bild hinzufügen
 								</button>
 
-
+								<input type="file" id="userImage" name="userImage" />
 								<!-- Link zum Bild hochladen hinzufuegen -->
 								<a href="#"> <span class="glyphicon glyphicon-plus"></span>
 								</a> <br /> <br />

@@ -20,8 +20,6 @@ public class FileController {
 	@Autowired
 	private FileService fileService;
 
-	private boolean init = true;
-
 	@RequestMapping(value = "/images/user/{userId}")
 	@ResponseBody
 	public byte[] getFileUser(@PathVariable("userId") Long id) {
@@ -31,12 +29,11 @@ public class FileController {
 
 		byte[] content = null;
 		if (image == null) {
-			if (init) {
-				initUserDefaultImage();
-			}
+			//TODO Default Image via Insert Script
+			initUserDefaultImageIfNotExist();
 			content = getDefaultImage();
 		} else {
-			image.getFile();
+			content = image.getFile();
 		}
 
 		return content;
@@ -53,7 +50,7 @@ public class FileController {
 		return null;
 	}
 
-	private void initUserDefaultImage() {
+	private void initUserDefaultImageIfNotExist() {
 
 		FileUpload image = fileService.findByAssociated(new Long(1),
 				FileUploadType.DEFAULT_USER);

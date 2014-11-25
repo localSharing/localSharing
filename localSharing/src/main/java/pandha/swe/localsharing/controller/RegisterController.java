@@ -10,15 +10,22 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.FileService;
 
 @Controller
 public class RegisterController {
 
 	@Autowired
 	private BenutzerService benutzerService;
+
+	@Autowired
+	private FileService fileService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/register")
 	public String registerForm(Model model) {
@@ -29,7 +36,9 @@ public class RegisterController {
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
 	public String submitRegisterForm(
 			@ModelAttribute("newUser") @Valid BenutzerRegisterDTO newUser,
-			BindingResult result, Model model) {
+			BindingResult result,
+			Model model,
+			@RequestParam(value = "userImage", required = false) MultipartFile image) {
 
 		if (result.hasErrors()) {
 			return "register";
@@ -40,6 +49,10 @@ public class RegisterController {
 		}
 
 		benutzerService.registerBenutzer(newUser);
+
+		Benutzer benutzer = benutzerService.findByEmail(newUser.getEmail());
+
+		fileService.save(benutzer, image);
 
 		model.addAttribute("messageRegSuccess", "Benutzer wurde angelegt!");
 		return "redirect:login";

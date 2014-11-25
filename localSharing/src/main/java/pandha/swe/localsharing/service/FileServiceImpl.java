@@ -70,6 +70,7 @@ public class FileServiceImpl implements FileService {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		fileDAO.save(upload);
 
 	}
 
