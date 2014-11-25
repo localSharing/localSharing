@@ -32,7 +32,16 @@ public class ProfilController {
 		return "profil";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/profil")
+	@RequestMapping(method = RequestMethod.GET, value = "/profilEdit")
+	public String showProfilEdit(Model model, Principal principal) {
+
+		Benutzer user = getUser(principal);
+
+		model.addAttribute("user", user);
+		return "profilEdit";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/profilEdit")
 	public String editProfil(Model model, Principal principal,
 			@RequestParam(value = "image", required = false) MultipartFile image) {
 
@@ -43,7 +52,7 @@ public class ProfilController {
 			fileService.save(user, image);
 		}
 
-		return "profil";
+		return "profilEdit";
 	}
 
 	private Benutzer getUser(Principal principal) {
