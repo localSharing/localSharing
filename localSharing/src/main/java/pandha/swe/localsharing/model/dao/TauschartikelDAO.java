@@ -1,6 +1,7 @@
 package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
+
 import pandha.swe.localsharing.model.Tauschartikel;
 
 public interface TauschartikelDAO {
