@@ -16,7 +16,7 @@
 <body>
 
 	<div class="container">
-		<h2>Profil</h2>
+		<h2>Dein Profil</h2>
 
 		<div class="row">
 			<div class="col-md-4">
@@ -44,28 +44,37 @@
 							<td>
 								<!-- Vorname --> <label>Vorname</label>
 							</td>
+
+							<td><span th:text="${user.vorname}"></span></td>
+
 							<td>
 								<!-- Nachname --> <label>Nachname</label>
-
 							</td>
+
+							<td><span th:text="${user.nachname}"></span></td>
+
 						</tr>
 
 						<tr>
 							<td>
 								<!-- Straße --> <label>Straße</label>
 							</td>
+							<td><span th:text="${user.strasse}"></span></td>
 							<td>
 								<!-- Hausnummer --> <label>Hausnummer</label>
 							</td>
+							<td><span th:text="${user.hausnummer}"></span></td>
 						</tr>
 
 						<tr>
 							<td>
 								<!-- PLZ --> <label>PLZ</label>
 							</td>
+							<td><span th:text="${user.plz}"></span></td>
 							<td>
 								<!-- Stadt --> <label>Stadt</label>
 							</td>
+							<td><span th:text="${user.stadt}"></span></td>
 						</tr>
 
 					</table>
@@ -83,12 +92,13 @@
 							<td>
 								<!-- Telefonnummer --> <label>Telefonnummer</label>
 							</td>
+							<td><span th:text="${user.telefonNr}"></span></td>
 						</tr>
 						<tr>
 							<td>
-								<!-- Email --> <label>Email </label> <span
-								class="glyphicon glyphicon-ok"></span>
+								<!-- Email --> <label>Email </label>
 							</td>
+							<td><span th:text="${user.email}"></span></td>
 						</tr>
 
 					</table>
