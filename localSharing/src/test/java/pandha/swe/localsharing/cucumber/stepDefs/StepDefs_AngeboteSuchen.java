@@ -5,7 +5,7 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-public class StepDefs_angeboteSuchen {
+public class StepDefs_AngeboteSuchen {
 	@Given("^I am on the start page$")
 	public void I_am_on_the_start_page() throws Throwable {
 		// Express the Regexp above with the code you wish you had
