@@ -5,7 +5,7 @@ import java.util.List;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 
-public interface AusleihangebotService {
+public interface AusleihartikelService {
 
 	public Ausleihartikel findById(Long id);
 
