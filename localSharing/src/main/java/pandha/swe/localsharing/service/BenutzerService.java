@@ -3,11 +3,12 @@ package pandha.swe.localsharing.service;
 import java.util.List;
 
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 
 public interface BenutzerService {
 	public Benutzer findById(long id);
-	
+
 	public Benutzer findByEmail(String email);
 
 	public List<Benutzer> findAll();
@@ -17,8 +18,12 @@ public interface BenutzerService {
 	public void update(Benutzer benutzer);
 
 	public void delete(Benutzer benutzer);
-	
+
 	public void registerBenutzer(BenutzerRegisterDTO benutzerRegisterDto);
+
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO);
+
+	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer);
 
 	public void shutdown();
 }

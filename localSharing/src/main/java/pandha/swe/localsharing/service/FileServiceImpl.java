@@ -58,10 +58,14 @@ public class FileServiceImpl implements FileService {
 	@Override
 	public void save(Benutzer benutzer, MultipartFile file) {
 
-		FileUpload upload = new FileUpload();
+		FileUpload upload = findByAssociated(benutzer);
 
-		upload.setAssID(benutzer.getId());
-		upload.setFileUploadType(FileUploadType.USER);
+		if (upload == null) {
+			upload = new FileUpload();
+			upload.setAssID(benutzer.getId());
+			upload.setFileUploadType(FileUploadType.USER);
+
+		}
 
 		try {
 			byte[] bytes = file.getBytes();

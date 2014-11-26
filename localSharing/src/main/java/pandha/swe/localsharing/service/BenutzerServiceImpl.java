@@ -4,6 +4,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
+import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
 
@@ -77,5 +80,43 @@ public class BenutzerServiceImpl implements BenutzerService {
 	@Override
 	public Benutzer findByEmail(String email) {
 		return benutzerDao.findByEmail(email);
+	}
+
+	@Override
+	public Benutzer benutzerDTO_TO_Benutzer(@Valid BenutzerDTO benutzerDTO) {
+
+		Benutzer benutzer = findById(benutzerDTO.getId());
+
+		benutzer.setEmail(benutzerDTO.getEmail());
+		benutzer.setHausnummer(benutzerDTO.getHausnummer());
+		benutzer.setNachname(benutzerDTO.getNachname());
+		benutzer.setVorname(benutzerDTO.getVorname());
+		benutzer.setStadt(benutzerDTO.getStadt());
+		benutzer.setPlz(Integer.parseInt(benutzerDTO.getPlz()));
+		benutzer.setStrasse(benutzerDTO.getStrasse());
+		benutzer.setTelefonNr(benutzerDTO.getTelefonNummer());
+
+		return benutzer;
+	}
+
+	@Override
+	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer) {
+		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.getGeschlecht(),
+				benutzer.getEmail(), benutzer.getVorname(),
+				benutzer.getNachname(), benutzer.getStrasse(),
+				benutzer.getHausnummer(), benutzer.getPlz().toString(),
+				benutzer.getStadt(), benutzer.getTelefonNr());
+
+		String plz = benutzerDTO.getPlz();
+
+		for (int i = plz.length(); i < 5; i++) {
+			plz = "0" + plz;
+		}
+
+		benutzerDTO.setPlz(plz);
+		benutzerDTO.setId(benutzer.getId());
+
+		return benutzerDTO;
+
 	}
 }

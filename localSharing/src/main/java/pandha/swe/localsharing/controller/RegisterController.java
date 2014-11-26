@@ -50,9 +50,13 @@ public class RegisterController {
 
 		benutzerService.registerBenutzer(newUser);
 
-		Benutzer benutzer = benutzerService.findByEmail(newUser.getEmail());
+		if (!image.isEmpty()) {
 
-		fileService.save(benutzer, image);
+			Benutzer benutzer = benutzerService.findByEmail(newUser.getEmail());
+
+			fileService.save(benutzer, image);
+
+		}
 
 		model.addAttribute("messageRegSuccess", "Benutzer wurde angelegt!");
 		return "redirect:login";

@@ -8,7 +8,7 @@ Feature: Ausleih-Angebote verwalten
   And I want to be able to delete the offer
   So that other users can find and inquire them
 
-  Scenario: Create offer for an item to be borrowed
+  Scenario: Create borrow offer for an item to be borrowed
     Given I am logged in
     And I clicked on "Eigene Angbote"
     And I clicked on "Neues Angebot"
@@ -23,7 +23,7 @@ Feature: Ausleih-Angebote verwalten
     Then the offer is saved
     And I am directed to "Eigene Angebote"
 
-  Scenario: Edit offer
+  Scenario: Edit borrow offer
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on the offer I want to edit
@@ -33,7 +33,7 @@ Feature: Ausleih-Angebote verwalten
     Then my edited information on the offer is saved
     And the changed offer is displayed in "Eigene Angebote"
 
-  Scenario: Not saving edited offer
+  Scenario: Not saving edited borrow offer
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on a special offer
@@ -43,14 +43,14 @@ Feature: Ausleih-Angebote verwalten
     Then my edited information on the offer is not saved
     And my offer is displayed unmodified in "Eigene Angebote"
 
-  Scenario: Offer is unmodified
+  Scenario: Borrow offer is unmodified
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on a special offer
     And I click on "Abbrechen"
     Then my offer is displayed unmodified in "Eigene Angebote"
 
-  Scenario: Delete offer
+  Scenario: Delete borrow offer
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on a special offer

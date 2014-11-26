@@ -21,7 +21,7 @@ Feature: Tausch-Angebote verwalten
     Then the offer is saved
     And I am directed to "Eigene Angebote"
 
-  Scenario: Edit offer
+  Scenario: Edit exchange offer
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on the offer I want to edit
@@ -31,7 +31,7 @@ Feature: Tausch-Angebote verwalten
     Then my edited information on the offer is saved
     And the changed offer is displayed in "Eigene Angebote"
 
-  Scenario: Not saving edited offer
+  Scenario: Not saving edited exchange offer
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on a special offer
@@ -41,14 +41,14 @@ Feature: Tausch-Angebote verwalten
     Then my edited information on the offer is not saved
     And my offer is displayed unmodified in "Eigene Angebote"
 
-  Scenario: Offer is unmodified
+  Scenario: Exchange offer is unmodified
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on a special offer
     And I click on "Abbrechen"
     Then my offer is displayed unmodified in "Eigene Angebote"
 
-  Scenario: Delete offer
+  Scenario: Delete exchange offer
     Given I am logged in
     When I click on "Eigene Angebote"
     And I click on a special offer

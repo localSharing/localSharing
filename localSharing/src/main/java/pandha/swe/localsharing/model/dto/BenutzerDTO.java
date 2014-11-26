@@ -11,6 +11,8 @@ import pandha.swe.localsharing.model.enums.Geschlecht;
 
 public class BenutzerDTO {
 
+	private Long id;
+
 	@NotNull
 	private Geschlecht geschlecht;
 
@@ -136,5 +138,13 @@ public class BenutzerDTO {
 				+ ", strasse=" + strasse + ", hausnummer=" + hausnummer
 				+ ", plz=" + plz + ", stadt=" + stadt + ", telefonNummer="
 				+ telefonNummer + "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
 	}
 }
