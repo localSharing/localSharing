@@ -11,6 +11,9 @@
 	rel="stylesheet" media="screen" />
 
 <script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+	$("[name='my-checkbox']").bootstrapSwitch();
+</script>
 </head>
 
 <body>
@@ -18,111 +21,141 @@
 	<div class="container">
 		<h2>Dein Profil bearbeiten</h2>
 
-		<div class="row">
-			<div class="col-md-4">
-				<div class="jumbotron">
-					<img class="img-circle"
-						th:src="@{/images/user/{id}(id=${user.id})}" src="/imageUser/"
-						width="100px" height="100px" /> <input type="file" id="userImage" name="userImage" /><a
-						href="#"> <span class="glyphicon glyphicon-plus"></span>
-					</a>
-				</div>
+		<input type="checkbox" name="my-checkbox" />
+
+		<form class="form-horizontal" th:action="@{/profilEdit}"
+			th:object="${user}" method="post" enctype="multipart/form-data">
+
+			<div class="row">
 				<div class="col-md-4">
-					<form th:action="@{/profil}" method="get">
-						<button id="btnSave" class="btn btn-success">Speichern</button>
-					</form>
+					<div class="jumbotron">
+						<img class="img-circle"
+							th:src="@{/images/user/{id}(id=${user.id})}" src="/imageUser/"
+							width="100px" height="100px" /> <input type="file"
+							id="userImage" name="userImage" /> <br /> <select
+							class="form-control" id="geschlecht" th:field="*{geschlecht}">
+							<option value="MANN">Mann</option>
+							<option value="FRAU">Frau</option>
+						</select>
+					</div>
 				</div>
-				<div class="col-md-4">
-					<form th:action="@{/profil}" method="get">
-						<button id="btnCancel" class="btn btn-danger">Abbrechen</button>
-					</form>
-				</div>
-			</div>
-			<div class="col-md-8">
-				<!-- Adressinformationen -->
-				<div class="jumbotron">
-					<table class="table">
-						<thead>
+				<div class="col-md-8">
+					<!-- Adressinformationen -->
+					<div class="jumbotron">
+						<table class="table">
+							<thead>
+								<tr>
+									<td><b>Adressinformationen</b></td>
+								</tr>
+
+							</thead>
 							<tr>
-								<td><b>Adressinformationen</b></td>
+								<td>
+									<!-- Vorname --> <input type="text" class="form-control"
+									id="vorname" th:field="*{vorname}" th:value="${user.vorname}"
+									required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('vorname')}" th:errors="*{vorname}">Error</div>
+
+
+								</td>
+								<td>
+									<!-- Nachname --> <input type="text" class="form-control"
+									id="nachname" th:field="*{nachname}"
+									th:value="${user.nachname}" required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('nachname')}"
+										th:errors="*{nachname}">Error</div>
+								</td>
 							</tr>
 
-						</thead>
-						<tr>
-							<td>
-								<!-- Vorname --> <input type="text" class="form-control"
-								id="vorname" th:value="${user.vorname}" required="required" />
-
-
-							</td>
-							<td>
-								<!-- Nachname --> <input type="text" class="form-control"
-								id="nachname" th:value="${user.nachname}" required="required" />
-
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<!-- Straße --> <input type="text" class="form-control"
-								id="strasse" th:value="${user.strasse}" required="required" />
-							</td>
-							<td>
-								<!-- Hausnummer --> <input type="text" class="form-control"
-								id="hausnummer" th:value="${user.hausnummer}"
-								required="required" />
-
-							</td>
-						</tr>
-
-						<tr>
-							<td>
-								<!-- PLZ --> <input type="text" class="form-control" id="plz"
-								th:value="${user.plz}" required="required" />
-
-							</td>
-							<td>
-								<!-- Stadt --> <input type="text" class="form-control"
-								id="stadt" th:value="${user.stadt}" required="required" />
-
-							</td>
-						</tr>
-
-					</table>
-
-				</div>
-
-
-				<!-- Kontaktinformationen -->
-				<div class="jumbotron">
-					<table class="table">
-						<thead>
 							<tr>
-								<td><b>Kontaktinformationen</b></td>
+								<td>
+									<!-- Straße --> <input type="text" class="form-control"
+									id="strasse" th:field="*{strasse}" th:value="${user.strasse}"
+									required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('strasse')}" th:errors="*{strasse}">Error</div>
+								</td>
+								<td>
+									<!-- Hausnummer --> <input type="text" class="form-control"
+									id="hausnummer" th:field="*{hausnummer}"
+									th:value="${user.hausnummer}" required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('hausnummer')}"
+										th:errors="*{hausnummer}">Error</div>
+
+								</td>
 							</tr>
 
-						</thead>
-						<tr>
-							<td>
-								<!-- Telefonnummer --> <input type="text" class="form-control"
-								id="telefonNummer" th:value="${user.telefonNr}"
-								required="required" />
+							<tr>
+								<td>
+									<!-- PLZ --> <input type="text" class="form-control" id="plz"
+									th:field="*{plz}" th:value="${user.plz}" required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('plz')}" th:errors="*{plz}">Error</div>
 
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<!-- Email --> <input type="email" class="form-control"
-								id="email" th:value="${user.email}" required="required" />
+								</td>
+								<td>
+									<!-- Stadt --> <input type="text" class="form-control"
+									id="stadt" th:field="*{stadt}" th:value="${user.stadt}"
+									required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('stadt')}" th:errors="*{stadt}">Error</div>
+								</td>
+							</tr>
 
-							</td>
-						</tr>
+						</table>
 
-					</table>
+					</div>
+
+
+					<!-- Kontaktinformationen -->
+					<div class="jumbotron">
+						<table class="table">
+							<thead>
+								<tr>
+									<td><b>Kontaktinformationen</b></td>
+								</tr>
+
+							</thead>
+							<tr>
+								<td>
+									<!-- Telefonnummer --> <input type="text" class="form-control"
+									id="telefonNummer" th:field="*{telefonNummer}"
+									th:value="${user.telefonNummer}" required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('telefonNummer')}"
+										th:errors="*{telefonNummer}">Error</div>
+
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<!-- Email --> <input type="email" class="form-control"
+									id="email" th:field="*{email}" th:value="${user.email}"
+									required="required" />
+									<div class="alert alert-danger"
+										th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</div>
+
+								</td>
+							</tr>
+
+						</table>
+
+					</div>
 
 				</div>
-
 			</div>
+			<button id="btnSave" name="btnSave" type="submit"
+				class="btn btn-success">Speichern</button>
+		</form>
+
+
+		<div class="col-md-4">
+			<form th:action="@{/profil}" method="get">
+				<button id="btnCancel" name="btnCancel" class="btn btn-danger">Abbrechen</button>
+			</form>
 		</div>
 	</div>
 </body>

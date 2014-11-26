@@ -83,7 +83,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 	}
 
 	@Override
-	public Benutzer benutzerDTO_TO_Benutzer(@Valid BenutzerDTO benutzerDTO) {
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
 
 		Benutzer benutzer = findById(benutzerDTO.getId());
 

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.service.BenutzerService;
 import pandha.swe.localsharing.service.FileService;
@@ -39,18 +40,16 @@ public class ProfilController {
 	@RequestMapping(method = RequestMethod.GET, value = "/profilEdit")
 	public String showProfilEdit(Model model, Principal principal) {
 
-		// Benutzer DTO:
-		// BenutzerDTO user = benutzerService
-		// .benutzer_TO_BenutzerDTO(getUser(principal));
+		BenutzerDTO user = benutzerService
+				.benutzer_TO_BenutzerDTO(getUser(principal));
 
-		// model.addAttribute("user", user);
-		model.addAttribute("user", getUser(principal));
+		model.addAttribute("user", user);
 		return "profilEdit";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/profilEdit")
 	public String editProfil(
-			@ModelAttribute("newUser") @Valid BenutzerRegisterDTO user,
+			@ModelAttribute("user") @Valid BenutzerDTO user,
 			Model model,
 			Principal principal,
 			@RequestParam(value = "userImage", required = false) MultipartFile image) {
@@ -63,7 +62,7 @@ public class ProfilController {
 			fileService.save(editedUser, image);
 		}
 
-		return "profilEdit";
+		return "profil";
 	}
 
 	private Benutzer getUser(Principal principal) {
