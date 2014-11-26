@@ -3,6 +3,9 @@ package pandha.swe.localsharing.model.dao;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	@Override
 	public List<FileUpload> findAll() {
@@ -45,7 +51,12 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 	public void save(FileUpload file) {
 
 		if (file != null) {
-			hibernateTemplate.saveOrUpdate(file);
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			session.saveOrUpdate(file);
+			tx.commit();
+			session.close();
 
 		}
 
@@ -114,11 +125,11 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void shutdown() {
 		hibernateTemplate.getSessionFactory().openSession()
 				.createSQLQuery("SHUTDOWN").executeUpdate();
 	}
-	
+
 }

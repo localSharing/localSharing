@@ -29,9 +29,9 @@ public class FileController {
 
 		byte[] content = null;
 		if (image == null) {
-			//TODO Default Image via Insert Script
-			initUserDefaultImageIfNotExist();
-			content = getDefaultImage();
+			// TODO Default Image via Insert Script
+
+			content = getUserDefaultImageIfNotExistInsertIT();
 		} else {
 			content = image.getFile();
 		}
@@ -39,18 +39,7 @@ public class FileController {
 		return content;
 	}
 
-	private byte[] getDefaultImage() {
-
-		FileUpload image = fileService.findByAssociated(new Long(1),
-				FileUploadType.DEFAULT_USER);
-
-		if (image != null) {
-			return image.getFile();
-		}
-		return null;
-	}
-
-	private void initUserDefaultImageIfNotExist() {
+	private byte[] getUserDefaultImageIfNotExistInsertIT() {
 
 		FileUpload image = fileService.findByAssociated(new Long(1),
 				FileUploadType.DEFAULT_USER);
@@ -74,10 +63,14 @@ public class FileController {
 
 				fileService.save(fileUpload);
 
+				image = fileUpload;
+
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
+
+		return image.getFile();
 	}
 }
