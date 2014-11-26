@@ -3,12 +3,14 @@ package pandha.swe.localsharing.model.dao;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
@@ -18,6 +20,9 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	@Override
 	public Benutzer findById(Long id) {
@@ -48,16 +53,21 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 	}
 
 	@Override
-	@Transactional
 	public void update(Benutzer benutzer) {
 		if (benutzer != null) {
-			hibernateTemplate.update(benutzer);
 
-			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
 
-			for (BenutzerRolle benutzerRolle : a) {
-				hibernateTemplate.saveOrUpdate(benutzerRolle);
-			}
+			// Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
+			//
+			// for (BenutzerRolle benutzerRolle : a) {
+			// session.saveOrUpdate(benutzerRolle);
+			// }
+
+			session.saveOrUpdate(benutzer);
+			tx.commit();
+			session.close();
 		}
 	}
 
