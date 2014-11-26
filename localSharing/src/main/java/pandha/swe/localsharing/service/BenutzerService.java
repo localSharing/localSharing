@@ -1,5 +1,6 @@
 package pandha.swe.localsharing.service;
 
+import java.security.Principal;
 import java.util.List;
 
 import pandha.swe.localsharing.model.Benutzer;
@@ -21,7 +22,8 @@ public interface BenutzerService {
 
 	public void registerBenutzer(BenutzerRegisterDTO benutzerRegisterDto);
 
-	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO);
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO,
+			Principal user);
 
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer);
 

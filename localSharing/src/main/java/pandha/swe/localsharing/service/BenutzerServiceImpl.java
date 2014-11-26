@@ -1,10 +1,9 @@
 package pandha.swe.localsharing.service;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -83,23 +82,6 @@ public class BenutzerServiceImpl implements BenutzerService {
 	}
 
 	@Override
-	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
-
-		Benutzer benutzer = findById(benutzerDTO.getId());
-
-		benutzer.setEmail(benutzerDTO.getEmail());
-		benutzer.setHausnummer(benutzerDTO.getHausnummer());
-		benutzer.setNachname(benutzerDTO.getNachname());
-		benutzer.setVorname(benutzerDTO.getVorname());
-		benutzer.setStadt(benutzerDTO.getStadt());
-		benutzer.setPlz(Integer.parseInt(benutzerDTO.getPlz()));
-		benutzer.setStrasse(benutzerDTO.getStrasse());
-		benutzer.setTelefonNr(benutzerDTO.getTelefonNummer());
-
-		return benutzer;
-	}
-
-	@Override
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer) {
 		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.getGeschlecht(),
 				benutzer.getEmail(), benutzer.getVorname(),
@@ -118,5 +100,34 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		return benutzerDTO;
 
+	}
+
+	@Override
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO,
+			Principal user) {
+
+		Long id = findByEmail(user.getName()).getId();
+
+		benutzerDTO.setId(id);
+
+		Benutzer benutzer = benutzerDTO_TO_Benutzer(benutzerDTO);
+
+		return benutzer;
+	}
+
+	private Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
+
+		Benutzer benutzer = findById(benutzerDTO.getId());
+
+		benutzer.setEmail(benutzerDTO.getEmail());
+		benutzer.setHausnummer(benutzerDTO.getHausnummer());
+		benutzer.setNachname(benutzerDTO.getNachname());
+		benutzer.setVorname(benutzerDTO.getVorname());
+		benutzer.setStadt(benutzerDTO.getStadt());
+		benutzer.setPlz(Integer.parseInt(benutzerDTO.getPlz()));
+		benutzer.setStrasse(benutzerDTO.getStrasse());
+		benutzer.setTelefonNr(benutzerDTO.getTelefonNummer());
+
+		return benutzer;
 	}
 }

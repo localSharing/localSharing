@@ -8,6 +8,7 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
@@ -47,9 +48,10 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 	}
 
 	@Override
+	@Transactional
 	public void update(Benutzer benutzer) {
 		if (benutzer != null) {
-			hibernateTemplate.saveOrUpdate(benutzer);
+			hibernateTemplate.update(benutzer);
 
 			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
 
