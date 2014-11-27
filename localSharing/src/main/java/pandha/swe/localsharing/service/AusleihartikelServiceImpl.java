@@ -49,11 +49,17 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	@Override
 	public Ausleihartikel ausleihartikelDTO_TO_Ausleihartikel(
 			AusleihartikelDTO ausleihartikelDTO) {
-		//TODO
+
 		Ausleihartikel ausleihartikel = findById(ausleihartikelDTO.getId());
 		
-		
-		return null;
+		ausleihartikel.setBenutzer(ausleihartikelDTO.getBenutzer());
+		ausleihartikel.setTitel(ausleihartikelDTO.getTitel());
+		ausleihartikel.setBeschreibung(ausleihartikelDTO.getBeschreibung());
+		ausleihartikel.setStartDatum(ausleihartikelDTO.getStartDatum());
+		ausleihartikel.setEndDatum(ausleihartikelDTO.getEndDatum());
+		ausleihartikel.setDauer(ausleihartikelDTO.getDauer());
+		ausleihartikel.setKategorie(ausleihartikelDTO.getKategorie());
+		return ausleihartikel;
 	}
 
 	@Override
