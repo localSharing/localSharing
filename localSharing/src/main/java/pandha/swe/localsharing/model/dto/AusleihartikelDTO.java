@@ -19,10 +19,10 @@ public class AusleihartikelDTO extends AngebotDTO {
 	@Size(min = 2, max = 20)
 	private String kategorie;
 
-	public AusleihartikelDTO(Benutzer benutzer, String titel,
+	public AusleihartikelDTO(Long id, Benutzer benutzer, String titel,
 			String beschreibung, Date startDatum, Date endDatum, int dauer,
 			String kategorie) {
-		super(benutzer, titel, beschreibung, startDatum);
+		super(id, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 		this.dauer = dauer;
 		this.kategorie = kategorie;

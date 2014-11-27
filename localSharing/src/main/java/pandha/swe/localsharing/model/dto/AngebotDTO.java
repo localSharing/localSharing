@@ -24,8 +24,9 @@ public class AngebotDTO {
 	@NotNull
 	private Date startDatum;
 
-	public AngebotDTO(Benutzer benutzer, String titel, String beschreibung,
+	public AngebotDTO(Long id, Benutzer benutzer, String titel, String beschreibung,
 			Date startDatum) {
+		this.id = id;
 		this.benutzer = benutzer;
 		this.titel = titel;
 		this.beschreibung = beschreibung;

@@ -12,9 +12,9 @@ public class HilfeleistungDTO extends AngebotDTO {
 	@NotNull
 	private Date endDatum;
 
-	public HilfeleistungDTO(Benutzer benutzer, String titel,
+	public HilfeleistungDTO(Long id, Benutzer benutzer, String titel,
 			String beschreibung, Date startDatum, Date endDatum) {
-		super(benutzer, titel, beschreibung, startDatum);
+		super(id, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 	}
 
