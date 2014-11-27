@@ -19,42 +19,52 @@
 		<h2>Angebotsübersicht</h2>
 
 		<div class="jumbotron">
-			<form name="form" th:action="@{/angebot}" method="get">
+			<h3>Ausleihartikel</h3>
+			<table class="table">
 
-				<table class="table">
-					<thead>
-						<tr>
-							<td>Ausleihartikel</td>
-						</tr>
-					</thead>
+				<tr th:each="artikel : ${artikelListA}"
+					onclick="window.location.href='/angebot/1';"
+					th:onclick="${'window.location.href='+'''/angebot/' + artikel.id + '/ausleihen' +''';'}">
+					<!--  th:onclick="${'window.location.href = /angebot/' + artikel.id} + ';'"-->
+					<td><span th:text="${artikel.titel}"></span></td>
+					<td><span th:text="${artikel.kategorie}"></span></td>
+					<td><span th:text="${artikel.startDatum}"></span></td>
+					<td><span th:text="${artikel.endDatum}"></span></td>
+				</tr>
 
-					<tr th:each="artikel : ${artikelList}"
-						onclick="window.location.href='/angebot/1';"
-						th:onclick="${'window.location.href='+'''/angebot/' + artikel.id +''';'}">
-						<!--  th:onclick="${'window.location.href = /angebot/' + artikel.id} + ';'"-->
-						<td><span th:text="${artikel.titel}"></span></td>
-						<td><span th:text="${artikel.titel}"></span></td>
-						<td><span th:text="${artikel.kategorie}"></span></td>
-						<td><span th:text="${artikel.startDatum}"></span></td>
-						<td><span th:text="${artikel.endDatum}"></span></td>
-						<td><input type="hidden" name="ausleihen"
-							th:value="${artikel.id}" value="ausleihen" /></td>
-					</tr>
-
-				</table>
-			</form>
+			</table>
 		</div>
 		<div class="jumbotron">
+			<h3>Tauschartikel</h3>
+
 			<table class="table">
-				<thead>
-					<tr>
-						<td>Hilfeleistung</td>
-					</tr>
-				</thead>
-				<tr>
-					<td>Bild</td>
-					<td>Titel</td>
-					<td>Datum</td>
+
+				<tr th:each="artikel : ${artikelListT}"
+					onclick="window.location.href='/angebot/1';"
+					th:onclick="${'window.location.href='+'''/angebot/' + artikel.id + '/tauschen' +''';'}">
+					<td><span th:text="${artikel.titel}"></span></td>
+					<td><span th:text="${artikel.kategorie}"></span></td>
+					<td><span th:text="${artikel.startDatum}"></span></td>
+					<td><input type="hidden" name="data" th:value="${artikel.id}"
+						value="tauschen" /></td>
+				</tr>
+
+			</table>
+		</div>
+
+		<div class="jumbotron">
+			<h3>Hilfeleistung</h3>
+
+			<table class="table">
+
+				<tr th:each="artikel : ${artikelListH}"
+					onclick="window.location.href='/angebot/1';"
+					th:onclick="${'window.location.href='+'''/angebot/' + artikel.id + '/helfen' +''';'}">
+					<td><span th:text="${artikel.titel}"></span></td>
+					<td><span th:text="${artikel.startDatum}"></span></td>
+					<td><span th:text="${artikel.endDatum}"></span></td>
+					<td><input type="hidden" name="data" th:value="${artikel.id}"
+						value="helfen" /></td>
 				</tr>
 
 			</table>
@@ -63,12 +73,9 @@
 			<form th:action="@{/startPage}" method="get">
 				<button id="btnZurueck" class="btn btn-success">Startseite</button>
 			</form>
-			<br />
-			<!-- spaeter durch Klick auf entsprechendes Angebot -->
-			<form th:action="@{/angebot}" method="get">
-				<button id="btnAngebot" class="btn btn-success">Angebotsansicht</button>
-			</form>
-			<br />
+		</div>
+
+		<div class="col-md-4">
 			<form th:action="@{/angebotNeu}" method="get">
 				<button id="btnAngebot" class="btn btn-success">neues
 					Angebot</button>
