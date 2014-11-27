@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+<title>Angebote</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div class="container">
+		<h2>Angebotsübersicht</h2>
+
+		<div class="jumbotron">
+			<form name="form" th:action="@{/angebot}" method="get">
+
+				<table class="table">
+					<thead>
+						<tr>
+							<td>Ausleihartikel</td>
+						</tr>
+					</thead>
+
+					<tr th:each="artikel : ${artikelList}"
+						onclick="window.location.href='/angebot/1';"
+						th:onclick="${'window.location.href='+'''/angebot/' + artikel.id +''';'}">
+						<!--  th:onclick="${'window.location.href = /angebot/' + artikel.id} + ';'"-->
+						<td><span th:text="${artikel.titel}"></span></td>
+						<td><span th:text="${artikel.titel}"></span></td>
+						<td><span th:text="${artikel.kategorie}"></span></td>
+						<td><span th:text="${artikel.startDatum}"></span></td>
+						<td><span th:text="${artikel.endDatum}"></span></td>
+						<td><input type="hidden" name="ausleihen"
+							th:value="${artikel.id}" value="ausleihen" /></td>
+					</tr>
+
+				</table>
+			</form>
+		</div>
+		<div class="jumbotron">
+			<table class="table">
+				<thead>
+					<tr>
+						<td>Hilfeleistung</td>
+					</tr>
+				</thead>
+				<tr>
+					<td>Bild</td>
+					<td>Titel</td>
+					<td>Datum</td>
+				</tr>
+
+			</table>
+		</div>
+		<div class="col-md-4">
+			<form th:action="@{/startPage}" method="get">
+				<button id="btnZurueck" class="btn btn-success">Startseite</button>
+			</form>
+			<br />
+			<!-- spaeter durch Klick auf entsprechendes Angebot -->
+			<form th:action="@{/angebot}" method="get">
+				<button id="btnAngebot" class="btn btn-success">Angebotsansicht</button>
+			</form>
+			<br />
+			<form th:action="@{/angebotNeu}" method="get">
+				<button id="btnAngebot" class="btn btn-success">neues
+					Angebot</button>
+			</form>
+		</div>
+	</div>
+</body>
+</html>

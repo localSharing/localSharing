@@ -3,31 +3,30 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Startseite</title>
+<title>Angebot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+<link href="../webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 
 <script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
+
 	<div class="container">
-		<h1 th:inline="text">Hallo User
-			[[${#httpServletRequest.remoteUser}]]!</h1>
-		<form th:action="@{/logout}" method="post">
-			<button id="btnLogin" name="btnLogin" type="submit"
-				class="btn btn-success">Sign Out</button>
-		</form>
-		<br />
-		<form th:action="@{/profil}" method="get">
-			<button id="btnProfil" type="submit" class="btn btn-success">Profil</button>
+		<h2>Angebotsansicht</h2>
+
+		<div class="jumbotron">Wichtige Information über Angebot</div>
+
+
+		<form th:action="@{/angebotEdit}" method="get">
+			<button id="btnAngebotEdit" class="btn btn-success">Bearbeiten</button>
 		</form>
 		<br />
 		<form th:action="@{/angebote}" method="get">
-			<button id="btnProfil" type="submit" class="btn btn-success">Eigene
-				Angebote</button>
+			<button id="btnAngebote" class="btn btn-success">Zurück</button>
 		</form>
 	</div>
 </body>
 </html>
+

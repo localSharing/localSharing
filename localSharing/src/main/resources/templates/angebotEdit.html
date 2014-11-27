@@ -3,7 +3,7 @@
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-<title>Startseite</title>
+<title>Angebot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
@@ -12,22 +12,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
+
 	<div class="container">
-		<h1 th:inline="text">Hallo User
-			[[${#httpServletRequest.remoteUser}]]!</h1>
-		<form th:action="@{/logout}" method="post">
-			<button id="btnLogin" name="btnLogin" type="submit"
-				class="btn btn-success">Sign Out</button>
-		</form>
-		<br />
-		<form th:action="@{/profil}" method="get">
-			<button id="btnProfil" type="submit" class="btn btn-success">Profil</button>
+		<h2>Angebot bearbeiten</h2>
+		<div class="jumbotron">Hier Angebotsinformationen ändern</div>
+
+		<form th:action="@{/angebote}" method="get">
+			<button id="btnSave" class="btn btn-success">Speichern</button>
 		</form>
 		<br />
 		<form th:action="@{/angebote}" method="get">
-			<button id="btnProfil" type="submit" class="btn btn-success">Eigene
-				Angebote</button>
+			<button id="btnCancel" class="btn btn-danger">Abbrechen</button>
 		</form>
 	</div>
+
+
 </body>
 </html>
