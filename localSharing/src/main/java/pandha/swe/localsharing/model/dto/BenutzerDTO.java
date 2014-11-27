@@ -5,7 +5,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import pandha.swe.localsharing.model.enums.Geschlecht;
 
@@ -17,7 +16,6 @@ public class BenutzerDTO {
 	private Geschlecht geschlecht;
 
 	@Email
-	@NotEmpty
 	private String email;
 
 	@Size(min = 2, max = 20, message = "Mindestens 2 Zeichen, maximal 20")
