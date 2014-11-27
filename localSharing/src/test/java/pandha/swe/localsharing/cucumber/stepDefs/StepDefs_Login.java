@@ -1,11 +1,18 @@
 package pandha.swe.localsharing.cucumber.stepDefs;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import pandha.swe.localsharing.SeleniumTestMethods;
 import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class StepDefs_Login {
+
+	@Autowired
+	SeleniumTestMethods methods;
+
 	@Given("^I am not logged in yet$")
 	public void I_am_not_logged_in_yet() throws Throwable {
 		// Express the Regexp above with the code you wish you had

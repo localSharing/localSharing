@@ -48,6 +48,12 @@ public class RegisterController {
 			return "register";
 		}
 
+		if (benutzerService.findByEmail(newUser.getEmail()) == null) {
+			result.addError(new ObjectError("email",
+					"Email wird bereits verwendet!"));
+			return "register";
+		}
+
 		benutzerService.registerBenutzer(newUser);
 
 		if (!image.isEmpty()) {
