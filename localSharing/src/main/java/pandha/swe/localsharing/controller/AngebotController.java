@@ -99,8 +99,14 @@ public class AngebotController {
 	public String showAngebot(Model model, Principal principal,
 			@PathVariable("ID") String id, @PathVariable("Type") String type) {
 
-		System.out.println(id + type);
+		Benutzer user = getUser(principal);
 
+		System.out.println(id + type);
+		AusleihartikelDTO ausleihartikel1 = new AusleihartikelDTO(new Long(1),
+				user, "Tarzan", "Tolle DVD", Date.valueOf("2014-11-27"),
+				Date.valueOf("2014-12-27"), 3, "DVD");
+
+		model.addAttribute("angebot", ausleihartikel1);
 		return "angebot";
 	}
 
