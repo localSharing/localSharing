@@ -11,9 +11,9 @@ public class TauschartikelDTO extends AngebotDTO {
 	@Size(min = 2, max = 20)
 	private String kategorie;
 
-	public TauschartikelDTO(Benutzer benutzer, String titel,
+	public TauschartikelDTO(Long id, Benutzer benutzer, String titel,
 			String beschreibung, Date startDatum, String kategorie) {
-		super(benutzer, titel, beschreibung, startDatum);
+		super(id, benutzer, titel, beschreibung, startDatum);
 		this.kategorie = kategorie;
 	}
 
@@ -27,10 +27,11 @@ public class TauschartikelDTO extends AngebotDTO {
 
 	@Override
 	public String toString() {
-		return "TauschartikelDAO [benutzer = " + super.getBenutzer() + "titel = "
-				+ super.getTitel() + ", beschreibung = "
-				+ super.getBeschreibung() + ", startDatum = "
-				+ super.getStartDatum() + ", kategorie = " + kategorie + "]";
+		return "TauschartikelDTO [kategorie=" + kategorie + "]";
 	}
+	
+	
+
+	
 
 }
