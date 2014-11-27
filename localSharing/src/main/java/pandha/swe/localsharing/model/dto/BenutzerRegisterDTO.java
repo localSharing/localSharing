@@ -2,9 +2,6 @@ package pandha.swe.localsharing.model.dto;
 
 import javax.validation.constraints.Size;
 
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotEmpty;
-
 import pandha.swe.localsharing.model.enums.Geschlecht;
 
 public class BenutzerRegisterDTO extends BenutzerDTO {
@@ -15,10 +12,6 @@ public class BenutzerRegisterDTO extends BenutzerDTO {
 	@Size(min = 8, max = 20, message = "Mindestens 8 Zeichen, maximal 20")
 	private String password2;
 
-	@Email
-	@NotEmpty
-	private String email;
-
 	public BenutzerRegisterDTO(Geschlecht geschlecht, String password1,
 			String password2, String email, String vorname, String nachname,
 			String strasse, String hausnummer, String plz, String stadt,
@@ -27,7 +20,6 @@ public class BenutzerRegisterDTO extends BenutzerDTO {
 				stadt, telefonNummer);
 		this.password1 = password1;
 		this.password2 = password2;
-		this.email = email;
 	}
 
 	public BenutzerRegisterDTO() {
@@ -50,18 +42,10 @@ public class BenutzerRegisterDTO extends BenutzerDTO {
 		this.password2 = password2;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	@Override
 	public String toString() {
 		return "BenutzerRegisterDTO [password1=" + password1 + ", password2="
-				+ password2 + ", email=" + email + "]";
+				+ password2 + "]";
 	}
 
 }
