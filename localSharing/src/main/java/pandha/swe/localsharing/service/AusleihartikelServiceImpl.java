@@ -49,7 +49,10 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	@Override
 	public Ausleihartikel ausleihartikelDTO_TO_Ausleihartikel(
 			AusleihartikelDTO ausleihartikelDTO) {
-		// TODO Auto-generated method stub
+		//TODO
+		Ausleihartikel ausleihartikel = findById(ausleihartikelDTO.getId());
+		
+		
 		return null;
 	}
 

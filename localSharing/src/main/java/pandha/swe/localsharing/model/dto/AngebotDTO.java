@@ -8,6 +8,8 @@ import javax.validation.constraints.Size;
 import pandha.swe.localsharing.model.Benutzer;
 
 public class AngebotDTO {
+	
+	private Long id;
 
 	@NotNull
 	private Benutzer benutzer;
@@ -29,6 +31,16 @@ public class AngebotDTO {
 		this.beschreibung = beschreibung;
 		this.startDatum = startDatum;
 	}
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 
 	public Benutzer getBenutzer() {
 		return benutzer;
