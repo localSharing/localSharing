@@ -11,7 +11,7 @@ import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 
 @Service("hilfeleistungService")
 public class HilfeleistungServiceImpl implements HilfeleistungService {
-	
+
 	@Autowired
 	HilfeleistungDAO hilfeleistungDao;
 
@@ -42,22 +42,43 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 
 	@Override
 	public void createHilfeleistung(HilfeleistungDTO hilfeleistungDTO) {
-		// TODO Auto-generated method stub
+
+		Hilfeleistung hilfeleistung = new Hilfeleistung(null,
+				hilfeleistungDTO.getBenutzer(), hilfeleistungDTO.getTitel(),
+				hilfeleistungDTO.getBeschreibung(),
+				hilfeleistungDTO.getStartDatum(),
+				hilfeleistungDTO.getEndDatum());
+
+		save(hilfeleistung);
 
 	}
 
 	@Override
 	public Hilfeleistung hilfeleistungDTO_TO_Hilfeleistung(
 			HilfeleistungDTO hilfeleistungDTO) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Hilfeleistung hilfeleistung = findById(hilfeleistungDTO.getId());
+
+		hilfeleistung.setBenutzer(hilfeleistungDTO.getBenutzer());
+		hilfeleistung.setTitel(hilfeleistungDTO.getTitel());
+		hilfeleistung.setBeschreibung(hilfeleistungDTO.getBeschreibung());
+		hilfeleistung.setStartDatum(hilfeleistungDTO.getStartDatum());
+		hilfeleistung.setEndDatum(hilfeleistungDTO.getEndDatum());
+
+		return hilfeleistung;
 	}
 
 	@Override
 	public HilfeleistungDTO hilfeleistung_TO_HilfeleistungDTO(
 			Hilfeleistung hilfeleistung) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		HilfeleistungDTO hilfeleistungDTO = new HilfeleistungDTO(
+				hilfeleistung.getAngebotsid(), hilfeleistung.getBenutzer(),
+				hilfeleistung.getTitel(), hilfeleistung.getBeschreibung(),
+				hilfeleistung.getStartDatum(), hilfeleistung.getEndDatum());
+
+		return hilfeleistungDTO;
+		
 	}
 
 	@Override

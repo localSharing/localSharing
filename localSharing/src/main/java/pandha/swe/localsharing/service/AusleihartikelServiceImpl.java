@@ -11,7 +11,7 @@ import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 
 @Service("ausleihartikelService")
 public class AusleihartikelServiceImpl implements AusleihartikelService {
-	
+
 	@Autowired
 	private AusleihartikelDAO ausleihartikelDao;
 
@@ -42,8 +42,16 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 
 	@Override
 	public void createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
-		// TODO Auto-generated method stub
-		
+
+		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
+				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
+				ausleihartikelDTO.getBeschreibung(),
+				ausleihartikelDTO.getStartDatum(),
+				ausleihartikelDTO.getEndDatum(), ausleihartikelDTO.getDauer(),
+				ausleihartikelDTO.getKategorie());
+
+		save(ausleihartikel);
+
 	}
 
 	@Override
@@ -51,7 +59,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 			AusleihartikelDTO ausleihartikelDTO) {
 
 		Ausleihartikel ausleihartikel = findById(ausleihartikelDTO.getId());
-		
+
 		ausleihartikel.setBenutzer(ausleihartikelDTO.getBenutzer());
 		ausleihartikel.setTitel(ausleihartikelDTO.getTitel());
 		ausleihartikel.setBeschreibung(ausleihartikelDTO.getBeschreibung());
@@ -59,14 +67,22 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		ausleihartikel.setEndDatum(ausleihartikelDTO.getEndDatum());
 		ausleihartikel.setDauer(ausleihartikelDTO.getDauer());
 		ausleihartikel.setKategorie(ausleihartikelDTO.getKategorie());
+		
 		return ausleihartikel;
 	}
 
 	@Override
 	public AusleihartikelDTO ausleihartikel_TO_AusleihartikelDTO(
 			Ausleihartikel ausleihartikel) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		AusleihartikelDTO ausleihartikelDTO = new AusleihartikelDTO(
+				ausleihartikel.getAngebotsid(), ausleihartikel.getBenutzer(),
+				ausleihartikel.getTitel(), ausleihartikel.getBeschreibung(),
+				ausleihartikel.getStartDatum(), ausleihartikel.getEndDatum(),
+				ausleihartikel.getDauer(), ausleihartikel.getKategorie());
+		
+		return ausleihartikelDTO;
+		
 	}
 
 	@Override

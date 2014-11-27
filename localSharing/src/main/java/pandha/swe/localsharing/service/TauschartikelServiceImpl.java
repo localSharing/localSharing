@@ -11,7 +11,7 @@ import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 
 @Service("tauschartikelService")
 public class TauschartikelServiceImpl implements TauschartikelService {
-	
+
 	@Autowired
 	TauschartikelDAO tauschartikelDao;
 
@@ -42,22 +42,42 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 
 	@Override
 	public void createTauschartikel(TauschartikelDTO tauschartikelDTO) {
-		// TODO Auto-generated method stub
+
+		Tauschartikel tauschartikel = new Tauschartikel(null,
+				tauschartikelDTO.getBenutzer(), tauschartikelDTO.getTitel(),
+				tauschartikelDTO.getBeschreibung(),
+				tauschartikelDTO.getStartDatum(),
+				tauschartikelDTO.getKategorie());
+
+		save(tauschartikel);
 
 	}
 
 	@Override
 	public Tauschartikel tauschartikelDTO_TO_Tauschartikel(
 			TauschartikelDTO tauschartikelDTO) {
-		// TODO Auto-generated method stub
-		return null;
+
+		Tauschartikel tauschartikel = findById(tauschartikelDTO.getId());
+
+		tauschartikel.setBenutzer(tauschartikelDTO.getBenutzer());
+		tauschartikel.setTitel(tauschartikelDTO.getTitel());
+		tauschartikel.setBeschreibung(tauschartikelDTO.getBeschreibung());
+		tauschartikel.setStartDatum(tauschartikelDTO.getStartDatum());
+		tauschartikel.setKategorie(tauschartikelDTO.getKategorie());
+		
+		return tauschartikel;
 	}
 
 	@Override
 	public TauschartikelDTO tauschartikel_TO_TauschartikelDTO(
 			Tauschartikel tauschartikel) {
-		// TODO Auto-generated method stub
-		return null;
+
+		TauschartikelDTO tauschartikelDTO = new TauschartikelDTO(
+				tauschartikel.getAngebotsid(), tauschartikel.getBenutzer(),
+				tauschartikel.getTitel(), tauschartikel.getBeschreibung(),
+				tauschartikel.getStartDatum(), tauschartikel.getKategorie());
+
+		return tauschartikelDTO;
 	}
 
 	@Override
