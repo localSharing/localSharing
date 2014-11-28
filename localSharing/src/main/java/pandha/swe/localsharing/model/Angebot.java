@@ -28,7 +28,7 @@ public class Angebot {
 	@Column(name = "TITEL", nullable = false)
 	private String titel;
 
-	@Column(name = "BESCHREIBUNG")
+	@Column(name = "BESCHREIBUNG", length = 1000)
 	private String beschreibung;
 
 	@Column(name = "STARTDATUM", nullable = false)
