@@ -1,10 +1,12 @@
 package pandha.swe.localsharing.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
@@ -71,19 +73,25 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	@Override
 	public HilfeleistungDTO hilfeleistung_TO_HilfeleistungDTO(
 			Hilfeleistung hilfeleistung) {
-		
+
 		HilfeleistungDTO hilfeleistungDTO = new HilfeleistungDTO(
 				hilfeleistung.getAngebotsid(), hilfeleistung.getBenutzer(),
 				hilfeleistung.getTitel(), hilfeleistung.getBeschreibung(),
 				hilfeleistung.getStartDatum(), hilfeleistung.getEndDatum());
 
 		return hilfeleistungDTO;
-		
+
 	}
 
 	@Override
 	public void shutdown() {
 		hilfeleistungDao.shutdown();
+	}
+
+	@Override
+	public ArrayList<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer) {
+		// TODO Liste mit allen Hilfeleistungen eines bestimmten Benutzers
+		return null;
 	}
 
 }

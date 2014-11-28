@@ -1,11 +1,13 @@
 package pandha.swe.localsharing.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 
@@ -67,27 +69,33 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		ausleihartikel.setEndDatum(ausleihartikelDTO.getEndDatum());
 		ausleihartikel.setDauer(ausleihartikelDTO.getDauer());
 		ausleihartikel.setKategorie(ausleihartikelDTO.getKategorie());
-		
+
 		return ausleihartikel;
 	}
 
 	@Override
 	public AusleihartikelDTO ausleihartikel_TO_AusleihartikelDTO(
 			Ausleihartikel ausleihartikel) {
-		
+
 		AusleihartikelDTO ausleihartikelDTO = new AusleihartikelDTO(
 				ausleihartikel.getAngebotsid(), ausleihartikel.getBenutzer(),
 				ausleihartikel.getTitel(), ausleihartikel.getBeschreibung(),
 				ausleihartikel.getStartDatum(), ausleihartikel.getEndDatum(),
 				ausleihartikel.getDauer(), ausleihartikel.getKategorie());
-		
+
 		return ausleihartikelDTO;
-		
+
 	}
 
 	@Override
 	public void shutdown() {
 		ausleihartikelDao.shutdown();
+	}
+
+	@Override
+	public ArrayList<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
+		// TODO Liste mit allen Ausleihartikeln eines bestimmten Benutzers
+		return null;
 	}
 
 }

@@ -18,6 +18,8 @@ import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.HilfeleistungService;
+import pandha.swe.localsharing.service.TauschartikelService;
 
 @Controller
 public class AngebotController {
@@ -26,12 +28,20 @@ public class AngebotController {
 	private AusleihartikelService ausleihartikelService;
 
 	@Autowired
+	private TauschartikelService tauschartikelService;
+
+	@Autowired
+	private HilfeleistungService hilfeleistungService;
+
+	@Autowired
 	private BenutzerService benutzerService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebote")
 	public String showAngebote(Model model, Principal principal) {
 
 		Benutzer user = getUser(principal);
+
+		// Beispieldaten zum Anzeigen
 
 		AusleihartikelDTO ausleihartikel1 = new AusleihartikelDTO(new Long(1),
 				user, "Tarzan", "Tolle DVD", Date.valueOf("2014-11-27"),
@@ -69,9 +79,22 @@ public class AngebotController {
 				"Einkaufen", "Ich will eben", Date.valueOf("2014-11-23"),
 				Date.valueOf("2014-12-11"));
 
-		// Liste mit allen Ausleihangeboten bei denen Benutzer = user
+		// Liste mit allen Ausleihangeboten eines Benutzers
+		// List<AusleihartikelDTO> aArtikel = ausleihartikelService
+		// .findAllByBenutzer(user);
+
+		// Liste mit allen Tauschangeboten eines Benutzers
+		// List<TauschartikelDTO> tArtikel = tauschartikelService
+		// .findAllByBenutzer(user);
+
+		// Liste mit allen Hilfeleistungen eines Benutzers
+		// List<TauschartikelDTO> hArtikel = hilfeleistungService
+		// .findAllByBenutzer(user);
 
 		// Liste Model hinzufügen
+		// model.addAttribute("artikelListA", aArtikel);
+		// model.addAttribute("artikelListT", tArtikel);
+		// model.addAttribute("artikelListH", hArtikel);
 
 		List<AusleihartikelDTO> aArtikel = new ArrayList<AusleihartikelDTO>();
 		aArtikel.add(ausleihartikel1);
@@ -100,13 +123,49 @@ public class AngebotController {
 			@PathVariable("ID") String id, @PathVariable("Type") String type) {
 
 		Benutzer user = getUser(principal);
+		switch (type) {
+		case "ausleihen":
+			// AusleihartikelDTO ausleihartikel = ausleihartikelService
+			// .ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
+			// .findById(new Long(id)));
 
-		System.out.println(id + type);
-		AusleihartikelDTO ausleihartikel1 = new AusleihartikelDTO(new Long(1),
-				user, "Tarzan", "Tolle DVD", Date.valueOf("2014-11-27"),
-				Date.valueOf("2014-12-27"), 3, "DVD");
+			// Daten zum Anzeigen in der View
+			AusleihartikelDTO ausleihartikel = new AusleihartikelDTO(new Long(
+					id), user, "Tarzan", "Tolle DVD",
+					Date.valueOf("2014-11-27"), Date.valueOf("2014-12-27"), 3,
+					"DVD");
 
-		model.addAttribute("angebot", ausleihartikel1);
+			model.addAttribute("angebot", ausleihartikel);
+			break;
+
+		case "tauschen":
+			// TauschartikelDTO tauschartikel = tauschartikelService
+			// .tauschartikel_TO_TauschartikelDTO(tauschartikelService
+			// .findById(new Long(id)));
+
+			// Daten zum Anzeigen
+			TauschartikelDTO tauschartikel = new TauschartikelDTO(new Long(id),
+					user, "Mickey Mouse", "tolles Buch",
+					Date.valueOf("2014-11-27"), "Buch");
+
+			model.addAttribute("angebot", tauschartikel);
+
+			break;
+
+		case "helfen":
+			// HilfeleistungDTO hilfeleistung = hilfeleistungService
+			// .hilfeleistung_TO_HilfeleistungDTO(hilfeleistungService
+			// .findById(new Long(id)));
+
+			// Daten zum Anzeigen
+			HilfeleistungDTO hilfeleistung = new HilfeleistungDTO(new Long(id),
+					user, "Einkaufen", "Ich will eben",
+					Date.valueOf("2014-11-23"), Date.valueOf("2014-12-11"));
+
+			model.addAttribute("angebot", hilfeleistung);
+			break;
+		}
+
 		return "angebot";
 	}
 

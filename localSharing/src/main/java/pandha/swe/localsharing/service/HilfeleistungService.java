@@ -1,7 +1,9 @@
 package pandha.swe.localsharing.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 
@@ -10,6 +12,10 @@ public interface HilfeleistungService {
 	public Hilfeleistung findById(Long id);
 
 	// public Hilfeleistung findByBenutzer(Benutzer benutzer);
+	// Julia: Ich brauch ne Liste, die mir zurückgegeben wird also bitte so wie
+	// unten machen :)
+
+	public ArrayList<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer);
 
 	public List<Hilfeleistung> findAll();
 

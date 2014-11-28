@@ -1,5 +1,6 @@
 package pandha.swe.localsharing.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 		tauschartikel.setBeschreibung(tauschartikelDTO.getBeschreibung());
 		tauschartikel.setStartDatum(tauschartikelDTO.getStartDatum());
 		tauschartikel.setKategorie(tauschartikelDTO.getKategorie());
-		
+
 		return tauschartikel;
 	}
 
@@ -83,6 +84,12 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	@Override
 	public void shutdown() {
 		tauschartikelDao.shutdown();
+	}
+
+	@Override
+	public ArrayList<TauschartikelDTO> findAllByBenutzer() {
+		// TODO Liste mit allen Tauschartikeln eines bestimmten Benutzers
+		return null;
 	}
 
 }
