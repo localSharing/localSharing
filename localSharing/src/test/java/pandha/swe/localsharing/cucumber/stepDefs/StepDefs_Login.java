@@ -22,7 +22,7 @@ public class StepDefs_Login {
 
 	@When("^I enter \"([^\"]*)\" as username$")
 	public void I_enter_as_username(String email) throws Throwable {
-		method.register_write_email(email);
+		method.login_writeUsername(email);
 	}
 
 	@When("^I enter \"([^\"]*)\" as Password$")
