@@ -1,87 +1,81 @@
 package pandha.swe.localsharing.cucumber.stepDefs;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import pandha.swe.localsharing.SeleniumTestMethods;
-import cucumber.api.PendingException;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
 public class StepDefs_Login {
 
-	@Autowired
-	SeleniumTestMethods methods;
+	private SeleniumTestMethods method = new SeleniumTestMethods();
 
 	@Given("^I am not logged in yet$")
 	public void I_am_not_logged_in_yet() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.checkLogoutAndIfLoggedinLogout();
 	}
 
-	@Given("^I want to login$")
-	public void I_want_to_login() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+	@Given("^I am on the login Page$")
+	public void I_am_on_the_login_Page() throws Throwable {
+		method.goToSite("startPage");
+		method.checkPage("login");
 	}
 
-	@When("^I enter my credentials correctly$")
-	public void I_enter_my_credentials_correctly() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+	@When("^I enter \"([^\"]*)\" as email$")
+	public void I_enter_as_email(String email) throws Throwable {
+		method.login_writeUsername(email);
+	}
+
+	@When("^I enter \"([^\"]*)\" as Password$")
+	public void I_enter_as_Password(String password) throws Throwable {
+		method.login_writePassword(password);
+	}
+
+	@When("^I click on \"([^\"]*)\"$")
+	public void I_click_on(String arg1) throws Throwable {
+
+		switch (arg1) {
+		case "Login":
+			method.click_Button("btnLogin");
+			break;
+
+		case "Registrieren":
+			method.click_Link(arg1);
+			break;
+
+		default:
+			break;
+		}
+
 	}
 
 	@Then("^I am a logged in user$")
 	public void I_am_a_logged_in_user() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.checkIfIamLoggedIn();
 	}
 
 	@Then("^I can see the mainpage$")
 	public void I_can_see_the_mainpage() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
-	}
-
-	@When("^I enter my credentials incorrectly$")
-	public void I_enter_my_credentials_incorrectly() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.checkPage("startPage");
 	}
 
 	@Then("^I am not logged in$")
 	public void I_am_not_logged_in() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.checkIfIamNotLoggedIn();
 	}
 
 	@Then("^I can try to login again$")
 	public void I_can_try_to_login_again() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.checkPage("login");
 	}
 
 	@When("^I do not enter any credentials$")
 	public void I_do_not_enter_any_credentials() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
-	}
-
-	@Given("^I am not yet registered$")
-	public void I_am_not_yet_registered() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
-	}
-
-	@Given("^I want to register$")
-	public void I_want_to_register() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.login_writeUsername("");
+		method.login_writePassword("");
 	}
 
 	@Then("^I can see the register page$")
 	public void I_can_see_the_register_page() throws Throwable {
-		// Express the Regexp above with the code you wish you had
-		throw new PendingException();
+		method.checkPage("register");
 	}
 }
