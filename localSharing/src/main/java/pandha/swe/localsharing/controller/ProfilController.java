@@ -63,7 +63,7 @@ public class ProfilController {
 			fileService.save(editedUser, image);
 		}
 
-		return "profil";
+		return "redirect:profil";
 	}
 
 	private Benutzer getUser(Principal principal) {

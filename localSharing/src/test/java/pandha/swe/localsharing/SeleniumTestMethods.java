@@ -17,7 +17,7 @@ public class SeleniumTestMethods {
 
 	private WebDriver driver;
 
-	private static String baseUrl = "http://localhost:8090/";
+	private static String baseUrl = "http://localhost:8080/";
 
 	@Before
 	public void setUp() throws Exception {
@@ -201,4 +201,123 @@ public class SeleniumTestMethods {
 	public void register_click_register() {
 		driver.findElement(By.id("btnRegister")).click();
 	}
+
+	public void profil_click_bearbeiten() {
+		driver.findElement(By.id("btnProfilBearbeiten")).click();
+	}
+
+	public void profil_check_vorname(String string) {
+		assertEquals(string, driver.findElement(By.cssSelector("span"))
+				.getText());
+	}
+
+	public void profil_check_nachname(String string) {
+		assertEquals(string, driver.findElement(By.xpath("//td[4]/span"))
+				.getText());
+	}
+
+	public void profil_check_strasse(String string) {
+		assertEquals(string, driver.findElement(By.xpath("//tr[2]/td[2]/span"))
+				.getText());
+	}
+
+	public void profil_check_hausnummer(String string) {
+		assertEquals(string, driver.findElement(By.xpath("//tr[2]/td[4]/span"))
+				.getText());
+	}
+
+	public void profil_check_plz(String string) {
+		assertEquals(string, driver.findElement(By.xpath("//tr[3]/td[2]/span"))
+				.getText());
+	}
+
+	public void profil_check_stadt(String string) {
+		assertEquals(string, driver.findElement(By.xpath("//tr[3]/td[4]/span"))
+				.getText());
+	}
+
+	public void profil_check_tel(String string) {
+		assertEquals(
+				string,
+				driver.findElement(
+						By.xpath("//div[2]/table/tbody/tr/td[2]/span"))
+						.getText());
+	}
+
+	public void profil_check_email(String string) {
+		assertEquals(
+				string,
+				driver.findElement(
+						By.xpath("//div[2]/table/tbody/tr[2]/td[2]/span"))
+						.getText());
+	}
+
+	public void profiledit_click_abbrechen() {
+		driver.findElement(By.id("btnCancel")).click();
+	}
+
+	public void profiledit_click_save() {
+		driver.findElement(By.id("btnSave")).click();
+	}
+
+	public void profiledit_write_vorname(String string) {
+		driver.findElement(By.id("vorname")).clear();
+		driver.findElement(By.id("vorname")).sendKeys(string);
+	}
+
+	public void profiledit_write_nachname(String string) {
+		driver.findElement(By.id("nachname")).clear();
+		driver.findElement(By.id("nachname")).sendKeys(string);
+	}
+
+	public void profiledit_write_strasse(String string) {
+		driver.findElement(By.id("strasse")).clear();
+		driver.findElement(By.id("strasse")).sendKeys(string);
+	}
+
+	public void profiledit_write_hausnummer(String string) {
+		driver.findElement(By.id("hausnummer")).clear();
+		driver.findElement(By.id("hausnummer")).sendKeys(string);
+	}
+
+	public void profiledit_write_plz(String string) {
+		driver.findElement(By.id("plz")).clear();
+		driver.findElement(By.id("plz")).sendKeys(string);
+	}
+
+	public void profiledit_write_stadt(String string) {
+		driver.findElement(By.id("stadt")).clear();
+		driver.findElement(By.id("stadt")).sendKeys(string);
+	}
+
+	public void profiledit_write_tel(String string) {
+		driver.findElement(By.id("telefonNummer")).clear();
+		driver.findElement(By.id("telefonNummer")).sendKeys(string);
+	}
+
+	public void profiledit_write_email(String string) {
+
+	}
+
+	public void login(String arg1, String arg2) {
+		goToSite("startPage");
+		driver.findElement(By.id("username")).clear();
+		driver.findElement(By.id("username")).sendKeys(arg1);
+		driver.findElement(By.id("password")).clear();
+		driver.findElement(By.id("password")).sendKeys(arg2);
+
+		driver.findElement(By.id("btnLogin")).click();
+
+	}
+
+	public void startpage_click_meinprofil() {
+		checkPage("startPage");
+		driver.findElement(By.id("btnProfil")).click();
+	}
+
+	public void profile_over_startpage() {
+		goToSite("startPage");
+		startpage_click_meinprofil();
+	}
+
 }
