@@ -6,7 +6,7 @@ Feature: Login
   Scenario: Login
     Given I am not logged in yet
     And I am on the login Page
-    When I enter "tester@cucumber.de" as email
+    When I enter "tester@cucumber.de" as username
     And I enter "12345678" as Password
     And I click on "Login"
     Then I am a logged in user
@@ -15,7 +15,7 @@ Feature: Login
   Scenario: Login with wrong credentials
     Given I am not logged in yet
     And I am on the login Page
-    When I enter "tester@cucumber.de" as email
+    When I enter "tester@cucumber.de" as username
     And I enter "abcdefgh" as Password
     And I click on "Login"
     Then I am not logged in

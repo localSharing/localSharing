@@ -14,7 +14,9 @@ format = { "pretty",
 
 "html:target/cucumber-html-report",
 
-"junit:target/cucumber-junit-report/allcukes.xml" }
+"junit:target/cucumber-junit-report/allcukes.xml"
+
+}
 
 )
 public class CukeRunnerIT {

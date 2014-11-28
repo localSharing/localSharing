@@ -20,9 +20,9 @@ public class StepDefs_Login {
 		method.checkPage("login");
 	}
 
-	@When("^I enter \"([^\"]*)\" as email$")
-	public void I_enter_as_email(String email) throws Throwable {
-		method.login_writeUsername(email);
+	@When("^I enter \"([^\"]*)\" as username$")
+	public void I_enter_as_username(String email) throws Throwable {
+		method.register_write_email(email);
 	}
 
 	@When("^I enter \"([^\"]*)\" as Password$")

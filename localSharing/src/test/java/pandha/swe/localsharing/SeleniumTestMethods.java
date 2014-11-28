@@ -131,4 +131,74 @@ public class SeleniumTestMethods {
 
 	}
 
+	public void register_write_firstname(String arg1) {
+		driver.findElement(By.id("vorname")).clear();
+		driver.findElement(By.id("vorname")).sendKeys(arg1);
+	}
+
+	public void register_write_surname(String arg1) {
+		driver.findElement(By.id("nachname")).clear();
+		driver.findElement(By.id("nachname")).sendKeys(arg1);
+	}
+
+	public void register_write_street(String arg1) {
+		driver.findElement(By.id("strasse")).clear();
+		driver.findElement(By.id("strasse")).sendKeys(arg1);
+	}
+
+	public void register_write_housnumber(String arg1) {
+		driver.findElement(By.id("hausnummer")).clear();
+		driver.findElement(By.id("hausnummer")).sendKeys(arg1);
+	}
+
+	public void register_write_zipcode(String arg1) {
+		driver.findElement(By.id("plz")).clear();
+		driver.findElement(By.id("plz")).sendKeys(arg1);
+	}
+
+	public void register_write_city(String arg1) {
+		driver.findElement(By.id("stadt")).clear();
+		driver.findElement(By.id("stadt")).sendKeys(arg1);
+	}
+
+	public void register_write_phone(String arg1) {
+		driver.findElement(By.id("telefonNummer")).clear();
+		driver.findElement(By.id("telefonNummer")).sendKeys(arg1);
+	}
+
+	public void register_write_email(String arg1) {
+		driver.findElement(By.id("email")).clear();
+		driver.findElement(By.id("email")).sendKeys(arg1);
+	}
+
+	public void register_write_password1(String arg1) {
+		driver.findElement(By.id("password1")).clear();
+		driver.findElement(By.id("password1")).sendKeys(arg1);
+	}
+
+	public void register_write_password2(String arg1) {
+		driver.findElement(By.id("password2")).clear();
+		driver.findElement(By.id("password2")).sendKeys(arg1);
+	}
+
+	public void register_select_gender(String arg1) {
+
+	}
+
+	public void register_error_email() {
+		assertEquals("Email wird bereits verwendet!",
+				driver.findElement(By.cssSelector("div.alert.alert-danger"))
+						.getText());
+	}
+
+	public void register_error_password() {
+
+		assertEquals("Passwörter stimmen nicht überein!",
+				driver.findElement(By.cssSelector("div.alert.alert-danger"))
+						.getText());
+	}
+
+	public void register_click_register() {
+		driver.findElement(By.id("btnRegister")).click();
+	}
 }
