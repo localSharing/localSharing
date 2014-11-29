@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 import org.junit.After;
 import org.junit.Before;
@@ -22,7 +23,11 @@ public class SeleniumTestMethods {
 	@Before
 	public void setUp() throws Exception {
 
-		driver = new FirefoxDriver();
+		FirefoxDriver fr = new FirefoxDriver();
+
+		fr.setLogLevel(Level.SEVERE);
+
+		driver = fr;
 
 		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 
