@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.cucumber.stepDefs;
+package pandha.swe.localsharing.otheFeatues;
 
 public class StepDefs_TauschAngebotVerwalten {
 
