@@ -11,6 +11,7 @@ public class StepDefs_Register {
 
 	@Given("^I am on the Register Page$")
 	public void I_am_on_the_Register_Page() throws Throwable {
+		method.checkLogoutAndIfLoggedinLogout();
 		method.goToSite("register");
 		method.checkPage("register");
 	}

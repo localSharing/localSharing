@@ -12,6 +12,7 @@ public class StepDefs_ProfilinformationenBearbeiten {
 	@Given("^I am logged in as \"([^\"]*)\" with password \"([^\"]*)\"$")
 	public void I_am_logged_in_as_with_password(String arg1, String arg2)
 			throws Throwable {
+		method.checkLogoutAndIfLoggedinLogout();
 		method.login(arg1, arg2);
 	}
 
