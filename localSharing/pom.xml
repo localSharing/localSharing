@@ -172,7 +172,7 @@
 					<configuration>
 						<properties>
 							<cargo.servlet.port>8090</cargo.servlet.port>
-							<cargo.logging>high</cargo.logging>
+							<cargo.logging>low</cargo.logging>
 						</properties>
 						<deployables>
 							<deployable>
