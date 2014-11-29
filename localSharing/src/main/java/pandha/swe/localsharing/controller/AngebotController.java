@@ -136,6 +136,9 @@ public class AngebotController {
 					"DVD");
 
 			model.addAttribute("angebot", ausleihartikel);
+			model.addAttribute("endDatum", ausleihartikel.getEndDatum());
+			model.addAttribute("kategorie", ausleihartikel.getKategorie());
+			model.addAttribute("dauer", ausleihartikel.getDauer());
 			break;
 
 		case "tauschen":
@@ -149,6 +152,7 @@ public class AngebotController {
 					Date.valueOf("2014-11-27"), "Buch");
 
 			model.addAttribute("angebot", tauschartikel);
+			model.addAttribute("kategorie", tauschartikel.getKategorie());
 
 			break;
 
@@ -163,6 +167,8 @@ public class AngebotController {
 					Date.valueOf("2014-11-23"), Date.valueOf("2014-12-11"));
 
 			model.addAttribute("angebot", hilfeleistung);
+			model.addAttribute("endDatum", hilfeleistung.getEndDatum());
+
 			break;
 		}
 

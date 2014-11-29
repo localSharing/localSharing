@@ -43,23 +43,26 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Beschreibung</div>
 						<div class="panel-body">
-							Kategorie: <span th:if="${angebot.kategorie}"
-								th:text="${angebot.kategorie}"></span> <br /> <span
+							<div th:if="${kategorie != null}">
+								<b>Kategorie: </b><span th:text="${angebot.kategorie}"></span> <br />
+							</div>
+							<b>Angebotsbeschreibung: </b><span
 								th:text="${angebot.beschreibung}"></span>
+
 						</div>
 					</div>
 
 					<div class="panel panel-success">
 						<div class="panel-heading">Bedingungen</div>
 						<div class="panel-body">
-							<span th:text="${angebot.startDatum}"></span> bis <span
-								th:text="${angebot['endDatum']}"></span>
-
-							<p th:if="${angebot.dauer}">
-								<br /> maximale Ausleihdauer: <span th:text="${angebot.dauer}"></span>
-								Tag(e)
-							</p>
-
+							<b>Startdatum: </b><span th:text="${angebot.startDatum}"></span>
+							<div th:if="${endDatum != null}">
+								<b>Enddatum: </b><span th:text="${angebot.endDatum}"></span>
+							</div>
+							<div th:if="${dauer != null}">
+								<br /> <b>maximale Ausleihdauer: </b><span
+									th:text="${angebot.dauer}"></span> Tag(e)
+							</div>
 						</div>
 					</div>
 
