@@ -23,8 +23,17 @@
 					<img class="img-circle" src="#" alt="Bild" />
 				</div>
 				<div class="col-md-4">
-					<form th:action="@{/angebotEdit}" method="get">
-						<button id="btnAngebotBearbeiten" class="btn btn-success">Bearbeiten</button>
+					<form th:if="${dauer != null}"
+						th:action="${'../../angebotEdit/' + angebot.id + '/ausleihen'}" method="get">
+						<button id="btnAngebotBearbeiten" class="btn btn-success">BearbeitenA</button>
+					</form>
+					<form th:if="${endDatum == null}"
+						th:action="${'../../angebotEdit/' + angebot.id + '/tauschen'}" method="get">
+						<button id="btnAngebotBearbeiten" class="btn btn-success">BearbeitenT</button>
+					</form>
+					<form th:if="${kategorie == null}"
+						th:action="${'../../angebotEdit/' + angebot.id + '/helfen'}" method="get">
+						<button id="btnAngebotBearbeiten" class="btn btn-success">BearbeitenH</button>
 					</form>
 				</div>
 				<div class="col-md-4">
@@ -38,6 +47,7 @@
 
 					<h2>
 						<span th:text="${angebot.titel}"></span>
+						<span th:text="${angebot.id}"></span>
 					</h2>
 
 					<div class="panel panel-success">

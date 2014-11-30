@@ -5,13 +5,17 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
@@ -175,10 +179,79 @@ public class AngebotController {
 		return "angebot";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit")
-	public String editAngebot(Model model, Principal principal) {
+	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit/{id}/{type}")
+	public String editAngebot(Model model, Principal principal,
+			@PathVariable("id") String id, @PathVariable("type") String type) {
+
+		Benutzer user = getUser(principal);
+
+		switch (type) {
+		case "ausleihen":
+			// AusleihartikelDTO ausleihartikel = ausleihartikelService
+			// .ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
+			// .findById(new Long(id)));
+
+			// Daten zum Anzeigen in der View
+			AusleihartikelDTO ausleihartikel = new AusleihartikelDTO(new Long(
+					id), user, "Tarzan", "Tolle DVD",
+					Date.valueOf("2014-11-27"), Date.valueOf("2014-12-27"), 3,
+					"DVD");
+
+			model.addAttribute("angebot", ausleihartikel);
+			model.addAttribute("endDatum", ausleihartikel.getEndDatum());
+			model.addAttribute("kategorie", ausleihartikel.getKategorie());
+			model.addAttribute("dauer", ausleihartikel.getDauer());
+			break;
+
+		case "tauschen":
+			// TauschartikelDTO tauschartikel = tauschartikelService
+			// .tauschartikel_TO_TauschartikelDTO(tauschartikelService
+			// .findById(new Long(id)));
+
+			// Daten zum Anzeigen
+			TauschartikelDTO tauschartikel = new TauschartikelDTO(new Long(id),
+					user, "Mickey Mouse", "tolles Buch",
+					Date.valueOf("2014-11-27"), "Buch");
+
+			model.addAttribute("angebot", tauschartikel);
+			model.addAttribute("kategorie", tauschartikel.getKategorie());
+
+			break;
+
+		case "helfen":
+			// HilfeleistungDTO hilfeleistung = hilfeleistungService
+			// .hilfeleistung_TO_HilfeleistungDTO(hilfeleistungService
+			// .findById(new Long(id)));
+
+			// Daten zum Anzeigen
+			HilfeleistungDTO hilfeleistung = new HilfeleistungDTO(new Long(id),
+					user, "Einkaufen", "Ich will eben",
+					Date.valueOf("2014-11-23"), Date.valueOf("2014-12-11"));
+
+			model.addAttribute("angebot", hilfeleistung);
+			model.addAttribute("endDatum", hilfeleistung.getEndDatum());
+
+			break;
+		}
 
 		return "angebotEdit";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/ausleihen")
+	public String saveAusleihartikel(
+			@ModelAttribute("angebot") AusleihartikelDTO angebot, Model model,
+			Principal principal) {
+
+		System.out.println(angebot);
+
+		Ausleihartikel ausleihartikel = ausleihartikelService
+				.ausleihartikelDTO_TO_Ausleihartikel(angebot);
+
+		System.out.println(ausleihartikel);
+
+		ausleihartikelService.update(ausleihartikel);
+
+		return "redirect:angebot";
 	}
 
 	private Benutzer getUser(Principal principal) {

@@ -5,27 +5,127 @@
 <head>
 <title>Angebot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+<link href="../../webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 
-<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<script src="../../webjars/jquery/2.1.1/jquery.min.js"
+	type="text/javascript"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
 	<div class="container">
 		<h2>Angebot bearbeiten</h2>
-		<div class="jumbotron">Hier Angebotsinformationen ändern</div>
 
-		<form th:action="@{/angebote}" method="get">
-			<button id="btnSave" class="btn btn-success">Speichern</button>
-		</form>
-		<br />
-		<form th:action="@{/angebote}" method="get">
-			<button id="btnCancel" class="btn btn-danger">Abbrechen</button>
-		</form>
+		<div class="row">
+			<div class="col-md-4">
+				<div class="jumbotron">
+					<img class="img-circle" src="#" alt="Bild" />
+				</div>
+				<div class="col-md-4">
+					<form th:if="${dauer != null}"
+						th:action="@{../../angebotEdit/ausleihen}" method="post">
+						<button id="btnAngebotBearbeiten" class="btn btn-success"
+							type="submit">SpeichernA</button>
+					</form>
+					<form th:if="${endDatum == null}"
+						th:action="@{../../angebotEdit/tauschen}" method="post">
+						<button id="btnAngebotBearbeiten" class="btn btn-success"
+							type="submit">SpeichernT</button>
+					</form>
+					<form th:if="${kategorie == null}"
+						th:action="@{../../angebotEdit/helfen}" method="post">
+						<button id="btnAngebotBearbeiten" class="btn btn-success"
+							type="submit">SpeichernH</button>
+					</form>
+				</div>
+				<div class="col-md-4">
+					<form th:action="@{/angebote}" method="get">
+						<button id="btnAngebote" class="btn btn-danger">Abbrechen</button>
+					</form>
+				</div>
+			</div>
+			<div class="col-md-8">
+				<div class="jumbotron">
+
+					<div class="row">
+						<div class="col-md-2">
+							<b>Titel: </b>
+						</div>
+						<div class="col-md-10">
+							<input type="text" class="form-control" id="titel"
+								th:field="*{angebot.titel}" th:value="${angebot.titel}"
+								required="required" />
+							<div class="alert alert-danger"
+								th:if="${#fields.hasErrors('angebot.titel')}"
+								th:errors="*{angebot.titel}">Error</div>
+						</div>
+					</div>
+					<br />
+
+					<div class="panel panel-success">
+						<div class="panel-heading">Beschreibung</div>
+						<div class="panel-body">
+							<div th:if="${kategorie != null}">
+								<b>Kategorie: </b><input type="text" class="form-control"
+									id="kategorie" th:field="*{angebot.kategorie}"
+									th:value="${angebot.kategorie}" /> <br />
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('angebot.kategorie')}"
+									th:errors="*{angebot.kategorie}">Error</div>
+							</div>
+							<b>Angebotsbeschreibung: </b>
+							<textarea rows="10" class="form-control" id="beschreibung"
+								th:field="*{angebot.beschreibung}"
+								th:text="${angebot.beschreibung}"> </textarea>
+							<div class="alert alert-danger"
+								th:if="${#fields.hasErrors('angebot.beschreibung')}"
+								th:errors="*{angebot.beschreibung}">Error</div>
+
+						</div>
+					</div>
+
+					<div class="panel panel-success">
+						<div class="panel-heading">Bedingungen</div>
+						<div class="panel-body">
+							<b>Startdatum: </b><input type="datetime" class="form-control"
+								id="startDatum" th:field="*{angebot.startDatum}"
+								th:value="${angebot.startDatum}" required="required" />
+							<div class="alert alert-danger"
+								th:if="${#fields.hasErrors('angebot.startDatum')}"
+								th:errors="*{angebot.startDatum}">Error</div>
+							<div th:if="${endDatum != null}">
+								<b>Enddatum: </b><input type="datetime" class="form-control"
+									id="endDatum" th:field="*{angebot.endDatum}"
+									th:value="${angebot.endDatum}" />
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('angebot.endDatum')}"
+									th:errors="*{angebot.endDatum}">Error</div>
+							</div>
+							<div th:if="${dauer != null}">
+								<br /> <b>maximale Ausleihdauer: </b><input type="text"
+									class="form-control" id="dauer" th:field="*{angebot.dauer}"
+									th:value="${angebot.dauer}" />
+								<div class="alert alert-danger"
+									th:if="${#fields.hasErrors('angebot.dauer')}"
+									th:errors="*{angebot.dauer}">Error</div>
+								Tag(e)
+							</div>
+						</div>
+					</div>
+
+					<div class="panel panel-success">
+						<div class="panel-heading">Kommentare</div>
+						<div class="panel-body">Kommentare anzeigen?</div>
+					</div>
+
+
+
+				</div>
+			</div>
+		</div>
+
 	</div>
-
-
 </body>
 </html>
+
