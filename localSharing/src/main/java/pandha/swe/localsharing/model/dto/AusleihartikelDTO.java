@@ -28,6 +28,9 @@ public class AusleihartikelDTO extends AngebotDTO {
 		this.kategorie = kategorie;
 	}
 
+	public AusleihartikelDTO() {
+	}
+
 	public Date getEndDatum() {
 		return endDatum;
 	}
@@ -54,8 +57,8 @@ public class AusleihartikelDTO extends AngebotDTO {
 
 	@Override
 	public String toString() {
-		return "AusleihartikelDTO[benutzer = " + super.getBenutzer() + "titel = "
-				+ super.getTitel() + ", beschreibung = "
+		return "AusleihartikelDTO[benutzer = " + super.getBenutzer()
+				+ "titel = " + super.getTitel() + ", beschreibung = "
 				+ super.getBeschreibung() + ", startDatum = "
 				+ super.getStartDatum() + ", endDatum = " + endDatum
 				+ ", dauer = " + dauer + ", kategorie = " + kategorie + "]";

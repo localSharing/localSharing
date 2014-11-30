@@ -8,7 +8,7 @@ import javax.validation.constraints.Size;
 import pandha.swe.localsharing.model.Benutzer;
 
 public class AngebotDTO {
-	
+
 	private Long id;
 
 	@NotNull
@@ -24,15 +24,18 @@ public class AngebotDTO {
 	@NotNull
 	private Date startDatum;
 
-	public AngebotDTO(Long id, Benutzer benutzer, String titel, String beschreibung,
-			Date startDatum) {
+	public AngebotDTO(Long id, Benutzer benutzer, String titel,
+			String beschreibung, Date startDatum) {
 		this.id = id;
 		this.benutzer = benutzer;
 		this.titel = titel;
 		this.beschreibung = beschreibung;
 		this.startDatum = startDatum;
 	}
-	
+
+	public AngebotDTO() {
+	}
+
 	public Long getId() {
 		return id;
 	}
@@ -40,8 +43,6 @@ public class AngebotDTO {
 	public void setId(Long id) {
 		this.id = id;
 	}
-
-
 
 	public Benutzer getBenutzer() {
 		return benutzer;
@@ -77,9 +78,9 @@ public class AngebotDTO {
 
 	@Override
 	public String toString() {
-		return "AngebotDTO [benutzer = " + benutzer + "titel = " + titel + ", benutzer = " + benutzer
-				+ ", beschreibung = " + beschreibung + ", startDatum = "
-				+ startDatum + "]";
+		return "AngebotDTO [benutzer = " + benutzer + "titel = " + titel
+				+ ", benutzer = " + benutzer + ", beschreibung = "
+				+ beschreibung + ", startDatum = " + startDatum + "]";
 	}
 
 }

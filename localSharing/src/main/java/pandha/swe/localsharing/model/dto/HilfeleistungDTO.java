@@ -18,6 +18,10 @@ public class HilfeleistungDTO extends AngebotDTO {
 		this.endDatum = endDatum;
 	}
 
+	public HilfeleistungDTO() {
+
+	}
+
 	public Date getEndDatum() {
 		return endDatum;
 	}

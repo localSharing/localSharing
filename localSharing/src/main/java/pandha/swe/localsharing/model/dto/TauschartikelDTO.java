@@ -17,6 +17,10 @@ public class TauschartikelDTO extends AngebotDTO {
 		this.kategorie = kategorie;
 	}
 
+	public TauschartikelDTO() {
+
+	}
+
 	public String getKategorie() {
 		return kategorie;
 	}
@@ -29,9 +33,5 @@ public class TauschartikelDTO extends AngebotDTO {
 	public String toString() {
 		return "TauschartikelDTO [kategorie=" + kategorie + "]";
 	}
-	
-	
-
-	
 
 }
