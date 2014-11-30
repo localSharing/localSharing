@@ -244,14 +244,14 @@ public class AngebotController {
 
 		System.out.println(angebot);
 
-		Ausleihartikel ausleihartikel = ausleihartikelService
-				.ausleihartikelDTO_TO_Ausleihartikel(angebot);
+		// Ausleihartikel ausleihartikel = ausleihartikelService
+		// .ausleihartikelDTO_TO_Ausleihartikel(angebot);
 
-		System.out.println(ausleihartikel);
+		// System.out.println(ausleihartikel);
 
-		ausleihartikelService.update(ausleihartikel);
+		// ausleihartikelService.update(ausleihartikel);
 
-		return "redirect:angebot";
+		return "redirect:../angebote";
 	}
 
 	private Benutzer getUser(Principal principal) {
