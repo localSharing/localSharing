@@ -26,6 +26,16 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	public List<Hilfeleistung> findAll() {
 		return hilfeleistungDao.findAll();
 	}
+	
+	@Override
+	public List<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer) {
+		List<Hilfeleistung> hilfeleistungListe = hilfeleistungDao.findAllByBenutzer(benutzer);
+		List<HilfeleistungDTO> hilfeleistungDTOListe = new ArrayList<>();
+		for(Hilfeleistung hilfeleistung: hilfeleistungListe) {
+			hilfeleistungDTOListe.add(hilfeleistung_TO_HilfeleistungDTO(hilfeleistung));
+		}
+		return hilfeleistungDTOListe;
+	}
 
 	@Override
 	public void save(Hilfeleistung hilfeleistung) {
@@ -86,12 +96,6 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	@Override
 	public void shutdown() {
 		hilfeleistungDao.shutdown();
-	}
-
-	@Override
-	public ArrayList<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer) {
-		// TODO Liste mit allen Hilfeleistungen eines bestimmten Benutzers
-		return null;
 	}
 
 }
