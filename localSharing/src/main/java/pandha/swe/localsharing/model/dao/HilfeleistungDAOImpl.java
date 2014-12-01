@@ -1,5 +1,6 @@
 package pandha.swe.localsharing.model.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -49,10 +50,22 @@ public class HilfeleistungDAOImpl implements HilfeleistungDAO {
 	}
 
 	@Override
-	public void save(Hilfeleistung hilfeleistung) {
+	public Long save(Hilfeleistung hilfeleistung) {
 		if (hilfeleistung != null) {
-			hibernateTemplate.saveOrUpdate(hilfeleistung);
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			Serializable save = session.save(hilfeleistung);
+
+			Long id = (Long) save;
+			
+			tx.commit();
+			session.close();
+
+			return id;
+
 		}
+		return null;
 	}
 
 	@Override

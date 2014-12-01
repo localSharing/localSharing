@@ -18,7 +18,7 @@ public class Angebot {
 	// GenerationType.TABLE bewirkt, dass IDs in Tabelle unique sind
 	// GenerationType.AUTO bewirkt, dass IDs in allen drei Tabellen unique sind
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@Column(name = "ANGEBOTSID")
 	private Long angebotsid;
 
@@ -42,9 +42,9 @@ public class Angebot {
 		this.beschreibung = beschreibung;
 		this.startDatum = startDatum;
 	}
-	
+
 	public Angebot() {
-		
+
 	}
 
 	public Long getAngebotsid() {

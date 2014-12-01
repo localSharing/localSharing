@@ -1,5 +1,6 @@
 package pandha.swe.localsharing.model.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -38,10 +39,19 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	}
 
 	@Override
-	public void save(Tauschartikel tauschartikel) {
+	public Long save(Tauschartikel tauschartikel) {
 		if (tauschartikel != null) {
-			hibernateTemplate.saveOrUpdate(tauschartikel);
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			Serializable save = session.save(tauschartikel);
+			Long id = (Long) save;
+			tx.commit();
+			session.close();
+
+			return id;
 		}
+		return null;
 	}
 
 	@Override

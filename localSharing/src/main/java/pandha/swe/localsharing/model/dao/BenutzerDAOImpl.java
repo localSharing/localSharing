@@ -43,11 +43,16 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 		if (benutzer != null) {
 			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
 
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
 			for (BenutzerRolle benutzerRolle : a) {
-				hibernateTemplate.saveOrUpdate(benutzerRolle);
+				session.saveOrUpdate(benutzerRolle);
 			}
 
-			hibernateTemplate.saveOrUpdate(benutzer);
+			session.saveOrUpdate(benutzer);
+			tx.commit();
+			session.close();
 
 		}
 	}
@@ -74,13 +79,19 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 	@Override
 	public void delete(Benutzer benutzer) {
 		if (benutzer != null) {
-			hibernateTemplate.delete(benutzer);
 
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
+			session.delete(benutzer);
 			Set<BenutzerRolle> a = benutzer.getBenutzerRolle();
 
 			for (BenutzerRolle benutzerRolle : a) {
-				hibernateTemplate.delete(benutzerRolle);
+				session.delete(benutzerRolle);
 			}
+
+			tx.commit();
+			session.close();
 		}
 	}
 

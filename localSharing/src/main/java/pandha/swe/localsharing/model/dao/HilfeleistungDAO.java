@@ -13,7 +13,7 @@ public interface HilfeleistungDAO {
 	
 	public List<Hilfeleistung> findAllByBenutzer(Benutzer benutzer);
 
-	public void save(Hilfeleistung hilfeleistung);
+	public Long save(Hilfeleistung hilfeleistung);
 
 	public void update(Hilfeleistung hilfeleistung);
 

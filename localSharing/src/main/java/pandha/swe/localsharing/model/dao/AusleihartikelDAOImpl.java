@@ -1,5 +1,6 @@
 package pandha.swe.localsharing.model.dao;
 
+import java.io.Serializable;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -49,10 +50,21 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
-	public void save(Ausleihartikel ausleihartikel) {
+	public Long save(Ausleihartikel ausleihartikel) {
 		if (ausleihartikel != null) {
-			hibernateTemplate.saveOrUpdate(ausleihartikel);
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			Serializable save = session.save(ausleihartikel);
+			Long id = (Long) save;
+
+			tx.commit();
+			session.close();
+
+			return id;
+
 		}
+		return null;
 	}
 
 	@Override

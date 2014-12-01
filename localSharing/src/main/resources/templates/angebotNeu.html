@@ -18,16 +18,16 @@
 		<h2>Angebot bearbeiten</h2>
 
 		<form class="form-horizontal" method="post" id="form"
-			th:object="${newAngebot}">
+			enctype="multipart/form-data" th:object="${newAngebot}">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="jumbotron">
 						<div class="row text-center">
 
 							<!-- TODO Bildupload zum Aendern des Bildes-->
-							<img class="img-circle" src="#" alt="Bild" />
-
-
+							<img class="img-circle" th:src="@{/images/angebot/}" src="#"
+								alt="Bild" width="100px" height="100px" /> <input type="file"
+								id="angebotImage" name="angebotImage" />
 
 						</div>
 					</div>

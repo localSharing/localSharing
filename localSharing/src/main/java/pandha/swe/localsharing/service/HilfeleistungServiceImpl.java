@@ -28,20 +28,22 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	public List<Hilfeleistung> findAll() {
 		return hilfeleistungDao.findAll();
 	}
-	
+
 	@Override
 	public List<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Hilfeleistung> hilfeleistungListe = hilfeleistungDao.findAllByBenutzer(benutzer);
+		List<Hilfeleistung> hilfeleistungListe = hilfeleistungDao
+				.findAllByBenutzer(benutzer);
 		List<HilfeleistungDTO> hilfeleistungDTOListe = new ArrayList<>();
-		for(Hilfeleistung hilfeleistung: hilfeleistungListe) {
-			hilfeleistungDTOListe.add(hilfeleistung_TO_HilfeleistungDTO(hilfeleistung));
+		for (Hilfeleistung hilfeleistung : hilfeleistungListe) {
+			hilfeleistungDTOListe
+					.add(hilfeleistung_TO_HilfeleistungDTO(hilfeleistung));
 		}
 		return hilfeleistungDTOListe;
 	}
 
 	@Override
-	public void save(Hilfeleistung hilfeleistung) {
-		hilfeleistungDao.save(hilfeleistung);
+	public Long save(Hilfeleistung hilfeleistung) {
+		return hilfeleistungDao.save(hilfeleistung);
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	}
 
 	@Override
-	public void createHilfeleistung(HilfeleistungDTO hilfeleistungDTO) {
+	public Long createHilfeleistung(HilfeleistungDTO hilfeleistungDTO) {
 
 		Hilfeleistung hilfeleistung = new Hilfeleistung(null,
 				hilfeleistungDTO.getBenutzer(), hilfeleistungDTO.getTitel(),
@@ -63,7 +65,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 				stringToDate(hilfeleistungDTO.getStartDatum()),
 				stringToDate(hilfeleistungDTO.getEndDatum()));
 
-		save(hilfeleistung);
+		return save(hilfeleistung);
 
 	}
 
@@ -76,7 +78,8 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 		hilfeleistung.setBenutzer(hilfeleistungDTO.getBenutzer());
 		hilfeleistung.setTitel(hilfeleistungDTO.getTitel());
 		hilfeleistung.setBeschreibung(hilfeleistungDTO.getBeschreibung());
-		hilfeleistung.setStartDatum(stringToDate(hilfeleistungDTO.getStartDatum()));
+		hilfeleistung.setStartDatum(stringToDate(hilfeleistungDTO
+				.getStartDatum()));
 		hilfeleistung.setEndDatum(stringToDate(hilfeleistungDTO.getEndDatum()));
 
 		return hilfeleistung;
@@ -89,7 +92,8 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 		HilfeleistungDTO hilfeleistungDTO = new HilfeleistungDTO(
 				hilfeleistung.getAngebotsid(), hilfeleistung.getBenutzer(),
 				hilfeleistung.getTitel(), hilfeleistung.getBeschreibung(),
-				dateToString(hilfeleistung.getStartDatum()), dateToString(hilfeleistung.getEndDatum()));
+				dateToString(hilfeleistung.getStartDatum()),
+				dateToString(hilfeleistung.getEndDatum()));
 
 		return hilfeleistungDTO;
 

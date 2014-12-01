@@ -13,7 +13,7 @@ public interface TauschartikelDAO {
 	
 	public List<Tauschartikel> findAllByBenutzer(Benutzer benutzer);
 
-	public void save(Tauschartikel tauschartikel);
+	public Long save(Tauschartikel tauschartikel);
 
 	public void update(Tauschartikel tauschartikel);
 

@@ -3,6 +3,8 @@ package pandha.swe.localsharing.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
@@ -20,6 +24,7 @@ import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.FileService;
 import pandha.swe.localsharing.service.HilfeleistungService;
 import pandha.swe.localsharing.service.TauschartikelService;
 
@@ -37,6 +42,9 @@ public class AngebotController {
 
 	@Autowired
 	private BenutzerService benutzerService;
+
+	@Autowired
+	private FileService fileService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebote")
 	public String showAngebote(Model model, Principal principal) {
@@ -147,8 +155,11 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/ausleihen")
 	public String saveAusleihartikel(
-			@ModelAttribute("angebot") AusleihartikelDTO angebot,
-			@PathVariable("id") String id, Model model, Principal principal) {
+			@ModelAttribute("angebot") @Valid AusleihartikelDTO angebot,
+			@PathVariable("id") String id,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		System.out.println(angebot);
 
@@ -163,13 +174,20 @@ public class AngebotController {
 
 		ausleihartikelService.update(ausleihartikel);
 
+		if (!image.isEmpty()) {
+			fileService.save(ausleihartikel, image);
+		}
+
 		return "redirect:../../angebote";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/tauschen")
 	public String saveAusleihartikel(
-			@ModelAttribute("angebot") TauschartikelDTO angebot,
-			@PathVariable("id") String id, Model model, Principal principal) {
+			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
+			@PathVariable("id") String id,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		System.out.println(angebot);
 
@@ -182,13 +200,20 @@ public class AngebotController {
 
 		tauschartikelService.update(artikel);
 
+		if (!image.isEmpty()) {
+			fileService.save(artikel, image);
+		}
+
 		return "redirect:../../angebote";
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/helfen")
 	public String saveAusleihartikel(
-			@ModelAttribute("angebot") HilfeleistungDTO angebot,
-			@PathVariable("id") String id, Model model, Principal principal) {
+			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
+			@PathVariable("id") String id,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		System.out.println(angebot);
 
@@ -200,6 +225,10 @@ public class AngebotController {
 				.hilfeleistungDTO_TO_Hilfeleistung(angebot);
 
 		hilfeleistungService.update(hilfe);
+
+		if (!image.isEmpty()) {
+			fileService.save(hilfe, image);
+		}
 
 		return "redirect:../../angebote";
 	}
@@ -222,7 +251,7 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/tauschen")
 	public String deleteTauschartikel(
-			@ModelAttribute("angebot") TauschartikelDTO angebot,
+			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
 			@PathVariable("id") String id, Model model, Principal principal) {
 
 		System.out.println(angebot);
@@ -242,8 +271,11 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
-	public String deleteTauschartikel(@PathVariable("id") String id,
-			Model model, Principal principal) {
+	public String deleteTauschartikel(
+			@PathVariable("id") String id,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		System.out.println("-----------DELETE-------------");
 
@@ -258,7 +290,7 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/helfen")
 	public String deleteHilfeleistung(
-			@ModelAttribute("angebot") HilfeleistungDTO angebot,
+			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
 			@PathVariable("id") String id, Model model, Principal principal) {
 
 		System.out.println(angebot);
@@ -313,8 +345,10 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/ausleihen")
 	public String saveNewAusleihen(
-			@ModelAttribute("newAngebot") AusleihartikelDTO newAngebot,
-			Model model, Principal principal) {
+			@ModelAttribute("newAngebot") @Valid AusleihartikelDTO newAngebot,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
@@ -322,7 +356,13 @@ public class AngebotController {
 
 		System.out.println(newAngebot);
 
-		ausleihartikelService.createAusleihartikel(newAngebot);
+		Long id = ausleihartikelService.createAusleihartikel(newAngebot);
+
+		Ausleihartikel angebot = ausleihartikelService.findById(id);
+
+		if (!image.isEmpty()) {
+			fileService.save(angebot, image);
+		}
 
 		return "redirect:../angebote";
 
@@ -330,8 +370,10 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/tauschen")
 	public String saveNewTauschen(
-			@ModelAttribute("newAngebot") TauschartikelDTO newAngebot,
-			Model model, Principal principal) {
+			@ModelAttribute("newAngebot") @Valid TauschartikelDTO newAngebot,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
@@ -339,7 +381,13 @@ public class AngebotController {
 
 		System.out.println(newAngebot);
 
-		tauschartikelService.createTauschartikel(newAngebot);
+		Long id = tauschartikelService.createTauschartikel(newAngebot);
+
+		Tauschartikel angebot = tauschartikelService.findById(id);
+
+		if (!image.isEmpty()) {
+			fileService.save(angebot, image);
+		}
 
 		return "redirect:../angebote";
 
@@ -347,8 +395,10 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/helfen")
 	public String saveNewHelfen(
-			@ModelAttribute("newAngebot") HilfeleistungDTO newAngebot,
-			Model model, Principal principal) {
+			@ModelAttribute("newAngebot") @Valid HilfeleistungDTO newAngebot,
+			Model model,
+			Principal principal,
+			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
@@ -356,7 +406,13 @@ public class AngebotController {
 
 		System.out.println(newAngebot);
 
-		hilfeleistungService.createHilfeleistung(newAngebot);
+		Long id = hilfeleistungService.createHilfeleistung(newAngebot);
+
+		Hilfeleistung angebot = hilfeleistungService.findById(id);
+
+		if (!image.isEmpty()) {
+			fileService.save(angebot, image);
+		}
 
 		return "redirect:../angebote";
 

@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.otheFeatues;
+package pandha.swe.localsharing.cucumber.stepDefs;
 
 public class StepDefs_AusleihAngebotVerwalten {
 }

@@ -7,9 +7,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import pandha.swe.localsharing.model.Angebot;
+import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.FileUpload;
+import pandha.swe.localsharing.model.Hilfeleistung;
+import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dao.FileUploadDAO;
 import pandha.swe.localsharing.model.enums.FileUploadType;
 
@@ -26,13 +28,6 @@ public class FileServiceImpl implements FileService {
 				FileUploadType.USER);
 
 		return file;
-	}
-
-	@Override
-	public FileUpload findByAssociated(Angebot angebot) {
-		// TODO Auto-generated method stub
-
-		return null;
 	}
 
 	@Override
@@ -83,4 +78,97 @@ public class FileServiceImpl implements FileService {
 		return fileDAO.findByAssociated(id, type);
 	}
 
+	@Override
+	public void save(Ausleihartikel angebot, MultipartFile image) {
+
+		FileUpload upload = findByAssociated(angebot);
+
+		if (upload == null) {
+			upload = new FileUpload();
+			upload.setAssID(angebot.getAngebotsid());
+			upload.setFileUploadType(FileUploadType.AUSLEIHANGEBOT);
+
+		}
+
+		try {
+			byte[] bytes = image.getBytes();
+			upload.setFile(bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fileDAO.save(upload);
+
+	}
+
+	@Override
+	public void save(Tauschartikel angebot, MultipartFile image) {
+
+		FileUpload upload = findByAssociated(angebot);
+
+		if (upload == null) {
+			upload = new FileUpload();
+			upload.setAssID(angebot.getAngebotsid());
+			upload.setFileUploadType(FileUploadType.TAUSCHANGEBOT);
+
+		}
+
+		try {
+			byte[] bytes = image.getBytes();
+			upload.setFile(bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fileDAO.save(upload);
+
+	}
+
+	@Override
+	public void save(Hilfeleistung angebot, MultipartFile image) {
+
+		FileUpload upload = findByAssociated(angebot);
+
+		if (upload == null) {
+			upload = new FileUpload();
+			upload.setAssID(angebot.getAngebotsid());
+			upload.setFileUploadType(FileUploadType.HILFANGEBOT);
+
+		}
+
+		try {
+			byte[] bytes = image.getBytes();
+			upload.setFile(bytes);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		fileDAO.save(upload);
+
+	}
+
+	@Override
+	public FileUpload findByAssociated(Ausleihartikel angebot) {
+		FileUpload file = fileDAO.findByAssociated(angebot.getAngebotsid(),
+				FileUploadType.AUSLEIHANGEBOT);
+
+		return file;
+
+	}
+
+	@Override
+	public FileUpload findByAssociated(Tauschartikel angebot) {
+		FileUpload file = fileDAO.findByAssociated(angebot.getAngebotsid(),
+				FileUploadType.TAUSCHANGEBOT);
+
+		return file;
+	}
+
+	@Override
+	public FileUpload findByAssociated(Hilfeleistung angebot) {
+		FileUpload file = fileDAO.findByAssociated(angebot.getAngebotsid(),
+				FileUploadType.HILFANGEBOT);
+
+		return file;
+	}
 }

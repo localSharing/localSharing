@@ -1,6 +1,5 @@
 package pandha.swe.localsharing.model.dto;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -10,7 +9,6 @@ public class AngebotDTO {
 
 	private Long id;
 
-	@NotNull
 	private Benutzer benutzer;
 
 	@Size(min = 2, max = 50)

@@ -10,18 +10,18 @@ Feature: Ausleih-Angebote verwalten
 
   Scenario: Create borrow offer for an item to be borrowed
     Given I am logged in
-    And I clicked on "Eigene Angbote"
-    And I clicked on "Neues Angebot"
-    When I enter a title
+    And I clicked on "Eigene Angbote" on the startpage
+    And I clicked on "Neues Angebot" on my offer page
+    When I enter "Tarzan" as titel
     And I set the category to "Gegenstand"
     And I set the switch to "Ausleihen"
-    And I enter a start date
-    And I enter an end date
-    And I enter a duration
-    And I enter a description
-    And I click on "Speichern"
-    Then the offer is saved
-    And I am directed to "Eigene Angebote"
+    And I choose "01.12.2014" as startdate
+    And I choose "01.01.2014" as end date
+    And I enter "5" days as duration
+    And I enter "Ein toller Film. DVD ist in gutem Zustand." as description
+    And I click on "Speichern" on the new offer page
+    Then I am on my offer page
+    And I can see my new borrow offer with "Tarzan" as title an
 
   Scenario: Edit borrow offer
     Given I am logged in

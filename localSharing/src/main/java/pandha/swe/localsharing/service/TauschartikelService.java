@@ -11,16 +11,16 @@ public interface TauschartikelService {
 	public Tauschartikel findById(Long id);
 
 	public List<Tauschartikel> findAll();
-	
+
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
-	public void save(Tauschartikel tauschartikel);
+	public Long save(Tauschartikel tauschartikel);
 
 	public void update(Tauschartikel tauschartikel);
 
 	public void delete(Tauschartikel tauschartikel);
 
-	public void createTauschartikel(TauschartikelDTO tauschartikelDTO);
+	public Long createTauschartikel(TauschartikelDTO tauschartikelDTO);
 
 	public Tauschartikel tauschartikelDTO_TO_Tauschartikel(
 			TauschartikelDTO tauschartikelDTO);

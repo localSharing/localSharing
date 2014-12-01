@@ -14,13 +14,13 @@ public interface AusleihartikelService {
 
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
-	public void save(Ausleihartikel ausleihartikel);
+	public Long save(Ausleihartikel ausleihartikel);
 
 	public void update(Ausleihartikel ausleihartikel);
 
 	public void delete(Ausleihartikel ausleihartikel);
 
-	public void createAusleihartikel(AusleihartikelDTO ausleihartikelDTO);
+	public Long createAusleihartikel(AusleihartikelDTO ausleihartikelDTO);
 
 	public Ausleihartikel ausleihartikelDTO_TO_Ausleihartikel(
 			AusleihartikelDTO ausleihartikelDTO);

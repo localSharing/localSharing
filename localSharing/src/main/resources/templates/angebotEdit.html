@@ -17,7 +17,8 @@
 	<div class="container">
 		<h2>Angebot bearbeiten</h2>
 
-		<form class="form-horizontal" method="post" id="form">
+		<form class="form-horizontal" method="post" id="form"
+			enctype="multipart/form-data">
 			<div class="row">
 				<div class="col-md-4">
 					<div class="jumbotron">
@@ -26,19 +27,14 @@
 							<!-- TODO Bildupload zum Aendern des Bildes-->
 							<img class="img-circle" th:if="${dauer != null}"
 								th:src="@{/images/ausleihangebot/{id}(id=${angebot.id})}"
-								src="#" alt="Bild" width="100px" height="100px" /> <input
-								type="file" id="angebotImage" th:if="${dauer != null}"
-								name="angebotImage" /> <img class="img-circle"
-								th:if="${endDatum == null}"
+								src="#" alt="Bild" width="100px" height="100px" /> <img
+								class="img-circle" th:if="${endDatum == null}"
 								th:src="@{/images/tauschangebot/{id}(id=${angebot.id})}" src="#"
-								alt="Bild" width="100px" height="100px" /> <input type="file"
-								id="angebotImage" th:if="${endDatum == null}"
-								name="angebotImage" /> <img class="img-circle"
-								th:if="${kategorie == null}"
+								alt="Bild" width="100px" height="100px" /> <img
+								class="img-circle" th:if="${kategorie == null}"
 								th:src="@{/images/hilfsangebot/{id}(id=${angebot.id})}" src="#"
 								alt="Bild" width="100px" height="100px" /> <input type="file"
-								id="angebotImage" th:if="${kategorie == null}"
-								name="angebotImage" />
+								id="angebotImage" name="angebotImage" />
 
 
 

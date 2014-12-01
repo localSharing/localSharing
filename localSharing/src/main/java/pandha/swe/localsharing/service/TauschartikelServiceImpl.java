@@ -28,20 +28,22 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	public List<Tauschartikel> findAll() {
 		return tauschartikelDao.findAll();
 	}
-	
+
 	@Override
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Tauschartikel> tauschartikelListe = tauschartikelDao.findAllByBenutzer(benutzer);
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllByBenutzer(benutzer);
 		List<TauschartikelDTO> tauschartikelDTOListe = new ArrayList<>();
-		for(Tauschartikel tauschartikel: tauschartikelListe) {
-			tauschartikelDTOListe.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
+		for (Tauschartikel tauschartikel : tauschartikelListe) {
+			tauschartikelDTOListe
+					.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
 		}
 		return tauschartikelDTOListe;
 	}
 
 	@Override
-	public void save(Tauschartikel tauschartikel) {
-		tauschartikelDao.save(tauschartikel);
+	public Long save(Tauschartikel tauschartikel) {
+		return tauschartikelDao.save(tauschartikel);
 	}
 
 	@Override
@@ -55,7 +57,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	}
 
 	@Override
-	public void createTauschartikel(TauschartikelDTO tauschartikelDTO) {
+	public Long createTauschartikel(TauschartikelDTO tauschartikelDTO) {
 
 		Tauschartikel tauschartikel = new Tauschartikel(null,
 				tauschartikelDTO.getBenutzer(), tauschartikelDTO.getTitel(),
@@ -63,7 +65,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 				stringToDate(tauschartikelDTO.getStartDatum()),
 				tauschartikelDTO.getKategorie());
 
-		save(tauschartikel);
+		return save(tauschartikel);
 
 	}
 
@@ -76,7 +78,8 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 		tauschartikel.setBenutzer(tauschartikelDTO.getBenutzer());
 		tauschartikel.setTitel(tauschartikelDTO.getTitel());
 		tauschartikel.setBeschreibung(tauschartikelDTO.getBeschreibung());
-		tauschartikel.setStartDatum(stringToDate(tauschartikelDTO.getStartDatum()));
+		tauschartikel.setStartDatum(stringToDate(tauschartikelDTO
+				.getStartDatum()));
 		tauschartikel.setKategorie(tauschartikelDTO.getKategorie());
 
 		return tauschartikel;
@@ -89,7 +92,8 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 		TauschartikelDTO tauschartikelDTO = new TauschartikelDTO(
 				tauschartikel.getAngebotsid(), tauschartikel.getBenutzer(),
 				tauschartikel.getTitel(), tauschartikel.getBeschreibung(),
-				dateToString(tauschartikel.getStartDatum()), tauschartikel.getKategorie());
+				dateToString(tauschartikel.getStartDatum()),
+				tauschartikel.getKategorie());
 
 		return tauschartikelDTO;
 	}

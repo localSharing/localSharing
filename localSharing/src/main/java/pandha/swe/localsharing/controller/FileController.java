@@ -71,6 +71,13 @@ public class FileController {
 		return getImageIfNoImageFound_GetDefaultImage(image);
 	}
 
+	@RequestMapping(value = "/images/angebot", produces = MediaType.IMAGE_JPEG_VALUE)
+	@ResponseBody
+	public byte[] getFileAangebotDefaultImage() {
+
+		return getAngebotDefaultImageIfNotExistInsertIT();
+	}
+
 	private byte[] getImageIfNoImageFound_GetDefaultImage(FileUpload image) {
 		byte[] content = null;
 		if (image == null) {

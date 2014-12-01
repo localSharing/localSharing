@@ -42,8 +42,8 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public void save(Ausleihartikel ausleihartikel) {
-		ausleihartikelDao.save(ausleihartikel);
+	public Long save(Ausleihartikel ausleihartikel) {
+		return ausleihartikelDao.save(ausleihartikel);
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public void createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
+	public Long createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
 
 		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
 				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
@@ -66,7 +66,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 				stringToDate(ausleihartikelDTO.getEndDatum()),
 				ausleihartikelDTO.getDauer(), ausleihartikelDTO.getKategorie());
 
-		save(ausleihartikel);
+		return save(ausleihartikel);
 
 	}
 
