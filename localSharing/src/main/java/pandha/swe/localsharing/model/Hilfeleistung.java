@@ -18,6 +18,10 @@ public class Hilfeleistung extends Angebot {
 		super(id, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 	}
+	
+	public Hilfeleistung() {
+		super();
+	}
 
 	public Date getEndDatum() {
 		return endDatum;

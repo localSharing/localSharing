@@ -18,6 +18,10 @@ public class Tauschartikel extends Angebot {
 		super(id, benutzer, titel, beschreibung, startDatum);
 		this.kategorie = kategorie;
 	}
+	
+	public Tauschartikel() {
+		super();
+	}
 
 	public String getKategorie() {
 		return kategorie;

@@ -27,6 +27,10 @@ public class Ausleihartikel extends Angebot {
 		this.dauer = dauer;
 		this.kategorie = kategorie;
 	}
+	
+	public Ausleihartikel() {
+		super();
+	}
 
 	public Date getEndDatum() {
 		return endDatum;

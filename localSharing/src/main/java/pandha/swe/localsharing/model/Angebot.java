@@ -42,6 +42,10 @@ public class Angebot {
 		this.beschreibung = beschreibung;
 		this.startDatum = startDatum;
 	}
+	
+	public Angebot() {
+		
+	}
 
 	public Long getAngebotsid() {
 		return angebotsid;
