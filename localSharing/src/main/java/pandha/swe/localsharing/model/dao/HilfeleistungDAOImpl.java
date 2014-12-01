@@ -72,7 +72,13 @@ public class HilfeleistungDAOImpl implements HilfeleistungDAO {
 	@Override
 	public void delete(Hilfeleistung hilfeleistung) {
 		if (hilfeleistung != null) {
-			hibernateTemplate.delete(hilfeleistung);
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
+			session.delete(hilfeleistung);
+			tx.commit();
+			session.close();
+
 		}
 	}
 

@@ -60,7 +60,12 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	@Override
 	public void delete(Tauschartikel tauschartikel) {
 		if (tauschartikel != null) {
-			hibernateTemplate.delete(tauschartikel);
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			session.delete(tauschartikel);
+			tx.commit();
+			session.close();
+
 		}
 	}
 

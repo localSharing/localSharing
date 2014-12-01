@@ -66,7 +66,11 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 	public void delete(FileUpload file) {
 
 		if (file != null) {
-			hibernateTemplate.delete(file);
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+			session.delete(file);
+			tx.commit();
+			session.close();
 
 		}
 	}

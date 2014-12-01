@@ -72,7 +72,14 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	@Override
 	public void delete(Ausleihartikel ausleihartikel) {
 		if (ausleihartikel != null) {
-			hibernateTemplate.delete(ausleihartikel);
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
+			session.delete(ausleihartikel);
+			tx.commit();
+			session.close();
+
 		}
 	}
 
