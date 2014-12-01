@@ -6,7 +6,7 @@ import pandha.swe.localsharing.model.Benutzer;
 
 public class HilfeleistungDTO extends AngebotDTO {
 
-	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}?", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
+	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
 	private String endDatum;
 
 	public HilfeleistungDTO(Long id, Benutzer benutzer, String titel,

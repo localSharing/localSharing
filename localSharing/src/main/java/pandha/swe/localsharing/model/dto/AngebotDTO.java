@@ -19,7 +19,7 @@ public class AngebotDTO {
 	@Size(max = 1000)
 	private String beschreibung;
 
-	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}?", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
+	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
 	private String startDatum;
 
 	public AngebotDTO(Long id, Benutzer benutzer, String titel,
