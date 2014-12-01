@@ -1,12 +1,12 @@
 package pandha.swe.localsharing.model.dto;
 
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Pattern;
 
 import pandha.swe.localsharing.model.Benutzer;
 
 public class HilfeleistungDTO extends AngebotDTO {
 
-	@Size(min = 10, max = 10)
+	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}?", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
 	private String endDatum;
 
 	public HilfeleistungDTO(Long id, Benutzer benutzer, String titel,
