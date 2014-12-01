@@ -1,8 +1,8 @@
 package pandha.swe.localsharing.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 
@@ -10,9 +10,9 @@ public interface TauschartikelService {
 
 	public Tauschartikel findById(Long id);
 
-	public ArrayList<TauschartikelDTO> findAllByBenutzer();
-
 	public List<Tauschartikel> findAll();
+	
+	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
 	public void save(Tauschartikel tauschartikel);
 

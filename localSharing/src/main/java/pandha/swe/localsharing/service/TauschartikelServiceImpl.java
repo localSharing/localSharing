@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dao.TauschartikelDAO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
@@ -24,6 +25,16 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	@Override
 	public List<Tauschartikel> findAll() {
 		return tauschartikelDao.findAll();
+	}
+	
+	@Override
+	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao.findAllByBenutzer(benutzer);
+		List<TauschartikelDTO> tauschartikelDTOListe = new ArrayList<>();
+		for(Tauschartikel tauschartikel: tauschartikelListe) {
+			tauschartikelDTOListe.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
+		}
+		return tauschartikelDTOListe;
 	}
 
 	@Override
@@ -84,12 +95,6 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	@Override
 	public void shutdown() {
 		tauschartikelDao.shutdown();
-	}
-
-	@Override
-	public ArrayList<TauschartikelDTO> findAllByBenutzer() {
-		// TODO Liste mit allen Tauschartikeln eines bestimmten Benutzers
-		return null;
 	}
 
 }
