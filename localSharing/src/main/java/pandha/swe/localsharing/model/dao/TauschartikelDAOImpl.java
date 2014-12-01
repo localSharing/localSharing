@@ -2,6 +2,9 @@ package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,9 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
+	@Autowired
+	private SessionFactory sessionFactory;
+
 	@Override
 	public Tauschartikel findById(Long id) {
 		Tauschartikel tauschartikel = (Tauschartikel) hibernateTemplate.get(
@@ -26,7 +32,8 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 
 	@Override
 	public List<Tauschartikel> findAll() {
-		List<Tauschartikel> tauschartikel = hibernateTemplate.loadAll(Tauschartikel.class);
+		List<Tauschartikel> tauschartikel = hibernateTemplate
+				.loadAll(Tauschartikel.class);
 		return tauschartikel;
 	}
 
@@ -40,7 +47,13 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	@Override
 	public void update(Tauschartikel tauschartikel) {
 		if (tauschartikel != null) {
-			hibernateTemplate.saveOrUpdate(tauschartikel);
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
+			session.saveOrUpdate(tauschartikel);
+			tx.commit();
+			session.close();
+
 		}
 	}
 
@@ -59,7 +72,7 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 
 	@Override
 	public List<Tauschartikel> findAllByBenutzer(Benutzer benutzer) {
-		
+
 		@SuppressWarnings("unchecked")
 		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
 				.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)

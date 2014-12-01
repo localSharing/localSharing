@@ -2,6 +2,9 @@ package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,9 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
+
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	@Override
 	public Ausleihartikel findById(Long id) {
@@ -52,7 +58,14 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	@Override
 	public void update(Ausleihartikel ausleihartikel) {
 		if (ausleihartikel != null) {
-			hibernateTemplate.saveOrUpdate(ausleihartikel);
+
+			Session session = sessionFactory.openSession();
+			Transaction tx = session.beginTransaction();
+
+			session.saveOrUpdate(ausleihartikel);
+			tx.commit();
+			session.close();
+
 		}
 	}
 
