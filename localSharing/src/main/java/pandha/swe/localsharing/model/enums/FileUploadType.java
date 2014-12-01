@@ -1,5 +1,5 @@
 package pandha.swe.localsharing.model.enums;
 
 public enum FileUploadType {
-	USER, ANGEBOT, DEFAULT_USER
+	USER, AUSLEIHANGEBOT, TAUSCHANGEBOT, HILFANGEBOT, DEFAULT_USER, DEFAULT_ANGEBOT
 }
