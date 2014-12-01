@@ -11,7 +11,7 @@ public class Datumsumwandler {
 		try {
 			dateAsDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateAsString);
 		} catch (ParseException e) {
-			e.printStackTrace();
+			dateAsDate = new Date();
 		}
 		return dateAsDate;
 	}
