@@ -1,7 +1,5 @@
 package pandha.swe.localsharing.model.dto;
 
-import java.util.Date;
-
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -17,15 +15,14 @@ public class AngebotDTO {
 	@Size(min = 2, max = 50)
 	private String titel;
 
-	@Size(max = 500)
+	@Size(max = 1000)
 	private String beschreibung;
 
-	// TODO
-	@NotNull
-	private Date startDatum;
+	@Size(min = 10, max = 10)
+	private String startDatum;
 
 	public AngebotDTO(Long id, Benutzer benutzer, String titel,
-			String beschreibung, Date startDatum) {
+			String beschreibung, String startDatum) {
 		this.id = id;
 		this.benutzer = benutzer;
 		this.titel = titel;
@@ -68,11 +65,11 @@ public class AngebotDTO {
 		this.beschreibung = beschreibung;
 	}
 
-	public Date getStartDatum() {
+	public String getStartDatum() {
 		return startDatum;
 	}
 
-	public void setStartDatum(Date startDatum) {
+	public void setStartDatum(String startDatum) {
 		this.startDatum = startDatum;
 	}
 
