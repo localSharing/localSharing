@@ -22,12 +22,13 @@
 				<div class="jumbotron">
 					<img class="img-circle" th:if="${dauer != null}"
 						th:src="@{/images/ausleihangebot/{id}(id=${angebot.id})}" src="#"
-						alt="Bild" /> <img class="img-circle" th:if="${endDatum == null}"
+						alt="Bild" width="100px" height="100px" /> <img class="img-circle"
+						th:if="${endDatum == null}"
 						th:src="@{/images/tauschangebot/{id}(id=${angebot.id})}" src="#"
-						alt="Bild" /> <img class="img-circle"
+						alt="Bild" width="100px" height="100px" /> <img class="img-circle"
 						th:if="${kategorie == null}"
 						th:src="@{/images/hilfsangebot/{id}(id=${angebot.id})}" src="#"
-						alt="Bild" />
+						alt="Bild" width="100px" height="100px" />
 				</div>
 				<div class="col-md-4">
 					<form th:if="${dauer != null}"
