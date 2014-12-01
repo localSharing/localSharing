@@ -26,6 +26,16 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	public List<Ausleihartikel> findAll() {
 		return ausleihartikelDao.findAll();
 	}
+	
+	@Override
+	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
+		List<Ausleihartikel> ausleihartikelListe = ausleihartikelDao.findAllByBenutzer(benutzer);
+		List<AusleihartikelDTO> ausleihartikelDTOListe = new ArrayList<>();
+		for(Ausleihartikel ausleihartikel: ausleihartikelListe) {
+			ausleihartikelDTOListe.add(ausleihartikel_TO_AusleihartikelDTO(ausleihartikel));
+		}
+		return ausleihartikelDTOListe;
+	}
 
 	@Override
 	public void save(Ausleihartikel ausleihartikel) {
@@ -90,12 +100,6 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	@Override
 	public void shutdown() {
 		ausleihartikelDao.shutdown();
-	}
-
-	@Override
-	public ArrayList<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		// TODO Liste mit allen Ausleihartikeln eines bestimmten Benutzers
-		return null;
 	}
 
 }

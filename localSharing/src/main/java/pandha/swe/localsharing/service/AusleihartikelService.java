@@ -1,6 +1,5 @@
 package pandha.swe.localsharing.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
@@ -13,7 +12,7 @@ public interface AusleihartikelService {
 
 	public List<Ausleihartikel> findAll();
 
-	public ArrayList<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer);
+	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
 	public void save(Ausleihartikel ausleihartikel);
 
