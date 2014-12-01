@@ -2,10 +2,13 @@ package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Tauschartikel;
 
 @Repository("tauschartikelDao")
@@ -52,6 +55,17 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	public void shutdown() {
 		hibernateTemplate.getSessionFactory().openSession()
 				.createSQLQuery("SHUTDOWN").executeUpdate();
+	}
+
+	@Override
+	public List<Tauschartikel> findAllByBenutzer(Benutzer benutzer) {
+		
+		@SuppressWarnings("unchecked")
+		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
+						.add(Restrictions.eq("benutzer", benutzer)));
+
+		return tauschartikelListe;
 	}
 
 }

@@ -2,10 +2,13 @@ package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
 
 @Repository("hilfeleistungDao")
@@ -26,9 +29,20 @@ public class HilfeleistungDAOImpl implements HilfeleistungDAO {
 		List<Hilfeleistung> hilfeleistung = hibernateTemplate.loadAll(Hilfeleistung.class);
 		return hilfeleistung;
 	}
+	
+	@Override
+	public List<Hilfeleistung> findAllByBenutzer(Benutzer benutzer) {
+		
+		@SuppressWarnings("unchecked")
+		List<Hilfeleistung> hilfeleistungListe = (List<Hilfeleistung>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Hilfeleistung.class)
+						.add(Restrictions.eq("benutzer", benutzer)));
+
+		return hilfeleistungListe;
+	}
 
 	@Override
-	public void save(Hilfeleistung hilfeleistung) {//TODO hilfeleistung usw. ausschreiben
+	public void save(Hilfeleistung hilfeleistung) {
 		if (hilfeleistung != null) {
 			hibernateTemplate.saveOrUpdate(hilfeleistung);
 		}

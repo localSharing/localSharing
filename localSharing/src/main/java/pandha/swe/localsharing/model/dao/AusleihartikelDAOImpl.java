@@ -2,15 +2,18 @@ package pandha.swe.localsharing.model.dao;
 
 import java.util.List;
 
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
+import pandha.swe.localsharing.model.Benutzer;
 
 @Repository("ausleihartikelDao")
 public class AusleihartikelDAOImpl implements AusleihartikelDAO {
-	
+
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
@@ -23,8 +26,20 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 
 	@Override
 	public List<Ausleihartikel> findAll() {
-		List<Ausleihartikel> ausleihartikel = hibernateTemplate.loadAll(Ausleihartikel.class);
+		List<Ausleihartikel> ausleihartikel = hibernateTemplate
+				.loadAll(Ausleihartikel.class);
 		return ausleihartikel;
+	}
+
+	@Override
+	public List<Ausleihartikel> findAllByBenutzer(Benutzer benutzer) {
+
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = (List<Ausleihartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+						.add(Restrictions.eq("benutzer", benutzer)));
+
+		return ausleihartikelListe;
 	}
 
 	@Override
@@ -51,7 +66,7 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	@Override
 	public void shutdown() {
 		hibernateTemplate.getSessionFactory().openSession()
-		.createSQLQuery("SHUTDOWN").executeUpdate();
+				.createSQLQuery("SHUTDOWN").executeUpdate();
 	}
 
 }
