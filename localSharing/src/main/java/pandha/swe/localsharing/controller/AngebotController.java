@@ -290,6 +290,78 @@ public class AngebotController {
 		return "redirect:../../angebote";
 	}
 
+	@RequestMapping(method = RequestMethod.GET, value = "/angebotNeu/ausleihen")
+	public String newAusleihen(Model model) {
+		model.addAttribute("newAngebot", new AusleihartikelDTO());
+		model.addAttribute("ausleihen", "ausleihen");
+		return "angebotNeu";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/angebotNeu/tauschen")
+	public String newTauschen(Model model) {
+		model.addAttribute("newAngebot", new TauschartikelDTO());
+		model.addAttribute("tauschen", "tauschen");
+		return "angebotNeu";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/angebotNeu/helfen")
+	public String newHelfen(Model model) {
+		model.addAttribute("newAngebot", new HilfeleistungDTO());
+		model.addAttribute("helfen", "helfen");
+		return "angebotNeu";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/ausleihen")
+	public String saveNewAusleihen(
+			@ModelAttribute("newAngebot") AusleihartikelDTO newAngebot,
+			Model model, Principal principal) {
+
+		Benutzer user = getUser(principal);
+
+		newAngebot.setBenutzer(user);
+
+		System.out.println(newAngebot);
+
+		ausleihartikelService.createAusleihartikel(newAngebot);
+
+		return "redirect:../angebote";
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/tauschen")
+	public String saveNewTauschen(
+			@ModelAttribute("newAngebot") TauschartikelDTO newAngebot,
+			Model model, Principal principal) {
+
+		Benutzer user = getUser(principal);
+
+		newAngebot.setBenutzer(user);
+
+		System.out.println(newAngebot);
+
+		tauschartikelService.createTauschartikel(newAngebot);
+
+		return "redirect:../angebote";
+
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/helfen")
+	public String saveNewHelfen(
+			@ModelAttribute("newAngebot") HilfeleistungDTO newAngebot,
+			Model model, Principal principal) {
+
+		Benutzer user = getUser(principal);
+
+		newAngebot.setBenutzer(user);
+
+		System.out.println(newAngebot);
+
+		hilfeleistungService.createHilfeleistung(newAngebot);
+
+		return "redirect:../angebote";
+
+	}
+
 	private Benutzer getUser(Principal principal) {
 		String email = principal.getName();
 
