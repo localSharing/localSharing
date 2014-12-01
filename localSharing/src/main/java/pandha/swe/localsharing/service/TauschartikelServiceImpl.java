@@ -10,6 +10,8 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dao.TauschartikelDAO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
+import static pandha.swe.localsharing.util.Datumsumwandler.dateToString;
+import static pandha.swe.localsharing.util.Datumsumwandler.stringToDate;
 
 @Service("tauschartikelService")
 public class TauschartikelServiceImpl implements TauschartikelService {
@@ -58,7 +60,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 		Tauschartikel tauschartikel = new Tauschartikel(null,
 				tauschartikelDTO.getBenutzer(), tauschartikelDTO.getTitel(),
 				tauschartikelDTO.getBeschreibung(),
-				tauschartikelDTO.getStartDatum(),
+				stringToDate(tauschartikelDTO.getStartDatum()),
 				tauschartikelDTO.getKategorie());
 
 		save(tauschartikel);
@@ -74,7 +76,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 		tauschartikel.setBenutzer(tauschartikelDTO.getBenutzer());
 		tauschartikel.setTitel(tauschartikelDTO.getTitel());
 		tauschartikel.setBeschreibung(tauschartikelDTO.getBeschreibung());
-		tauschartikel.setStartDatum(tauschartikelDTO.getStartDatum());
+		tauschartikel.setStartDatum(stringToDate(tauschartikelDTO.getStartDatum()));
 		tauschartikel.setKategorie(tauschartikelDTO.getKategorie());
 
 		return tauschartikel;
@@ -87,7 +89,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 		TauschartikelDTO tauschartikelDTO = new TauschartikelDTO(
 				tauschartikel.getAngebotsid(), tauschartikel.getBenutzer(),
 				tauschartikel.getTitel(), tauschartikel.getBeschreibung(),
-				tauschartikel.getStartDatum(), tauschartikel.getKategorie());
+				dateToString(tauschartikel.getStartDatum()), tauschartikel.getKategorie());
 
 		return tauschartikelDTO;
 	}

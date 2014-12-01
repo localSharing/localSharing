@@ -10,6 +10,8 @@ import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
+import static pandha.swe.localsharing.util.Datumsumwandler.dateToString;
+import static pandha.swe.localsharing.util.Datumsumwandler.stringToDate;
 
 @Service("ausleihartikelService")
 public class AusleihartikelServiceImpl implements AusleihartikelService {
@@ -26,13 +28,15 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	public List<Ausleihartikel> findAll() {
 		return ausleihartikelDao.findAll();
 	}
-	
+
 	@Override
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Ausleihartikel> ausleihartikelListe = ausleihartikelDao.findAllByBenutzer(benutzer);
+		List<Ausleihartikel> ausleihartikelListe = ausleihartikelDao
+				.findAllByBenutzer(benutzer);
 		List<AusleihartikelDTO> ausleihartikelDTOListe = new ArrayList<>();
-		for(Ausleihartikel ausleihartikel: ausleihartikelListe) {
-			ausleihartikelDTOListe.add(ausleihartikel_TO_AusleihartikelDTO(ausleihartikel));
+		for (Ausleihartikel ausleihartikel : ausleihartikelListe) {
+			ausleihartikelDTOListe
+					.add(ausleihartikel_TO_AusleihartikelDTO(ausleihartikel));
 		}
 		return ausleihartikelDTOListe;
 	}
@@ -58,9 +62,9 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
 				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
 				ausleihartikelDTO.getBeschreibung(),
-				ausleihartikelDTO.getStartDatum(),
-				ausleihartikelDTO.getEndDatum(), ausleihartikelDTO.getDauer(),
-				ausleihartikelDTO.getKategorie());
+				stringToDate(ausleihartikelDTO.getStartDatum()),
+				stringToDate(ausleihartikelDTO.getEndDatum()),
+				ausleihartikelDTO.getDauer(), ausleihartikelDTO.getKategorie());
 
 		save(ausleihartikel);
 
@@ -75,8 +79,10 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		ausleihartikel.setBenutzer(ausleihartikelDTO.getBenutzer());
 		ausleihartikel.setTitel(ausleihartikelDTO.getTitel());
 		ausleihartikel.setBeschreibung(ausleihartikelDTO.getBeschreibung());
-		ausleihartikel.setStartDatum(ausleihartikelDTO.getStartDatum());
-		ausleihartikel.setEndDatum(ausleihartikelDTO.getEndDatum());
+		ausleihartikel.setStartDatum(stringToDate(ausleihartikelDTO
+				.getStartDatum()));
+		ausleihartikel
+				.setEndDatum(stringToDate(ausleihartikelDTO.getEndDatum()));
 		ausleihartikel.setDauer(ausleihartikelDTO.getDauer());
 		ausleihartikel.setKategorie(ausleihartikelDTO.getKategorie());
 
@@ -90,7 +96,8 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		AusleihartikelDTO ausleihartikelDTO = new AusleihartikelDTO(
 				ausleihartikel.getAngebotsid(), ausleihartikel.getBenutzer(),
 				ausleihartikel.getTitel(), ausleihartikel.getBeschreibung(),
-				ausleihartikel.getStartDatum(), ausleihartikel.getEndDatum(),
+				dateToString(ausleihartikel.getStartDatum()),
+				dateToString(ausleihartikel.getEndDatum()),
 				ausleihartikel.getDauer(), ausleihartikel.getKategorie());
 
 		return ausleihartikelDTO;

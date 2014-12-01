@@ -1,7 +1,5 @@
 package pandha.swe.localsharing.model.dto;
 
-import java.util.Date;
-
 import javax.validation.constraints.Size;
 
 import pandha.swe.localsharing.model.Benutzer;
@@ -12,7 +10,7 @@ public class TauschartikelDTO extends AngebotDTO {
 	private String kategorie;
 
 	public TauschartikelDTO(Long id, Benutzer benutzer, String titel,
-			String beschreibung, Date startDatum, String kategorie) {
+			String beschreibung, String startDatum, String kategorie) {
 		super(id, benutzer, titel, beschreibung, startDatum);
 		this.kategorie = kategorie;
 	}

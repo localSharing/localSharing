@@ -10,6 +10,8 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
+import static pandha.swe.localsharing.util.Datumsumwandler.dateToString;
+import static pandha.swe.localsharing.util.Datumsumwandler.stringToDate;
 
 @Service("hilfeleistungService")
 public class HilfeleistungServiceImpl implements HilfeleistungService {
@@ -58,8 +60,8 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 		Hilfeleistung hilfeleistung = new Hilfeleistung(null,
 				hilfeleistungDTO.getBenutzer(), hilfeleistungDTO.getTitel(),
 				hilfeleistungDTO.getBeschreibung(),
-				hilfeleistungDTO.getStartDatum(),
-				hilfeleistungDTO.getEndDatum());
+				stringToDate(hilfeleistungDTO.getStartDatum()),
+				stringToDate(hilfeleistungDTO.getEndDatum()));
 
 		save(hilfeleistung);
 
@@ -74,8 +76,8 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 		hilfeleistung.setBenutzer(hilfeleistungDTO.getBenutzer());
 		hilfeleistung.setTitel(hilfeleistungDTO.getTitel());
 		hilfeleistung.setBeschreibung(hilfeleistungDTO.getBeschreibung());
-		hilfeleistung.setStartDatum(hilfeleistungDTO.getStartDatum());
-		hilfeleistung.setEndDatum(hilfeleistungDTO.getEndDatum());
+		hilfeleistung.setStartDatum(stringToDate(hilfeleistungDTO.getStartDatum()));
+		hilfeleistung.setEndDatum(stringToDate(hilfeleistungDTO.getEndDatum()));
 
 		return hilfeleistung;
 	}
@@ -87,7 +89,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 		HilfeleistungDTO hilfeleistungDTO = new HilfeleistungDTO(
 				hilfeleistung.getAngebotsid(), hilfeleistung.getBenutzer(),
 				hilfeleistung.getTitel(), hilfeleistung.getBeschreibung(),
-				hilfeleistung.getStartDatum(), hilfeleistung.getEndDatum());
+				dateToString(hilfeleistung.getStartDatum()), dateToString(hilfeleistung.getEndDatum()));
 
 		return hilfeleistungDTO;
 
