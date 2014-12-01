@@ -58,7 +58,7 @@ public class Ausleihartikel extends Angebot {
 
 	@Override
 	public String toString() {
-		return "Hilfeleistung [angebotsid = " + super.getAngebotsid()
+		return "Ausleihartikel [angebotsid = " + super.getAngebotsid()
 				+ ", benutzer = " + super.getBenutzer() + ", titel = "
 				+ super.getTitel() + ", beschreibung = "
 				+ super.getBeschreibung() + ", startDatum = "

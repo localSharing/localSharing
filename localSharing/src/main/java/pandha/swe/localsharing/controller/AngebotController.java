@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.Hilfeleistung;
+import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
@@ -143,12 +145,16 @@ public class AngebotController {
 		return "angebotEdit";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/ausleihen")
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/ausleihen")
 	public String saveAusleihartikel(
-			@ModelAttribute("angebot") AusleihartikelDTO angebot, Model model,
-			Principal principal) {
+			@ModelAttribute("angebot") AusleihartikelDTO angebot,
+			@PathVariable("id") String id, Model model, Principal principal) {
 
 		System.out.println(angebot);
+
+		Benutzer user = getUser(principal);
+
+		angebot.setBenutzer(user);
 
 		Ausleihartikel ausleihartikel = ausleihartikelService
 				.ausleihartikelDTO_TO_Ausleihartikel(angebot);
@@ -157,7 +163,131 @@ public class AngebotController {
 
 		ausleihartikelService.update(ausleihartikel);
 
-		return "redirect:../angebote";
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/tauschen")
+	public String saveAusleihartikel(
+			@ModelAttribute("angebot") TauschartikelDTO angebot,
+			@PathVariable("id") String id, Model model, Principal principal) {
+
+		System.out.println(angebot);
+
+		Benutzer user = getUser(principal);
+
+		angebot.setBenutzer(user);
+
+		Tauschartikel artikel = tauschartikelService
+				.tauschartikelDTO_TO_Tauschartikel(angebot);
+
+		tauschartikelService.update(artikel);
+
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/helfen")
+	public String saveAusleihartikel(
+			@ModelAttribute("angebot") HilfeleistungDTO angebot,
+			@PathVariable("id") String id, Model model, Principal principal) {
+
+		System.out.println(angebot);
+
+		Benutzer user = getUser(principal);
+
+		angebot.setBenutzer(user);
+
+		Hilfeleistung hilfe = hilfeleistungService
+				.hilfeleistungDTO_TO_Hilfeleistung(angebot);
+
+		hilfeleistungService.update(hilfe);
+
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/ausleihen")
+	public String deleteAusleihartikel(@PathVariable("id") String id,
+			Model model, Principal principal) {
+
+		System.out.println("-----------DELETE-------------");
+
+		Ausleihartikel ausleihartikel = ausleihartikelService
+				.findById(new Long(id));
+
+		System.out.println(ausleihartikel);
+
+		ausleihartikelService.delete(ausleihartikel);
+
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/tauschen")
+	public String deleteTauschartikel(
+			@ModelAttribute("angebot") TauschartikelDTO angebot,
+			@PathVariable("id") String id, Model model, Principal principal) {
+
+		System.out.println(angebot);
+
+		Benutzer user = getUser(principal);
+
+		angebot.setBenutzer(user);
+
+		Tauschartikel artikel = tauschartikelService
+				.tauschartikelDTO_TO_Tauschartikel(angebot);
+
+		System.out.println(artikel);
+
+		tauschartikelService.delete(artikel);
+
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
+	public String deleteTauschartikel(@PathVariable("id") String id,
+			Model model, Principal principal) {
+
+		System.out.println("-----------DELETE-------------");
+
+		Tauschartikel artikel = tauschartikelService.findById(new Long(id));
+
+		System.out.println(artikel);
+
+		tauschartikelService.delete(artikel);
+
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/helfen")
+	public String deleteHilfeleistung(
+			@ModelAttribute("angebot") HilfeleistungDTO angebot,
+			@PathVariable("id") String id, Model model, Principal principal) {
+
+		System.out.println(angebot);
+
+		Benutzer user = getUser(principal);
+
+		angebot.setBenutzer(user);
+
+		Hilfeleistung artikel = hilfeleistungService
+				.hilfeleistungDTO_TO_Hilfeleistung(angebot);
+
+		hilfeleistungService.delete(artikel);
+
+		return "redirect:../../angebote";
+	}
+
+	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
+	public String deleteHilfeleistung(@PathVariable("id") String id,
+			Model model, Principal principal) {
+
+		System.out.println("-----------DELETE-------------");
+
+		Hilfeleistung artikel = hilfeleistungService.findById(new Long(id));
+
+		System.out.println(artikel);
+
+		hilfeleistungService.delete(artikel);
+
+		return "redirect:../../angebote";
 	}
 
 	private Benutzer getUser(Principal principal) {
