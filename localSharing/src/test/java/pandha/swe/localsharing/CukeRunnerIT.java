@@ -14,7 +14,7 @@ format = { "pretty",
 
 "html:target/cucumber-html-report", "json:target/cucumber.json",
 
-"junit:target/cucumber-junit-report/allcukes.xml"
+"junit:target/cucumber-junit-report/allcukes.xml", "json:target/cucumber.json"
 
 }
 
