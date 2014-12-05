@@ -15,11 +15,15 @@
 	<div class="container">
 		<h1 th:inline="text">Hallo User
 			[[${#httpServletRequest.remoteUser}]]!</h1>
-		<form th:action="@{/logout}" method="post">
-			<button id="btnLogin" name="btnLogin" type="submit"
-				class="btn btn-success">Sign Out</button>
-		</form>
-		<br />
+
+		<div class="pull-right">
+			<form th:action="@{/logout}" method="post">
+				<button id="btnLogin" name="btnLogin" type="submit"
+					class="btn btn-success">
+					<span class="glyphicon glyphicon-log-out"></span> Logout
+				</button>
+			</form>
+		</div>
 		<form th:action="@{/profil}" method="get">
 			<button id="btnProfil" type="submit" class="btn btn-success">Profil</button>
 		</form>

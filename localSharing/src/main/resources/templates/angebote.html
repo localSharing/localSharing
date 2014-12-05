@@ -16,6 +16,8 @@
 <body>
 
 	<div class="container">
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
 		<h2>Angebotsübersicht</h2>
 
 		<div class="jumbotron">
@@ -36,8 +38,10 @@
 
 			<div class="col-md-4">
 				<form th:action="@{/angebotNeu/ausleihen}" method="get">
-					<button id="btnAngebot" class="btn btn-success">neuer
-						Ausleihartikel</button>
+					<button id="btnAngebot" class="btn btn-success">
+						<span class="glyphicon glyphicon-plus"></span> neuer
+						Ausleihartikel
+					</button>
 				</form>
 			</div>
 		</div>
@@ -60,8 +64,9 @@
 
 			<div class="col-md-4">
 				<form th:action="@{/angebotNeu/tauschen}" method="get">
-					<button id="btnAngebot" class="btn btn-success">neuer
-						Tauschartikel</button>
+					<button id="btnAngebot" class="btn btn-success">
+						<span class="glyphicon glyphicon-plus"></span> neuer Tauschartikel
+					</button>
 				</form>
 			</div>
 		</div>
@@ -85,17 +90,12 @@
 
 			<div class="col-md-4">
 				<form th:action="@{/angebotNeu/helfen}" method="get">
-					<button id="btnAngebot" class="btn btn-success">neue
-						Hilfeleistung</button>
+					<button id="btnAngebot" class="btn btn-success">
+						<span class="glyphicon glyphicon-plus"></span> neue Hilfeleistung
+					</button>
 				</form>
 			</div>
 		</div>
-		<div class="col-md-4">
-			<form th:action="@{/startPage}" method="get">
-				<button id="btnZurueck" class="btn btn-success">Startseite</button>
-			</form>
-		</div>
-
 
 	</div>
 </body>

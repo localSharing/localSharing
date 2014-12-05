@@ -16,6 +16,8 @@
 <body>
 
 	<div class="container">
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
 		<h2>Dein Profil</h2>
 
 		<div class="row">
@@ -29,7 +31,9 @@
 				</div>
 				<div class="col-md-4">
 					<form th:action="@{/profilEdit}" method="get">
-						<button id="btnProfilBearbeiten" class="btn btn-success">Bearbeiten</button>
+						<button id="btnProfilBearbeiten" class="btn btn-success">
+							<span class="glyphicon glyphicon-edit"></span> Bearbeiten
+						</button>
 					</form>
 				</div>
 			</div>
@@ -109,11 +113,6 @@
 			</div>
 		</div>
 
-		<div class="col-md-4">
-			<form th:action="@{/startPage}" method="get">
-				<button id="btnStart" class="btn btn-success">Startseite</button>
-			</form>
-		</div>
 	</div>
 </body>
 </html>

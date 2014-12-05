@@ -16,6 +16,10 @@
 <body>
 
 	<div class="container">
+
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+
 		<h2>Dein Profil bearbeiten</h2>
 
 
@@ -38,7 +42,9 @@
 					</div>
 					<div class="col-md-4">
 						<button id="btnSave" name="btnSave" type="submit"
-							class="btn btn-success">Speichern</button>
+							class="btn btn-success">
+							<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+						</button>
 					</div>
 				</div>
 				<div class="col-md-8">
@@ -152,10 +158,14 @@
 
 		</form>
 
-		<div class="col-md-4">
-			<form th:action="@{/profil}" method="get">
-				<button id="btnCancel" name="btnCancel" class="btn btn-danger">Abbrechen</button>
-			</form>
+		<div class="col-md-8 col-md-offset-4">
+			<div class="pull-right">
+				<form th:action="@{/profil}" method="get">
+					<button id="btnCancel" name="btnCancel" class="btn btn-danger">
+						<span class="glyphicon glyphicon-remove"></span> Abbrechen
+					</button>
+				</form>
+			</div>
 		</div>
 	</div>
 </body>

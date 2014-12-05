@@ -15,6 +15,10 @@
 <body>
 
 	<div class="container">
+
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+
 		<h2>Angebot bearbeiten</h2>
 
 		<form class="form-horizontal" method="post" id="form"
@@ -34,19 +38,25 @@
 					<div class="col-md-4">
 						<div th:if="${ausleihen != null}">
 							<button id="btnAngebotBearbeiten" class="btn btn-success"
-								type="submit" onclick="javascript:save('ausleihen')">Speichern</button>
+								type="submit" onclick="javascript:save('ausleihen')">
+								<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+							</button>
 
 						</div>
 
 						<div th:if="${tauschen != null}">
 							<button id="btnAngebotBearbeiten" class="btn btn-success"
-								type="submit" onclick="javascript:save('tauschen')">Speichern</button>
+								type="submit" onclick="javascript:save('tauschen')">
+								<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+							</button>
 
 						</div>
 
 						<div th:if="${helfen != null}">
 							<button id="btnAngebotBearbeiten" class="btn btn-success"
-								type="submit" onclick="javascript:save('helfen')">Speichern</button>
+								type="submit" onclick="javascript:save('helfen')">
+								<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+							</button>
 
 						</div>
 
@@ -106,9 +116,11 @@
 			</div>
 		</form>
 
-		<div class="col-md-4">
+		<div class="pull-right">
 			<form th:action="@{/angebote}" method="get">
-				<button id="btnAngebote" class="btn btn-danger">Abbrechen</button>
+				<button id="btnAngebote" class="btn btn-danger">
+					<span class="glyphicon glyphicon-remove"></span> Abbrechen
+				</button>
 			</form>
 		</div>
 	</div>

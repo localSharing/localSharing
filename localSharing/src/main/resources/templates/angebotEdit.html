@@ -15,6 +15,8 @@
 <body>
 
 	<div class="container">
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
 		<h2>Angebot bearbeiten</h2>
 
 		<form class="form-horizontal" method="post" id="form"
@@ -44,19 +46,25 @@
 						<div th:if="${dauer != null}">
 							<button id="btnAngebotBearbeiten" class="btn btn-success"
 								onclick="javascript:save(ausleihen)"
-								th:onclick="${'javascript:save(' + angebot.id + ', ausleihen)'}">Speichern</button>
+								th:onclick="${'javascript:save(' + angebot.id + ', ausleihen)'}">
+								<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+							</button>
 
 						</div>
 
 						<div th:if="${endDatum == null}">
 							<button id="btnAngebotBearbeiten" class="btn btn-success"
-								th:onclick="${'javascript:save(' + angebot.id + ', tauschen)'}">Speichern</button>
+								th:onclick="${'javascript:save(' + angebot.id + ', tauschen)'}">
+								<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+							</button>
 
 						</div>
 
 						<div th:if="${kategorie == null}">
 							<button id="btnAngebotBearbeiten" class="btn btn-success"
-								onclick="${'javascript:save(' + angebot.id + ', helfen)'}">Speichern</button>
+								onclick="${'javascript:save(' + angebot.id + ', helfen)'}">
+								<span class="glyphicon glyphicon-floppy-saved"></span> Speichern
+							</button>
 
 						</div>
 
@@ -145,29 +153,41 @@
 
 			</div>
 		</form>
-		<div class="col-md-4">
+		<div class="col-md-8 col-md-offset-4">
+			<div class="pull-right">
+				<form th:action="@{/angebote}" method="get">
+					<button id="btnAngebote" class="btn btn-danger">
+						<span class="glyphicon glyphicon-remove"></span> Abbrechen
+					</button>
+				</form>
+			</div>
 			<form th:if="${dauer != null}"
 				th:action="${'../../delete/' + angebot.id + '/ausleihen'}"
 				method="get">
-				<button id="btnAngebotLoeschen" class="btn btn-danger">Löschen</button>
+				<button id="btnAngebotLoeschen" class="btn btn-danger">
+					<span class="glyphicon glyphicon-trash"></span> Löschen
+				</button>
 			</form>
+
 			<form th:if="${endDatum == null}"
 				th:action="${'../../delete/' + angebot.id + '/tauschen'}"
 				method="get">
-				<button id="btnAngebotLoeschen" class="btn btn-danger">Löschen</button>
+				<button id="btnAngebotLoeschen" class="btn btn-danger">
+					<span class="glyphicon glyphicon-trash"></span> Löschen
+				</button>
 			</form>
 			<form th:if="${kategorie == null}"
 				th:action="${'../../delete/' + angebot.id + '/helfen'}" method="get">
-				<button id="btnAngebotLoeschen" class="btn btn-danger">Löschen</button>
+				<button id="btnAngebotLoeschen" class="btn btn-danger">
+					<span class="glyphicon glyphicon-trash"></span> Löschen
+				</button>
 			</form>
+
+
 		</div>
 
-		<div class="col-md-4">
-			<form th:action="@{/angebote}" method="get">
-				<button id="btnAngebote" class="btn btn-danger">Abbrechen</button>
-			</form>
-		</div>
 	</div>
+
 
 	<script type="text/javascript">
 		function save(var id, var type) {
