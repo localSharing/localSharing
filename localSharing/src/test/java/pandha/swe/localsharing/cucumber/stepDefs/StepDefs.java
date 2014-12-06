@@ -1,11 +1,9 @@
 package pandha.swe.localsharing.cucumber.stepDefs;
 
 import static org.junit.Assert.assertEquals;
-
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
-
 import pandha.swe.localsharing.SeleniumTestMethods;
+import cucumber.api.java.After;
+import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
@@ -347,8 +345,8 @@ public class StepDefs {
 		method.write_InElementWithID("titel", arg1);
 	}
 
-	@When("^I change the descriptio to \"([^\"]*)\" on the borrow offer edit page$")
-	public void I_change_the_descriptio_to_on_the_borrow_offer_edit_page(
+	@When("^I change the description to \"([^\"]*)\" on the borrow offer edit page$")
+	public void I_change_the_description_to_on_the_borrow_offer_edit_page(
 			String arg1) throws Throwable {
 		method.write_InElementWithID("beschreibung", arg1);
 	}
@@ -399,17 +397,105 @@ public class StepDefs {
 		assertEquals(false, method.isElementWithTextOnThePage(arg1));
 	}
 
-	@BeforeClass
+	@Before
 	public void up() throws Exception {
 		method.setUp();
-
 	}
 
-	@AfterClass
+	@After
 	public void tearDown() throws Exception {
-
 		method.tearDown();
+	}
 
+	@When("^I choose \"([^\"]*)\" as end date on the new service offer page$")
+	public void I_choose_as_end_date_on_the_new_service_offer_page(String arg1)
+			throws Throwable {
+		method.write_InElementWithID("endDatum", arg1);
+	}
+
+	@Then("^I can see a service offer with \"([^\"]*)\" as title on my offer page$")
+	public void I_can_see_a_service_offer_with_as_title_on_my_offer_page(
+			String arg1) throws Throwable {
+		assertEquals(true, method.isElementWithTextOnThePage(arg1));
+	}
+
+	@When("^I click on the service offer with \"([^\"]*)\" as title on my offer page$")
+	public void I_click_on_the_service_offer_with_as_title_on_my_offer_page(
+			String arg1) throws Throwable {
+		method.click_tableRow(arg1);
+	}
+
+	@When("^I change the title to \"([^\"]*)\" on the service offer edit page$")
+	public void I_change_the_title_to_on_the_service_offer_edit_page(String arg1)
+			throws Throwable {
+		method.write_InElementWithID("titel", arg1);
+	}
+
+	@When("^I change the description to \"([^\"]*)\" on the service offer edit page$")
+	public void I_change_the_description_to_on_the_service_offer_edit_page(
+			String arg1) throws Throwable {
+		method.write_InElementWithID("beschreibung", arg1);
+	}
+
+	@When("^I change the startdate to \"([^\"]*)\" on the service offer edit page$")
+	public void I_change_the_startdate_to_on_the_service_offer_edit_page(
+			String arg1) throws Throwable {
+		method.write_InElementWithID("startDatum", arg1);
+	}
+
+	@When("^I change the endate to \"([^\"]*)\" on the service offer edit page$")
+	public void I_change_the_endate_to_on_the_service_offer_edit_page(
+			String arg1) throws Throwable {
+		method.write_InElementWithID("endDatum", arg1);
+	}
+
+	@Then("^I can not see a service offer with \"([^\"]*)\" as title on my offer page$")
+	public void I_can_not_see_a_service_offer_with_as_title_on_my_offer_page(
+			String arg1) throws Throwable {
+
+		assertEquals(false, method.isElementWithTextOnThePage(arg1));
+	}
+
+	@Then("^I can see a exchange offer with \"([^\"]*)\" as title on my offer page$")
+	public void I_can_see_a_exchange_offer_with_as_title_on_my_offer_page(
+			String arg1) throws Throwable {
+		assertEquals(true, method.isElementWithTextOnThePage(arg1));
+	}
+
+	@When("^I click on the exchange offer with \"([^\"]*)\" as title on my offer page$")
+	public void I_click_on_the_exchange_offer_with_as_title_on_my_offer_page(
+			String arg1) throws Throwable {
+		method.click_tableRow(arg1);
+	}
+
+	@When("^I change the title to \"([^\"]*)\" on the exchange offer edit page$")
+	public void I_change_the_title_to_on_the_exchange_offer_edit_page(
+			String arg1) throws Throwable {
+		method.write_InElementWithID("titel", arg1);
+	}
+
+	@When("^I change the description to \"([^\"]*)\" on the exchange offer edit page$")
+	public void I_change_the_description_to_on_the_exchange_offer_edit_page(
+			String arg1) throws Throwable {
+		method.write_InElementWithID("beschreibung", arg1);
+	}
+
+	@When("^I change the startdate to \"([^\"]*)\" on the exchange offer edit page$")
+	public void I_change_the_startdate_to_on_the_exchange_offer_edit_page(
+			String arg1) throws Throwable {
+		method.write_InElementWithID("startDatum", arg1);
+	}
+
+	@Then("^I can not see a exchange offer with \"([^\"]*)\" as title on my offer page$")
+	public void I_can_not_see_a_exchange_offer_with_as_title_on_my_offer_page(
+			String arg1) throws Throwable {
+		assertEquals(false, method.isElementWithTextOnThePage(arg1));
+	}
+
+	@When("^I enter \"([^\"]*)\" as category on the new exchange offer page$")
+	public void I_enter_as_category_on_the_new_exchange_offer_page(String arg1)
+			throws Throwable {
+		method.write_InElementWithID("kategorie", arg1);
 	}
 
 }

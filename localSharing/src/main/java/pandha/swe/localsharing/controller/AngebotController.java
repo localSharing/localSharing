@@ -271,11 +271,8 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
-	public String deleteTauschartikel(
-			@PathVariable("id") String id,
-			Model model,
-			Principal principal,
-			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
+	public String deleteTauschartikel(@PathVariable("id") String id,
+			Model model, Principal principal) {
 
 		System.out.println("-----------DELETE-------------");
 

@@ -10,7 +10,7 @@ Feature: Ausleih-Angebote verwalten
 
   Scenario: Create borrow offer for an item to be borrowed
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    When I click on "Angebote" on the start page
+    When I click on "Eigene Angebote" on the start page
     And I click on "neuer Ausleihartikel" on my offer page
     And I enter "Inception" as titel
     And I enter "DVD" as category on the new borrow offer page
@@ -28,7 +28,7 @@ Feature: Ausleih-Angebote verwalten
     And I click on the borrow offer with "96 Hours" as title on my offer page
     And I click on "Bearbeiten" on the offer page
     And I change the title to "72 Hours" on the borrow offer edit page
-    And I change the descriptio to "BluRay, kaum gebraucht" on the borrow offer edit page
+    And I change the description to "BluRay, kaum gebraucht" on the borrow offer edit page
     And I change the startdate to "08.12.2014" on the borrow offer edit page
     And I change the endate to "20.12.2014" on the borrow offer edit page
     And I change the duration to "3" days on the borrow offer edit page
@@ -45,14 +45,15 @@ Feature: Ausleih-Angebote verwalten
     And I click on "Abbrechen" on the edit offer page
     Then I can see my offer page
     And I can see a borrow offer with "96 Hours" as title on my offer page
-
+    
+    
   Scenario: Edit borrow offer
     Given I am logged in as "tester@cucumber.de" with password "12345678"
     When I click on "Eigene Angebote" on the start page
     And I click on the borrow offer with "96 Hours" as title on my offer page
     And I click on "Bearbeiten" on the offer page
     And I change the title to "72 Hours" on the borrow offer edit page
-    And I change the descriptio to "BluRay, kaum gebraucht" on the borrow offer edit page
+    And I change the description to "BluRay, kaum gebraucht" on the borrow offer edit page
     And I change the startdate to "08.12.2014" on the borrow offer edit page
     And I change the endate to "20.12.2014" on the borrow offer edit page
     And I change the duration to "3" days on the borrow offer edit page

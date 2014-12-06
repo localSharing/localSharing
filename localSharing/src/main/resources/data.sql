@@ -27,12 +27,13 @@ insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, B
 insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('2', 'Ich bin gerne behilflich bei Fragen zu Algorithmen, vor allem theoretischer Natur. Lassen Sie mich ihr O-Kalkül mithilfe der Induktion berechnen!', '2014-12-02', 'Theoretische Informatik', '1', '2015-11-30');
 insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('3', 'Ich bin nett und gehe gerne für meine Mitmenschen einkaufen, wenn ich sowieso schon dabei bin. Bitte rechtzeitig anfragen - ich gehe weder für 5 Leute gleichzeitig einkaufen noch für ein großes Fest. Ansonsten helfe ich gerne :D', '2014-12-02', 'Einkaufen', '5', '2015-12-02');
 insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('4', 'If you need any help regarding "Obamacare" just get in touch with me. I will do my best at helping you out!', '2014-12-02', 'Obamacare FAQ', '6', '2015-12-02');
+
 --Tauschartikel
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('1', 'Geschirrset (Teller, Tassen, Schüsseln) von 1880. Zeigt Gebrauchsspuren, sonst guter Zustand. Für weitere Infos, bitte kontaktieren.', '2014-11-29', 'Geschirrset', '7', 'Küche');
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('2', 'Stehlampe der Firma ShineDesign. Modernes Design, Lampenschirm aus Holz.', '2014-12-05', 'Stehlampe', '4', 'Wohnen');
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('3', 'Kalender von 2011. Mottokalender "Natur". Tolle Bilder, auch 2015.', '2014-12-05', 'Kalender (2011, Natur)', '1', 'Dekoration');
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('4', 'Ein paar Larven, von Timon und Pumba gefangen. Seeehr lecker. Hakuna Matata!', '2014-12-06', 'Larven', '5', 'Essen');
-insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('5', 'MarcoPolo-Reiseführer für Rom (8. Auflage, 2013). Tausche gerne gegen andere Reiseführer :)', '2014-12-07', 'Rom: Marco-Polo-Reiseführer', '7', 'Reisen');
+insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('5', 'MarcoPolo-Reiseführer für Rom (8. Auflage, 2013). Tausche gerne gegen andere Reiseführer :)', '2014-12-07', 'Rom: Marco-Polo-Reiseführer', '3', 'Reisen');
 --ID
 insert into PUBLIC.HIBERNATE_SEQUENCES (SEQUENCE_NAME, SEQUENCE_NEXT_HI_VALUE) values ('Angebot', '30');
 

@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class SeleniumTestMethods {
 
@@ -17,15 +16,9 @@ public class SeleniumTestMethods {
 
 	private static String baseUrl = "http://localhost:8090/";
 
-	
 	public void setUp() throws Exception {
-
-		FirefoxProfile profile = new FirefoxProfile();
-		profile.setEnableNativeEvents(false);
-
-		driver = new FirefoxDriver(profile);
-
-		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+		driver = new FirefoxDriver();
+		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 
 	}
 
@@ -202,5 +195,4 @@ public class SeleniumTestMethods {
 		driver.close();
 		driver.quit();
 	}
-
 }
