@@ -25,8 +25,8 @@
 			<table class="table">
 
 				<tr th:each="artikel : ${artikelListA}"
-					onclick="window.location.href='/angebot/1';"
-					th:onclick="${'window.location.href='+'''/angebot/' + artikel.id + '/ausleihen' +''';'}">
+					onclick="window.location='/angebot/1';"
+					th:onclick="${'window.open('+'''/angebot/' + artikel.id + '/ausleihen' +''',''_self'');'}">
 					<!--  th:onclick="${'window.location.href = /angebot/' + artikel.id} + ';'"-->
 					<td><span th:text="${artikel.titel}"></span></td>
 					<td><span th:text="${artikel.kategorie}"></span></td>
@@ -38,9 +38,8 @@
 
 			<div class="col-md-4">
 				<form th:action="@{/angebotNeu/ausleihen}" method="get">
-					<button id="btnAngebot" class="btn btn-success">
-						<span class="glyphicon glyphicon-plus"></span> neuer
-						Ausleihartikel
+					<button id="btnAusleih" class="btn btn-success">
+						<span class="glyphicon glyphicon-plus"></span>neuer Ausleihartikel
 					</button>
 				</form>
 			</div>
@@ -64,7 +63,7 @@
 
 			<div class="col-md-4">
 				<form th:action="@{/angebotNeu/tauschen}" method="get">
-					<button id="btnAngebot" class="btn btn-success">
+					<button id="btnTausch" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span> neuer Tauschartikel
 					</button>
 				</form>
@@ -90,7 +89,7 @@
 
 			<div class="col-md-4">
 				<form th:action="@{/angebotNeu/helfen}" method="get">
-					<button id="btnAngebot" class="btn btn-success">
+					<button id="btnHelfen" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span> neue Hilfeleistung
 					</button>
 				</form>

@@ -9,8 +9,7 @@ Feature: Login
     When I enter "tester@cucumber.de" as username
     And I enter "12345678" as Password
     And I click on "Login"
-    Then I am a logged in user
-    And I can see the mainpage
+    Then I can see the mainpage
 
   Scenario: Login with wrong credentials
     Given I am not logged in yet

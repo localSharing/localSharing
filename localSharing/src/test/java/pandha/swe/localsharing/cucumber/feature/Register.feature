@@ -4,7 +4,7 @@ Feature: Register
   so that i am a registered user.
 
   Scenario: Register
-    Given I am not logged in
+    Given I am not logged in yet
     And I am on the Register Page
     When I enter "Bart" as my first name
     And I enter "Simpson" as my surname
@@ -19,7 +19,7 @@ Feature: Register
     Then I can see the login page
 
   Scenario: Register with used email-adress
-    Given I am not logged in
+    Given I am not logged in yet
     And I am on the Register Page
     When I enter "Bart" as my first name
     And I enter "Simpson" as my surname
@@ -35,7 +35,7 @@ Feature: Register
     And I can try to register again
 
   Scenario: Register with diffrent passwords
-    Given I am not logged in
+    Given I am not logged in yet
     And I am on the Register Page
     When I enter "Bart" as my first name
     And I enter "Simpson" as my surname

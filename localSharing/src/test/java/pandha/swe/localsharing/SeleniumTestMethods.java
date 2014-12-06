@@ -3,44 +3,29 @@ package pandha.swe.localsharing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
 
-import org.junit.After;
-import org.junit.Before;
 import org.openqa.selenium.By;
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
 
 public class SeleniumTestMethods {
 
-	private WebDriver driver;
+	private FirefoxDriver driver;
 
 	private static String baseUrl = "http://localhost:8090/";
 
-	@Before
+	
 	public void setUp() throws Exception {
 
-		FirefoxDriver fr = new FirefoxDriver();
+		FirefoxProfile profile = new FirefoxProfile();
+		profile.setEnableNativeEvents(false);
 
-		fr.setLogLevel(Level.SEVERE);
+		driver = new FirefoxDriver(profile);
 
-		driver = fr;
-
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
-
-		driver.manage().window().maximize();
-
-		Capabilities caps = ((RemoteWebDriver) driver).getCapabilities();
-
-		String browserName = caps.getBrowserName();
-
-		String browserVersion = caps.getVersion();
-
-		System.out.println("Selenium Test gestartet mit" + browserName + " "
-				+ browserVersion);
+		driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
 
 	}
 
@@ -59,29 +44,56 @@ public class SeleniumTestMethods {
 
 	}
 
-	public void checkIfIamLoggedIn() {
-		// Eingeloggt User werden zur StartPage weiter geleitet, unagemeldete
-		// user müssen sich erst anmelden
-		checkPage("startPage");
+	public void click_Element(By by) {
+		driver.findElement(by).click();
 	}
 
-	public void login_writeUsername(String username) {
-		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys(username);
+	public void click_ElementWithText(String text) {
+
+		String[] tags = { "button", "a" };
+
+		String xpath = "(";
+
+		for (int i = 0; i < tags.length; i++) {
+
+			if (i > 0) {
+				xpath += " | ";
+			}
+
+			xpath += "//";
+			xpath += tags[i];
+			xpath += "[contains(normalize-space(.),\"";
+			xpath += text;
+			xpath += "\")]";
+
+		}
+
+		xpath += ")";
+
+		By by = By.xpath(xpath);
+		driver.findElement(by).click();
 	}
 
-	public void login_writePassword(String password) {
-		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys(password);
+	public void click_tableRow(String text) {
+
+		String xpath = "(";
+
+		xpath += "//td[(.)/span[contains(normalize-space(.),\"" + text
+				+ "\")]]";
+		xpath += ")";
+
+		By by = By.xpath(xpath);
+
+		driver.findElement(by).click();
 
 	}
 
-	public void click_Button(String id) {
-		driver.findElement(By.id(id)).click();
-	}
+	public void write_InElementWithID(String id, String arg1) {
+		By element = By.id(id);
 
-	public void click_Link(String id) {
-		driver.findElement(By.linkText(id)).click();
+		driver.findElement(element).clear();
+		driver.findElement(element).sendKeys(arg1);
+
 	}
 
 	public void checkPage(String url) {
@@ -97,7 +109,15 @@ public class SeleniumTestMethods {
 	}
 
 	public void checkNotPage(String url) {
-		assertFalse(getFullUrl(url).equals(driver.getCurrentUrl()));
+		// Parameter entfernen
+		String actualUrl = driver.getCurrentUrl();
+
+		if (actualUrl.contains("?")) {
+			int index = actualUrl.indexOf("?");
+			actualUrl = actualUrl.substring(0, index);
+		}
+
+		assertFalse(getFullUrl(url).equals(actualUrl));
 	}
 
 	public void goToHomePage() {
@@ -117,11 +137,6 @@ public class SeleniumTestMethods {
 		return baseUrl + urlPart;
 	}
 
-	@After
-	public void tearDown() {
-		driver.quit();
-	}
-
 	public SeleniumTestMethods() {
 		try {
 			setUp();
@@ -131,198 +146,61 @@ public class SeleniumTestMethods {
 		}
 	}
 
-	public void checkIfIamNotLoggedIn() {
-		// TODO Auto-generated method stub
-
-	}
-
-	public void register_write_firstname(String arg1) {
-		driver.findElement(By.id("vorname")).clear();
-		driver.findElement(By.id("vorname")).sendKeys(arg1);
-	}
-
-	public void register_write_surname(String arg1) {
-		driver.findElement(By.id("nachname")).clear();
-		driver.findElement(By.id("nachname")).sendKeys(arg1);
-	}
-
-	public void register_write_street(String arg1) {
-		driver.findElement(By.id("strasse")).clear();
-		driver.findElement(By.id("strasse")).sendKeys(arg1);
-	}
-
-	public void register_write_housnumber(String arg1) {
-		driver.findElement(By.id("hausnummer")).clear();
-		driver.findElement(By.id("hausnummer")).sendKeys(arg1);
-	}
-
-	public void register_write_zipcode(String arg1) {
-		driver.findElement(By.id("plz")).clear();
-		driver.findElement(By.id("plz")).sendKeys(arg1);
-	}
-
-	public void register_write_city(String arg1) {
-		driver.findElement(By.id("stadt")).clear();
-		driver.findElement(By.id("stadt")).sendKeys(arg1);
-	}
-
-	public void register_write_phone(String arg1) {
-		driver.findElement(By.id("telefonNummer")).clear();
-		driver.findElement(By.id("telefonNummer")).sendKeys(arg1);
-	}
-
-	public void register_write_email(String arg1) {
-		driver.findElement(By.id("email")).clear();
-		driver.findElement(By.id("email")).sendKeys(arg1);
-	}
-
-	public void register_write_password1(String arg1) {
-		driver.findElement(By.id("password1")).clear();
-		driver.findElement(By.id("password1")).sendKeys(arg1);
-	}
-
-	public void register_write_password2(String arg1) {
-		driver.findElement(By.id("password2")).clear();
-		driver.findElement(By.id("password2")).sendKeys(arg1);
-	}
-
-	public void register_select_gender(String arg1) {
-
-	}
-
-	public void register_error_email() {
-		assertEquals("Email wird bereits verwendet!",
+	public void check_errorMessage_BY_CssAlertDanger(String message) {
+		assertEquals(message,
 				driver.findElement(By.cssSelector("div.alert.alert-danger"))
 						.getText());
 	}
 
-	public void register_error_password() {
-
-		assertEquals("Passwörter stimmen nicht überein!",
-				driver.findElement(By.cssSelector("div.alert.alert-danger"))
-						.getText());
+	public String getText_BY(By element) {
+		return driver.findElement(element).getText();
 	}
 
-	public void register_click_register() {
-		driver.findElement(By.id("btnRegister")).click();
+	public void assert_ElementText(String arg1, By by) {
+		WebElement element = driver.findElement(by);
+
+		assertEquals(arg1, element.getText());
 	}
 
-	public void profil_click_bearbeiten() {
-		driver.findElement(By.id("btnProfilBearbeiten")).click();
-	}
-
-	public void profil_check_vorname(String string) {
-		assertEquals(string, driver.findElement(By.cssSelector("span"))
-				.getText());
-	}
-
-	public void profil_check_nachname(String string) {
-		assertEquals(string, driver.findElement(By.xpath("//td[4]/span"))
-				.getText());
-	}
-
-	public void profil_check_strasse(String string) {
-		assertEquals(string, driver.findElement(By.xpath("//tr[2]/td[2]/span"))
-				.getText());
-	}
-
-	public void profil_check_hausnummer(String string) {
-		assertEquals(string, driver.findElement(By.xpath("//tr[2]/td[4]/span"))
-				.getText());
-	}
-
-	public void profil_check_plz(String string) {
-		assertEquals(string, driver.findElement(By.xpath("//tr[3]/td[2]/span"))
-				.getText());
-	}
-
-	public void profil_check_stadt(String string) {
-		assertEquals(string, driver.findElement(By.xpath("//tr[3]/td[4]/span"))
-				.getText());
-	}
-
-	public void profil_check_tel(String string) {
-		assertEquals(
-				string,
-				driver.findElement(
-						By.xpath("//div[2]/table/tbody/tr/td[2]/span"))
-						.getText());
-	}
-
-	public void profil_check_email(String string) {
-		assertEquals(
-				string,
-				driver.findElement(
-						By.xpath("//div[2]/table/tbody/tr[2]/td[2]/span"))
-						.getText());
-	}
-
-	public void profiledit_click_abbrechen() {
-		driver.findElement(By.id("btnCancel")).click();
-	}
-
-	public void profiledit_click_save() {
-		driver.findElement(By.id("btnSave")).click();
-	}
-
-	public void profiledit_write_vorname(String string) {
-		driver.findElement(By.id("vorname")).clear();
-		driver.findElement(By.id("vorname")).sendKeys(string);
-	}
-
-	public void profiledit_write_nachname(String string) {
-		driver.findElement(By.id("nachname")).clear();
-		driver.findElement(By.id("nachname")).sendKeys(string);
-	}
-
-	public void profiledit_write_strasse(String string) {
-		driver.findElement(By.id("strasse")).clear();
-		driver.findElement(By.id("strasse")).sendKeys(string);
-	}
-
-	public void profiledit_write_hausnummer(String string) {
-		driver.findElement(By.id("hausnummer")).clear();
-		driver.findElement(By.id("hausnummer")).sendKeys(string);
-	}
-
-	public void profiledit_write_plz(String string) {
-		driver.findElement(By.id("plz")).clear();
-		driver.findElement(By.id("plz")).sendKeys(string);
-	}
-
-	public void profiledit_write_stadt(String string) {
-		driver.findElement(By.id("stadt")).clear();
-		driver.findElement(By.id("stadt")).sendKeys(string);
-	}
-
-	public void profiledit_write_tel(String string) {
-		driver.findElement(By.id("telefonNummer")).clear();
-		driver.findElement(By.id("telefonNummer")).sendKeys(string);
-	}
-
-	public void profiledit_write_email(String string) {
-
+	public void assert_ElementText_By_Id(String arg1, String id) {
+		assert_ElementText(arg1, By.id(id));
 	}
 
 	public void login(String arg1, String arg2) {
 		goToSite("startPage");
-		driver.findElement(By.id("username")).clear();
-		driver.findElement(By.id("username")).sendKeys(arg1);
-		driver.findElement(By.id("password")).clear();
-		driver.findElement(By.id("password")).sendKeys(arg2);
 
-		driver.findElement(By.id("btnLogin")).click();
+		write_InElementWithID("username", arg1);
+		write_InElementWithID("password", arg2);
 
-	}
+		click_ElementWithText("Login");
 
-	public void startpage_click_meinprofil() {
-		checkPage("startPage");
-		driver.findElement(By.id("btnProfil")).click();
 	}
 
 	public void profile_over_startpage() {
 		goToSite("startPage");
-		startpage_click_meinprofil();
+		click_ElementWithText("Profil");
+	}
+
+	public boolean isElementWithTextOnThePage(String text) {
+
+		String xpath = "(";
+		xpath += "//*[contains(normalize-space(.),\"" + text + "\")]";
+		xpath += ")";
+
+		By by = By.xpath(xpath);
+
+		List<WebElement> findElements = driver.findElements(by);
+
+		if (findElements != null && findElements.size() > 0) {
+			return true;
+		}
+
+		return false;
+	}
+
+	public void tearDown() {
+		driver.close();
+		driver.quit();
 	}
 
 }

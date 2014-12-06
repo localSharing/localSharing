@@ -10,24 +10,47 @@ Feature: Ausleih-Angebote verwalten
 
   Scenario: Create borrow offer for an item to be borrowed
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    And I clicked on "Eigene Angbote" on the startpage
-    And I clicked on "Neues Angebot" on my offer page
-    When I enter "Tarzan" as titel
-    And I set the category to "Gegenstand"on the new offer page
-    And I set the switch to "Ausleihen" on the new offer page
-    And I choose "01.12.2014" as startdate on the new offer page
-    And I choose "01.01.2014" as end date on the new borrow offer page
-    And I enter "5" days as duration on the new borrow offer page
+    When I click on "Angebote" on the start page
+    And I click on "neuer Ausleihartikel" on my offer page
+    And I enter "Inception" as titel
+    And I enter "DVD" as category on the new borrow offer page
     And I enter "Ein toller Film. DVD ist in gutem Zustand." as description
+    And I choose "01.12.2014" as startdate on the new offer page
+    And I choose "01.01.2015" as end date on the new borrow offer page
+    And I enter "5" days as duration on the new borrow offer page
     And I click on "Speichern" on the new offer page
-    Then I am on my offer page
-    And I can see a borrow offer with "Tarzan" as title on my offer page
+    Then I can see my offer page
+    And I can see a borrow offer with "Inception" as title on my offer page
+
+  Scenario: Not saving edited borrow offer
+    Given I am logged in as "tester@cucumber.de" with password "12345678"
+    When I click on "Eigene Angebote" on the start page
+    And I click on the borrow offer with "96 Hours" as title on my offer page
+    And I click on "Bearbeiten" on the offer page
+    And I change the title to "72 Hours" on the borrow offer edit page
+    And I change the descriptio to "BluRay, kaum gebraucht" on the borrow offer edit page
+    And I change the startdate to "08.12.2014" on the borrow offer edit page
+    And I change the endate to "20.12.2014" on the borrow offer edit page
+    And I change the duration to "3" days on the borrow offer edit page
+    And I click on "Abbrechen" on the edit offer page
+    Then I can see my offer page
+    And I can see a borrow offer with "96 Hours" as title on my offer page
+    And I can not see a borrow offer with "72 Hours" as title on my offer page
+
+  Scenario: Borrow offer is unmodified
+    Given I am logged in as "tester@cucumber.de" with password "12345678"
+    When I click on "Eigene Angebote" on the start page
+    And I click on the borrow offer with "96 Hours" as title on my offer page
+    And I click on "Bearbeiten" on the offer page
+    And I click on "Abbrechen" on the edit offer page
+    Then I can see my offer page
+    And I can see a borrow offer with "96 Hours" as title on my offer page
 
   Scenario: Edit borrow offer
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    And I clicked on "Eigene Angbote" on the startpage
-    And I clicked on the borrow offer with "96 Hours" as title on my offer page
-    When I click on "Bearbeiten" on the offer page
+    When I click on "Eigene Angebote" on the start page
+    And I click on the borrow offer with "96 Hours" as title on my offer page
+    And I click on "Bearbeiten" on the offer page
     And I change the title to "72 Hours" on the borrow offer edit page
     And I change the descriptio to "BluRay, kaum gebraucht" on the borrow offer edit page
     And I change the startdate to "08.12.2014" on the borrow offer edit page
@@ -35,38 +58,14 @@ Feature: Ausleih-Angebote verwalten
     And I change the duration to "3" days on the borrow offer edit page
     And I click on "Speichern" on the edit offer page
     Then I can see my offer page
-    And I can see a borrow offer with "72 Hours" as title
-    And I can not see a borrow offer with "96 Hours" as title
-
-  Scenario: Not saving edited borrow offer
-    Given I am logged in as "tester@cucumber.de" with password "12345678"
-    And I clicked on "Eigene Angbote" on the startpage
-    And I clicked on the borrow offer with "96 Hours" as title on my offer page
-    When I click on "Bearbeiten" on the offer page
-    And I change the title to "72 Hours" on the borrow offer edit page
-    And I change the descriptio to "BluRay, kaum gebraucht" on the borrow offer edit page
-    And I change the startdate to "08.12.2014" on the borrow offer edit page
-    And I change the endate to "20.12.2014" on the borrow offer edit page
-    And I change the duration to "3" days on the borrow offer edit page
-    And I click on "Abbrechen" on the edit offer page
-    Then I can see my offer page
-    And I can see a borrow offer with "96 Hours" as title
-    And I can not see a borrow offer with "72 Hours" as title
-
-  Scenario: Borrow offer is unmodified
-    Given I am logged in as "tester@cucumber.de" with password "12345678"
-    And I clicked on "Eigene Angbote" on the startpage
-    And I clicked on the borrow offer with "96 Hours" as title on my offer page
-    When I click on "Bearbeiten" on the offer page
-    And I click on "Abbrechen" on the edit offer page
-    Then I can see my offer page
-    And I can see a borrow offer with "96 Hours" as title
+    And I can see a borrow offer with "72 Hours" as title on my offer page
+    And I can not see a borrow offer with "96 Hours" as title on my offer page
 
   Scenario: Delete borrow offer
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    And I clicked on "Eigene Angbote" on the startpage
-    And I clicked on the borrow offer with "Die Insel" as title on my offer page
-    When I click on "Bearbeiten" on the offer page
+    When I click on "Eigene Angebote" on the start page
+    And I click on the borrow offer with "Die Insel" as title on my offer page
+    And I click on "Bearbeiten" on the offer page
     And I click on "Löschen" on the edit offer page
     Then I can see my offer page
-    And I can not see a borrow offer with "Die Insel" as title
+    And I can not see a borrow offer with "Die Insel" as title on my offer page

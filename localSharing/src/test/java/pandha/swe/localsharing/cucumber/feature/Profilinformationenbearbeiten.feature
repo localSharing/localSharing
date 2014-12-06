@@ -5,7 +5,7 @@ Feature: Edit profile information
 
   Scenario: Not saving edited information
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    When I click on "Mein Profil" on the start page
+    When I click on "Profil" on the start page
     And I click on "Bearbeiten" on my profil page
     And I change my firstname to "Hans" on my edit profil page
     And I change my surname to "Gelb" on my edit profil page
@@ -27,7 +27,7 @@ Feature: Edit profile information
 
   Scenario: Information is unmodified
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    When I click on "Mein Profil" on the start page
+    When I click on "Profil" on the start page
     And I click on "Bearbeiten" on my profil page
     And I click on "Abbrechen" on my edit profil page
     Then I can see my profile page
@@ -42,7 +42,7 @@ Feature: Edit profile information
 
   Scenario: Edit information
     Given I am logged in as "tester@cucumber.de" with password "12345678"
-    When I click on "Mein Profil" on the start page
+    When I click on "Profil" on the start page
     And I click on "Bearbeiten" on my profil page
     And I change my firstname to "Hans" on my edit profil page
     And I change my surname to "Gelb" on my edit profil page
