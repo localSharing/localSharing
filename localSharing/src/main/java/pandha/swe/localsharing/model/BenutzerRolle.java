@@ -64,10 +64,4 @@ public class BenutzerRolle {
 		this.rolle = rolle;
 	}
 
-	@Override
-	public String toString() {
-		return "BenutzerRolle [beutzerRollenId=" + beutzerRollenId
-				+ ", benutzer=" + benutzer + ", rolle=" + rolle + "]";
-	}
-
 }
