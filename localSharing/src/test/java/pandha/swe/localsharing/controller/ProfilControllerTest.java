@@ -1,63 +1,56 @@
-//package pandha.swe.localsharing.controller;
-//
-//import static org.junit.Assert.fail;
-//import static org.mockito.Mockito.when;
-//import static org.mockito.Mockito.get;
-//
-//import java.util.List;
-//
-//import org.junit.Before;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.Mockito;
-//import org.mockito.MockitoAnnotations;
-//import org.mockito.runners.MockitoJUnitRunner;
-//import org.springframework.test.web.servlet.MockMvc;
-//import org.springframework.web.servlet.View;
-//
-//import pandha.swe.localsharing.service.BenutzerService;
-//import pandha.swe.localsharing.service.FileService;
-//
+package pandha.swe.localsharing.controller;
+
+import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.servlet.View;
+
+import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.FileService;
+
 //@RunWith(MockitoJUnitRunner.class)
-//public class ProfilControllerTest {
-//
-//	@InjectMocks
-//	ProfilController controller;
-//
-//	@Mock
-//	FileService fileService;
-//
-//	@Mock
-//	BenutzerService benutzerService;
-//
-//	@Mock
-//	View mockView;
-//
-//	MockMvc mockMvc;
-//
-//	@Before
-//	public void setUp() throws Exception {
-//		MockitoAnnotations.initMocks(this);
-//		mockMvc = standaloneSetup(controller).setSingleView(mockView).build();
-//	}
-//
-//	@Test
-//	public void testListPeopleInGroup() throws Exception {
-////		List<Person> expectedPeople = asList(new Person());
-////		when(mockPeopleService.listPeople("someGroup")).thenReturn(
-////				expectedPeople);
-//
-//	}
-//
-//	@Test
-//	public void testShowProfil() {
-//		mockMvc.perform(get("/people/someGroup")).andExpect(status().isOk())
-//				.andExpect(model().attribute("people", expectedPeople))
-//				.andExpect(view().name("peopleList"));
-//	}
-//
+public class ProfilControllerTest {
+	
+	@InjectMocks
+	ProfilController controller;
+
+	@Mock
+	FileService fileService;
+
+	@Mock
+	BenutzerService benutzerService;
+
+	@Mock
+	View mockView;
+	MockMvc mockMvc;
+
+
+    @Before
+    public void setup() {
+
+        // Process mock annotations
+        MockitoAnnotations.initMocks(this);
+
+        // Setup Spring test in standalone mode
+        this.mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+
+    }
+
+	@Test
+	public void testShowProfil() throws Exception {
+		mockMvc.perform(get("/profil")).andExpect(status().isOk());
+	}
+
 //	@Test
 //	public void testShowProfilEdit() {
 //		fail("Not yet implemented");
@@ -67,5 +60,5 @@
 //	public void testEditProfil() {
 //		fail("Not yet implemented");
 //	}
-//
-//}
+
+}
