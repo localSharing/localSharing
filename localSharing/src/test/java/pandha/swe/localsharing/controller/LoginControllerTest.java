@@ -14,19 +14,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
-public class StartPageControllerTest {
+public class LoginControllerTest {
 
-	String URL = "/startPage";
+	String URL = "/login";
 
 	@InjectMocks
-	StartPageController controller;
+	LoginController controller;
 
 	MockMvc mockMvc;
 
 	Principal principal;
 
 	@Before
-	public void setup() {
+	public void setUp() throws Exception {
 
 		// Process mock annotations
 		MockitoAnnotations.initMocks(this);
@@ -46,19 +46,22 @@ public class StartPageControllerTest {
 				return "12345678";
 			}
 		};
-
 	}
 
 	@Test
-	public void testStartPageWithPrincipal() throws Exception {
+	public void getLoginPageWithPrincipal() throws Exception {
+
 		mockMvc.perform(get(URL).principal(principal))
-				.andExpect(status().isOk()).andExpect(view().name("startPage"));
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:startPage"));
+
 	}
 
 	@Test
-	public void testStartPageWithOutPrincipal() throws Exception {
+	public void getLoginPageWithOutPrincipal() throws Exception {
+
 		mockMvc.perform(get(URL)).andExpect(status().isOk())
-				.andExpect(view().name("startPage"));
+				.andExpect(view().name("login"));
 	}
 
 }
