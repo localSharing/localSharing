@@ -14,7 +14,6 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 
 @Configuration
 public class PersistenceConfig {
-	// ${jdbc.driverClassName}
 	@Value("${jdbc.driverClassName}")
 	private String driverClassName;
 	@Value("${jdbc.url}")
