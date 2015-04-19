@@ -72,80 +72,44 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{ID}/{Type}")
-	public String showAngebot(Model model, Principal principal,
+	public String showAngebot(Model model,
 			@PathVariable("ID") String id, @PathVariable("Type") String type) {
 
 		switch (type) {
 		case "ausleihen":
-			AusleihartikelDTO ausleihartikel = ausleihartikelService
-					.ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
-							.findById(new Long(id)));
-
-			System.out.println(ausleihartikel);
-
-			model.addAttribute("angebot", ausleihartikel);
-			model.addAttribute("endDatum", ausleihartikel.getEndDatum());
-			model.addAttribute("kategorie", ausleihartikel.getKategorie());
-			model.addAttribute("dauer", ausleihartikel.getDauer());
+			addAusleihAngebotToModel(model, id);
 			break;
 
 		case "tauschen":
-			TauschartikelDTO tauschartikel = tauschartikelService
-					.tauschartikel_TO_TauschartikelDTO(tauschartikelService
-							.findById(new Long(id)));
-
-			model.addAttribute("angebot", tauschartikel);
-			model.addAttribute("kategorie", tauschartikel.getKategorie());
-
+			addTauschAngebotToModel(model, id);
 			break;
 
 		case "helfen":
-			HilfeleistungDTO hilfeleistung = hilfeleistungService
-					.hilfeleistung_TO_HilfeleistungDTO(hilfeleistungService
-							.findById(new Long(id)));
-
-			model.addAttribute("angebot", hilfeleistung);
-			model.addAttribute("endDatum", hilfeleistung.getEndDatum());
-
+			addHilfsAngebotToModel(model, id);
 			break;
 		}
 
 		return "angebot";
 	}
 
+
+
 	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit/{id}/{type}")
-	public String editAngebot(Model model, Principal principal,
+	public String editAngebot(Model model,
 			@PathVariable("id") String id, @PathVariable("type") String type) {
 
 		switch (type) {
 		case "ausleihen":
-			AusleihartikelDTO ausleihartikel = ausleihartikelService
-					.ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
-							.findById(new Long(id)));
-
-			model.addAttribute("angebot", ausleihartikel);
-			model.addAttribute("endDatum", ausleihartikel.getEndDatum());
-			model.addAttribute("kategorie", ausleihartikel.getKategorie());
-			model.addAttribute("dauer", ausleihartikel.getDauer());
+			addAusleihAngebotToModel(model, id);
 			break;
 
 		case "tauschen":
-			TauschartikelDTO tauschartikel = tauschartikelService
-					.tauschartikel_TO_TauschartikelDTO(tauschartikelService
-							.findById(new Long(id)));
-
-			model.addAttribute("angebot", tauschartikel);
-			model.addAttribute("kategorie", tauschartikel.getKategorie());
+			addTauschAngebotToModel(model, id);
 
 			break;
 
 		case "helfen":
-			HilfeleistungDTO hilfeleistung = hilfeleistungService
-					.hilfeleistung_TO_HilfeleistungDTO(hilfeleistungService
-							.findById(new Long(id)));
-
-			model.addAttribute("angebot", hilfeleistung);
-			model.addAttribute("endDatum", hilfeleistung.getEndDatum());
+			addHilfsAngebotToModel(model, id);
 
 			break;
 		}
@@ -157,11 +121,9 @@ public class AngebotController {
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid AusleihartikelDTO angebot,
 			@PathVariable("id") String id,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		System.out.println(angebot);
 
 		Benutzer user = getUser(principal);
 
@@ -170,7 +132,6 @@ public class AngebotController {
 		Ausleihartikel ausleihartikel = ausleihartikelService
 				.ausleihartikelDTO_TO_Ausleihartikel(angebot);
 
-		System.out.println(ausleihartikel);
 
 		ausleihartikelService.update(ausleihartikel);
 
@@ -185,11 +146,8 @@ public class AngebotController {
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
 			@PathVariable("id") String id,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
-
-		System.out.println(angebot);
 
 		Benutzer user = getUser(principal);
 
@@ -211,11 +169,9 @@ public class AngebotController {
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
 			@PathVariable("id") String id,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		System.out.println(angebot);
 
 		Benutzer user = getUser(principal);
 
@@ -237,12 +193,10 @@ public class AngebotController {
 	public String deleteAusleihartikel(@PathVariable("id") String id,
 			Model model, Principal principal) {
 
-		System.out.println("-----------DELETE-------------");
 
 		Ausleihartikel ausleihartikel = ausleihartikelService
 				.findById(new Long(id));
 
-		System.out.println(ausleihartikel);
 
 		ausleihartikelService.delete(ausleihartikel);
 
@@ -254,7 +208,6 @@ public class AngebotController {
 			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
 			@PathVariable("id") String id, Model model, Principal principal) {
 
-		System.out.println(angebot);
 
 		Benutzer user = getUser(principal);
 
@@ -262,8 +215,6 @@ public class AngebotController {
 
 		Tauschartikel artikel = tauschartikelService
 				.tauschartikelDTO_TO_Tauschartikel(angebot);
-
-		System.out.println(artikel);
 
 		tauschartikelService.delete(artikel);
 
@@ -274,11 +225,7 @@ public class AngebotController {
 	public String deleteTauschartikel(@PathVariable("id") String id,
 			Model model, Principal principal) {
 
-		System.out.println("-----------DELETE-------------");
-
 		Tauschartikel artikel = tauschartikelService.findById(new Long(id));
-
-		System.out.println(artikel);
 
 		tauschartikelService.delete(artikel);
 
@@ -287,10 +234,7 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/helfen")
 	public String deleteHilfeleistung(
-			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
-			@PathVariable("id") String id, Model model, Principal principal) {
-
-		System.out.println(angebot);
+			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot, Principal principal) {
 
 		Benutzer user = getUser(principal);
 
@@ -308,11 +252,7 @@ public class AngebotController {
 	public String deleteHilfeleistung(@PathVariable("id") String id,
 			Model model, Principal principal) {
 
-		System.out.println("-----------DELETE-------------");
-
 		Hilfeleistung artikel = hilfeleistungService.findById(new Long(id));
-
-		System.out.println(artikel);
 
 		hilfeleistungService.delete(artikel);
 
@@ -343,15 +283,12 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/ausleihen")
 	public String saveNewAusleihen(
 			@ModelAttribute("newAngebot") @Valid AusleihartikelDTO newAngebot,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
 		newAngebot.setBenutzer(user);
-
-		System.out.println(newAngebot);
 
 		Long id = ausleihartikelService.createAusleihartikel(newAngebot);
 
@@ -368,15 +305,12 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/tauschen")
 	public String saveNewTauschen(
 			@ModelAttribute("newAngebot") @Valid TauschartikelDTO newAngebot,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
 		newAngebot.setBenutzer(user);
-
-		System.out.println(newAngebot);
 
 		Long id = tauschartikelService.createTauschartikel(newAngebot);
 
@@ -393,15 +327,12 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotNeu/helfen")
 	public String saveNewHelfen(
 			@ModelAttribute("newAngebot") @Valid HilfeleistungDTO newAngebot,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		Benutzer user = getUser(principal);
 
 		newAngebot.setBenutzer(user);
-
-		System.out.println(newAngebot);
 
 		Long id = hilfeleistungService.createHilfeleistung(newAngebot);
 
@@ -421,6 +352,36 @@ public class AngebotController {
 		Benutzer user = benutzerService.findByEmail(email);
 
 		return user;
+	}
+	
+	
+	private void addHilfsAngebotToModel(Model model, String id) {
+		HilfeleistungDTO hilfeleistung = hilfeleistungService
+				.hilfeleistung_TO_HilfeleistungDTO(hilfeleistungService
+						.findById(new Long(id)));
+
+		model.addAttribute("angebot", hilfeleistung);
+		model.addAttribute("endDatum", hilfeleistung.getEndDatum());
+	}
+
+	private void addTauschAngebotToModel(Model model, String id) {
+		TauschartikelDTO tauschartikel = tauschartikelService
+				.tauschartikel_TO_TauschartikelDTO(tauschartikelService
+						.findById(new Long(id)));
+
+		model.addAttribute("angebot", tauschartikel);
+		model.addAttribute("kategorie", tauschartikel.getKategorie());
+	}
+
+	private void addAusleihAngebotToModel(Model model, String id) {
+		AusleihartikelDTO ausleihartikel = ausleihartikelService
+				.ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
+						.findById(new Long(id)));
+
+		model.addAttribute("angebot", ausleihartikel);
+		model.addAttribute("endDatum", ausleihartikel.getEndDatum());
+		model.addAttribute("kategorie", ausleihartikel.getKategorie());
+		model.addAttribute("dauer", ausleihartikel.getDauer());
 	}
 
 }
