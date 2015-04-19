@@ -11,21 +11,6 @@
 	<name>localSharing</name>
 	<description>Project for SWE</description>
 
-
-
-	<coverage.reports.dir>
-		${basedir}/target/coverage-reports
-	</coverage.reports.dir>
-	<sonar.jacoco.reportPath>
-		${coverage.reports.dir}/jacoco-unit.exec
-	</sonar.jacoco.reportPath>
-	<sonar.jacoco.itReportPath>
-		${coverage.reports.dir}/jacoco-it.exec
-	</sonar.jacoco.itReportPath>
-	<sonar.jacoco.jar>
-		${basedir}/lib/jacocoagent.jar
-	</sonar.jacoco.jar>
-
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -182,42 +167,39 @@
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
 
-
 			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>0.7.4.201502262128</version>
 				<executions>
-					<!-- The Executions required by unit tests are omitted. -->
 					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
-						is passed as VM argument when Maven the Failsafe plugin is executed. -->
+						is passed as VM argument when Maven the Surefire plugin is executed. -->
 					<execution>
-						<id>pre-integration-test</id>
-						<phase>pre-integration-test</phase>
+						<id>pre-unit-test</id>
 						<goals>
 							<goal>prepare-agent</goal>
 						</goals>
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
-							<destFile>${project.build.directory}/coverage-reports/jacoco-it.exec</destFile>
+							<destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
 							<!-- Sets the name of the property containing the settings for JaCoCo 
 								runtime agent. -->
-							<propertyName>failsafeArgLine</propertyName>
+							<propertyName>surefireArgLine</propertyName>
 						</configuration>
 					</execution>
-					<!-- Ensures that the code coverage report for integration tests after 
-						integration tests have been run. -->
+					<!-- Ensures that the code coverage report for unit tests is created 
+						after unit tests have been run. -->
 					<execution>
-						<id>post-integration-test</id>
-						<phase>post-integration-test</phase>
+						<id>post-unit-test</id>
+						<phase>test</phase>
 						<goals>
 							<goal>report</goal>
 						</goals>
 						<configuration>
 							<!-- Sets the path to the file which contains the execution data. -->
-							<dataFile>${project.build.directory}/coverage-reports/jacoco-it.exec</dataFile>
+							<dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
 							<!-- Sets the output directory for the code coverage report. -->
-							<outputDirectory>${project.reporting.outputDirectory}/jacoco-it</outputDirectory>
+							<outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
 						</configuration>
 					</execution>
 				</executions>
@@ -227,13 +209,16 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<configuration>
-					<argLine>-javaagent:${sonar.jacoco.jar}=destfile=${sonar.jacoco.reportPath},includes=de.*</argLine>
-					<includes>
-						<include>**/*.class</include>
-					</includes>
+					<!-- Sets the VM argument line used when unit tests are run. -->
+					<argLine>${surefireArgLine}</argLine>
+					<!-- Skips unit tests if the value of skip.unit.tests property is true -->
+					<skipTests>${skip.unit.tests}</skipTests>
+					<!-- Excludes integration tests when unit tests are run. -->
+					<excludes>
+						<exclude>**/IT*.java</exclude>
+					</excludes>
 				</configuration>
 			</plugin>
-
 
 
 
