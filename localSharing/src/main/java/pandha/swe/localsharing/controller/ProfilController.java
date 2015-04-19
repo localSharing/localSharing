@@ -69,8 +69,6 @@ public class ProfilController {
 	private Benutzer getUser(Principal principal) {
 		String email = principal.getName();
 
-		Benutzer user = benutzerService.findByEmail(email);
-
-		return user;
+		return benutzerService.findByEmail(email);
 	}
 }

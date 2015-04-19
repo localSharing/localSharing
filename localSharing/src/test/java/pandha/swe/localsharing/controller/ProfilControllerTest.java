@@ -22,8 +22,10 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
@@ -123,7 +125,7 @@ public class ProfilControllerTest {
 	}
 
 	@Test
-	public void testEditProfilWithParameters() throws Exception {
+	public void testEditProfilWithParametersNoImage() throws Exception {
 
 		when(
 				benutzerService.benutzerDTO_TO_Benutzer(any(BenutzerDTO.class),
@@ -141,8 +143,35 @@ public class ProfilControllerTest {
 						.param("email", "cookie@monster.com")
 						.principal(principal)).andExpect(status().isFound())
 				.andExpect(view().name("redirect:profil"));
-		
+
 		verify(benutzerService, times(1)).update(benutzer);
+	}
+
+	@Test
+	public void testEditProfilWithParametersWithImage() throws Exception {
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		when(
+				benutzerService.benutzerDTO_TO_Benutzer(any(BenutzerDTO.class),
+						eq(principal))).thenReturn(benutzer);
+
+		mockMvc.perform(
+				fileUpload("/profilEdit").file("userImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("geschlecht", "MANN")
+						.param("vorname", "Johannes").param("nachname", "Blau")
+						.param("strasse", "Erzbergerstraße")
+						.param("hausnummer", "123").param("plz", "69115")
+						.param("stadt", "Heidelberg")
+						.param("telefonNummer", "12345678")
+						.param("email", "cookie@monster.com")
+						.principal(principal)).andExpect(status().isFound())
+				.andExpect(view().name("redirect:profil"));
+
+		verify(benutzerService, times(1)).update(benutzer);
+		verify(fileService, times(1)).save(eq(benutzer), any(MultipartFile.class));
 	}
 
 }
