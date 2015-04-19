@@ -59,7 +59,7 @@ public class ProfilController {
 
 		benutzerService.update(editedUser);
 
-		if (!image.isEmpty()) {
+		if (image != null && !image.isEmpty()) {
 			fileService.save(editedUser, image);
 		}
 

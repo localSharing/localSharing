@@ -1,6 +1,11 @@
 package pandha.swe.localsharing.controller;
 
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -16,6 +21,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.View;
@@ -77,18 +83,17 @@ public class ProfilControllerTest {
 				Geschlecht.MANN, "Peter", "Hans", "Erzbergerstraße", "123",
 				76137, "Karlsruhe", "unitTest@localsharing.de", "12345678",
 				rollen);
-		
-		
-		dto = new BenutzerDTO(Geschlecht.MANN, "Peter", "Hans", "Erzbergerstraße", "123",
-				"76137", "Karlsruhe", "unitTest@localsharing.de", "12345678");
+
+		dto = new BenutzerDTO(Geschlecht.MANN, "Peter", "Hans",
+				"Erzbergerstraße", "123", "76137", "Karlsruhe",
+				"unitTest@localsharing.de", "12345678");
 
 		rollen.add(new BenutzerRolle(new Long(13), null, Rollen.USER));
 
 		when(benutzerService.findByEmail(principal.getName())).thenReturn(
 				benutzer);
-		
-		when(benutzerService.benutzer_TO_BenutzerDTO(benutzer)).thenReturn(
-				dto);
+
+		when(benutzerService.benutzer_TO_BenutzerDTO(benutzer)).thenReturn(dto);
 
 		// when(benutzerService.getUser(principal)).thenReturn(
 		// new BenutzerDTO(Geschlecht.MANN, "123", "Peter", "Blau", "123",
@@ -102,28 +107,42 @@ public class ProfilControllerTest {
 				.andExpect(status().isOk()).andExpect(view().name("profil"))
 				.andExpect(model().attribute("user", dto));
 	}
-	
-	
-	 @Test
-	 public void testShowProfilEdit() throws Exception {
-		 mockMvc.perform(get("/profilEdit").principal(principal))
-			.andExpect(status().isOk()).andExpect(view().name("profilEdit"))
-			.andExpect(model().attribute("user", dto));
-	 }
-	
-	 @Test
-	 public void testEditProfilNoParameters() throws Exception {
-		 mockMvc.perform(post("/profilEdit").principal(principal))
-			.andExpect(status().is(400));
-	 }
-	 
-	 //TODO Test für Profil Bearbeiten schreiben
-//	 @Test
-//	 public void testEditProfilWithParameters() throws Exception {
-//		 mockMvc.perform(post("/profilEdit").param("user", dto.toString()).principal(principal))
-//			.andExpect(status().isOk());
-//	 }
-	 
-	 
+
+	@Test
+	public void testShowProfilEdit() throws Exception {
+		mockMvc.perform(get("/profilEdit").principal(principal))
+				.andExpect(status().isOk())
+				.andExpect(view().name("profilEdit"))
+				.andExpect(model().attribute("user", dto));
+	}
+
+	@Test
+	public void testEditProfilNoParameters() throws Exception {
+		mockMvc.perform(post("/profilEdit").principal(principal)).andExpect(
+				status().is(400));
+	}
+
+	@Test
+	public void testEditProfilWithParameters() throws Exception {
+
+		when(
+				benutzerService.benutzerDTO_TO_Benutzer(any(BenutzerDTO.class),
+						eq(principal))).thenReturn(benutzer);
+
+		mockMvc.perform(
+				fileUpload("/profilEdit")
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("geschlecht", "MANN")
+						.param("vorname", "Johannes").param("nachname", "Blau")
+						.param("strasse", "Erzbergerstraße")
+						.param("hausnummer", "123").param("plz", "69115")
+						.param("stadt", "Heidelberg")
+						.param("telefonNummer", "12345678")
+						.param("email", "cookie@monster.com")
+						.principal(principal)).andExpect(status().isFound())
+				.andExpect(view().name("redirect:profil"));
+		
+		verify(benutzerService, times(1)).update(benutzer);
+	}
 
 }
