@@ -5,6 +5,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.reset;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -21,6 +22,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
@@ -126,7 +128,8 @@ public class ProfilControllerTest {
 
 	@Test
 	public void testEditProfilWithParametersNoImage() throws Exception {
-
+		reset(benutzerService);
+		reset(fileService);
 		when(
 				benutzerService.benutzerDTO_TO_Benutzer(any(BenutzerDTO.class),
 						eq(principal))).thenReturn(benutzer);
@@ -145,10 +148,14 @@ public class ProfilControllerTest {
 				.andExpect(view().name("redirect:profil"));
 
 		verify(benutzerService, times(1)).update(benutzer);
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(benutzer), any(MultipartFile.class));
 	}
 
 	@Test
 	public void testEditProfilWithParametersWithImage() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
 
 		MockMultipartFile file = new MockMultipartFile("testBild",
 				"Tolles Bild".getBytes());
@@ -171,7 +178,35 @@ public class ProfilControllerTest {
 				.andExpect(view().name("redirect:profil"));
 
 		verify(benutzerService, times(1)).update(benutzer);
-		verify(fileService, times(1)).save(eq(benutzer), any(MultipartFile.class));
+		verify(fileService, times(1)).save(eq(benutzer),
+				any(MultipartFile.class));
+	}
+
+	@Test
+	public void testEditProfilWithParametersWithImageEmpty() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+
+		when(
+				benutzerService.benutzerDTO_TO_Benutzer(any(BenutzerDTO.class),
+						eq(principal))).thenReturn(benutzer);
+
+		mockMvc.perform(
+				fileUpload("/profilEdit").file("userImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("geschlecht", "MANN")
+						.param("vorname", "Johannes").param("nachname", "Blau")
+						.param("strasse", "Erzbergerstraße")
+						.param("hausnummer", "123").param("plz", "69115")
+						.param("stadt", "Heidelberg")
+						.param("telefonNummer", "12345678")
+						.param("email", "cookie@monster.com")
+						.principal(principal)).andExpect(status().isFound())
+				.andExpect(view().name("redirect:profil"));
+
+		verify(benutzerService, times(1)).update(benutzer);
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(benutzer), any(MultipartFile.class));
 	}
 
 }
