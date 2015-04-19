@@ -117,7 +117,7 @@ public class ProfilControllerTest {
 			.andExpect(status().is(400));
 	 }
 	 
-	 
+	 //TODO Test für Profil Bearbeiten schreiben
 //	 @Test
 //	 public void testEditProfilWithParameters() throws Exception {
 //		 mockMvc.perform(post("/profilEdit").param("user", dto.toString()).principal(principal))
