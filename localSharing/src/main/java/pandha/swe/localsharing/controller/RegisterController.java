@@ -20,6 +20,8 @@ import pandha.swe.localsharing.service.FileService;
 @Controller
 public class RegisterController {
 
+	private String VIEW_NAME = "register";
+
 	@Autowired
 	private BenutzerService benutzerService;
 
@@ -29,7 +31,7 @@ public class RegisterController {
 	@RequestMapping(method = RequestMethod.GET, value = "/register")
 	public String registerForm(Model model) {
 		model.addAttribute("newUser", new BenutzerRegisterDTO());
-		return "register";
+		return VIEW_NAME;
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/register")
@@ -40,18 +42,18 @@ public class RegisterController {
 			@RequestParam(value = "userImage", required = false) MultipartFile image) {
 
 		if (result.hasErrors()) {
-			return "register";
+			return VIEW_NAME;
 		} else if (!newUser.getPassword1().equals(newUser.getPassword2())) {
 			result.rejectValue("password1", "error.user",
 					"Passwörter stimmen nicht überein!");
 
-			return "register";
+			return VIEW_NAME;
 		}
 
 		if (benutzerService.findByEmail(newUser.getEmail()) != null) {
 			result.rejectValue("email", "error.user",
 					"Email wird bereits verwendet!");
-			return "register";
+			return VIEW_NAME;
 		}
 
 		benutzerService.registerBenutzer(newUser);
