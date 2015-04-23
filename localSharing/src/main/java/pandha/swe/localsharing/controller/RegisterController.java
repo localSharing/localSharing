@@ -58,7 +58,7 @@ public class RegisterController {
 
 		benutzerService.registerBenutzer(newUser);
 
-		if (!image.isEmpty()) {
+		if (image != null && !image.isEmpty()) {
 
 			Benutzer benutzer = benutzerService.findByEmail(newUser.getEmail());
 
