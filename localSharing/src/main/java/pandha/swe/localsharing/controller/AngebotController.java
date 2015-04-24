@@ -72,8 +72,8 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{ID}/{Type}")
-	public String showAngebot(Model model,
-			@PathVariable("ID") String id, @PathVariable("Type") String type) {
+	public String showAngebot(Model model, @PathVariable("ID") String id,
+			@PathVariable("Type") String type) {
 
 		switch (type) {
 		case "ausleihen":
@@ -87,16 +87,20 @@ public class AngebotController {
 		case "helfen":
 			addHilfsAngebotToModel(model, id);
 			break;
+		default:
+			return "redirect:angebote";
+		}
+
+		if (!model.containsAttribute("angebot")) {
+			return "redirect:angebote";
 		}
 
 		return "angebot";
 	}
 
-
-
 	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit/{id}/{type}")
-	public String editAngebot(Model model,
-			@PathVariable("id") String id, @PathVariable("type") String type) {
+	public String editAngebot(Model model, @PathVariable("id") String id,
+			@PathVariable("type") String type) {
 
 		switch (type) {
 		case "ausleihen":
@@ -124,14 +128,12 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-
 		Benutzer user = getUser(principal);
 
 		angebot.setBenutzer(user);
 
 		Ausleihartikel ausleihartikel = ausleihartikelService
 				.ausleihartikelDTO_TO_Ausleihartikel(angebot);
-
 
 		ausleihartikelService.update(ausleihartikel);
 
@@ -172,7 +174,6 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-
 		Benutzer user = getUser(principal);
 
 		angebot.setBenutzer(user);
@@ -193,10 +194,8 @@ public class AngebotController {
 	public String deleteAusleihartikel(@PathVariable("id") String id,
 			Model model, Principal principal) {
 
-
 		Ausleihartikel ausleihartikel = ausleihartikelService
 				.findById(new Long(id));
-
 
 		ausleihartikelService.delete(ausleihartikel);
 
@@ -207,7 +206,6 @@ public class AngebotController {
 	public String deleteTauschartikel(
 			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
 			@PathVariable("id") String id, Model model, Principal principal) {
-
 
 		Benutzer user = getUser(principal);
 
@@ -234,7 +232,8 @@ public class AngebotController {
 
 	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/helfen")
 	public String deleteHilfeleistung(
-			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot, Principal principal) {
+			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
+			Principal principal) {
 
 		Benutzer user = getUser(principal);
 
@@ -353,15 +352,16 @@ public class AngebotController {
 
 		return user;
 	}
-	
-	
+
 	private void addHilfsAngebotToModel(Model model, String id) {
 		HilfeleistungDTO hilfeleistung = hilfeleistungService
 				.hilfeleistung_TO_HilfeleistungDTO(hilfeleistungService
 						.findById(new Long(id)));
 
-		model.addAttribute("angebot", hilfeleistung);
-		model.addAttribute("endDatum", hilfeleistung.getEndDatum());
+		if (hilfeleistung != null) {
+			model.addAttribute("angebot", hilfeleistung);
+			model.addAttribute("endDatum", hilfeleistung.getEndDatum());
+		}
 	}
 
 	private void addTauschAngebotToModel(Model model, String id) {
@@ -369,8 +369,10 @@ public class AngebotController {
 				.tauschartikel_TO_TauschartikelDTO(tauschartikelService
 						.findById(new Long(id)));
 
-		model.addAttribute("angebot", tauschartikel);
-		model.addAttribute("kategorie", tauschartikel.getKategorie());
+		if (tauschartikel != null) {
+			model.addAttribute("angebot", tauschartikel);
+			model.addAttribute("kategorie", tauschartikel.getKategorie());
+		}
 	}
 
 	private void addAusleihAngebotToModel(Model model, String id) {
@@ -378,10 +380,12 @@ public class AngebotController {
 				.ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
 						.findById(new Long(id)));
 
-		model.addAttribute("angebot", ausleihartikel);
-		model.addAttribute("endDatum", ausleihartikel.getEndDatum());
-		model.addAttribute("kategorie", ausleihartikel.getKategorie());
-		model.addAttribute("dauer", ausleihartikel.getDauer());
+		if (ausleihartikel != null) {
+			model.addAttribute("angebot", ausleihartikel);
+			model.addAttribute("endDatum", ausleihartikel.getEndDatum());
+			model.addAttribute("kategorie", ausleihartikel.getKategorie());
+			model.addAttribute("dauer", ausleihartikel.getDauer());
+		}
 	}
 
 }
