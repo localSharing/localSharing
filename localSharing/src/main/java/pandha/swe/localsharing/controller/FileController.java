@@ -28,16 +28,13 @@ public class FileController {
 		FileUpload image = fileService
 				.findByAssociated(id, FileUploadType.USER);
 
-		byte[] content = null;
 		if (image == null) {
 			// TODO Default Image via Insert Script
-
-			content = getUserDefaultImageIfNotExistInsertIT();
-		} else {
-			content = image.getFile();
+			return getUserDefaultImageIfNotExistInsertIT();
 		}
 
-		return content;
+		return image.getFile();
+
 	}
 
 	@RequestMapping(value = "/images/hilfsangebot/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -79,15 +76,12 @@ public class FileController {
 	}
 
 	private byte[] getImageIfNoImageFoundGetDefaultImage(FileUpload image) {
-		byte[] content = null;
 		if (image == null) {
 			// TODO Default Image via Insert Script
-
-			content = getAngebotDefaultImageIfNotExistInsertIT();
-		} else {
-			content = image.getFile();
+			return getAngebotDefaultImageIfNotExistInsertIT();
 		}
-		return content;
+
+		return image.getFile();
 	}
 
 	private byte[] getAngebotDefaultImageIfNotExistInsertIT() {
@@ -119,6 +113,8 @@ public class FileController {
 			ClassPathResource classPathResource = new ClassPathResource(path);
 
 			data = Files.readAllBytes(classPathResource.getFile().toPath());
+
+			System.out.println(new String(data, "UTF-8"));
 
 			fileUpload.setFile(data);
 
