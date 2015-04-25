@@ -1,8 +1,12 @@
 package pandha.swe.localsharing.controller;
 
-import static org.junit.Assert.fail;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -17,8 +21,11 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.internal.verification.VerificationModeFactory;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
@@ -283,78 +290,376 @@ public class AngebotControllerTest {
 	}
 
 	@Test
-	public void testEditAngebot() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotDefault() throws Exception {
+
+		String url = "/angebotEdit/123/Peter";
+		String response = "redirect:angebote";
+
+		resetAllServices();
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
 	}
 
 	@Test
-	public void testSaveAusleihartikelAusleihartikelDTOStringPrincipalMultipartFile() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotAusleihangebotExists() throws Exception {
+
+		String url = "/angebotEdit/111/ausleihen";
+		String response = "angebotEdit";
+
+		resetAllServices();
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		AusleihartikelDTO dto = new AusleihartikelDTO();
+		dto.setId(ausleihAngebot.getAngebotsid());
+		dto.setTitel(ausleihAngebot.getTitel());
+
+		when(
+				ausleihartikelService
+						.ausleihartikel_TO_AusleihartikelDTO(ausleihAngebot))
+				.thenReturn(dto);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isOk()).andExpect(view().name(response))
+				.andExpect(model().attributeExists("angebot"))
+				.andExpect(model().attribute("angebot", dto));
+
 	}
 
 	@Test
-	public void testSaveAusleihartikelTauschartikelDTOStringPrincipalMultipartFile() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotAusleihangebotNotExists() throws Exception {
+		String url = "/angebotEdit/112/ausleihen";
+		String response = "redirect:angebote";
+
+		resetAllServices();
+
+		when(ausleihartikelService.findById(new Long(112))).thenReturn(null);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
+
 	}
 
 	@Test
-	public void testSaveAusleihartikelHilfeleistungDTOStringPrincipalMultipartFile() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotTauschangebotExists() throws Exception {
+
+		String url = "/angebotEdit/222/tauschen";
+		String response = "angebotEdit";
+
+		resetAllServices();
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschAngebot);
+
+		TauschartikelDTO dto = new TauschartikelDTO();
+		dto.setId(tauschAngebot.getAngebotsid());
+		dto.setTitel(tauschAngebot.getTitel());
+
+		when(
+				tauschartikelService
+						.tauschartikel_TO_TauschartikelDTO(tauschAngebot))
+				.thenReturn(dto);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isOk()).andExpect(view().name(response))
+				.andExpect(model().attributeExists("angebot"))
+				.andExpect(model().attribute("angebot", dto));
+
 	}
 
 	@Test
-	public void testDeleteAusleihartikel() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotTauschangebotNotExists() throws Exception {
+
+		String url = "/angebotEdit/223/tauschen";
+		String response = "redirect:angebote";
+
+		resetAllServices();
+
+		when(ausleihartikelService.findById(new Long(223))).thenReturn(null);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
 	}
 
 	@Test
-	public void testDeleteTauschartikelTauschartikelDTOStringModelPrincipal() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotHilfsangebotExists() throws Exception {
+		String url = "/angebotEdit/333/helfen";
+		String response = "angebotEdit";
+
+		resetAllServices();
+
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		HilfeleistungDTO dto = new HilfeleistungDTO();
+		dto.setId(hilfAngebot.getAngebotsid());
+		dto.setTitel(hilfAngebot.getTitel());
+
+		when(
+				hilfeleistungService
+						.hilfeleistung_TO_HilfeleistungDTO(hilfAngebot))
+				.thenReturn(dto);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isOk()).andExpect(view().name(response))
+				.andExpect(model().attributeExists("angebot"))
+				.andExpect(model().attribute("angebot", dto));
+
 	}
 
 	@Test
-	public void testDeleteTauschartikelStringModelPrincipal() {
-		fail("Not yet implemented");
+	public void testShowEditAngebotHilfsangebotNotExists() throws Exception {
+
+		String url = "/angebotEdit/334/helfen";
+		String response = "redirect:angebote";
+
+		resetAllServices();
+
+		when(ausleihartikelService.findById(new Long(334))).thenReturn(null);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
 	}
 
 	@Test
-	public void testDeleteHilfeleistungHilfeleistungDTOPrincipal() {
-		fail("Not yet implemented");
+	public void testDeleteAusleihartikel() throws Exception {
+
+		String url = "/delete/111/ausleihen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).delete(ausleihAngebot);
 	}
 
 	@Test
-	public void testDeleteHilfeleistungStringModelPrincipal() {
-		fail("Not yet implemented");
+	public void testDeleteTauschartikel() throws Exception {
+
+		String url = "/delete/222/tauschen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschAngebot);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).delete(tauschAngebot);
+
 	}
 
 	@Test
-	public void testNewAusleihen() {
-		fail("Not yet implemented");
+	public void testDeleteHilfeleistung() throws Exception {
+
+		String url = "/delete/333/helfen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		Hilfeleistung helfen = new Hilfeleistung();
+		helfen.setAngebotsid(new Long(333));
+		helfen.setTitel("Ich teste deinen Code");
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(helfen);
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).delete(helfen);
+
 	}
 
 	@Test
-	public void testNewTauschen() {
-		fail("Not yet implemented");
+	public void testNewAusleihen() throws Exception {
+
+		String url = "/angebotNeu/ausleihen";
+		String response = "angebotNeu";
+
+		resetAllServices();
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isOk()).andExpect(view().name(response))
+				.andExpect(model().attributeExists("newAngebot"))
+				.andExpect(model().attribute("ausleihen", "ausleihen"));
+
 	}
 
 	@Test
-	public void testNewHelfen() {
-		fail("Not yet implemented");
+	public void testNewTauschen() throws Exception {
+
+		String url = "/angebotNeu/tauschen";
+		String response = "angebotNeu";
+
+		resetAllServices();
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isOk()).andExpect(view().name(response))
+				.andExpect(model().attributeExists("newAngebot"))
+				.andExpect(model().attribute("tauschen", "tauschen"));
+
 	}
 
 	@Test
-	public void testSaveNewAusleihen() {
-		fail("Not yet implemented");
+	public void testNewHelfen() throws Exception {
+
+		String url = "/angebotNeu/helfen";
+		String response = "angebotNeu";
+
+		resetAllServices();
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isOk()).andExpect(view().name(response))
+				.andExpect(model().attributeExists("newAngebot"))
+				.andExpect(model().attribute("helfen", "helfen"));
 	}
 
 	@Test
-	public void testSaveNewTauschen() {
-		fail("Not yet implemented");
+	public void testSaveNewAusleihen() throws Exception {
+
+		String url = "/angebotNeu/ausleihen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				ausleihartikelService
+						.createAusleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(new Long(111));
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).createAusleihartikel(
+				any(AusleihartikelDTO.class));
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(ausleihAngebot), any(MultipartFile.class));
 	}
 
 	@Test
-	public void testSaveNewHelfen() {
-		fail("Not yet implemented");
+	public void testSaveNewTauschen() throws Exception {
+		String url = "/angebotNeu/tauschen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				tauschartikelService
+						.createTauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(new Long(222));
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(tauschartikelService.findById(new Long(111))).thenReturn(
+				tauschAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).createTauschartikel(
+				any(TauschartikelDTO.class));
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(tauschAngebot), any(MultipartFile.class));
+	}
+
+	@Test
+	public void testSaveNewHelfen() throws Exception {
+
+		String url = "/angebotNeu/helfen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				hilfeleistungService
+						.createHilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(new Long(333));
+
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).createHilfeleistung(
+				any(HilfeleistungDTO.class));
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(hilfAngebot), any(MultipartFile.class));
+
 	}
 
 	private void resetAllServices() {

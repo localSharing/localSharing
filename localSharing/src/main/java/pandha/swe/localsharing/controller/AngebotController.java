@@ -116,6 +116,13 @@ public class AngebotController {
 			addHilfsAngebotToModel(model, id);
 
 			break;
+
+		default:
+			return "redirect:angebote";
+		}
+
+		if (!model.containsAttribute("angebot")) {
+			return "redirect:angebote";
 		}
 
 		return "angebotEdit";
@@ -202,22 +209,23 @@ public class AngebotController {
 		return "redirect:../../angebote";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/tauschen")
-	public String deleteTauschartikel(
-			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
-			@PathVariable("id") String id, Model model, Principal principal) {
-
-		Benutzer user = getUser(principal);
-
-		angebot.setBenutzer(user);
-
-		Tauschartikel artikel = tauschartikelService
-				.tauschartikelDTO_TO_Tauschartikel(angebot);
-
-		tauschartikelService.delete(artikel);
-
-		return "redirect:../../angebote";
-	}
+	// @RequestMapping(method = RequestMethod.POST, value =
+	// "/delete/{id}/tauschen")
+	// public String deleteTauschartikel(
+	// @ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
+	// @PathVariable("id") String id, Model model, Principal principal) {
+	//
+	// Benutzer user = getUser(principal);
+	//
+	// angebot.setBenutzer(user);
+	//
+	// Tauschartikel artikel = tauschartikelService
+	// .tauschartikelDTO_TO_Tauschartikel(angebot);
+	//
+	// tauschartikelService.delete(artikel);
+	//
+	// return "redirect:../../angebote";
+	// }
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
 	public String deleteTauschartikel(@PathVariable("id") String id,
@@ -230,22 +238,23 @@ public class AngebotController {
 		return "redirect:../../angebote";
 	}
 
-	@RequestMapping(method = RequestMethod.POST, value = "/delete/{id}/helfen")
-	public String deleteHilfeleistung(
-			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
-			Principal principal) {
-
-		Benutzer user = getUser(principal);
-
-		angebot.setBenutzer(user);
-
-		Hilfeleistung artikel = hilfeleistungService
-				.hilfeleistungDTO_TO_Hilfeleistung(angebot);
-
-		hilfeleistungService.delete(artikel);
-
-		return "redirect:../../angebote";
-	}
+	// @RequestMapping(method = RequestMethod.POST, value =
+	// "/delete/{id}/helfen")
+	// public String deleteHilfeleistung(
+	// @ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
+	// Principal principal) {
+	//
+	// Benutzer user = getUser(principal);
+	//
+	// angebot.setBenutzer(user);
+	//
+	// Hilfeleistung artikel = hilfeleistungService
+	// .hilfeleistungDTO_TO_Hilfeleistung(angebot);
+	//
+	// hilfeleistungService.delete(artikel);
+	//
+	// return "redirect:../../angebote";
+	// }
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
 	public String deleteHilfeleistung(@PathVariable("id") String id,
@@ -293,7 +302,7 @@ public class AngebotController {
 
 		Ausleihartikel angebot = ausleihartikelService.findById(id);
 
-		if (!image.isEmpty()) {
+		if (image != null && !image.isEmpty()) {
 			fileService.save(angebot, image);
 		}
 
@@ -315,7 +324,7 @@ public class AngebotController {
 
 		Tauschartikel angebot = tauschartikelService.findById(id);
 
-		if (!image.isEmpty()) {
+		if (image != null && !image.isEmpty()) {
 			fileService.save(angebot, image);
 		}
 
@@ -337,7 +346,7 @@ public class AngebotController {
 
 		Hilfeleistung angebot = hilfeleistungService.findById(id);
 
-		if (!image.isEmpty()) {
+		if (image != null && !image.isEmpty()) {
 			fileService.save(angebot, image);
 		}
 
