@@ -75,57 +75,14 @@ public class AngebotController {
 	public String showAngebot(Model model, @PathVariable("ID") String id,
 			@PathVariable("Type") String type) {
 
-		switch (type) {
-		case "ausleihen":
-			addAusleihAngebotToModel(model, id);
-			break;
-
-		case "tauschen":
-			addTauschAngebotToModel(model, id);
-			break;
-
-		case "helfen":
-			addHilfsAngebotToModel(model, id);
-			break;
-		default:
-			return "redirect:angebote";
-		}
-
-		if (!model.containsAttribute("angebot")) {
-			return "redirect:angebote";
-		}
-
-		return "angebot";
+		return addAngebotToModel(model, id, type, "angebot");
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit/{id}/{type}")
 	public String editAngebot(Model model, @PathVariable("id") String id,
 			@PathVariable("type") String type) {
 
-		switch (type) {
-		case "ausleihen":
-			addAusleihAngebotToModel(model, id);
-			break;
-
-		case "tauschen":
-			addTauschAngebotToModel(model, id);
-
-			break;
-
-		case "helfen":
-			addHilfsAngebotToModel(model, id);
-
-			break;
-
-		default:
-			return "redirect:angebote";
-		}
-
-		if (!model.containsAttribute("angebot")) {
-			return "redirect:angebote";
-		}
-
-		return "angebotEdit";
+		return addAngebotToModel(model, id, type, "angebotEdit");
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/ausleihen")
@@ -144,9 +101,7 @@ public class AngebotController {
 
 		ausleihartikelService.update(ausleihartikel);
 
-		if (!image.isEmpty()) {
-			fileService.save(ausleihartikel, image);
-		}
+		saveImageIfExists(image, ausleihartikel);
 
 		return "redirect:../../angebote";
 	}
@@ -167,9 +122,7 @@ public class AngebotController {
 
 		tauschartikelService.update(artikel);
 
-		if (!image.isEmpty()) {
-			fileService.save(artikel, image);
-		}
+		saveImageIfExists(image, artikel);
 
 		return "redirect:../../angebote";
 	}
@@ -190,9 +143,7 @@ public class AngebotController {
 
 		hilfeleistungService.update(hilfe);
 
-		if (!image.isEmpty()) {
-			fileService.save(hilfe, image);
-		}
+		saveImageIfExists(image, hilfe);
 
 		return "redirect:../../angebote";
 	}
@@ -209,24 +160,6 @@ public class AngebotController {
 		return "redirect:../../angebote";
 	}
 
-	// @RequestMapping(method = RequestMethod.POST, value =
-	// "/delete/{id}/tauschen")
-	// public String deleteTauschartikel(
-	// @ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
-	// @PathVariable("id") String id, Model model, Principal principal) {
-	//
-	// Benutzer user = getUser(principal);
-	//
-	// angebot.setBenutzer(user);
-	//
-	// Tauschartikel artikel = tauschartikelService
-	// .tauschartikelDTO_TO_Tauschartikel(angebot);
-	//
-	// tauschartikelService.delete(artikel);
-	//
-	// return "redirect:../../angebote";
-	// }
-
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
 	public String deleteTauschartikel(@PathVariable("id") String id,
 			Model model, Principal principal) {
@@ -237,24 +170,6 @@ public class AngebotController {
 
 		return "redirect:../../angebote";
 	}
-
-	// @RequestMapping(method = RequestMethod.POST, value =
-	// "/delete/{id}/helfen")
-	// public String deleteHilfeleistung(
-	// @ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
-	// Principal principal) {
-	//
-	// Benutzer user = getUser(principal);
-	//
-	// angebot.setBenutzer(user);
-	//
-	// Hilfeleistung artikel = hilfeleistungService
-	// .hilfeleistungDTO_TO_Hilfeleistung(angebot);
-	//
-	// hilfeleistungService.delete(artikel);
-	//
-	// return "redirect:../../angebote";
-	// }
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
 	public String deleteHilfeleistung(@PathVariable("id") String id,
@@ -302,9 +217,7 @@ public class AngebotController {
 
 		Ausleihartikel angebot = ausleihartikelService.findById(id);
 
-		if (image != null && !image.isEmpty()) {
-			fileService.save(angebot, image);
-		}
+		saveImageIfExists(image, angebot);
 
 		return "redirect:../angebote";
 
@@ -324,9 +237,7 @@ public class AngebotController {
 
 		Tauschartikel angebot = tauschartikelService.findById(id);
 
-		if (image != null && !image.isEmpty()) {
-			fileService.save(angebot, image);
-		}
+		saveImageIfExists(image, angebot);
 
 		return "redirect:../angebote";
 
@@ -346,9 +257,7 @@ public class AngebotController {
 
 		Hilfeleistung angebot = hilfeleistungService.findById(id);
 
-		if (image != null && !image.isEmpty()) {
-			fileService.save(angebot, image);
-		}
+		saveImageIfExists(image, angebot);
 
 		return "redirect:../angebote";
 
@@ -395,6 +304,53 @@ public class AngebotController {
 			model.addAttribute("kategorie", ausleihartikel.getKategorie());
 			model.addAttribute("dauer", ausleihartikel.getDauer());
 		}
+	}
+
+	private String addAngebotToModel(Model model, String id, String type,
+			String successReturn) {
+		switch (type) {
+		case "ausleihen":
+			addAusleihAngebotToModel(model, id);
+			break;
+
+		case "tauschen":
+			addTauschAngebotToModel(model, id);
+			break;
+
+		case "helfen":
+			addHilfsAngebotToModel(model, id);
+			break;
+		default:
+			return "redirect:angebote";
+		}
+
+		if (!model.containsAttribute("angebot")) {
+			return "redirect:angebote";
+		}
+
+		return successReturn;
+	}
+
+	private void saveImageIfExists(MultipartFile image, Ausleihartikel artikel) {
+		if (isImageValid(image)) {
+			fileService.save(artikel, image);
+		}
+	}
+
+	private void saveImageIfExists(MultipartFile image, Tauschartikel artikel) {
+		if (isImageValid(image)) {
+			fileService.save(artikel, image);
+		}
+	}
+
+	private void saveImageIfExists(MultipartFile image, Hilfeleistung artikel) {
+		if (isImageValid(image)) {
+			fileService.save(artikel, image);
+		}
+	}
+
+	private boolean isImageValid(MultipartFile image) {
+		return image != null && !image.isEmpty();
 	}
 
 }
