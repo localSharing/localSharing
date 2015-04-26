@@ -23,6 +23,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.VerificationModeFactory;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
@@ -583,6 +584,89 @@ public class AngebotControllerTest {
 	}
 
 	@Test
+	public void testSaveNewAusleihenWithEmptyImage() throws Exception {
+
+		String url = "/angebotNeu/ausleihen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				ausleihartikelService
+						.createAusleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(new Long(111));
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).createAusleihartikel(
+				any(AusleihartikelDTO.class));
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(ausleihAngebot), any(MultipartFile.class));
+	}
+
+	@Test
+	public void testSaveNewAusleihenWithImage() throws Exception {
+
+		String url = "/angebotNeu/ausleihen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				ausleihartikelService
+						.createAusleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(new Long(111));
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).createAusleihartikel(
+				any(AusleihartikelDTO.class));
+		verify(fileService, times(1)).save(eq(ausleihAngebot),
+				any(MultipartFile.class));
+	}
+
+	@Test
 	public void testSaveNewTauschen() throws Exception {
 		String url = "/angebotNeu/tauschen";
 		String response = "redirect:../angebote";
@@ -619,6 +703,89 @@ public class AngebotControllerTest {
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
 				eq(tauschAngebot), any(MultipartFile.class));
+	}
+
+	@Test
+	public void testSaveNewTauschenWithEmptyImage() throws Exception {
+		String url = "/angebotNeu/tauschen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				tauschartikelService
+						.createTauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(new Long(222));
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(tauschartikelService.findById(new Long(111))).thenReturn(
+				tauschAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).createTauschartikel(
+				any(TauschartikelDTO.class));
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(tauschAngebot), any(MultipartFile.class));
+	}
+
+	@Test
+	public void testSaveNewTauschenWithImage() throws Exception {
+		String url = "/angebotNeu/tauschen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				tauschartikelService
+						.createTauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(new Long(222));
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).createTauschartikel(
+				any(TauschartikelDTO.class));
+
+		verify(fileService, times(1)).save(eq(tauschAngebot),
+				any(MultipartFile.class));
 	}
 
 	@Test
@@ -659,6 +826,461 @@ public class AngebotControllerTest {
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
 				eq(hilfAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveNewHelfenWithEmptyImage() throws Exception {
+
+		String url = "/angebotNeu/helfen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				hilfeleistungService
+						.createHilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(new Long(333));
+
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).createHilfeleistung(
+				any(HilfeleistungDTO.class));
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(hilfAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveNewHelfenWithImage() throws Exception {
+
+		String url = "/angebotNeu/helfen";
+		String response = "redirect:../angebote";
+
+		resetAllServices();
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				hilfeleistungService
+						.createHilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(new Long(333));
+
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).createHilfeleistung(
+				any(HilfeleistungDTO.class));
+
+		verify(fileService, times(1)).save(eq(hilfAngebot),
+				any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditAusleiharikel() throws Exception {
+
+		String url = "/angebotEdit/111/ausleihen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(
+				ausleihartikelService
+						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(ausleihAngebot);
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).update(ausleihAngebot);
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(ausleihAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditAusleiharikelWithEmptyImage() throws Exception {
+
+		String url = "/angebotEdit/111/ausleihen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(
+				ausleihartikelService
+						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(ausleihAngebot);
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).update(ausleihAngebot);
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(ausleihAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditAusleiharikelWithImage() throws Exception {
+
+		String url = "/angebotEdit/111/ausleihen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		Ausleihartikel ausleihAngebot = new Ausleihartikel();
+		ausleihAngebot.setAngebotsid(new Long(111));
+		ausleihAngebot.setTitel("Ich teste deinen Code");
+
+		when(
+				ausleihartikelService
+						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(ausleihAngebot);
+
+		when(ausleihartikelService.findById(new Long(111))).thenReturn(
+				ausleihAngebot);
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(ausleihartikelService, times(1)).update(ausleihAngebot);
+		verify(fileService, times(1)).save(eq(ausleihAngebot),
+				any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditTauscharikel() throws Exception {
+
+		String url = "/angebotEdit/222/tauschen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				tauschartikelService
+						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(tauschAngebot);
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).update(tauschAngebot);
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(tauschAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditTauscharikelWithEmptyImage() throws Exception {
+
+		String url = "/angebotEdit/222/tauschen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				tauschartikelService
+						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(tauschAngebot);
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).update(tauschAngebot);
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(tauschAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditTauscharikelWithImage() throws Exception {
+
+		String url = "/angebotEdit/222/tauschen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+
+		Tauschartikel tauschAngebot = new Tauschartikel();
+		tauschAngebot.setAngebotsid(new Long(222));
+		tauschAngebot.setTitel("Ich teste deinen Code");
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				tauschartikelService
+						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(tauschAngebot);
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschAngebot);
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(tauschartikelService, times(1)).update(tauschAngebot);
+
+		verify(fileService, times(1)).save(eq(tauschAngebot),
+				any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditHilfsangebot() throws Exception {
+		String url = "/angebotEdit/333/helfen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				hilfeleistungService
+						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(hilfAngebot);
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).update(hilfAngebot);
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(hilfAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditHilfsangebotWithEmptyImage() throws Exception {
+
+		String url = "/angebotEdit/333/helfen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				hilfeleistungService
+						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(hilfAngebot);
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", "".getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).update(hilfAngebot);
+
+		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
+				eq(hilfAngebot), any(MultipartFile.class));
+
+	}
+
+	@Test
+	public void testSaveEditHilfsangebotWithImage() throws Exception {
+
+		String url = "/angebotEdit/333/helfen";
+		String response = "redirect:../../angebote";
+
+		resetAllServices();
+		Hilfeleistung hilfAngebot = new Hilfeleistung();
+		hilfAngebot.setAngebotsid(new Long(333));
+		hilfAngebot.setTitel("Ich teste deinen Code");
+
+		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
+				benutzer);
+
+		when(
+				hilfeleistungService
+						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(hilfAngebot);
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfAngebot);
+
+		MockMultipartFile file = new MockMultipartFile("testBild",
+				"Tolles Bild".getBytes());
+
+		mockMvc.perform(
+				fileUpload(url).file("angebotImage", file.getBytes())
+						.contentType(MediaType.MULTIPART_FORM_DATA)
+						.param("titel", "Test Arikel")
+						.param("kategorie", "Test Kategorie")
+						.param("beschreibung", "Test Beschreibung")
+						.param("startDatum", "01.01.2000")
+						.param("endDatum", "01.01.2001").param("dauer", "12")
+						.principal(testUser)).andExpect(status().isFound())
+				.andExpect(view().name(response));
+
+		verify(hilfeleistungService, times(1)).update(hilfAngebot);
+
+		verify(fileService, times(1)).save(eq(hilfAngebot),
+				any(MultipartFile.class));
 
 	}
 
