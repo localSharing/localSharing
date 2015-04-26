@@ -152,6 +152,21 @@ public class AngebotControllerTest {
 
 	}
 
+
+	@Test
+	public void testShowAngebotNull() throws Exception {
+
+		String url = "/angebot/123/''";
+		String response = "redirect:angebote";
+
+		resetAllServices();
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
+
+	}
+	
+	
 	@Test
 	public void testShowAngebotAusleihenExists() throws Exception {
 
