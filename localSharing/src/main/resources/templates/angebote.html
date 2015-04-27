@@ -25,8 +25,8 @@
 			<table class="table">
 
 				<tr th:each="artikel : ${artikelListA}"
-					onclick="window.location='/angebot/1';"
-					th:onclick="${'window.open('+'''/angebot/' + artikel.id + '/ausleihen' +''',''_self'');'}">
+					onclick="window.location='angebot/1';"
+					th:onclick="${'window.open('+'''angebot/' + artikel.id + '/ausleihen' +''',''_self'');'}">
 					<!--  th:onclick="${'window.location.href = /angebot/' + artikel.id} + ';'"-->
 					<td><span th:text="${artikel.titel}"></span></td>
 					<td><span th:text="${artikel.kategorie}"></span></td>
@@ -50,8 +50,8 @@
 			<table class="table">
 
 				<tr th:each="artikel : ${artikelListT}"
-					onclick="window.location.href='/angebot/1';"
-					th:onclick="${'window.location.href='+'''/angebot/' + artikel.id + '/tauschen' +''';'}">
+					onclick="window.location.href='angebot/1';"
+					th:onclick="${'window.location.href='+'''angebot/' + artikel.id + '/tauschen' +''';'}">
 					<td><span th:text="${artikel.titel}"></span></td>
 					<td><span th:text="${artikel.kategorie}"></span></td>
 					<td><span th:text="${artikel.startDatum}"></span></td>
@@ -76,8 +76,8 @@
 			<table class="table">
 
 				<tr th:each="artikel : ${artikelListH}"
-					onclick="window.location.href='/angebot/1';"
-					th:onclick="${'window.location.href='+'''/angebot/' + artikel.id + '/helfen' +''';'}">
+					onclick="window.location.href='angebot/1';"
+					th:onclick="${'window.location.href='+'''angebot/' + artikel.id + '/helfen' +''';'}">
 					<td><span th:text="${artikel.titel}"></span></td>
 					<td><span th:text="${artikel.startDatum}"></span></td>
 					<td><span th:text="${artikel.endDatum}"></span></td>
