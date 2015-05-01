@@ -1,18 +1,13 @@
 package pandha.swe.localsharing.service;
 
-import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +22,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
+import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 
 public class AusleiharikelServiceImplTest {
 
@@ -89,8 +86,32 @@ public class AusleiharikelServiceImplTest {
 	}
 
 	@Test
-	public void testFindAllByBenutzer() {
-		fail("Not yet implemented");
+	public void testFindAllByBenutzer() throws ParseException {
+		reset(ausleihartikelDao);
+
+		Benutzer testUser = new Benutzer();
+		testUser.setId(new Long(111));
+
+		List<Ausleihartikel> alle = new ArrayList<Ausleihartikel>();
+
+		Long id = new Long(222);
+		Ausleihartikel a = new Ausleihartikel();
+		a.setAngebotsid(id);
+		a.setBenutzer(testUser);
+		a.setBeschreibung("Test");
+		a.setDauer(3);
+		a.setKategorie("Test");
+		a.setStartDatum(new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01"));
+		a.setEndDatum(new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01"));
+		alle.add(0, a);
+
+		when(ausleihartikelDao.findAllByBenutzer(testUser)).thenReturn(alle);
+
+		List<AusleihartikelDTO> list = service.findAllByBenutzer(testUser);
+
+		Assert.assertEquals(a.getAngebotsid(), list.get(0).getId());
+
+		verify(ausleihartikelDao, times(1)).findAllByBenutzer(testUser);
 	}
 
 	@Test
@@ -119,7 +140,7 @@ public class AusleiharikelServiceImplTest {
 		Ausleihartikel a = new Ausleihartikel();
 		a.setAngebotsid(id);
 
-		ausleihartikelDao.update(a);
+		service.update(a);
 		verify(ausleihartikelDao, times(1)).update(a);
 
 	}
@@ -133,37 +154,29 @@ public class AusleiharikelServiceImplTest {
 		Ausleihartikel a = new Ausleihartikel();
 		a.setAngebotsid(id);
 
-		ausleihartikelDao.delete(a);
+		service.delete(a);
 		verify(ausleihartikelDao, times(1)).delete(a);
-	
-	
+
 	}
 
 	@Test
 	public void testCreateAusleihartikel() {
-		
+
 		reset(ausleihartikelDao);
 
 		Long id = new Long(222);
 		Ausleihartikel a = new Ausleihartikel();
 		a.setAngebotsid(id);
 
-		ausleihartikelDao.delete(a);
-		verify(ausleihartikelDao, times(1)).delete(a);
-		
-		
-		
-		fail("Not yet implemented");
-	}
+		Long long1 = new Long(111);
 
-	@Test
-	public void testAusleihartikelDTO_TO_Ausleihartikel() {
-		fail("Not yet implemented");
-	}
+		when(ausleihartikelDao.save(any(Ausleihartikel.class))).thenReturn(
+				long1);
 
-	@Test
-	public void testAusleihartikel_TO_AusleihartikelDTO() {
-		fail("Not yet implemented");
+		Assert.assertEquals(long1, service.save(a));
+
+		verify(ausleihartikelDao, times(1)).save(a);
+
 	}
 
 	@Test
@@ -171,10 +184,9 @@ public class AusleiharikelServiceImplTest {
 
 		reset(ausleihartikelDao);
 
-		ausleihartikelDao.shutdown();
+		service.shutdown();
 		verify(ausleihartikelDao, times(1)).shutdown();
-	
-	
+
 	}
 
 }
