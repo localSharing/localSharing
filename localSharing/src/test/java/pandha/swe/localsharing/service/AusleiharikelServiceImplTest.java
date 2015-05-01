@@ -160,22 +160,96 @@ public class AusleiharikelServiceImplTest {
 	}
 
 	@Test
+	public void testDTO_TO_Ausleihartikel() throws ParseException {
+
+		Long id = new Long(222);
+		Benutzer testUser = new Benutzer();
+
+		AusleihartikelDTO dto = new AusleihartikelDTO();
+		dto.setId(id);
+		dto.setBenutzer(testUser);
+		dto.setBeschreibung("Test");
+		dto.setDauer(2);
+		dto.setStartDatum("11.11.1999");
+		dto.setEndDatum("11.11.2000");
+		dto.setKategorie("Test");
+
+		Ausleihartikel aReturn = new Ausleihartikel();
+		aReturn.setAngebotsid(id);
+		aReturn.setBenutzer(testUser);
+		aReturn.setBeschreibung("Test");
+		aReturn.setDauer(2);
+		aReturn.setStartDatum(new SimpleDateFormat("dd-MM-yyyy")
+				.parse("11-11-1999"));
+		aReturn.setEndDatum(new SimpleDateFormat("dd-MM-yyyy")
+				.parse("11-11-2000"));
+		aReturn.setKategorie("Test");
+
+		when(ausleihartikelDao.findById(id)).thenReturn(aReturn);
+
+		Ausleihartikel a = service.ausleihartikelDTO_TO_Ausleihartikel(dto);
+
+		Assert.assertEquals(dto.getId(), a.getAngebotsid());
+		Assert.assertEquals(dto.getBenutzer(), a.getBenutzer());
+		Assert.assertEquals(dto.getBeschreibung(), a.getBeschreibung());
+		Assert.assertEquals(dto.getDauer(), a.getDauer());
+		Assert.assertEquals(dto.getStartDatum(), new SimpleDateFormat(
+				"dd.MM.yyyy").format(a.getStartDatum()));
+		Assert.assertEquals(dto.getEndDatum(), new SimpleDateFormat(
+				"dd.MM.yyyy").format(a.getEndDatum()));
+		Assert.assertEquals(dto.getKategorie(), a.getKategorie());
+	}
+
+	@Test
+	public void testAusleihartikel_TO_DTO() throws ParseException {
+
+		Long id = new Long(222);
+		Benutzer testUser = new Benutzer();
+
+		Ausleihartikel a = new Ausleihartikel();
+		a.setAngebotsid(id);
+		a.setBenutzer(testUser);
+		a.setBeschreibung("Test");
+		a.setDauer(2);
+		a.setStartDatum(new SimpleDateFormat("dd-MM-yyyy").parse("11-11-1999"));
+		a.setEndDatum(new SimpleDateFormat("dd-MM-yyyy").parse("11-11-2000"));
+		a.setKategorie("Test");
+
+		AusleihartikelDTO dto = service.ausleihartikel_TO_AusleihartikelDTO(a);
+
+		Assert.assertEquals(a.getAngebotsid(), dto.getId());
+		Assert.assertEquals(a.getBenutzer(), dto.getBenutzer());
+		Assert.assertEquals(a.getBeschreibung(), dto.getBeschreibung());
+		Assert.assertEquals(a.getDauer(), dto.getDauer());
+		Assert.assertEquals(
+				new SimpleDateFormat("dd.MM.yyyy").format(a.getStartDatum()),
+				dto.getStartDatum());
+		Assert.assertEquals(
+				new SimpleDateFormat("dd.MM.yyyy").format(a.getEndDatum()),
+				dto.getEndDatum());
+		Assert.assertEquals(a.getKategorie(), dto.getKategorie());
+	}
+
+	@Test
 	public void testCreateAusleihartikel() {
 
 		reset(ausleihartikelDao);
 
 		Long id = new Long(222);
-		Ausleihartikel a = new Ausleihartikel();
-		a.setAngebotsid(id);
+		AusleihartikelDTO a = new AusleihartikelDTO();
+		a.setId(null);
+		a.setBenutzer(new Benutzer());
+		a.setBeschreibung("Test");
+		a.setDauer(2);
+		a.setStartDatum("11.11.1999");
+		a.setEndDatum("11.11.2000");
+		a.setKategorie("Test");
 
-		Long long1 = new Long(111);
+		when(ausleihartikelDao.save(any(Ausleihartikel.class))).thenReturn(id);
 
-		when(ausleihartikelDao.save(any(Ausleihartikel.class))).thenReturn(
-				long1);
+		Assert.assertEquals(id, service.createAusleihartikel(a));
 
-		Assert.assertEquals(long1, service.save(a));
-
-		verify(ausleihartikelDao, times(1)).save(a);
+		verify(ausleihartikelDao, times(1)).save(any(Ausleihartikel.class));
 
 	}
 
