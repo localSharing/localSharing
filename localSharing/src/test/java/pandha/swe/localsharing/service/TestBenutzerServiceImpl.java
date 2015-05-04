@@ -265,6 +265,58 @@ public class TestBenutzerServiceImpl {
 		Assert.assertEquals(dto.getStrasse(), dtoReturn.getStrasse());
 	}
 
+	
+	
+	@Test
+	public void testBenutzer_TO_DTO_PLZ() throws ParseException {
+
+		Long id = new Long(222);
+
+		Benutzer benutzer = new Benutzer();
+		benutzer.setId(id);
+		benutzer.setBenutzerRolle(null);
+		benutzer.setEnabled(true);
+		benutzer.setEmail("testUser@localsharing.com");
+		benutzer.setGeschlecht(Geschlecht.FRAU);
+		benutzer.setHausnummer("34");
+		benutzer.setNachname("Grün");
+		benutzer.setVorname("Peter");
+		benutzer.setPlz(115);
+		benutzer.setStrasse("Peterstraße");
+		benutzer.setStadt("Karlsruhe");
+		benutzer.setTelefonNr("123456");
+		benutzer.setPasswort("1345678");
+
+		BenutzerDTO dtoReturn = new BenutzerDTO();
+
+		dtoReturn.setId(id);
+		dtoReturn.setEmail("testUser@localsharing.com");
+		dtoReturn.setGeschlecht(Geschlecht.FRAU);
+		dtoReturn.setHausnummer("34");
+		dtoReturn.setNachname("Grün");
+		dtoReturn.setVorname("Peter");
+		dtoReturn.setPlz("00115");
+		dtoReturn.setStrasse("Peterstraße");
+		dtoReturn.setStadt("Karlsruhe");
+		dtoReturn.setTelefonNummer("123456");
+
+		when(benutzerDao.findById(id)).thenReturn(benutzer);
+
+		BenutzerDTO dto = service.benutzer_TO_BenutzerDTO(benutzer);
+
+		Assert.assertEquals(dto.getId(), dtoReturn.getId());
+		Assert.assertEquals(dto.getEmail(), dtoReturn.getEmail());
+		Assert.assertEquals(dto.getHausnummer(), dtoReturn.getHausnummer());
+		Assert.assertEquals(dto.getPlz(), dtoReturn.getPlz());
+		Assert.assertEquals(dto.getNachname(), dtoReturn.getNachname());
+		Assert.assertEquals(dto.getVorname(), dtoReturn.getVorname());
+		Assert.assertEquals(dto.getGeschlecht(), dtoReturn.getGeschlecht());
+		Assert.assertEquals(dto.getStadt(), dtoReturn.getStadt());
+		Assert.assertEquals(dto.getStrasse(), dtoReturn.getStrasse());
+	}
+	
+	
+	
 	@Test
 	public void testRegisterBenutzer() {
 
