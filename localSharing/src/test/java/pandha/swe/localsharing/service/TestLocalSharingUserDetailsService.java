@@ -1,8 +1,6 @@
 package pandha.swe.localsharing.service;
 
 import static org.mockito.Mockito.reset;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
@@ -13,6 +11,7 @@ import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
@@ -60,7 +59,58 @@ public class TestLocalSharingUserDetailsService {
 		a.setEnabled(true);
 
 		HashSet<BenutzerRolle> rollen = new HashSet<BenutzerRolle>();
+		rollen.add(new BenutzerRolle(new Long(0), a, Rollen.ADMIN));
+		a.setBenutzerRolle(rollen);
 
+		when(benutzerDao.findByEmail(email)).thenReturn(a);
+
+		Assert.assertEquals(email, service.loadUserByUsername(email)
+				.getUsername());
+
+	}
+
+	@Test(expected = UsernameNotFoundException.class)
+	public void testLoadUserByUsernameNoUser() {
+
+		reset(benutzerDao);
+
+		String email = "testUser@localsharing.com";
+
+		Long id = new Long(222);
+		Benutzer a = new Benutzer();
+		a.setId(id);
+		a.setEmail(email);
+		a.setPasswort("12345678");
+		a.setEnabled(true);
+
+		HashSet<BenutzerRolle> rollen = new HashSet<BenutzerRolle>();
+
+		a.setBenutzerRolle(rollen);
+
+		when(benutzerDao.findByEmail(email)).thenReturn(null);
+
+		service.loadUserByUsername(email);
+
+	}
+
+	@Test
+	public void testLoadUserByUsernameMoreRolle() {
+
+		reset(benutzerDao);
+
+		String email = "testUser@localsharing.com";
+
+		Long id = new Long(222);
+		Benutzer a = new Benutzer();
+		a.setId(id);
+		a.setEmail(email);
+		a.setPasswort("12345678");
+		a.setEnabled(true);
+
+		HashSet<BenutzerRolle> rollen = new HashSet<BenutzerRolle>();
+
+		rollen.add(new BenutzerRolle(new Long(0), a, Rollen.ADMIN));
+		rollen.add(new BenutzerRolle(new Long(1), a, Rollen.USER));
 		a.setBenutzerRolle(rollen);
 
 		when(benutzerDao.findByEmail(email)).thenReturn(a);
