@@ -50,7 +50,6 @@ public class ProfilController {
 	@RequestMapping(method = RequestMethod.POST, value = "/profilEdit")
 	public String editProfil(
 			@ModelAttribute("user") @Valid BenutzerDTO user,
-			Model model,
 			Principal principal,
 			@RequestParam(value = "userImage", required = false) MultipartFile image) {
 

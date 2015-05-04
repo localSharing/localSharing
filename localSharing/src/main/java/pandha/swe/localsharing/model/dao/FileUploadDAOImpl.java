@@ -44,7 +44,7 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

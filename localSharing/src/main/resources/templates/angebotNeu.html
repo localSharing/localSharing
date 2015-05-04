@@ -71,7 +71,7 @@
 
 						<div class="row">
 							<div class="col-md-2">
-								<b>Titel: </b>
+								<strong>Titel: </strong>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control" th:field="*{titel}"
@@ -84,10 +84,10 @@
 							<div class="panel-heading">Beschreibung</div>
 							<div class="panel-body">
 								<div th:if="${ausleihen != null || tauschen != null}">
-									<b>Kategorie: </b><input type="text" class="form-control"
+									<strong>Kategorie: </strong><input type="text" class="form-control"
 										th:field="*{kategorie}" id="kategorie" /> <br />
 								</div>
-								<b>Angebotsbeschreibung: </b>
+								<strong>Angebotsbeschreibung: </strong>
 								<textarea rows="10" class="form-control"
 									th:field="*{beschreibung}" id="beschreibung"> </textarea>
 
@@ -97,14 +97,14 @@
 						<div class="panel panel-success">
 							<div class="panel-heading">Bedingungen</div>
 							<div class="panel-body">
-								<b>Startdatum: </b><input type="datetime" class="form-control"
+								<strong>Startdatum: </strong><input type="datetime" class="form-control"
 									id="startDatum" th:field="*{startDatum}" required="required" />
 								<div th:if="${ausleihen != null || helfen != null}">
-									<b>Enddatum: </b><input type="datetime" th:field="*{endDatum}"
+									<strong>Enddatum: </strong><input type="datetime" th:field="*{endDatum}"
 										class="form-control" id="endDatum" />
 								</div>
 								<div th:if="${ausleihen != null}">
-									<br /> <b>maximale Ausleihdauer: </b><input type="text"
+									<br /> <strong>maximale Ausleihdauer: </strong><input type="text"
 										class="form-control" th:field="*{dauer}" id="dauer" /> Tag(e)
 								</div>
 							</div>

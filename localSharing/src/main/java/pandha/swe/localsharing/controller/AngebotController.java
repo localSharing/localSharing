@@ -88,7 +88,6 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/ausleihen")
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid AusleihartikelDTO angebot,
-			@PathVariable("id") String id,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
@@ -109,7 +108,6 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/tauschen")
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid TauschartikelDTO angebot,
-			@PathVariable("id") String id,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
@@ -130,7 +128,6 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/helfen")
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid HilfeleistungDTO angebot,
-			@PathVariable("id") String id,
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
@@ -149,8 +146,7 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/ausleihen")
-	public String deleteAusleihartikel(@PathVariable("id") String id,
-			Model model, Principal principal) {
+	public String deleteAusleihartikel(@PathVariable("id") String id) {
 
 		Ausleihartikel ausleihartikel = ausleihartikelService
 				.findById(new Long(id));
@@ -161,8 +157,7 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
-	public String deleteTauschartikel(@PathVariable("id") String id,
-			Model model, Principal principal) {
+	public String deleteTauschartikel(@PathVariable("id") String id) {
 
 		Tauschartikel artikel = tauschartikelService.findById(new Long(id));
 
@@ -172,8 +167,7 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
-	public String deleteHilfeleistung(@PathVariable("id") String id,
-			Model model, Principal principal) {
+	public String deleteHilfeleistung(@PathVariable("id") String id) {
 
 		Hilfeleistung artikel = hilfeleistungService.findById(new Long(id));
 

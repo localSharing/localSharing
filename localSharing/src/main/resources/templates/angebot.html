@@ -8,8 +8,7 @@
 <link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
 
-<script src="/webjars/jquery/2.1.1/jquery.min.js"
-	type="text/javascript"></script>
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
@@ -78,9 +77,10 @@
 						<div class="panel-heading">Beschreibung</div>
 						<div class="panel-body">
 							<div th:if="${kategorie != null}">
-								<b>Kategorie: </b><span th:text="${angebot.kategorie}"></span> <br />
+								<strong>Kategorie: </strong><span th:text="${angebot.kategorie}"></span>
+								<br />
 							</div>
-							<b>Angebotsbeschreibung: </b><span
+							<strong>Angebotsbeschreibung: </strong><span
 								th:text="${angebot.beschreibung}"></span>
 
 						</div>
@@ -89,12 +89,13 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Bedingungen</div>
 						<div class="panel-body">
-							<b>Startdatum: </b><span th:text="${angebot.startDatum}"></span>
+							<strong>Startdatum: </strong><span
+								th:text="${angebot.startDatum}"></span>
 							<div th:if="${endDatum != null}">
-								<b>Enddatum: </b><span th:text="${angebot.endDatum}"></span>
+								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
 							</div>
 							<div th:if="${dauer != null}">
-								<br /> <b>maximale Ausleihdauer: </b><span
+								<br /> <strong>maximale Ausleihdauer: </strong><span
 									th:text="${angebot.dauer}"></span> Tag(e)
 							</div>
 						</div>

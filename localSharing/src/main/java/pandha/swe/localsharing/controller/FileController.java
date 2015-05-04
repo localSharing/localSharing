@@ -114,18 +114,16 @@ public class FileController {
 
 			data = Files.readAllBytes(classPathResource.getFile().toPath());
 
-			System.out.println(new String(data, "UTF-8"));
-
 			fileUpload.setFile(data);
 
 			fileService.save(fileUpload);
 
-			image = fileUpload;
+			return fileUpload;
 
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return image;
+		return null;
 	}
 
 	private byte[] getUserDefaultImageIfNotExistInsertIT() {

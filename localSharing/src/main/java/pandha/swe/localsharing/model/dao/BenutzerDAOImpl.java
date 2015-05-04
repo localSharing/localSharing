@@ -110,7 +110,7 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 					.findByCriteria(DetachedCriteria.forClass(Benutzer.class)
 							.add(Restrictions.eq("email", email)));
 
-			if (benutzerList != null && benutzerList.size() > 0
+			if (benutzerList != null && benutzerList.isEmpty()
 					&& benutzerList.get(0) instanceof Benutzer) {
 
 				return (Benutzer) benutzerList.get(0);
