@@ -295,7 +295,7 @@ public class TestBenutzerServiceImpl {
 		dtoReturn.setHausnummer("34");
 		dtoReturn.setNachname("Grün");
 		dtoReturn.setVorname("Peter");
-		dtoReturn.setPlz("00115");
+		dtoReturn.setPlz("11500");
 		dtoReturn.setStrasse("Peterstraße");
 		dtoReturn.setStadt("Karlsruhe");
 		dtoReturn.setTelefonNummer("123456");

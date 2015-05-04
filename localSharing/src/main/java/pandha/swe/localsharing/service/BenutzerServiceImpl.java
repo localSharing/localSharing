@@ -92,7 +92,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 		String plz = benutzerDTO.getPlz();
 
 		for (int i = plz.length(); i < 5; i++) {
-			plz = "0" + plz;
+			plz += "0";
 		}
 
 		benutzerDTO.setPlz(plz);
