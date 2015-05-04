@@ -8,7 +8,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ AusleiharikelServiceImplTest.class,
 		TestTauschartikelServiceImpl.class, TestBenutzerServiceImpl.class,
 		TestHilfeleistungServiceImpl.class,
-		TestLocalSharingUserDetailsService.class })
+		TestLocalSharingUserDetailsService.class, TestFileServiceImpl.class })
 public class ServiceUnitTest {
 
 }
