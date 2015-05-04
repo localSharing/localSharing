@@ -6,7 +6,8 @@ import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
 @SuiteClasses({ AusleiharikelServiceImplTest.class,
-		TestTauschartikelServiceImpl.class, TestHilfeleistungServiceImpl.class })
+		TestTauschartikelServiceImpl.class, TestBenutzerServiceImpl.class,
+		TestHilfeleistungServiceImpl.class })
 public class ServiceUnitTest {
 
 }
