@@ -369,4 +369,86 @@ public class TestFileServiceImpl {
 
 	}
 
+	@Test
+	public void testSaveAusleihartikelMultipartFileNull() {
+		reset(fileDao);
+
+		Long id = new Long(222);
+
+		when(fileDao.findByAssociated(id, FileUploadType.AUSLEIHANGEBOT))
+				.thenReturn(null);
+
+		Ausleihartikel ausleih = new Ausleihartikel();
+		ausleih.setAngebotsid(id);
+
+		String name = "file.txt";
+		String originalFileName = "file.txt";
+		String contentType = "text/plain";
+		byte[] content = "test".getBytes();
+
+		MultipartFile file = new MockMultipartFile(name, originalFileName,
+				contentType, content);
+
+		service.save(ausleih, file);
+
+		verify(fileDao, times(1)).findByAssociated(id,
+				FileUploadType.AUSLEIHANGEBOT);
+		verify(fileDao, times(1)).save(any(FileUpload.class));
+	}
+
+	@Test
+	public void testSaveTauschartikelMultipartFileNull() {
+		reset(fileDao);
+
+		Long id = new Long(222);
+
+		when(fileDao.findByAssociated(id, FileUploadType.TAUSCHANGEBOT))
+				.thenReturn(null);
+
+		Tauschartikel tausch = new Tauschartikel();
+		tausch.setAngebotsid(id);
+
+		String name = "file.txt";
+		String originalFileName = "file.txt";
+		String contentType = "text/plain";
+		byte[] content = "test".getBytes();
+
+		MultipartFile file = new MockMultipartFile(name, originalFileName,
+				contentType, content);
+
+		service.save(tausch, file);
+
+		verify(fileDao, times(1)).findByAssociated(id,
+				FileUploadType.TAUSCHANGEBOT);
+		verify(fileDao, times(1)).save(any(FileUpload.class));
+
+	}
+
+	@Test
+	public void testSaveHilfeleistungMultipartFileNull() {
+		reset(fileDao);
+
+		Long id = new Long(222);
+
+		when(fileDao.findByAssociated(id, FileUploadType.HILFANGEBOT))
+				.thenReturn(null);
+
+		Hilfeleistung hilfe = new Hilfeleistung();
+		hilfe.setAngebotsid(id);
+
+		String name = "file.txt";
+		String originalFileName = "file.txt";
+		String contentType = "text/plain";
+		byte[] content = "test".getBytes();
+
+		MultipartFile file = new MockMultipartFile(name, originalFileName,
+				contentType, content);
+
+		service.save(hilfe, file);
+
+		verify(fileDao, times(1)).findByAssociated(id,
+				FileUploadType.HILFANGEBOT);
+		verify(fileDao, times(1)).save(any(FileUpload.class));
+	}
+
 }
