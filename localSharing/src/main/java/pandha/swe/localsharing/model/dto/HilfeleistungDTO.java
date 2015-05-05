@@ -9,9 +9,10 @@ public class HilfeleistungDTO extends AngebotDTO {
 	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
 	private String endDatum;
 
-	public HilfeleistungDTO(Long id, Benutzer benutzer, String titel,
-			String beschreibung, String startDatum, String endDatum) {
-		super(id, benutzer, titel, beschreibung, startDatum);
+	public HilfeleistungDTO(Long id, Boolean enabled, Benutzer benutzer,
+			String titel, String beschreibung, String startDatum,
+			String endDatum) {
+		super(id, enabled, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 	}
 
@@ -29,7 +30,8 @@ public class HilfeleistungDTO extends AngebotDTO {
 
 	@Override
 	public String toString() {
-		return "HilfeleistungDTO [benutzer = " + super.getBenutzer()
+		return "HilfeleistungDTO [id = " + super.getId() + ", enabled = "
+				+ super.getEnabled() + "benutzer = " + super.getBenutzer()
 				+ "titel = " + super.getTitel() + ", beschreibung = "
 				+ super.getBeschreibung() + ", startDatum = "
 				+ super.getStartDatum() + ", endDatum = " + endDatum + "]";

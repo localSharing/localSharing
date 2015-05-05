@@ -60,6 +60,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	public Long createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
 
 		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
+				ausleihartikelDTO.getEnabled(),
 				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
 				ausleihartikelDTO.getBeschreibung(),
 				stringToDate(ausleihartikelDTO.getStartDatum()),
@@ -94,8 +95,9 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 			Ausleihartikel ausleihartikel) {
 
 		AusleihartikelDTO ausleihartikelDTO = new AusleihartikelDTO(
-				ausleihartikel.getAngebotsid(), ausleihartikel.getBenutzer(),
-				ausleihartikel.getTitel(), ausleihartikel.getBeschreibung(),
+				ausleihartikel.getAngebotsid(), ausleihartikel.getEnabled(),
+				ausleihartikel.getBenutzer(), ausleihartikel.getTitel(),
+				ausleihartikel.getBeschreibung(),
 				dateToString(ausleihartikel.getStartDatum()),
 				dateToString(ausleihartikel.getEndDatum()),
 				ausleihartikel.getDauer(), ausleihartikel.getKategorie());

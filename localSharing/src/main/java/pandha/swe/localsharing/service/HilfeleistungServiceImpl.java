@@ -60,7 +60,8 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	public Long createHilfeleistung(HilfeleistungDTO hilfeleistungDTO) {
 
 		Hilfeleistung hilfeleistung = new Hilfeleistung(null,
-				hilfeleistungDTO.getBenutzer(), hilfeleistungDTO.getTitel(),
+				hilfeleistungDTO.getEnabled(), hilfeleistungDTO.getBenutzer(),
+				hilfeleistungDTO.getTitel(),
 				hilfeleistungDTO.getBeschreibung(),
 				stringToDate(hilfeleistungDTO.getStartDatum()),
 				stringToDate(hilfeleistungDTO.getEndDatum()));
@@ -90,8 +91,9 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 			Hilfeleistung hilfeleistung) {
 
 		HilfeleistungDTO hilfeleistungDTO = new HilfeleistungDTO(
-				hilfeleistung.getAngebotsid(), hilfeleistung.getBenutzer(),
-				hilfeleistung.getTitel(), hilfeleistung.getBeschreibung(),
+				hilfeleistung.getAngebotsid(), hilfeleistung.getEnabled(),
+				hilfeleistung.getBenutzer(), hilfeleistung.getTitel(),
+				hilfeleistung.getBeschreibung(),
 				dateToString(hilfeleistung.getStartDatum()),
 				dateToString(hilfeleistung.getEndDatum()));
 
