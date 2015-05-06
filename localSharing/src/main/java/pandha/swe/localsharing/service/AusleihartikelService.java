@@ -11,6 +11,8 @@ public interface AusleihartikelService {
 	public Ausleihartikel findById(Long id);
 
 	public List<Ausleihartikel> findAll();
+	
+	public List<AusleihartikelDTO> findAllDTO();
 
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
@@ -27,6 +29,9 @@ public interface AusleihartikelService {
 
 	public AusleihartikelDTO ausleihartikel_TO_AusleihartikelDTO(
 			Ausleihartikel ausleihartikel);
+	
+	public List<AusleihartikelDTO> list_Ausleihartikel_TO_AusleihartikelDTO(
+			List<Ausleihartikel> listAusleihartikel);
 
 	public void shutdown();
 

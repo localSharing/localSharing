@@ -28,6 +28,12 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	public List<Tauschartikel> findAll() {
 		return tauschartikelDao.findAll();
 	}
+	
+
+	@Override
+	public List<TauschartikelDTO> findAllDTO() {
+		return list_Tauschartikel_TO_TauschartikelDTO(findAll());
+	}
 
 	@Override
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {
@@ -96,6 +102,16 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 				tauschartikel.getKategorie());
 
 		return tauschartikelDTO;
+	}
+	
+	@Override
+	public List<TauschartikelDTO> list_Tauschartikel_TO_TauschartikelDTO(
+			List<Tauschartikel> listTauschartikel) {
+		List<TauschartikelDTO> listTauschartikelDTO = new ArrayList<TauschartikelDTO>();
+		for (Tauschartikel tauschartikel : listTauschartikel) {
+			listTauschartikelDTO.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
+		}
+		return listTauschartikelDTO;
 	}
 
 	@Override

@@ -35,8 +35,7 @@
 				</tr>
 
 			</table>
-
-			<div class="col-md-4">
+			<div class="col-md-4" th:if="${eigeneAngebote}">
 				<form th:action="@{/angebotNeu/ausleihen}" method="get">
 					<button id="btnAusleih" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span>neuer Ausleihartikel
@@ -61,7 +60,7 @@
 
 			</table>
 
-			<div class="col-md-4">
+			<div class="col-md-4" th:if="${eigeneAngebote}">
 				<form th:action="@{/angebotNeu/tauschen}" method="get">
 					<button id="btnTausch" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span> neuer Tauschartikel
@@ -87,7 +86,7 @@
 
 			</table>
 
-			<div class="col-md-4">
+			<div class="col-md-4" th:if="${eigeneAngebote}">
 				<form th:action="@{/angebotNeu/helfen}" method="get">
 					<button id="btnHelfen" class="btn btn-success">
 						<span class="glyphicon glyphicon-plus"></span> neue Hilfeleistung

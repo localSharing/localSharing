@@ -11,6 +11,8 @@ public interface HilfeleistungService {
 	public Hilfeleistung findById(Long id);
 
 	public List<Hilfeleistung> findAll();
+	
+	public List<HilfeleistungDTO> findAllDTO();
 
 	public List<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer);
 
@@ -27,6 +29,9 @@ public interface HilfeleistungService {
 
 	public HilfeleistungDTO hilfeleistung_TO_HilfeleistungDTO(
 			Hilfeleistung hilfeleistung);
+	
+	public List<HilfeleistungDTO> list_Hilfeleistung_TO_HilfeleistungDTO(
+			List<Hilfeleistung> listHilfeleistung);
 
 	public void shutdown();
 

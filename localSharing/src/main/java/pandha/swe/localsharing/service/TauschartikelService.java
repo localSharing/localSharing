@@ -11,6 +11,8 @@ public interface TauschartikelService {
 	public Tauschartikel findById(Long id);
 
 	public List<Tauschartikel> findAll();
+	
+	public List<TauschartikelDTO> findAllDTO();
 
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
@@ -27,6 +29,9 @@ public interface TauschartikelService {
 
 	public TauschartikelDTO tauschartikel_TO_TauschartikelDTO(
 			Tauschartikel tauschartikel);
+	
+	public List<TauschartikelDTO> list_Tauschartikel_TO_TauschartikelDTO(
+			List<Tauschartikel> listTauschartikel);
 
 	public void shutdown();
 

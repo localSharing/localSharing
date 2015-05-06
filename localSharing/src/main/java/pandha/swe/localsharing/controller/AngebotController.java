@@ -64,6 +64,28 @@ public class AngebotController {
 				.findAllByBenutzer(user);
 
 		// Liste Model hinzufügen
+		model.addAttribute("eigeneAngebote", true);
+		model.addAttribute("artikelListA", aArtikel);
+		model.addAttribute("artikelListT", tArtikel);
+		model.addAttribute("artikelListH", hArtikel);
+
+		return "angebote";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/alleAngebote")
+	public String showAngebote(Model model) {
+
+		// Liste mit allen Ausleihangeboten eines Benutzers
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllDTO();
+
+		// Liste mit allen Tauschangeboten eines Benutzers
+		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllDTO();
+
+		// Liste mit allen Hilfeleistungen eines Benutzers
+		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllDTO();
+
+		// Liste Model hinzufügen
+		model.addAttribute("eigeneAngebote", false);
 		model.addAttribute("artikelListA", aArtikel);
 		model.addAttribute("artikelListT", tArtikel);
 		model.addAttribute("artikelListH", hArtikel);
