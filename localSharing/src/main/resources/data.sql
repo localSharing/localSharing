@@ -8,6 +8,20 @@ insert into PUBLIC.BENUTZER (USERID, EMAIL, ENABLED, GESCHLECHT, HAUSNR, NACHNAM
 insert into PUBLIC.BENUTZER (USERID, EMAIL, ENABLED, GESCHLECHT, HAUSNR, NACHNAME, PASSWORT, PLZ, STADT, STRASSE, TELNR, VORNAME) values ('5', 'simba@thelionking.com', 'TRUE', '0', '1', 'Lion-King', '$2a$10$pbsJj1OfRj5HkEALDOlg1uVDB5xULjBEKgTS11Qcn7.tX2XHzuzl2', '00000', 'Savanne', 'Pride Rock', '0123451232', 'Simba');
 insert into PUBLIC.BENUTZER (USERID, EMAIL, ENABLED, GESCHLECHT, HAUSNR, NACHNAME, PASSWORT, PLZ, STADT, STRASSE, TELNR, VORNAME) values ('6', 'barack.obama@whitehouse.com', 'TRUE', '0', '1600', 'Obama', '$2a$10$pbsJj1OfRj5HkEALDOlg1uVDB5xULjBEKgTS11Qcn7.tX2XHzuzl2', '20500', 'Washington DC', 'Pennsylvania Avenue NW', '202-456-1111', 'Barack');
 insert into PUBLIC.BENUTZER (USERID, EMAIL, ENABLED, GESCHLECHT, HAUSNR, NACHNAME, PASSWORT, PLZ, STADT, STRASSE, TELNR, VORNAME) values ('7', 'angela.merkel@bundeskanzleramt.de', 'TRUE', '1', '1', 'Merkel', '$2a$10$pbsJj1OfRj5HkEALDOlg1uVDB5xULjBEKgTS11Qcn7.tX2XHzuzl2', '10557', 'Berlin', 'Willy-Brandt-Straße', '030182722720', 'Angela');
+insert into PUBLIC.BENUTZER (USERID, EMAIL, ENABLED, GESCHLECHT, HAUSNR, NACHNAME, PASSWORT, PLZ, STADT, STRASSE, TELNR, VORNAME) values ('8', 'admin@localSharing.de', 'TRUE', '1', '1', 'Merkel', '$2a$10$pbsJj1OfRj5HkEALDOlg1uVDB5xULjBEKgTS11Qcn7.tX2XHzuzl2', '10557', 'Berlin', 'Willy-Brandt-Straße', '030182722720', 'Angela');
+
+--Rollen
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('1', '0', '1');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('2', '0', '2');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('3', '0', '3');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('4', '0', '4');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('5', '0', '5');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('6', '0', '6');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('7', '0', '7');
+insert into PUBLIC.ROLLEN (ID, ROLLE, USERID) values ('8', '1', '8');
+
+
+
 --Ausleihartikel
 insert into PUBLIC.AUSLEIHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, DAUER, ENDDATUM, KATEGORIE) values ('1', 'Ein toller Film. DVD ist in gutem Zustand.', '2014-11-30', 'Tarzan', '4', '5', '2015-11-30', 'DVD');
 insert into PUBLIC.AUSLEIHARTIKEL (ANGEBOTSID, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, DAUER, ENDDATUM, KATEGORIE) values ('2', 'Schönes Buch, in gutem Zustand.', '2014-12-01', 'The Fault in Our Stars', '7', '14', '2015-03-31', 'Buch');
