@@ -47,7 +47,7 @@
 							alt="Bild" width="100px" height="100px" />
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4" th:if="${besitzer}">
 					<form th:if="${dauer != null}"
 						th:action="${'../../angebotEdit/' + angebot.id + '/ausleihen'}"
 						method="get">

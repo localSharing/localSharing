@@ -96,8 +96,17 @@ public class AngebotController {
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{ID}/{Type}")
 	public String showAngebot(
 			Model model,
+			Principal principal,
 			@PathVariable("ID") String id,
 			@PathVariable("Type") String type) {
+		
+		Benutzer user = getUser(principal);
+		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(Long.valueOf(id), type);
+		if (user.getId().equals(angebotsersteller.getId())) {
+			model.addAttribute("besitzer", true);
+		} else {
+			model.addAttribute("besitzer", false);
+		}
 
 		return addAngebotToModel(model, id, type, "angebot");
 	}
