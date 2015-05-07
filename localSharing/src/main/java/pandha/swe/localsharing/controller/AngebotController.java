@@ -188,10 +188,15 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/ausleihen")
-	public String deleteAusleihartikel(@PathVariable("id") String id) {
+	public String deleteAusleihartikel(Principal principal, @PathVariable("id") String id) {
 
-		Ausleihartikel ausleihartikel = ausleihartikelService
-				.findById(new Long(id));
+		Ausleihartikel ausleihartikel = ausleihartikelService.findById(new Long(id));
+		
+		Benutzer user = getUser(principal);
+		Benutzer angebotsersteller = ausleihartikel.getBenutzer();
+		if (!user.getId().equals(angebotsersteller.getId())) {
+			return "redirect:../../angebot/" + id + "/" + "ausleihen";
+		}
 
 		ausleihartikelService.delete(ausleihartikel);
 
@@ -199,9 +204,15 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
-	public String deleteTauschartikel(@PathVariable("id") String id) {
+	public String deleteTauschartikel(Principal principal, @PathVariable("id") String id) {
 
 		Tauschartikel artikel = tauschartikelService.findById(new Long(id));
+		
+		Benutzer user = getUser(principal);
+		Benutzer angebotsersteller = artikel.getBenutzer();
+		if (!user.getId().equals(angebotsersteller.getId())) {
+			return "redirect:../../angebot/" + id + "/" + "tauschen";
+		}
 
 		tauschartikelService.delete(artikel);
 
@@ -209,9 +220,15 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
-	public String deleteHilfeleistung(@PathVariable("id") String id) {
+	public String deleteHilfeleistung(Principal principal, @PathVariable("id") String id) {
 
 		Hilfeleistung artikel = hilfeleistungService.findById(new Long(id));
+		
+		Benutzer user = getUser(principal);
+		Benutzer angebotsersteller = artikel.getBenutzer();
+		if (!user.getId().equals(angebotsersteller.getId())) {
+			return "redirect:../../angebot/" + id + "/" + "helfen";
+		}
 
 		hilfeleistungService.delete(artikel);
 
