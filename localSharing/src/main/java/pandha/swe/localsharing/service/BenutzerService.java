@@ -11,6 +11,8 @@ public interface BenutzerService {
 	public Benutzer findById(long id);
 
 	public Benutzer findByEmail(String email);
+	
+	public Benutzer findByAngebotsIdAndType(Long id, String type);
 
 	public List<Benutzer> findAll();
 

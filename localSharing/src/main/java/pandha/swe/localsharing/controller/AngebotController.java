@@ -94,16 +94,27 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{ID}/{Type}")
-	public String showAngebot(Model model, @PathVariable("ID") String id,
+	public String showAngebot(
+			Model model,
+			@PathVariable("ID") String id,
 			@PathVariable("Type") String type) {
 
 		return addAngebotToModel(model, id, type, "angebot");
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit/{id}/{type}")
-	public String editAngebot(Model model, @PathVariable("id") String id,
+	public String editAngebot(
+			Model model,
+			Principal principal,
+			@PathVariable("id") String id,
 			@PathVariable("type") String type) {
-
+		
+		Benutzer user = getUser(principal);
+		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(Long.valueOf(id), type);
+		if (!user.getId().equals(angebotsersteller.getId())) {
+			return "redirect:../../angebot/" + id + "/" + type;
+		}
+		
 		return addAngebotToModel(model, id, type, "angebotEdit");
 	}
 
@@ -310,9 +321,9 @@ public class AngebotController {
 	}
 
 	private void addAusleihAngebotToModel(Model model, String id) {
-		AusleihartikelDTO ausleihartikel = ausleihartikelService
-				.ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
-						.findById(new Long(id)));
+		AusleihartikelDTO ausleihartikel = 
+				ausleihartikelService.ausleihartikel_TO_AusleihartikelDTO(
+						ausleihartikelService.findById(new Long(id)));
 
 		if (ausleihartikel != null) {
 			model.addAttribute("angebot", ausleihartikel);

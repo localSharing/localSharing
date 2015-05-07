@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
+import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
+import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
+import pandha.swe.localsharing.model.dao.TauschartikelDAO;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
@@ -24,10 +27,39 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Autowired
 	private PasswordEncoder encoder;
+	
+	@Autowired
+	private AusleihartikelDAO ausleihartikelDao;
+	
+	@Autowired
+	private TauschartikelDAO tauschartikelDao;
+
+	@Autowired
+	private HilfeleistungDAO hilfeleistungDao;
 
 	@Override
 	public Benutzer findById(long id) {
 		return benutzerDao.findById(id);
+	}
+	
+	@Override
+	public Benutzer findByAngebotsIdAndType(Long id, String type) {
+		Benutzer benutzer = null;
+		switch (type) {
+		case "ausleihen":
+			benutzer = ausleihartikelDao.findById(id).getBenutzer();
+			break;
+
+		case "tauschen":
+			benutzer = tauschartikelDao.findById(id).getBenutzer();
+			break;
+
+		case "helfen":
+			benutzer = hilfeleistungDao.findById(id).getBenutzer();
+			break;
+		}
+
+		return benutzer;
 	}
 
 	@Override
