@@ -28,7 +28,7 @@ public class LocalSharingUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email)
 			throws UsernameNotFoundException {
 
-		Benutzer benutzer = benutzerDao.findByEmail(email);
+		Benutzer benutzer = benutzerDao.findByEmail(email.toLowerCase());
 
 		if (benutzer == null) {
 			throw new UsernameNotFoundException("User existiert nicht!!");
