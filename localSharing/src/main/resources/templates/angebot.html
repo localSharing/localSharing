@@ -71,18 +71,18 @@
 					<form th:if="${dauer != null and angebot.enabled}"
 						th:action="${'../../disable/' + angebot.id + '/ausleihen'}"
 						method="get">
-				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" checked="checked"/>
+				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" checked="checked" onChange="this.form.submit()"/>
 					</form>
 					<form th:if="${dauer != null and !angebot.enabled}"
 						th:action="${'../../enable/' + angebot.id + '/ausleihen'}"
 						method="get">
-				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert"/>
+				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" onChange="this.form.submit()"/>
 					</form>
 					<!-- Tauschartikel Enable / Disable -->
 					<form th:if="${endDatum == null and angebot.enabled}"
 						th:action="${'../../disable/' + angebot.id + '/tauschen'}"
 						method="get">
-				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" checked="checked"/>
+				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" checked="checked" onChange="this.form.submit()"/>
 					</form>
 					<form th:if="${endDatum == null and !angebot.enabled}"
 						th:action="${'../../enable/' + angebot.id + '/tauschen'}"
@@ -93,12 +93,12 @@
 					<form th:if="${kategorie == null and angebot.enabled}"
 						th:action="${'../../disable/' + angebot.id + '/helfen'}"
 						method="get">
-				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" checked="checked"/>
+				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" checked="checked" onChange="this.form.submit()"/>
 					</form>
 					<form th:if="${kategorie == null and !angebot.enabled}"
 						th:action="${'../../enable/' + angebot.id + '/helfen'}"
 						method="get">
-				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert"/>
+				 		<input data-toggle="toggle" type="checkbox" id="toggle-button" data-on="Aktiviert" data-off="Deaktiviert" onChange="this.form.submit()"/>
 					</form>
 				</div>
 			</div>

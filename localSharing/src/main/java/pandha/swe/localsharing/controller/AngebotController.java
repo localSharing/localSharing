@@ -1,6 +1,7 @@
 package pandha.swe.localsharing.controller;
 
 import java.security.Principal;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -15,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.BenutzerRolle;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
@@ -240,12 +241,11 @@ public class AngebotController {
 			@PathVariable("id") String id,
 			@PathVariable("type") String type) {
 		
-		Benutzer user = getUser(principal);
-		if (!user.getBenutzerRolle().contains(Rollen.ADMIN)) {
+		if (!benutzerService.hatBenutzerRolle(getUser(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
 
-		angebotActivation(id, type, false);
+		angebotActivation(id, type, Boolean.FALSE);
 
 		return "redirect:../../angebot/" + id + "/" + type;
 	}
@@ -256,17 +256,16 @@ public class AngebotController {
 			@PathVariable("id") String id,
 			@PathVariable("type") String type) {
 		
-		Benutzer user = getUser(principal);
-		if (!user.getBenutzerRolle().contains(Rollen.ADMIN)) {
+		if (!benutzerService.hatBenutzerRolle(getUser(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
 
-		angebotActivation(id, type, true);
+		angebotActivation(id, type, Boolean.TRUE);
 
 		return "redirect:../../angebot/" + id + "/" + type;
 	}
 	
-	private void angebotActivation(String id, String type, boolean enable) {
+	private void angebotActivation(String id, String type, Boolean enable) {
 		switch (type) {
 		case "ausleihen":
 			ausleihartikelActivation(id, enable);
@@ -280,19 +279,19 @@ public class AngebotController {
 		}
 	}
 	
-	private void ausleihartikelActivation(String id, boolean enable) {
+	private void ausleihartikelActivation(String id, Boolean enable) {
 		Ausleihartikel ausleihartikel = ausleihartikelService.findById(Long.valueOf(id));
 		ausleihartikel.setEnabled(enable);
 		ausleihartikelService.update(ausleihartikel);
 	}
 	
-	private void tauschartikelActivation(String id, boolean enable) {
+	private void tauschartikelActivation(String id, Boolean enable) {
 		Tauschartikel tauschartikel = tauschartikelService.findById(Long.valueOf(id));
 		tauschartikel.setEnabled(enable);
 		tauschartikelService.update(tauschartikel);
 	}
 
-	private void hilfsartikelActivation(String id, boolean enable) {
+	private void hilfsartikelActivation(String id, Boolean enable) {
 		Hilfeleistung hilfeleistung = hilfeleistungService.findById(Long.valueOf(id));
 		hilfeleistung.setEnabled(enable);
 		hilfeleistungService.update(hilfeleistung);

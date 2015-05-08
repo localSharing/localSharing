@@ -6,6 +6,7 @@ import java.util.List;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
+import pandha.swe.localsharing.model.enums.Rollen;
 
 public interface BenutzerService {
 	public Benutzer findById(long id);
@@ -28,6 +29,8 @@ public interface BenutzerService {
 			Principal user);
 
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer);
-
+	
+	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle);
+	
 	public void shutdown();
 }

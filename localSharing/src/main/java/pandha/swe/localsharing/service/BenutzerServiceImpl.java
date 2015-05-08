@@ -2,6 +2,7 @@ package pandha.swe.localsharing.service;
 
 import java.security.Principal;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -161,5 +162,18 @@ public class BenutzerServiceImpl implements BenutzerService {
 		benutzer.setTelefonNr(benutzerDTO.getTelefonNummer());
 
 		return benutzer;
+	}
+	
+	@Override
+	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle) {
+		if (benutzer != null && benutzer.getBenutzerRolle() != null && rolle != null) {
+			Iterator<BenutzerRolle> iterator = benutzer.getBenutzerRolle().iterator();
+			while (iterator.hasNext()) {
+				if (rolle.equals(iterator.next().getRolle())) {
+					return Boolean.TRUE;
+				}
+			}
+		}
+		return Boolean.FALSE;
 	}
 }
