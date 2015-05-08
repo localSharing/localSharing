@@ -14,6 +14,8 @@ public interface HilfeleistungService {
 	
 	public List<HilfeleistungDTO> findAllDTO();
 
+	public List<HilfeleistungDTO> findAllEnabled();
+
 	public List<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer);
 
 	public Long save(Hilfeleistung hilfeleistung);

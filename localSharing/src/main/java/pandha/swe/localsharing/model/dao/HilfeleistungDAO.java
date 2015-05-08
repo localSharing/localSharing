@@ -10,6 +10,8 @@ public interface HilfeleistungDAO {
 	public Hilfeleistung findById(Long id);
 
 	public List<Hilfeleistung> findAll();
+
+	public List<Hilfeleistung> findAllEnabled();
 	
 	public List<Hilfeleistung> findAllByBenutzer(Benutzer benutzer);
 

@@ -28,23 +28,23 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	public List<Ausleihartikel> findAll() {
 		return ausleihartikelDao.findAll();
 	}
-	
 
 	@Override
 	public List<AusleihartikelDTO> findAllDTO() {
 		return list_Ausleihartikel_TO_AusleihartikelDTO(findAll());
 	}
+	
+	@Override
+	public List<AusleihartikelDTO> findAllEnabled() {
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllEnabled();
+		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
+	}
 
 	@Override
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Ausleihartikel> ausleihartikelListe = ausleihartikelDao
-				.findAllByBenutzer(benutzer);
-		List<AusleihartikelDTO> ausleihartikelDTOListe = new ArrayList<>();
-		for (Ausleihartikel ausleihartikel : ausleihartikelListe) {
-			ausleihartikelDTOListe
-					.add(ausleihartikel_TO_AusleihartikelDTO(ausleihartikel));
-		}
-		return ausleihartikelDTOListe;
+		List<Ausleihartikel> ausleihartikelListe = 
+				ausleihartikelDao.findAllByBenutzer(benutzer);
+		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelListe);
 	}
 
 	@Override

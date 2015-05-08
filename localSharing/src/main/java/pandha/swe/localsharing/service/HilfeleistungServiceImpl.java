@@ -35,15 +35,17 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	}
 	
 	@Override
+	public List<HilfeleistungDTO> findAllEnabled() {
+		List<Hilfeleistung> hilfeleistungListe = 
+				hilfeleistungDao.findAllEnabled();
+		return list_Hilfeleistung_TO_HilfeleistungDTO(hilfeleistungListe);
+	}
+	
+	@Override
 	public List<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Hilfeleistung> hilfeleistungListe = hilfeleistungDao
-				.findAllByBenutzer(benutzer);
-		List<HilfeleistungDTO> hilfeleistungDTOListe = new ArrayList<>();
-		for (Hilfeleistung hilfeleistung : hilfeleistungListe) {
-			hilfeleistungDTOListe
-					.add(hilfeleistung_TO_HilfeleistungDTO(hilfeleistung));
-		}
-		return hilfeleistungDTOListe;
+		List<Hilfeleistung> hilfeleistungListe = 
+				hilfeleistungDao.findAllByBenutzer(benutzer);
+		return list_Hilfeleistung_TO_HilfeleistungDTO(hilfeleistungListe);
 	}
 	
 

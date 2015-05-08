@@ -14,6 +14,8 @@ public interface AusleihartikelService {
 	
 	public List<AusleihartikelDTO> findAllDTO();
 
+	public List<AusleihartikelDTO> findAllEnabled();
+
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
 	public Long save(Ausleihartikel ausleihartikel);

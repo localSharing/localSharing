@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
+import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Tauschartikel;
 
@@ -36,6 +37,17 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 		List<Tauschartikel> tauschartikel = hibernateTemplate
 				.loadAll(Tauschartikel.class);
 		return tauschartikel;
+	}
+
+	@Override
+	public List<Tauschartikel> findAllEnabled() {
+		
+		@SuppressWarnings("unchecked")
+		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return tauschartikelListe;
 	}
 
 	@Override

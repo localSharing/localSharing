@@ -37,6 +37,17 @@ public class HilfeleistungDAOImpl implements HilfeleistungDAO {
 				.loadAll(Hilfeleistung.class);
 		return hilfeleistung;
 	}
+	
+	@Override
+	public List<Hilfeleistung> findAllEnabled() {
+
+		@SuppressWarnings("unchecked")
+		List<Hilfeleistung> hilfeleistungListe = (List<Hilfeleistung>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Hilfeleistung.class)
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return hilfeleistungListe;
+	}
 
 	@Override
 	public List<Hilfeleistung> findAllByBenutzer(Benutzer benutzer) {

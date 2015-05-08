@@ -34,17 +34,19 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	public List<TauschartikelDTO> findAllDTO() {
 		return list_Tauschartikel_TO_TauschartikelDTO(findAll());
 	}
+	
+	@Override
+	public List<TauschartikelDTO> findAllEnabled() {
+		List<Tauschartikel> tauschartikelListe =
+				tauschartikelDao.findAllEnabled();
+		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
+	}
 
 	@Override
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Tauschartikel> tauschartikelListe = tauschartikelDao
-				.findAllByBenutzer(benutzer);
-		List<TauschartikelDTO> tauschartikelDTOListe = new ArrayList<>();
-		for (Tauschartikel tauschartikel : tauschartikelListe) {
-			tauschartikelDTOListe
-					.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
-		}
-		return tauschartikelDTOListe;
+		List<Tauschartikel> tauschartikelListe =
+				tauschartikelDao.findAllByBenutzer(benutzer);
+		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
 	}
 
 	@Override

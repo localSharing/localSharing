@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
@@ -22,6 +23,7 @@ import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
+import pandha.swe.localsharing.model.enums.Rollen;
 import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.BenutzerService;
 import pandha.swe.localsharing.service.FileService;
@@ -52,16 +54,13 @@ public class AngebotController {
 		Benutzer user = getUser(principal);
 
 		// Liste mit allen Ausleihangeboten eines Benutzers
-		List<AusleihartikelDTO> aArtikel = ausleihartikelService
-				.findAllByBenutzer(user);
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllByBenutzer(user);
 
 		// Liste mit allen Tauschangeboten eines Benutzers
-		List<TauschartikelDTO> tArtikel = tauschartikelService
-				.findAllByBenutzer(user);
+		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllByBenutzer(user);
 
 		// Liste mit allen Hilfeleistungen eines Benutzers
-		List<HilfeleistungDTO> hArtikel = hilfeleistungService
-				.findAllByBenutzer(user);
+		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllByBenutzer(user);
 
 		// Liste Model hinzufügen
 		model.addAttribute("eigeneAngebote", true);
@@ -76,13 +75,13 @@ public class AngebotController {
 	public String showAngebote(Model model) {
 
 		// Liste mit allen Ausleihangeboten eines Benutzers
-		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllDTO();
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllEnabled();
 
 		// Liste mit allen Tauschangeboten eines Benutzers
-		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllDTO();
+		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllEnabled();
 
 		// Liste mit allen Hilfeleistungen eines Benutzers
-		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllDTO();
+		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllEnabled();
 
 		// Liste Model hinzufügen
 		model.addAttribute("eigeneAngebote", false);
@@ -233,6 +232,70 @@ public class AngebotController {
 		hilfeleistungService.delete(artikel);
 
 		return "redirect:../../angebote";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/disable/{id}/{type}")
+	public String disableAngebot(
+			Principal principal, 
+			@PathVariable("id") String id,
+			@PathVariable("type") String type) {
+		
+		Benutzer user = getUser(principal);
+		if (!user.getBenutzerRolle().contains(Rollen.ADMIN)) {
+			return "redirect:../../angebot/" + id + "/" + "ausleihen";
+		}
+
+		angebotActivation(id, type, false);
+
+		return "redirect:../../angebot/" + id + "/" + type;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/enable/{id}/{type}")
+	public String enableAngebot(
+			Principal principal, 
+			@PathVariable("id") String id,
+			@PathVariable("type") String type) {
+		
+		Benutzer user = getUser(principal);
+		if (!user.getBenutzerRolle().contains(Rollen.ADMIN)) {
+			return "redirect:../../angebot/" + id + "/" + "ausleihen";
+		}
+
+		angebotActivation(id, type, true);
+
+		return "redirect:../../angebot/" + id + "/" + type;
+	}
+	
+	private void angebotActivation(String id, String type, boolean enable) {
+		switch (type) {
+		case "ausleihen":
+			ausleihartikelActivation(id, enable);
+			break;
+		case "tauschen":
+			tauschartikelActivation(id, enable);
+			break;
+		case "helfen":
+			hilfsartikelActivation(id, enable);
+			break;
+		}
+	}
+	
+	private void ausleihartikelActivation(String id, boolean enable) {
+		Ausleihartikel ausleihartikel = ausleihartikelService.findById(Long.valueOf(id));
+		ausleihartikel.setEnabled(enable);
+		ausleihartikelService.update(ausleihartikel);
+	}
+	
+	private void tauschartikelActivation(String id, boolean enable) {
+		Tauschartikel tauschartikel = tauschartikelService.findById(Long.valueOf(id));
+		tauschartikel.setEnabled(enable);
+		tauschartikelService.update(tauschartikel);
+	}
+
+	private void hilfsartikelActivation(String id, boolean enable) {
+		Hilfeleistung hilfeleistung = hilfeleistungService.findById(Long.valueOf(id));
+		hilfeleistung.setEnabled(enable);
+		hilfeleistungService.update(hilfeleistung);
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebotNeu/ausleihen")
