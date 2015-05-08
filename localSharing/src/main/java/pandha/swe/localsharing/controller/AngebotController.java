@@ -259,7 +259,6 @@ public class AngebotController {
 		if (!benutzerService.hatBenutzerRolle(getUser(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
-
 		angebotActivation(id, type, Boolean.TRUE);
 
 		return "redirect:../../angebot/" + id + "/" + type;
