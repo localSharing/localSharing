@@ -66,7 +66,8 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	public Long createTauschartikel(TauschartikelDTO tauschartikelDTO) {
 
 		Tauschartikel tauschartikel = new Tauschartikel(null,
-				tauschartikelDTO.getBenutzer(), tauschartikelDTO.getTitel(),
+				tauschartikelDTO.getEnabled(), tauschartikelDTO.getBenutzer(),
+				tauschartikelDTO.getTitel(),
 				tauschartikelDTO.getBeschreibung(),
 				stringToDate(tauschartikelDTO.getStartDatum()),
 				tauschartikelDTO.getKategorie());
@@ -96,8 +97,9 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 			Tauschartikel tauschartikel) {
 
 		TauschartikelDTO tauschartikelDTO = new TauschartikelDTO(
-				tauschartikel.getAngebotsid(), tauschartikel.getBenutzer(),
-				tauschartikel.getTitel(), tauschartikel.getBeschreibung(),
+				tauschartikel.getAngebotsid(), tauschartikel.getEnabled(),
+				tauschartikel.getBenutzer(), tauschartikel.getTitel(),
+				tauschartikel.getBeschreibung(),
 				dateToString(tauschartikel.getStartDatum()),
 				tauschartikel.getKategorie());
 

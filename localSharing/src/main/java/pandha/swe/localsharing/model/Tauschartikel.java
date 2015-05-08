@@ -13,12 +13,12 @@ public class Tauschartikel extends Angebot {
 	@Column(name = "KATEGORIE", nullable = false)
 	private String kategorie;
 
-	public Tauschartikel(Long id, Benutzer benutzer, String titel,
-			String beschreibung, Date startDatum, String kategorie) {
-		super(id, benutzer, titel, beschreibung, startDatum);
+	public Tauschartikel(Long id, Boolean enabled, Benutzer benutzer,
+			String titel, String beschreibung, Date startDatum, String kategorie) {
+		super(id, enabled, benutzer, titel, beschreibung, startDatum);
 		this.kategorie = kategorie;
 	}
-	
+
 	public Tauschartikel() {
 		super();
 	}
@@ -34,10 +34,11 @@ public class Tauschartikel extends Angebot {
 	@Override
 	public String toString() {
 		return "Hilfeleistung [angebotsid = " + super.getAngebotsid()
-				+ ", benutzer = " + super.getBenutzer() + ", titel = "
-				+ super.getTitel() + ", beschreibung = "
-				+ super.getBeschreibung() + ", startDatum = "
-				+ super.getStartDatum() + ", kategorie = " + kategorie + "]";
+				+ ", enabled = " + super.getEnabled() + ", benutzer = "
+				+ super.getBenutzer() + ", titel = " + super.getTitel()
+				+ ", beschreibung = " + super.getBeschreibung()
+				+ ", startDatum = " + super.getStartDatum() + ", kategorie = "
+				+ kategorie + "]";
 	}
 
 }

@@ -13,12 +13,12 @@ public class Hilfeleistung extends Angebot {
 	@Column(name = "ENDDATUM", nullable = false)
 	private Date endDatum;
 
-	public Hilfeleistung(Long id, Benutzer benutzer, String titel,
-			String beschreibung, Date startDatum, Date endDatum) {
-		super(id, benutzer, titel, beschreibung, startDatum);
+	public Hilfeleistung(Long id, Boolean enabled, Benutzer benutzer,
+			String titel, String beschreibung, Date startDatum, Date endDatum) {
+		super(id, enabled, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 	}
-	
+
 	public Hilfeleistung() {
 		super();
 	}
@@ -34,9 +34,10 @@ public class Hilfeleistung extends Angebot {
 	@Override
 	public String toString() {
 		return "Hilfeleistung [angebotsid = " + super.getAngebotsid()
-				+ ", benutzer = " + super.getBenutzer() + ", titel = "
-				+ super.getTitel() + ", beschreibung = "
-				+ super.getBeschreibung() + ", startDatum = "
-				+ super.getStartDatum() + ", endDatum = " + endDatum + "]";
+				+ ", enabled = " + super.getEnabled() + ", benutzer = "
+				+ super.getBenutzer() + ", titel = " + super.getTitel()
+				+ ", beschreibung = " + super.getBeschreibung()
+				+ ", startDatum = " + super.getStartDatum() + ", endDatum = "
+				+ endDatum + "]";
 	}
 }

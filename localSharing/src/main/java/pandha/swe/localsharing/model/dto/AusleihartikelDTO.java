@@ -21,10 +21,10 @@ public class AusleihartikelDTO extends AngebotDTO {
 	@Size(min = 2, max = 20)
 	private String kategorie;
 
-	public AusleihartikelDTO(Long id, Benutzer benutzer, String titel,
+	public AusleihartikelDTO(Long id, Boolean enabled, Benutzer benutzer, String titel,
 			String beschreibung, String startDatum, String endDatum, int dauer,
 			String kategorie) {
-		super(id, benutzer, titel, beschreibung, startDatum);
+		super(id, enabled, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 		this.dauer = dauer;
 		this.kategorie = kategorie;
@@ -59,11 +59,12 @@ public class AusleihartikelDTO extends AngebotDTO {
 
 	@Override
 	public String toString() {
-		return "AusleihartikelDTO[benutzer = " + super.getBenutzer()
+		return "AusleihartikelDTO[id =" + super.getId() + ", enabled = " + super.getEnabled() + "benutzer = " + super.getBenutzer()
 				+ "titel = " + super.getTitel() + ", beschreibung = "
 				+ super.getBeschreibung() + ", startDatum = "
 				+ super.getStartDatum() + ", endDatum = " + endDatum
 				+ ", dauer = " + dauer + ", kategorie = " + kategorie + "]";
 	}
+	
 
 }

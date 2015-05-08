@@ -9,9 +9,9 @@ public class TauschartikelDTO extends AngebotDTO {
 	@Size(min = 2, max = 20)
 	private String kategorie;
 
-	public TauschartikelDTO(Long id, Benutzer benutzer, String titel,
+	public TauschartikelDTO(Long id, Boolean enabled, Benutzer benutzer, String titel,
 			String beschreibung, String startDatum, String kategorie) {
-		super(id, benutzer, titel, beschreibung, startDatum);
+		super(id, enabled, benutzer, titel, beschreibung, startDatum);
 		this.kategorie = kategorie;
 	}
 
