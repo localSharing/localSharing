@@ -115,7 +115,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer) {
-		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.getGeschlecht(),
+		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.isEnabled(), benutzer.getGeschlecht(),
 				benutzer.getEmail(), benutzer.getVorname(),
 				benutzer.getNachname(), benutzer.getStrasse(),
 				benutzer.getHausnummer(), benutzer.getPlz().toString(),
@@ -151,6 +151,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		Benutzer benutzer = findById(benutzerDTO.getId());
 
+		benutzer.setEnabled(benutzerDTO.isEnabled());
 		benutzer.setEmail(benutzerDTO.getEmail());
 		benutzer.setHausnummer(benutzerDTO.getHausnummer());
 		benutzer.setNachname(benutzerDTO.getNachname());

@@ -88,7 +88,7 @@ public class ProfilControllerTest {
 				76137, "Karlsruhe", "unitTest@localsharing.de", "12345678",
 				rollen);
 
-		dto = new BenutzerDTO(Geschlecht.MANN, "Peter", "Hans",
+		dto = new BenutzerDTO(true, Geschlecht.MANN, "Peter", "Hans",
 				"Erzbergerstraße", "123", "76137", "Karlsruhe",
 				"unitTest@localsharing.de", "12345678");
 

@@ -12,12 +12,12 @@ public class BenutzerRegisterDTO extends BenutzerDTO {
 	@Size(min = 8, max = 20, message = "Mindestens 8 Zeichen, maximal 20")
 	private String password2;
 
-	public BenutzerRegisterDTO(Geschlecht geschlecht, String password1,
-			String password2, String email, String vorname, String nachname,
-			String strasse, String hausnummer, String plz, String stadt,
-			String telefonNummer) {
-		super(geschlecht, email, vorname, nachname, strasse, hausnummer, plz,
-				stadt, telefonNummer);
+	public BenutzerRegisterDTO(Boolean enabled, Geschlecht geschlecht,
+			String password1, String password2, String email, String vorname,
+			String nachname, String strasse, String hausnummer, String plz,
+			String stadt, String telefonNummer) {
+		super(enabled, geschlecht, email, vorname, nachname, strasse,
+				hausnummer, plz, stadt, telefonNummer);
 		this.password1 = password1;
 		this.password2 = password2;
 	}
