@@ -62,6 +62,15 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		return benutzer;
 	}
+	
+	@Override
+	public Benutzer getUserByPrincipal(Principal principal) {
+		String email = principal.getName();
+
+		Benutzer user = findByEmail(email);
+
+		return user;
+	}
 
 	@Override
 	public List<Benutzer> findAll() {

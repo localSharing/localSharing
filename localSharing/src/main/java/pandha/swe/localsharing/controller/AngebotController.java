@@ -1,7 +1,8 @@
 package pandha.swe.localsharing.controller;
 
+import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
+
 import java.security.Principal;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -18,7 +19,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
-import pandha.swe.localsharing.model.BenutzerRolle;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
@@ -49,22 +49,42 @@ public class AngebotController {
 	@Autowired
 	private FileService fileService;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/angebote")
-	public String showAngebote(Model model, Principal principal) {
+	@RequestMapping(method = RequestMethod.GET, value = "/angebote/{id}")
+	public String showAngebote(
+			Model model, 
+			Principal principal,
+			@PathVariable("id") String userid) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		
+		List<AusleihartikelDTO> aArtikel = null;
+		List<TauschartikelDTO> tArtikel = null;
+		List<HilfeleistungDTO> hArtikel = null;
 
-		// Liste mit allen Ausleihangeboten eines Benutzers
-		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllByBenutzer(user);
+		// Eigene Angebote
+		if (user.getId().equals(Long.valueOf(userid))) {
+			aArtikel = ausleihartikelService.findAllByBenutzer(user);
+			tArtikel = tauschartikelService.findAllByBenutzer(user);
+			hArtikel = hilfeleistungService.findAllByBenutzer(user);
 
-		// Liste mit allen Tauschangeboten eines Benutzers
-		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllByBenutzer(user);
+			model.addAttribute("titel", "Deine");
+		} else {
+			Benutzer angebotsersteller = benutzerService.findById(Long.valueOf(userid));
+			
+			if (angebotsersteller != null && angebotsersteller.isEnabled()) {
+				aArtikel = ausleihartikelService.findAllEnabledByBenutzer(angebotsersteller);
+				tArtikel = tauschartikelService.findAllEnabledByBenutzer(angebotsersteller);
+				hArtikel = hilfeleistungService.findAllEnabledByBenutzer(angebotsersteller);
+				
+				model.addAttribute("titel", erzeugeVornameFuerAngebotsseite(angebotsersteller.getVorname()));
+			}
+		}
 
-		// Liste mit allen Hilfeleistungen eines Benutzers
-		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllByBenutzer(user);
-
+		if (aArtikel == null || tArtikel == null || hArtikel == null) {
+			return "redirect:angebote";
+		}
+		
 		// Liste Model hinzufügen
-		model.addAttribute("eigeneAngebote", true);
 		model.addAttribute("artikelListA", aArtikel);
 		model.addAttribute("artikelListT", tArtikel);
 		model.addAttribute("artikelListH", hArtikel);
@@ -72,7 +92,7 @@ public class AngebotController {
 		return "angebote";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/alleAngebote")
+	@RequestMapping(method = RequestMethod.GET, value = "/angebote")
 	public String showAngebote(Model model) {
 
 		// Liste mit allen Ausleihangeboten eines Benutzers
@@ -85,7 +105,29 @@ public class AngebotController {
 		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllEnabled();
 
 		// Liste Model hinzufügen
-		model.addAttribute("eigeneAngebote", false);
+		model.addAttribute("titel", "Alle");
+		model.addAttribute("artikelListA", aArtikel);
+		model.addAttribute("artikelListT", tArtikel);
+		model.addAttribute("artikelListH", hArtikel);
+
+		return "angebote";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/angebote/disabled")
+	public String showDisabledAngebote(Principal principal, Model model) {
+		
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		
+		if (!benutzerService.hatBenutzerRolle(user, Rollen.ADMIN)) {
+			return "redirect:../angebote";
+		}
+
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllDisabled();
+		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllDisabled();
+		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllDisabled();
+
+		// Liste Model hinzufügen
+		model.addAttribute("titel", "Deaktivierte");
 		model.addAttribute("artikelListA", aArtikel);
 		model.addAttribute("artikelListT", tArtikel);
 		model.addAttribute("artikelListH", hArtikel);
@@ -100,8 +142,12 @@ public class AngebotController {
 			@PathVariable("ID") String id,
 			@PathVariable("Type") String type) {
 		
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(Long.valueOf(id), type);
+		if (angebotsersteller == null) {
+			return "redirect:angebote";
+		}
+		
 		if (user.getId().equals(angebotsersteller.getId())) {
 			model.addAttribute("besitzer", true);
 		} else {
@@ -118,7 +164,7 @@ public class AngebotController {
 			@PathVariable("id") String id,
 			@PathVariable("type") String type) {
 		
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(Long.valueOf(id), type);
 		if (!user.getId().equals(angebotsersteller.getId())) {
 			return "redirect:../../angebot/" + id + "/" + type;
@@ -133,7 +179,7 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		angebot.setBenutzer(user);
 
@@ -144,7 +190,7 @@ public class AngebotController {
 
 		saveImageIfExists(image, ausleihartikel);
 
-		return "redirect:../../angebote";
+		return "redirect:../../angebote/" + user.getId();
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/tauschen")
@@ -153,7 +199,7 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		angebot.setBenutzer(user);
 
@@ -164,7 +210,7 @@ public class AngebotController {
 
 		saveImageIfExists(image, artikel);
 
-		return "redirect:../../angebote";
+		return "redirect:../../angebote/" + user.getId();
 	}
 
 	@RequestMapping(method = RequestMethod.POST, value = "/angebotEdit/{id}/helfen")
@@ -173,7 +219,7 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		angebot.setBenutzer(user);
 
@@ -184,7 +230,7 @@ public class AngebotController {
 
 		saveImageIfExists(image, hilfe);
 
-		return "redirect:../../angebote";
+		return "redirect:../../angebote/" + user.getId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/ausleihen")
@@ -192,7 +238,7 @@ public class AngebotController {
 
 		Ausleihartikel ausleihartikel = ausleihartikelService.findById(new Long(id));
 		
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = ausleihartikel.getBenutzer();
 		if (!user.getId().equals(angebotsersteller.getId())) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
@@ -200,7 +246,7 @@ public class AngebotController {
 
 		ausleihartikelService.delete(ausleihartikel);
 
-		return "redirect:../../angebote";
+		return "redirect:../../angebote/" + user.getId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
@@ -208,7 +254,7 @@ public class AngebotController {
 
 		Tauschartikel artikel = tauschartikelService.findById(new Long(id));
 		
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = artikel.getBenutzer();
 		if (!user.getId().equals(angebotsersteller.getId())) {
 			return "redirect:../../angebot/" + id + "/" + "tauschen";
@@ -216,7 +262,7 @@ public class AngebotController {
 
 		tauschartikelService.delete(artikel);
 
-		return "redirect:../../angebote";
+		return "redirect:../../angebote/" + user.getId();
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
@@ -224,7 +270,7 @@ public class AngebotController {
 
 		Hilfeleistung artikel = hilfeleistungService.findById(new Long(id));
 		
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = artikel.getBenutzer();
 		if (!user.getId().equals(angebotsersteller.getId())) {
 			return "redirect:../../angebot/" + id + "/" + "helfen";
@@ -232,7 +278,7 @@ public class AngebotController {
 
 		hilfeleistungService.delete(artikel);
 
-		return "redirect:../../angebote";
+		return "redirect:../../angebote/" + user.getId();
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/disable/{id}/{type}")
@@ -241,7 +287,7 @@ public class AngebotController {
 			@PathVariable("id") String id,
 			@PathVariable("type") String type) {
 		
-		if (!benutzerService.hatBenutzerRolle(getUser(principal), Rollen.ADMIN)) {
+		if (!benutzerService.hatBenutzerRolle(benutzerService.getUserByPrincipal(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
 
@@ -256,7 +302,7 @@ public class AngebotController {
 			@PathVariable("id") String id,
 			@PathVariable("type") String type) {
 		
-		if (!benutzerService.hatBenutzerRolle(getUser(principal), Rollen.ADMIN)) {
+		if (!benutzerService.hatBenutzerRolle(benutzerService.getUserByPrincipal(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
 		angebotActivation(id, type, Boolean.TRUE);
@@ -323,7 +369,7 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		newAngebot.setBenutzer(user);
 
@@ -333,7 +379,7 @@ public class AngebotController {
 
 		saveImageIfExists(image, angebot);
 
-		return "redirect:../angebote";
+		return "redirect:../angebote/" + user.getId();
 
 	}
 
@@ -343,7 +389,7 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		newAngebot.setBenutzer(user);
 
@@ -353,7 +399,7 @@ public class AngebotController {
 
 		saveImageIfExists(image, angebot);
 
-		return "redirect:../angebote";
+		return "redirect:../angebote/" + user.getId();
 
 	}
 
@@ -363,7 +409,7 @@ public class AngebotController {
 			Principal principal,
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
-		Benutzer user = getUser(principal);
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		newAngebot.setBenutzer(user);
 
@@ -373,16 +419,8 @@ public class AngebotController {
 
 		saveImageIfExists(image, angebot);
 
-		return "redirect:../angebote";
+		return "redirect:../angebote/" + user.getId();
 
-	}
-
-	private Benutzer getUser(Principal principal) {
-		String email = principal.getName();
-
-		Benutzer user = benutzerService.findByEmail(email);
-
-		return user;
 	}
 
 	private void addHilfsAngebotToModel(Model model, String id) {
@@ -426,11 +464,9 @@ public class AngebotController {
 		case "ausleihen":
 			addAusleihAngebotToModel(model, id);
 			break;
-
 		case "tauschen":
 			addTauschAngebotToModel(model, id);
 			break;
-
 		case "helfen":
 			addHilfsAngebotToModel(model, id);
 			break;

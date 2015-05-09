@@ -12,6 +12,10 @@ public interface TauschartikelDAO {
 	public List<Tauschartikel> findAll();
 
 	public List<Tauschartikel> findAllEnabled();
+
+	public List<Tauschartikel> findAllDisabled();
+
+	public List<Tauschartikel> findAllEnabledByBenutzer(Benutzer benutzer);
 	
 	public List<Tauschartikel> findAllByBenutzer(Benutzer benutzer);
 

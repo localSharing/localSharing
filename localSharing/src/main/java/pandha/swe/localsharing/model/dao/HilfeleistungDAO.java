@@ -12,6 +12,10 @@ public interface HilfeleistungDAO {
 	public List<Hilfeleistung> findAll();
 
 	public List<Hilfeleistung> findAllEnabled();
+
+	public List<Hilfeleistung> findAllDisabled();
+
+	public List<Hilfeleistung> findAllEnabledByBenutzer(Benutzer benutzer);
 	
 	public List<Hilfeleistung> findAllByBenutzer(Benutzer benutzer);
 

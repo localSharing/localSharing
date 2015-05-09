@@ -39,6 +39,18 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllEnabled();
 		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
 	}
+	
+	@Override
+	public List<AusleihartikelDTO> findAllDisabled() {
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllDisabled();
+		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
+	}
+
+	@Override
+	public List<AusleihartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllEnabledByBenutzer(benutzer);
+		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
+	}
 
 	@Override
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {

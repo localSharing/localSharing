@@ -41,6 +41,20 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 				tauschartikelDao.findAllEnabled();
 		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
 	}
+	
+	@Override
+	public List<TauschartikelDTO> findAllDisabled() {
+		List<Tauschartikel> tauschartikelListe =
+				tauschartikelDao.findAllDisabled();
+		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
+	}
+	
+	@Override
+	public List<TauschartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
+		List<Tauschartikel> tauschartikelListe =
+				tauschartikelDao.findAllEnabledByBenutzer(benutzer);
+		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
+	}
 
 	@Override
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {

@@ -13,6 +13,10 @@ public interface AusleihartikelDAO {
 	
 	public List<Ausleihartikel> findAllEnabled();
 
+	public List<Ausleihartikel> findAllDisabled();
+
+	public List<Ausleihartikel> findAllEnabledByBenutzer(Benutzer benutzer);
+
 	public List<Ausleihartikel> findAllByBenutzer(Benutzer benutzer);
 
 	public Long save(Ausleihartikel ausleihartikel);
