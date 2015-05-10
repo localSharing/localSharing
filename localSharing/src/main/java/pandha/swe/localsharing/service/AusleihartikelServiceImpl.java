@@ -78,7 +78,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	public Long createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
 
 		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
-				ausleihartikelDTO.getEnabled(),
+				Boolean.TRUE,
 				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
 				ausleihartikelDTO.getBeschreibung(),
 				stringToDate(ausleihartikelDTO.getStartDatum()),

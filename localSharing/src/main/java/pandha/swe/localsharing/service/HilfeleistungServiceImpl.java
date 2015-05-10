@@ -82,7 +82,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	public Long createHilfeleistung(HilfeleistungDTO hilfeleistungDTO) {
 
 		Hilfeleistung hilfeleistung = new Hilfeleistung(null,
-				hilfeleistungDTO.getEnabled(), hilfeleistungDTO.getBenutzer(),
+				Boolean.TRUE, hilfeleistungDTO.getBenutzer(),
 				hilfeleistungDTO.getTitel(),
 				hilfeleistungDTO.getBeschreibung(),
 				stringToDate(hilfeleistungDTO.getStartDatum()),

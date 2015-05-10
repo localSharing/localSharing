@@ -372,7 +372,7 @@ public class AngebotController {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		newAngebot.setBenutzer(user);
-
+		
 		Long id = ausleihartikelService.createAusleihartikel(newAngebot);
 
 		Ausleihartikel angebot = ausleihartikelService.findById(id);

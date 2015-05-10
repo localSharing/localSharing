@@ -28,38 +28,37 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	public List<Tauschartikel> findAll() {
 		return tauschartikelDao.findAll();
 	}
-	
 
 	@Override
 	public List<TauschartikelDTO> findAllDTO() {
 		return list_Tauschartikel_TO_TauschartikelDTO(findAll());
 	}
-	
+
 	@Override
 	public List<TauschartikelDTO> findAllEnabled() {
-		List<Tauschartikel> tauschartikelListe =
-				tauschartikelDao.findAllEnabled();
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllEnabled();
 		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
 	}
-	
+
 	@Override
 	public List<TauschartikelDTO> findAllDisabled() {
-		List<Tauschartikel> tauschartikelListe =
-				tauschartikelDao.findAllDisabled();
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllDisabled();
 		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
 	}
-	
+
 	@Override
 	public List<TauschartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
-		List<Tauschartikel> tauschartikelListe =
-				tauschartikelDao.findAllEnabledByBenutzer(benutzer);
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllEnabledByBenutzer(benutzer);
 		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
 	}
 
 	@Override
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Tauschartikel> tauschartikelListe =
-				tauschartikelDao.findAllByBenutzer(benutzer);
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllByBenutzer(benutzer);
 		return list_Tauschartikel_TO_TauschartikelDTO(tauschartikelListe);
 	}
 
@@ -81,9 +80,8 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	@Override
 	public Long createTauschartikel(TauschartikelDTO tauschartikelDTO) {
 
-		Tauschartikel tauschartikel = new Tauschartikel(null,
-				tauschartikelDTO.getEnabled(), tauschartikelDTO.getBenutzer(),
-				tauschartikelDTO.getTitel(),
+		Tauschartikel tauschartikel = new Tauschartikel(null, Boolean.TRUE,
+				tauschartikelDTO.getBenutzer(), tauschartikelDTO.getTitel(),
 				tauschartikelDTO.getBeschreibung(),
 				stringToDate(tauschartikelDTO.getStartDatum()),
 				tauschartikelDTO.getKategorie());
@@ -121,13 +119,14 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 
 		return tauschartikelDTO;
 	}
-	
+
 	@Override
 	public List<TauschartikelDTO> list_Tauschartikel_TO_TauschartikelDTO(
 			List<Tauschartikel> listTauschartikel) {
 		List<TauschartikelDTO> listTauschartikelDTO = new ArrayList<TauschartikelDTO>();
 		for (Tauschartikel tauschartikel : listTauschartikel) {
-			listTauschartikelDTO.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
+			listTauschartikelDTO
+					.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
 		}
 		return listTauschartikelDTO;
 	}
