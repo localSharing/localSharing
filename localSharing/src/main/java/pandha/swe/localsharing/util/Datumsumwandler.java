@@ -6,6 +6,9 @@ import java.util.Date;
 
 public class Datumsumwandler {
 
+	private Datumsumwandler() {
+	}
+
 	public static Date stringToDate(String dateAsString) {
 		Date dateAsDate = new Date();
 		try {
