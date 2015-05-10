@@ -41,6 +41,8 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 				}
 
 			}
+			
+			return fileList;
 
 		}
 
