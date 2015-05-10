@@ -69,6 +69,22 @@ public class AngebotControllerTest {
 
 	Benutzer benutzer;
 
+	List<TauschartikelDTO> tausch;
+	List<HilfeleistungDTO> hilf;
+	List<AusleihartikelDTO> ausleih;
+
+	Ausleihartikel ausleihartikel;
+	AusleihartikelDTO ausleihartikelDTO;
+
+	Tauschartikel tauschartikel;
+	TauschartikelDTO tauschartikelDTO;
+
+	Hilfeleistung hilfeleistung;
+	HilfeleistungDTO hilfeleistungDTO;
+
+	MockMultipartFile file = new MockMultipartFile("testBild",
+			"Tolles Bild".getBytes());
+
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
@@ -90,22 +106,50 @@ public class AngebotControllerTest {
 
 		benutzer = new Benutzer(new Long(42), "12345678", true,
 				Geschlecht.MANN, "Peter", "Hans", "Erzbergerstraße", "123",
-				76137, "Karlsruhe", "unitTest@localsharing.de", "12345678",
+				76137, "Karlsruhe", "unittest@localsharing.de", "12345678",
 				null);
 
 	}
 
-	@Test
-	public void testShowAngebote() throws Exception {
-		String url = "/angebote";
-		String response = "angebote";
-
-		resetAllServices();
-
+	private void initBenutzerService() {
 		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
 				benutzer);
 
-		List<AusleihartikelDTO> ausleih = new ArrayList<AusleihartikelDTO>();
+		when(benutzerService.getUserByPrincipal(testUser)).thenReturn(benutzer);
+	}
+
+	private void initBenutzerServiceGetBenutzerOverAngebotIdAndType(Long id,
+			String type) {
+		when(benutzerService.findByAngebotsIdAndType(id, type)).thenReturn(
+				benutzer);
+	}
+
+	private void initAusleihartikelService() {
+
+		ausleihartikel = new Ausleihartikel();
+		ausleihartikel.setAngebotsid(new Long(111));
+		ausleihartikel.setTitel("Ich teste deinen Code");
+		ausleihartikel.setBenutzer(benutzer);
+
+		when(ausleihartikelService.findById(ausleihartikel.getAngebotsid()))
+				.thenReturn(ausleihartikel);
+
+		ausleihartikelDTO = new AusleihartikelDTO();
+		ausleihartikelDTO.setId(ausleihartikel.getAngebotsid());
+		ausleihartikelDTO.setTitel(ausleihartikel.getTitel());
+		ausleihartikelDTO.setBenutzer(benutzer);
+
+		when(
+				ausleihartikelService
+						.ausleihartikel_TO_AusleihartikelDTO(ausleihartikel))
+				.thenReturn(ausleihartikelDTO);
+
+		when(
+				ausleihartikelService
+						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(ausleihartikel);
+
+		ausleih = new ArrayList<AusleihartikelDTO>();
 		AusleihartikelDTO ausleihDTO = new AusleihartikelDTO();
 		ausleihDTO.setId(new Long(111));
 		ausleih.add(0, ausleihDTO);
@@ -113,7 +157,44 @@ public class AngebotControllerTest {
 		when(ausleihartikelService.findAllByBenutzer(benutzer)).thenReturn(
 				ausleih);
 
-		List<TauschartikelDTO> tausch = new ArrayList<TauschartikelDTO>();
+		when(ausleihartikelService.findById(new Long(112))).thenReturn(null);
+
+		when(
+				ausleihartikelService
+						.createAusleihartikel(any(AusleihartikelDTO.class)))
+				.thenReturn(new Long(111));
+
+		initBenutzerServiceGetBenutzerOverAngebotIdAndType(
+				ausleihartikel.getAngebotsid(), "ausleihen");
+
+	}
+
+	private void initTauschartikelService() {
+
+		tauschartikel = new Tauschartikel();
+		tauschartikel.setAngebotsid(new Long(222));
+		tauschartikel.setTitel("Ich teste deinen Code");
+		tauschartikel.setBenutzer(benutzer);
+
+		when(tauschartikelService.findById(new Long(222))).thenReturn(
+				tauschartikel);
+
+		tauschartikelDTO = new TauschartikelDTO();
+		tauschartikelDTO.setId(tauschartikel.getAngebotsid());
+		tauschartikelDTO.setTitel(tauschartikel.getTitel());
+		tauschartikelDTO.setBenutzer(benutzer);
+
+		when(
+				tauschartikelService
+						.tauschartikel_TO_TauschartikelDTO(tauschartikel))
+				.thenReturn(tauschartikelDTO);
+
+		when(
+				tauschartikelService
+						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(tauschartikel);
+
+		tausch = new ArrayList<TauschartikelDTO>();
 		TauschartikelDTO tauschDTO = new TauschartikelDTO();
 		tauschDTO.setId(new Long(222));
 		tausch.add(0, tauschDTO);
@@ -121,12 +202,87 @@ public class AngebotControllerTest {
 		when(tauschartikelService.findAllByBenutzer(benutzer)).thenReturn(
 				tausch);
 
-		List<HilfeleistungDTO> hilf = new ArrayList<HilfeleistungDTO>();
+		when(tauschartikelService.findById(new Long(223))).thenReturn(null);
+
+		when(
+				tauschartikelService
+						.createTauschartikel(any(TauschartikelDTO.class)))
+				.thenReturn(new Long(222));
+
+		initBenutzerServiceGetBenutzerOverAngebotIdAndType(
+				tauschartikel.getAngebotsid(), "tauschen");
+
+	}
+
+	private void initHilfService() {
+		hilfeleistung = new Hilfeleistung();
+		hilfeleistung.setAngebotsid(new Long(333));
+		hilfeleistung.setTitel("Ich teste deinen Code");
+		hilfeleistung.setBenutzer(benutzer);
+
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfeleistung);
+
+		hilfeleistungDTO = new HilfeleistungDTO();
+		hilfeleistungDTO.setId(hilfeleistung.getAngebotsid());
+		hilfeleistungDTO.setTitel(hilfeleistung.getTitel());
+		hilfeleistungDTO.setBenutzer(benutzer);
+
+		when(
+				hilfeleistungService
+						.hilfeleistung_TO_HilfeleistungDTO(hilfeleistung))
+				.thenReturn(hilfeleistungDTO);
+
+		when(
+				hilfeleistungService
+						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(hilfeleistung);
+
+		hilf = new ArrayList<HilfeleistungDTO>();
 		HilfeleistungDTO hilfDTO = new HilfeleistungDTO();
 		hilfDTO.setId(new Long(333));
 		hilf.add(0, hilfDTO);
 
 		when(hilfeleistungService.findAllByBenutzer(benutzer)).thenReturn(hilf);
+
+		when(hilfeleistungService.findById(new Long(334))).thenReturn(null);
+
+		when(
+				hilfeleistungService
+						.createHilfeleistung(any(HilfeleistungDTO.class)))
+				.thenReturn(new Long(333));
+
+		initBenutzerServiceGetBenutzerOverAngebotIdAndType(
+				hilfeleistung.getAngebotsid(), "helfen");
+
+	}
+
+	private void resetAndInitAllServices() {
+		resetAllServices();
+
+		initAllServices();
+	}
+
+	private void initAllServices() {
+		initBenutzerService();
+		initAusleihartikelService();
+		initHilfService();
+		initTauschartikelService();
+	}
+
+	private void resetAllServices() {
+		reset(benutzerService);
+		reset(ausleihartikelService);
+		reset(tauschartikelService);
+		reset(hilfeleistungService);
+	}
+
+	@Test
+	public void testShowAngebote() throws Exception {
+		String url = "/angebote/" + benutzer.getId();
+		String response = "angebote";
+
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
@@ -145,13 +301,12 @@ public class AngebotControllerTest {
 		String url = "/angebot/123/Peter";
 		String response = "redirect:angebote";
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
 
 	}
-
 
 	@Test
 	public void testShowAngebotNull() throws Exception {
@@ -159,42 +314,25 @@ public class AngebotControllerTest {
 		String url = "/angebot/123/''";
 		String response = "redirect:angebote";
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
 
 	}
-	
-	
+
 	@Test
 	public void testShowAngebotAusleihenExists() throws Exception {
 
 		String url = "/angebot/111/ausleihen";
 		String response = "angebot";
 
-		resetAllServices();
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
-
-		AusleihartikelDTO dto = new AusleihartikelDTO();
-		dto.setId(ausleihAngebot.getAngebotsid());
-		dto.setTitel(ausleihAngebot.getTitel());
-
-		when(
-				ausleihartikelService
-						.ausleihartikel_TO_AusleihartikelDTO(ausleihAngebot))
-				.thenReturn(dto);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
 				.andExpect(model().attributeExists("angebot"))
-				.andExpect(model().attribute("angebot", dto));
+				.andExpect(model().attribute("angebot", ausleihartikelDTO));
 
 	}
 
@@ -204,28 +342,12 @@ public class AngebotControllerTest {
 		String url = "/angebot/222/tauschen";
 		String response = "angebot";
 
-		resetAllServices();
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
-
-		TauschartikelDTO dto = new TauschartikelDTO();
-		dto.setId(tauschAngebot.getAngebotsid());
-		dto.setTitel(tauschAngebot.getTitel());
-
-		when(
-				tauschartikelService
-						.tauschartikel_TO_TauschartikelDTO(tauschAngebot))
-				.thenReturn(dto);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
 				.andExpect(model().attributeExists("angebot"))
-				.andExpect(model().attribute("angebot", dto));
+				.andExpect(model().attribute("angebot", tauschartikelDTO));
 
 	}
 
@@ -235,28 +357,12 @@ public class AngebotControllerTest {
 		String url = "/angebot/333/helfen";
 		String response = "angebot";
 
-		resetAllServices();
-
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
-
-		HilfeleistungDTO dto = new HilfeleistungDTO();
-		dto.setId(hilfAngebot.getAngebotsid());
-		dto.setTitel(hilfAngebot.getTitel());
-
-		when(
-				hilfeleistungService
-						.hilfeleistung_TO_HilfeleistungDTO(hilfAngebot))
-				.thenReturn(dto);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
 				.andExpect(model().attributeExists("angebot"))
-				.andExpect(model().attribute("angebot", dto));
+				.andExpect(model().attribute("angebot", hilfeleistungDTO));
 
 	}
 
@@ -266,9 +372,7 @@ public class AngebotControllerTest {
 		String url = "/angebot/112/ausleihen";
 		String response = "redirect:angebote";
 
-		resetAllServices();
-
-		when(ausleihartikelService.findById(new Long(112))).thenReturn(null);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -281,9 +385,7 @@ public class AngebotControllerTest {
 		String url = "/angebot/223/tauschen";
 		String response = "redirect:angebote";
 
-		resetAllServices();
-
-		when(ausleihartikelService.findById(new Long(223))).thenReturn(null);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -296,9 +398,7 @@ public class AngebotControllerTest {
 		String url = "/angebot/334/helfen";
 		String response = "redirect:angebote";
 
-		resetAllServices();
-
-		when(ausleihartikelService.findById(new Long(334))).thenReturn(null);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -311,7 +411,7 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/123/Peter";
 		String response = "redirect:angebote";
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -323,28 +423,12 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/111/ausleihen";
 		String response = "angebotEdit";
 
-		resetAllServices();
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
-
-		AusleihartikelDTO dto = new AusleihartikelDTO();
-		dto.setId(ausleihAngebot.getAngebotsid());
-		dto.setTitel(ausleihAngebot.getTitel());
-
-		when(
-				ausleihartikelService
-						.ausleihartikel_TO_AusleihartikelDTO(ausleihAngebot))
-				.thenReturn(dto);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
 				.andExpect(model().attributeExists("angebot"))
-				.andExpect(model().attribute("angebot", dto));
+				.andExpect(model().attribute("angebot", ausleihartikelDTO));
 
 	}
 
@@ -353,9 +437,7 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/112/ausleihen";
 		String response = "redirect:angebote";
 
-		resetAllServices();
-
-		when(ausleihartikelService.findById(new Long(112))).thenReturn(null);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -368,28 +450,12 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/222/tauschen";
 		String response = "angebotEdit";
 
-		resetAllServices();
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
-
-		TauschartikelDTO dto = new TauschartikelDTO();
-		dto.setId(tauschAngebot.getAngebotsid());
-		dto.setTitel(tauschAngebot.getTitel());
-
-		when(
-				tauschartikelService
-						.tauschartikel_TO_TauschartikelDTO(tauschAngebot))
-				.thenReturn(dto);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
 				.andExpect(model().attributeExists("angebot"))
-				.andExpect(model().attribute("angebot", dto));
+				.andExpect(model().attribute("angebot", tauschartikelDTO));
 
 	}
 
@@ -399,9 +465,7 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/223/tauschen";
 		String response = "redirect:angebote";
 
-		resetAllServices();
-
-		when(ausleihartikelService.findById(new Long(223))).thenReturn(null);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -412,28 +476,12 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/333/helfen";
 		String response = "angebotEdit";
 
-		resetAllServices();
-
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
-
-		HilfeleistungDTO dto = new HilfeleistungDTO();
-		dto.setId(hilfAngebot.getAngebotsid());
-		dto.setTitel(hilfAngebot.getTitel());
-
-		when(
-				hilfeleistungService
-						.hilfeleistung_TO_HilfeleistungDTO(hilfAngebot))
-				.thenReturn(dto);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
 				.andExpect(model().attributeExists("angebot"))
-				.andExpect(model().attribute("angebot", dto));
+				.andExpect(model().attribute("angebot", hilfeleistungDTO));
 
 	}
 
@@ -443,9 +491,7 @@ public class AngebotControllerTest {
 		String url = "/angebotEdit/334/helfen";
 		String response = "redirect:angebote";
 
-		resetAllServices();
-
-		when(ausleihartikelService.findById(new Long(334))).thenReturn(null);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
@@ -455,42 +501,28 @@ public class AngebotControllerTest {
 	public void testDeleteAusleihartikel() throws Exception {
 
 		String url = "/delete/111/ausleihen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
 
-		verify(ausleihartikelService, times(1)).delete(ausleihAngebot);
+		verify(ausleihartikelService, times(1)).delete(ausleihartikel);
 	}
 
 	@Test
 	public void testDeleteTauschartikel() throws Exception {
 
 		String url = "/delete/222/tauschen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
 
-		verify(tauschartikelService, times(1)).delete(tauschAngebot);
+		verify(tauschartikelService, times(1)).delete(tauschartikel);
 
 	}
 
@@ -498,20 +530,14 @@ public class AngebotControllerTest {
 	public void testDeleteHilfeleistung() throws Exception {
 
 		String url = "/delete/333/helfen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		Hilfeleistung helfen = new Hilfeleistung();
-		helfen.setAngebotsid(new Long(333));
-		helfen.setTitel("Ich teste deinen Code");
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(helfen);
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
 
-		verify(hilfeleistungService, times(1)).delete(helfen);
+		verify(hilfeleistungService, times(1)).delete(hilfeleistung);
 
 	}
 
@@ -521,7 +547,7 @@ public class AngebotControllerTest {
 		String url = "/angebotNeu/ausleihen";
 		String response = "angebotNeu";
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
@@ -536,7 +562,7 @@ public class AngebotControllerTest {
 		String url = "/angebotNeu/tauschen";
 		String response = "angebotNeu";
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
@@ -551,7 +577,7 @@ public class AngebotControllerTest {
 		String url = "/angebotNeu/helfen";
 		String response = "angebotNeu";
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isOk()).andExpect(view().name(response))
@@ -563,24 +589,9 @@ public class AngebotControllerTest {
 	public void testSaveNewAusleihen() throws Exception {
 
 		String url = "/angebotNeu/ausleihen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				ausleihartikelService
-						.createAusleihartikel(any(AusleihartikelDTO.class)))
-				.thenReturn(new Long(111));
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
@@ -595,31 +606,16 @@ public class AngebotControllerTest {
 		verify(ausleihartikelService, times(1)).createAusleihartikel(
 				any(AusleihartikelDTO.class));
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(ausleihAngebot), any(MultipartFile.class));
+				eq(ausleihartikel), any(MultipartFile.class));
 	}
 
 	@Test
 	public void testSaveNewAusleihenWithEmptyImage() throws Exception {
 
 		String url = "/angebotNeu/ausleihen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				ausleihartikelService
-						.createAusleihartikel(any(AusleihartikelDTO.class)))
-				.thenReturn(new Long(111));
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", "".getBytes())
@@ -635,34 +631,19 @@ public class AngebotControllerTest {
 		verify(ausleihartikelService, times(1)).createAusleihartikel(
 				any(AusleihartikelDTO.class));
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(ausleihAngebot), any(MultipartFile.class));
+				eq(ausleihartikel), any(MultipartFile.class));
 	}
 
 	@Test
 	public void testSaveNewAusleihenWithImage() throws Exception {
 
 		String url = "/angebotNeu/ausleihen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
+		resetAndInitAllServices();
 
 		MockMultipartFile file = new MockMultipartFile("testBild",
 				"Tolles Bild".getBytes());
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				ausleihartikelService
-						.createAusleihartikel(any(AusleihartikelDTO.class)))
-				.thenReturn(new Long(111));
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", file.getBytes())
@@ -677,31 +658,16 @@ public class AngebotControllerTest {
 
 		verify(ausleihartikelService, times(1)).createAusleihartikel(
 				any(AusleihartikelDTO.class));
-		verify(fileService, times(1)).save(eq(ausleihAngebot),
+		verify(fileService, times(1)).save(eq(ausleihartikel),
 				any(MultipartFile.class));
 	}
 
 	@Test
 	public void testSaveNewTauschen() throws Exception {
 		String url = "/angebotNeu/tauschen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				tauschartikelService
-						.createTauschartikel(any(TauschartikelDTO.class)))
-				.thenReturn(new Long(222));
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(tauschartikelService.findById(new Long(111))).thenReturn(
-				tauschAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
@@ -717,30 +683,15 @@ public class AngebotControllerTest {
 				any(TauschartikelDTO.class));
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(tauschAngebot), any(MultipartFile.class));
+				eq(tauschartikel), any(MultipartFile.class));
 	}
 
 	@Test
 	public void testSaveNewTauschenWithEmptyImage() throws Exception {
 		String url = "/angebotNeu/tauschen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				tauschartikelService
-						.createTauschartikel(any(TauschartikelDTO.class)))
-				.thenReturn(new Long(222));
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(tauschartikelService.findById(new Long(111))).thenReturn(
-				tauschAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", "".getBytes())
@@ -757,33 +708,15 @@ public class AngebotControllerTest {
 				any(TauschartikelDTO.class));
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(tauschAngebot), any(MultipartFile.class));
+				eq(tauschartikel), any(MultipartFile.class));
 	}
 
 	@Test
 	public void testSaveNewTauschenWithImage() throws Exception {
 		String url = "/angebotNeu/tauschen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		MockMultipartFile file = new MockMultipartFile("testBild",
-				"Tolles Bild".getBytes());
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				tauschartikelService
-						.createTauschartikel(any(TauschartikelDTO.class)))
-				.thenReturn(new Long(222));
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", file.getBytes())
@@ -799,7 +732,7 @@ public class AngebotControllerTest {
 		verify(tauschartikelService, times(1)).createTauschartikel(
 				any(TauschartikelDTO.class));
 
-		verify(fileService, times(1)).save(eq(tauschAngebot),
+		verify(fileService, times(1)).save(eq(tauschartikel),
 				any(MultipartFile.class));
 	}
 
@@ -807,24 +740,9 @@ public class AngebotControllerTest {
 	public void testSaveNewHelfen() throws Exception {
 
 		String url = "/angebotNeu/helfen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				hilfeleistungService
-						.createHilfeleistung(any(HilfeleistungDTO.class)))
-				.thenReturn(new Long(333));
-
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
@@ -840,7 +758,7 @@ public class AngebotControllerTest {
 				any(HilfeleistungDTO.class));
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(hilfAngebot), any(MultipartFile.class));
+				eq(hilfeleistung), any(MultipartFile.class));
 
 	}
 
@@ -848,24 +766,9 @@ public class AngebotControllerTest {
 	public void testSaveNewHelfenWithEmptyImage() throws Exception {
 
 		String url = "/angebotNeu/helfen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				hilfeleistungService
-						.createHilfeleistung(any(HilfeleistungDTO.class)))
-				.thenReturn(new Long(333));
-
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", "".getBytes())
@@ -882,7 +785,7 @@ public class AngebotControllerTest {
 				any(HilfeleistungDTO.class));
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(hilfAngebot), any(MultipartFile.class));
+				eq(hilfeleistung), any(MultipartFile.class));
 
 	}
 
@@ -890,27 +793,9 @@ public class AngebotControllerTest {
 	public void testSaveNewHelfenWithImage() throws Exception {
 
 		String url = "/angebotNeu/helfen";
-		String response = "redirect:../angebote";
+		String response = "redirect:../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		MockMultipartFile file = new MockMultipartFile("testBild",
-				"Tolles Bild".getBytes());
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				hilfeleistungService
-						.createHilfeleistung(any(HilfeleistungDTO.class)))
-				.thenReturn(new Long(333));
-
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", file.getBytes())
@@ -926,7 +811,7 @@ public class AngebotControllerTest {
 		verify(hilfeleistungService, times(1)).createHilfeleistung(
 				any(HilfeleistungDTO.class));
 
-		verify(fileService, times(1)).save(eq(hilfAngebot),
+		verify(fileService, times(1)).save(eq(hilfeleistung),
 				any(MultipartFile.class));
 
 	}
@@ -935,24 +820,9 @@ public class AngebotControllerTest {
 	public void testSaveEditAusleiharikel() throws Exception {
 
 		String url = "/angebotEdit/111/ausleihen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(
-				ausleihartikelService
-						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
-				.thenReturn(ausleihAngebot);
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
@@ -964,9 +834,9 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(ausleihartikelService, times(1)).update(ausleihAngebot);
+		verify(ausleihartikelService, times(1)).update(ausleihartikel);
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(ausleihAngebot), any(MultipartFile.class));
+				eq(ausleihartikel), any(MultipartFile.class));
 
 	}
 
@@ -974,24 +844,12 @@ public class AngebotControllerTest {
 	public void testSaveEditAusleiharikelWithEmptyImage() throws Exception {
 
 		String url = "/angebotEdit/111/ausleihen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(
-				ausleihartikelService
-						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
-				.thenReturn(ausleihAngebot);
+		resetAndInitAllServices();
 
 		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
+				ausleihartikel);
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", "".getBytes())
@@ -1004,9 +862,9 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(ausleihartikelService, times(1)).update(ausleihAngebot);
+		verify(ausleihartikelService, times(1)).update(ausleihartikel);
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(ausleihAngebot), any(MultipartFile.class));
+				eq(ausleihartikel), any(MultipartFile.class));
 
 	}
 
@@ -1014,27 +872,9 @@ public class AngebotControllerTest {
 	public void testSaveEditAusleiharikelWithImage() throws Exception {
 
 		String url = "/angebotEdit/111/ausleihen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		Ausleihartikel ausleihAngebot = new Ausleihartikel();
-		ausleihAngebot.setAngebotsid(new Long(111));
-		ausleihAngebot.setTitel("Ich teste deinen Code");
-
-		when(
-				ausleihartikelService
-						.ausleihartikelDTO_TO_Ausleihartikel(any(AusleihartikelDTO.class)))
-				.thenReturn(ausleihAngebot);
-
-		when(ausleihartikelService.findById(new Long(111))).thenReturn(
-				ausleihAngebot);
-
-		MockMultipartFile file = new MockMultipartFile("testBild",
-				"Tolles Bild".getBytes());
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", file.getBytes())
@@ -1047,8 +887,8 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(ausleihartikelService, times(1)).update(ausleihAngebot);
-		verify(fileService, times(1)).save(eq(ausleihAngebot),
+		verify(ausleihartikelService, times(1)).update(ausleihartikel);
+		verify(fileService, times(1)).save(eq(ausleihartikel),
 				any(MultipartFile.class));
 
 	}
@@ -1057,24 +897,9 @@ public class AngebotControllerTest {
 	public void testSaveEditTauscharikel() throws Exception {
 
 		String url = "/angebotEdit/222/tauschen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				tauschartikelService
-						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
-				.thenReturn(tauschAngebot);
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
@@ -1086,10 +911,10 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(tauschartikelService, times(1)).update(tauschAngebot);
+		verify(tauschartikelService, times(1)).update(tauschartikel);
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(tauschAngebot), any(MultipartFile.class));
+				eq(tauschartikel), any(MultipartFile.class));
 
 	}
 
@@ -1097,24 +922,9 @@ public class AngebotControllerTest {
 	public void testSaveEditTauscharikelWithEmptyImage() throws Exception {
 
 		String url = "/angebotEdit/222/tauschen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				tauschartikelService
-						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
-				.thenReturn(tauschAngebot);
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", "".getBytes())
@@ -1127,10 +937,10 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(tauschartikelService, times(1)).update(tauschAngebot);
+		verify(tauschartikelService, times(1)).update(tauschartikel);
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(tauschAngebot), any(MultipartFile.class));
+				eq(tauschartikel), any(MultipartFile.class));
 
 	}
 
@@ -1138,27 +948,9 @@ public class AngebotControllerTest {
 	public void testSaveEditTauscharikelWithImage() throws Exception {
 
 		String url = "/angebotEdit/222/tauschen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-
-		Tauschartikel tauschAngebot = new Tauschartikel();
-		tauschAngebot.setAngebotsid(new Long(222));
-		tauschAngebot.setTitel("Ich teste deinen Code");
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				tauschartikelService
-						.tauschartikelDTO_TO_Tauschartikel(any(TauschartikelDTO.class)))
-				.thenReturn(tauschAngebot);
-
-		when(tauschartikelService.findById(new Long(222))).thenReturn(
-				tauschAngebot);
-
-		MockMultipartFile file = new MockMultipartFile("testBild",
-				"Tolles Bild".getBytes());
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", file.getBytes())
@@ -1171,9 +963,9 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(tauschartikelService, times(1)).update(tauschAngebot);
+		verify(tauschartikelService, times(1)).update(tauschartikel);
 
-		verify(fileService, times(1)).save(eq(tauschAngebot),
+		verify(fileService, times(1)).save(eq(tauschartikel),
 				any(MultipartFile.class));
 
 	}
@@ -1181,24 +973,9 @@ public class AngebotControllerTest {
 	@Test
 	public void testSaveEditHilfsangebot() throws Exception {
 		String url = "/angebotEdit/333/helfen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				hilfeleistungService
-						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
-				.thenReturn(hilfAngebot);
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
-
+		resetAndInitAllServices();
 		mockMvc.perform(
 				fileUpload(url).contentType(MediaType.MULTIPART_FORM_DATA)
 						.param("titel", "Test Arikel")
@@ -1206,13 +983,13 @@ public class AngebotControllerTest {
 						.param("beschreibung", "Test Beschreibung")
 						.param("startDatum", "01.01.2000")
 						.param("endDatum", "01.01.2001").param("dauer", "12")
-						.principal(testUser)).andExpect(status().isFound())
-				.andExpect(view().name(response));
+						.param("enabled", "true").principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
 
-		verify(hilfeleistungService, times(1)).update(hilfAngebot);
+		verify(hilfeleistungService, times(1)).update(hilfeleistung);
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(hilfAngebot), any(MultipartFile.class));
+				eq(hilfeleistung), any(MultipartFile.class));
 
 	}
 
@@ -1220,24 +997,9 @@ public class AngebotControllerTest {
 	public void testSaveEditHilfsangebotWithEmptyImage() throws Exception {
 
 		String url = "/angebotEdit/333/helfen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				hilfeleistungService
-						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
-				.thenReturn(hilfAngebot);
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
-
+		resetAndInitAllServices();
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", "".getBytes())
 						.contentType(MediaType.MULTIPART_FORM_DATA)
@@ -1249,10 +1011,10 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(hilfeleistungService, times(1)).update(hilfAngebot);
+		verify(hilfeleistungService, times(1)).update(hilfeleistung);
 
 		verify(fileService, VerificationModeFactory.noMoreInteractions()).save(
-				eq(hilfAngebot), any(MultipartFile.class));
+				eq(hilfeleistung), any(MultipartFile.class));
 
 	}
 
@@ -1260,26 +1022,9 @@ public class AngebotControllerTest {
 	public void testSaveEditHilfsangebotWithImage() throws Exception {
 
 		String url = "/angebotEdit/333/helfen";
-		String response = "redirect:../../angebote";
+		String response = "redirect:../../angebote/" + benutzer.getId();
 
-		resetAllServices();
-		Hilfeleistung hilfAngebot = new Hilfeleistung();
-		hilfAngebot.setAngebotsid(new Long(333));
-		hilfAngebot.setTitel("Ich teste deinen Code");
-
-		when(benutzerService.findByEmail(testUser.getName())).thenReturn(
-				benutzer);
-
-		when(
-				hilfeleistungService
-						.hilfeleistungDTO_TO_Hilfeleistung(any(HilfeleistungDTO.class)))
-				.thenReturn(hilfAngebot);
-
-		when(hilfeleistungService.findById(new Long(333))).thenReturn(
-				hilfAngebot);
-
-		MockMultipartFile file = new MockMultipartFile("testBild",
-				"Tolles Bild".getBytes());
+		resetAndInitAllServices();
 
 		mockMvc.perform(
 				fileUpload(url).file("angebotImage", file.getBytes())
@@ -1292,18 +1037,11 @@ public class AngebotControllerTest {
 						.principal(testUser)).andExpect(status().isFound())
 				.andExpect(view().name(response));
 
-		verify(hilfeleistungService, times(1)).update(hilfAngebot);
+		verify(hilfeleistungService, times(1)).update(hilfeleistung);
 
-		verify(fileService, times(1)).save(eq(hilfAngebot),
+		verify(fileService, times(1)).save(eq(hilfeleistung),
 				any(MultipartFile.class));
 
-	}
-
-	private void resetAllServices() {
-		reset(benutzerService);
-		reset(ausleihartikelService);
-		reset(tauschartikelService);
-		reset(hilfeleistungService);
 	}
 
 }

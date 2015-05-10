@@ -11,8 +11,7 @@ import pandha.swe.localsharing.model.enums.Geschlecht;
 public class BenutzerDTO {
 
 	private Long id;
-	
-	@NotNull
+
 	private Boolean enabled;
 
 	@NotNull
@@ -42,9 +41,9 @@ public class BenutzerDTO {
 	@Size(min = 3, max = 20, message = "Mindestens 3 Zeichen, maximal 20")
 	private String telefonNummer;
 
-	public BenutzerDTO(Boolean enabled, Geschlecht geschlecht, String email, String vorname,
-			String nachname, String strasse, String hausnummer, String plz,
-			String stadt, String telefonNummer) {
+	public BenutzerDTO(Boolean enabled, Geschlecht geschlecht, String email,
+			String vorname, String nachname, String strasse, String hausnummer,
+			String plz, String stadt, String telefonNummer) {
 		this.enabled = enabled;
 		this.geschlecht = geschlecht;
 		this.email = email;
@@ -60,7 +59,7 @@ public class BenutzerDTO {
 	public BenutzerDTO() {
 
 	}
-	
+
 	public Boolean isEnabled() {
 		return enabled;
 	}

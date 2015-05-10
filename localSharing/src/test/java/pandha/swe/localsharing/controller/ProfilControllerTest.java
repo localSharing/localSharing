@@ -85,12 +85,12 @@ public class ProfilControllerTest {
 		Set<BenutzerRolle> rollen = new HashSet<>();
 		benutzer = new Benutzer(new Long(203), "12345678", true,
 				Geschlecht.MANN, "Peter", "Hans", "Erzbergerstraße", "123",
-				76137, "Karlsruhe", "unitTest@localsharing.de", "12345678",
+				76137, "Karlsruhe", "unittest@localsharing.de", "12345678",
 				rollen);
 
 		dto = new BenutzerDTO(true, Geschlecht.MANN, "Peter", "Hans",
 				"Erzbergerstraße", "123", "76137", "Karlsruhe",
-				"unitTest@localsharing.de", "12345678");
+				"unittest@localsharing.de", "12345678");
 
 		rollen.add(new BenutzerRolle(new Long(13), null, Rollen.USER));
 
@@ -144,6 +144,7 @@ public class ProfilControllerTest {
 						.param("stadt", "Heidelberg")
 						.param("telefonNummer", "12345678")
 						.param("email", "cookie@monster.com")
+						.param("enabled", "true")
 						.principal(principal)).andExpect(status().isFound())
 				.andExpect(view().name("redirect:profil"));
 
@@ -174,6 +175,7 @@ public class ProfilControllerTest {
 						.param("stadt", "Heidelberg")
 						.param("telefonNummer", "12345678")
 						.param("email", "cookie@monster.com")
+						.param("enabled", "true")
 						.principal(principal)).andExpect(status().isFound())
 				.andExpect(view().name("redirect:profil"));
 
@@ -200,7 +202,7 @@ public class ProfilControllerTest {
 						.param("hausnummer", "123").param("plz", "69115")
 						.param("stadt", "Heidelberg")
 						.param("telefonNummer", "12345678")
-						.param("email", "cookie@monster.com")
+						.param("email", "cookie@monster.com").param("enabled", "true")
 						.principal(principal)).andExpect(status().isFound())
 				.andExpect(view().name("redirect:profil"));
 

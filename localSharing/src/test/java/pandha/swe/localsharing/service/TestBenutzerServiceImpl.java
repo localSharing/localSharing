@@ -104,7 +104,7 @@ public class TestBenutzerServiceImpl {
 		a.setId(id);
 		a.setBenutzerRolle(null);
 		a.setEnabled(true);
-		a.setEmail("testUser@localsharing.com");
+		a.setEmail("testuser@localsharing.com");
 		a.setGeschlecht(Geschlecht.FRAU);
 		a.setHausnummer("34");
 		a.setNachname("Grün");
@@ -168,7 +168,7 @@ public class TestBenutzerServiceImpl {
 		BenutzerDTO dto = new BenutzerDTO();
 
 		dto.setId(id);
-		dto.setEmail("testUser@localsharing.com");
+		dto.setEmail("testuser@localsharing.com");
 		dto.setGeschlecht(Geschlecht.FRAU);
 		dto.setHausnummer("34");
 		dto.setNachname("Grün");
@@ -182,7 +182,7 @@ public class TestBenutzerServiceImpl {
 		aReturn.setId(id);
 		aReturn.setBenutzerRolle(null);
 		aReturn.setEnabled(true);
-		aReturn.setEmail("testUser@localsharing.com");
+		aReturn.setEmail("testuser@localsharing.com");
 		aReturn.setGeschlecht(Geschlecht.FRAU);
 		aReturn.setHausnummer("34");
 		aReturn.setNachname("Grün");
@@ -193,7 +193,7 @@ public class TestBenutzerServiceImpl {
 		aReturn.setTelefonNr("123456");
 		aReturn.setPasswort("1345678");
 
-		when(benutzerDao.findByEmail("testUser@localsharing.com")).thenReturn(
+		when(benutzerDao.findByEmail("testuser@localsharing.com")).thenReturn(
 				aReturn);
 
 		when(benutzerDao.findById(id)).thenReturn(aReturn);
@@ -202,7 +202,7 @@ public class TestBenutzerServiceImpl {
 
 			@Override
 			public String getName() {
-				return "testUser@localsharing.com";
+				return "testuser@localsharing.com";
 			}
 		});
 
@@ -226,7 +226,7 @@ public class TestBenutzerServiceImpl {
 		benutzer.setId(id);
 		benutzer.setBenutzerRolle(null);
 		benutzer.setEnabled(true);
-		benutzer.setEmail("testUser@localsharing.com");
+		benutzer.setEmail("testuser@localsharing.com");
 		benutzer.setGeschlecht(Geschlecht.FRAU);
 		benutzer.setHausnummer("34");
 		benutzer.setNachname("Grün");
@@ -240,7 +240,7 @@ public class TestBenutzerServiceImpl {
 		BenutzerDTO dtoReturn = new BenutzerDTO();
 
 		dtoReturn.setId(id);
-		dtoReturn.setEmail("testUser@localsharing.com");
+		dtoReturn.setEmail("testuser@localsharing.com");
 		dtoReturn.setGeschlecht(Geschlecht.FRAU);
 		dtoReturn.setHausnummer("34");
 		dtoReturn.setNachname("Grün");
@@ -265,8 +265,6 @@ public class TestBenutzerServiceImpl {
 		Assert.assertEquals(dto.getStrasse(), dtoReturn.getStrasse());
 	}
 
-	
-	
 	@Test
 	public void testBenutzer_TO_DTO_PLZ() throws ParseException {
 
@@ -276,7 +274,7 @@ public class TestBenutzerServiceImpl {
 		benutzer.setId(id);
 		benutzer.setBenutzerRolle(null);
 		benutzer.setEnabled(true);
-		benutzer.setEmail("testUser@localsharing.com");
+		benutzer.setEmail("testuser@localsharing.com");
 		benutzer.setGeschlecht(Geschlecht.FRAU);
 		benutzer.setHausnummer("34");
 		benutzer.setNachname("Grün");
@@ -290,7 +288,7 @@ public class TestBenutzerServiceImpl {
 		BenutzerDTO dtoReturn = new BenutzerDTO();
 
 		dtoReturn.setId(id);
-		dtoReturn.setEmail("testUser@localsharing.com");
+		dtoReturn.setEmail("testuser@localsharing.com");
 		dtoReturn.setGeschlecht(Geschlecht.FRAU);
 		dtoReturn.setHausnummer("34");
 		dtoReturn.setNachname("Grün");
@@ -314,9 +312,7 @@ public class TestBenutzerServiceImpl {
 		Assert.assertEquals(dto.getStadt(), dtoReturn.getStadt());
 		Assert.assertEquals(dto.getStrasse(), dtoReturn.getStrasse());
 	}
-	
-	
-	
+
 	@Test
 	public void testRegisterBenutzer() {
 
@@ -327,7 +323,7 @@ public class TestBenutzerServiceImpl {
 		BenutzerRegisterDTO dto = new BenutzerRegisterDTO();
 
 		dto.setId(id);
-		dto.setEmail("testUser@localsharing.com");
+		dto.setEmail("testuser@localsharing.com");
 		dto.setGeschlecht(Geschlecht.FRAU);
 		dto.setHausnummer("34");
 		dto.setNachname("Grün");

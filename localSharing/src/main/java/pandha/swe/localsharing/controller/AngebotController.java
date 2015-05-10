@@ -50,13 +50,11 @@ public class AngebotController {
 	private FileService fileService;
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebote/{id}")
-	public String showAngebote(
-			Model model, 
-			Principal principal,
+	public String showAngebote(Model model, Principal principal,
 			@PathVariable("id") String userid) {
 
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		
+
 		List<AusleihartikelDTO> aArtikel = null;
 		List<TauschartikelDTO> tArtikel = null;
 		List<HilfeleistungDTO> hArtikel = null;
@@ -69,21 +67,27 @@ public class AngebotController {
 
 			model.addAttribute("titel", "Deine");
 		} else {
-			Benutzer angebotsersteller = benutzerService.findById(Long.valueOf(userid));
-			
+			Benutzer angebotsersteller = benutzerService.findById(Long
+					.valueOf(userid));
+
 			if (angebotsersteller != null && angebotsersteller.isEnabled()) {
-				aArtikel = ausleihartikelService.findAllEnabledByBenutzer(angebotsersteller);
-				tArtikel = tauschartikelService.findAllEnabledByBenutzer(angebotsersteller);
-				hArtikel = hilfeleistungService.findAllEnabledByBenutzer(angebotsersteller);
-				
-				model.addAttribute("titel", erzeugeVornameFuerAngebotsseite(angebotsersteller.getVorname()));
+				aArtikel = ausleihartikelService
+						.findAllEnabledByBenutzer(angebotsersteller);
+				tArtikel = tauschartikelService
+						.findAllEnabledByBenutzer(angebotsersteller);
+				hArtikel = hilfeleistungService
+						.findAllEnabledByBenutzer(angebotsersteller);
+
+				model.addAttribute("titel",
+						erzeugeVornameFuerAngebotsseite(angebotsersteller
+								.getVorname()));
 			}
 		}
 
 		if (aArtikel == null || tArtikel == null || hArtikel == null) {
 			return "redirect:angebote";
 		}
-		
+
 		// Liste Model hinzufügen
 		model.addAttribute("artikelListA", aArtikel);
 		model.addAttribute("artikelListT", tArtikel);
@@ -91,12 +95,13 @@ public class AngebotController {
 
 		return "angebote";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/angebote")
 	public String showAngebote(Model model) {
 
 		// Liste mit allen Ausleihangeboten eines Benutzers
-		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllEnabled();
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService
+				.findAllEnabled();
 
 		// Liste mit allen Tauschangeboten eines Benutzers
 		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllEnabled();
@@ -112,19 +117,22 @@ public class AngebotController {
 
 		return "angebote";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/angebote/disabled")
 	public String showDisabledAngebote(Principal principal, Model model) {
-		
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		
+
 		if (!benutzerService.hatBenutzerRolle(user, Rollen.ADMIN)) {
 			return "redirect:../angebote";
 		}
 
-		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllDisabled();
-		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllDisabled();
-		List<HilfeleistungDTO> hArtikel = hilfeleistungService.findAllDisabled();
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService
+				.findAllDisabled();
+		List<TauschartikelDTO> tArtikel = tauschartikelService
+				.findAllDisabled();
+		List<HilfeleistungDTO> hArtikel = hilfeleistungService
+				.findAllDisabled();
 
 		// Liste Model hinzufügen
 		model.addAttribute("titel", "Deaktivierte");
@@ -136,18 +144,16 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{ID}/{Type}")
-	public String showAngebot(
-			Model model,
-			Principal principal,
-			@PathVariable("ID") String id,
-			@PathVariable("Type") String type) {
-		
+	public String showAngebot(Model model, Principal principal,
+			@PathVariable("ID") String id, @PathVariable("Type") String type) {
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(Long.valueOf(id), type);
+		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(
+				Long.valueOf(id), type);
 		if (angebotsersteller == null) {
 			return "redirect:angebote";
 		}
-		
+
 		if (user.getId().equals(angebotsersteller.getId())) {
 			model.addAttribute("besitzer", true);
 		} else {
@@ -158,18 +164,17 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebotEdit/{id}/{type}")
-	public String editAngebot(
-			Model model,
-			Principal principal,
-			@PathVariable("id") String id,
-			@PathVariable("type") String type) {
-		
+	public String editAngebot(Model model, Principal principal,
+			@PathVariable("id") String id, @PathVariable("type") String type) {
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(Long.valueOf(id), type);
-		if (!user.getId().equals(angebotsersteller.getId())) {
+		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(
+				Long.valueOf(id), type);
+		if (user != null && angebotsersteller != null
+				&& !user.getId().equals(angebotsersteller.getId())) {
 			return "redirect:../../angebot/" + id + "/" + type;
 		}
-		
+
 		return addAngebotToModel(model, id, type, "angebotEdit");
 	}
 
@@ -234,10 +239,12 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/ausleihen")
-	public String deleteAusleihartikel(Principal principal, @PathVariable("id") String id) {
+	public String deleteAusleihartikel(Principal principal,
+			@PathVariable("id") String id) {
 
-		Ausleihartikel ausleihartikel = ausleihartikelService.findById(new Long(id));
-		
+		Ausleihartikel ausleihartikel = ausleihartikelService
+				.findById(new Long(id));
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = ausleihartikel.getBenutzer();
 		if (!user.getId().equals(angebotsersteller.getId())) {
@@ -250,10 +257,11 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/tauschen")
-	public String deleteTauschartikel(Principal principal, @PathVariable("id") String id) {
+	public String deleteTauschartikel(Principal principal,
+			@PathVariable("id") String id) {
 
 		Tauschartikel artikel = tauschartikelService.findById(new Long(id));
-		
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = artikel.getBenutzer();
 		if (!user.getId().equals(angebotsersteller.getId())) {
@@ -266,10 +274,11 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/delete/{id}/helfen")
-	public String deleteHilfeleistung(Principal principal, @PathVariable("id") String id) {
+	public String deleteHilfeleistung(Principal principal,
+			@PathVariable("id") String id) {
 
 		Hilfeleistung artikel = hilfeleistungService.findById(new Long(id));
-		
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = artikel.getBenutzer();
 		if (!user.getId().equals(angebotsersteller.getId())) {
@@ -280,14 +289,13 @@ public class AngebotController {
 
 		return "redirect:../../angebote/" + user.getId();
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/disable/{id}/{type}")
-	public String disableAngebot(
-			Principal principal, 
-			@PathVariable("id") String id,
-			@PathVariable("type") String type) {
-		
-		if (!benutzerService.hatBenutzerRolle(benutzerService.getUserByPrincipal(principal), Rollen.ADMIN)) {
+	public String disableAngebot(Principal principal,
+			@PathVariable("id") String id, @PathVariable("type") String type) {
+
+		if (!benutzerService.hatBenutzerRolle(
+				benutzerService.getUserByPrincipal(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
 
@@ -295,21 +303,20 @@ public class AngebotController {
 
 		return "redirect:../../angebot/" + id + "/" + type;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/enable/{id}/{type}")
-	public String enableAngebot(
-			Principal principal, 
-			@PathVariable("id") String id,
-			@PathVariable("type") String type) {
-		
-		if (!benutzerService.hatBenutzerRolle(benutzerService.getUserByPrincipal(principal), Rollen.ADMIN)) {
+	public String enableAngebot(Principal principal,
+			@PathVariable("id") String id, @PathVariable("type") String type) {
+
+		if (!benutzerService.hatBenutzerRolle(
+				benutzerService.getUserByPrincipal(principal), Rollen.ADMIN)) {
 			return "redirect:../../angebot/" + id + "/" + "ausleihen";
 		}
 		angebotActivation(id, type, Boolean.TRUE);
 
 		return "redirect:../../angebot/" + id + "/" + type;
 	}
-	
+
 	private void angebotActivation(String id, String type, Boolean enable) {
 		switch (type) {
 		case "ausleihen":
@@ -323,21 +330,24 @@ public class AngebotController {
 			break;
 		}
 	}
-	
+
 	private void ausleihartikelActivation(String id, Boolean enable) {
-		Ausleihartikel ausleihartikel = ausleihartikelService.findById(Long.valueOf(id));
+		Ausleihartikel ausleihartikel = ausleihartikelService.findById(Long
+				.valueOf(id));
 		ausleihartikel.setEnabled(enable);
 		ausleihartikelService.update(ausleihartikel);
 	}
-	
+
 	private void tauschartikelActivation(String id, Boolean enable) {
-		Tauschartikel tauschartikel = tauschartikelService.findById(Long.valueOf(id));
+		Tauschartikel tauschartikel = tauschartikelService.findById(Long
+				.valueOf(id));
 		tauschartikel.setEnabled(enable);
 		tauschartikelService.update(tauschartikel);
 	}
 
 	private void hilfsartikelActivation(String id, Boolean enable) {
-		Hilfeleistung hilfeleistung = hilfeleistungService.findById(Long.valueOf(id));
+		Hilfeleistung hilfeleistung = hilfeleistungService.findById(Long
+				.valueOf(id));
 		hilfeleistung.setEnabled(enable);
 		hilfeleistungService.update(hilfeleistung);
 	}
@@ -372,7 +382,7 @@ public class AngebotController {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 
 		newAngebot.setBenutzer(user);
-		
+
 		Long id = ausleihartikelService.createAusleihartikel(newAngebot);
 
 		Ausleihartikel angebot = ausleihartikelService.findById(id);
@@ -446,9 +456,9 @@ public class AngebotController {
 	}
 
 	private void addAusleihAngebotToModel(Model model, String id) {
-		AusleihartikelDTO ausleihartikel = 
-				ausleihartikelService.ausleihartikel_TO_AusleihartikelDTO(
-						ausleihartikelService.findById(new Long(id)));
+		AusleihartikelDTO ausleihartikel = ausleihartikelService
+				.ausleihartikel_TO_AusleihartikelDTO(ausleihartikelService
+						.findById(new Long(id)));
 
 		if (ausleihartikel != null) {
 			model.addAttribute("angebot", ausleihartikel);

@@ -49,7 +49,7 @@ public class TestLocalSharingUserDetailsService {
 
 		reset(benutzerDao);
 
-		String email = "testUser@localsharing.com";
+		String email = "testuser@localsharing.com";
 
 		Long id = new Long(222);
 		Benutzer a = new Benutzer();
@@ -74,7 +74,7 @@ public class TestLocalSharingUserDetailsService {
 
 		reset(benutzerDao);
 
-		String email = "testUser@localsharing.com";
+		String email = "testuser@localsharing.com";
 
 		Long id = new Long(222);
 		Benutzer a = new Benutzer();
@@ -98,7 +98,7 @@ public class TestLocalSharingUserDetailsService {
 
 		reset(benutzerDao);
 
-		String email = "testUser@localsharing.com";
+		String email = "testuser@localsharing.com";
 
 		Long id = new Long(222);
 		Benutzer a = new Benutzer();

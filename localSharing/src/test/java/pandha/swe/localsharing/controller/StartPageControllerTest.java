@@ -1,5 +1,7 @@
 package pandha.swe.localsharing.controller;
 
+import static org.mockito.Mockito.reset;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -9,10 +11,15 @@ import java.security.Principal;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
+
+import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.service.BenutzerService;
 
 public class StartPageControllerTest {
 
@@ -24,6 +31,9 @@ public class StartPageControllerTest {
 	MockMvc mockMvc;
 
 	Principal principal;
+
+	@Mock
+	BenutzerService benutzerService;
 
 	@Before
 	public void setup() {
@@ -51,14 +61,17 @@ public class StartPageControllerTest {
 
 	@Test
 	public void testStartPageWithPrincipal() throws Exception {
-		mockMvc.perform(get(URL).principal(principal))
-				.andExpect(status().isOk()).andExpect(view().name("startPage"));
-	}
+		reset(benutzerService);
 
-	@Test
-	public void testStartPageWithOutPrincipal() throws Exception {
-		mockMvc.perform(get(URL)).andExpect(status().isOk())
-				.andExpect(view().name("startPage"));
+		Benutzer user = new Benutzer();
+		user.setId(111l);
+		when(benutzerService.getUserByPrincipal(principal)).thenReturn(user);
+		mockMvc.perform(get(URL).principal(principal))
+				.andExpect(status().isOk())
+				.andExpect(view().name("startPage"))
+				.andExpect(
+						MockMvcResultMatchers.model().attribute("userid",
+								user.getId()));
 	}
 
 }
