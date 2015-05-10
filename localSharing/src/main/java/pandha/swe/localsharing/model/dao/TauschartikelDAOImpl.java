@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
-import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Tauschartikel;
 
