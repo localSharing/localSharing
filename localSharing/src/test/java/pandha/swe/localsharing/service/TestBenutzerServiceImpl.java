@@ -9,7 +9,9 @@ import static org.mockito.Mockito.when;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Before;
@@ -22,11 +24,19 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.BenutzerRolle;
+import pandha.swe.localsharing.model.Hilfeleistung;
+import pandha.swe.localsharing.model.Tauschartikel;
+import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
+import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
+import pandha.swe.localsharing.model.dao.TauschartikelDAO;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.model.enums.Geschlecht;
+import pandha.swe.localsharing.model.enums.Rollen;
 
 public class TestBenutzerServiceImpl {
 
@@ -40,6 +50,15 @@ public class TestBenutzerServiceImpl {
 	private PasswordEncoder encoder;
 
 	MockMvc mockMvc;
+
+	@Mock
+	private AusleihartikelDAO ausleihartikelDao;
+
+	@Mock
+	private TauschartikelDAO tauschartikelDao;
+
+	@Mock
+	private HilfeleistungDAO hilfeleistungDao;
 
 	@Before
 	public void setUp() throws Exception {
@@ -351,4 +370,80 @@ public class TestBenutzerServiceImpl {
 
 	}
 
+	@Test
+	public void testFindByAngebotsIdAndType() {
+
+		Long id = new Long(222);
+
+		Benutzer benutzer = new Benutzer();
+		benutzer.setId(id);
+		benutzer.setBenutzerRolle(null);
+		benutzer.setEnabled(true);
+		benutzer.setEmail("testuser@localsharing.com");
+		benutzer.setGeschlecht(Geschlecht.FRAU);
+		benutzer.setHausnummer("34");
+		benutzer.setNachname("Grün");
+		benutzer.setVorname("Peter");
+		benutzer.setPlz(115);
+		benutzer.setStrasse("Peterstraße");
+		benutzer.setStadt("Karlsruhe");
+		benutzer.setTelefonNr("123456");
+		benutzer.setPasswort("1345678");
+
+		Ausleihartikel a = new Ausleihartikel();
+		a.setBenutzer(benutzer);
+
+		Tauschartikel t = new Tauschartikel();
+		t.setBenutzer(benutzer);
+
+		Hilfeleistung h = new Hilfeleistung();
+		h.setBenutzer(benutzer);
+
+		when(ausleihartikelDao.findById(id)).thenReturn(a);
+		when(tauschartikelDao.findById(id)).thenReturn(t);
+		when(hilfeleistungDao.findById(id)).thenReturn(h);
+
+		Assert.assertEquals(benutzer,
+				service.findByAngebotsIdAndType(id, "ausleihen"));
+		Assert.assertEquals(benutzer,
+				service.findByAngebotsIdAndType(id, "tauschen"));
+		Assert.assertEquals(benutzer,
+				service.findByAngebotsIdAndType(id, "helfen"));
+		Assert.assertNull(service.findByAngebotsIdAndType(id, "13"));
+	}
+
+	@Test
+	public void testHatBenutzerRolle() {
+		Long id = new Long(222);
+
+		Benutzer benutzer = new Benutzer();
+		benutzer.setId(id);
+		benutzer.setBenutzerRolle(null);
+		benutzer.setEnabled(true);
+		benutzer.setEmail("testuser@localsharing.com");
+		benutzer.setGeschlecht(Geschlecht.FRAU);
+		benutzer.setHausnummer("34");
+		benutzer.setNachname("Grün");
+		benutzer.setVorname("Peter");
+		benutzer.setPlz(115);
+		benutzer.setStrasse("Peterstraße");
+		benutzer.setStadt("Karlsruhe");
+		benutzer.setTelefonNr("123456");
+		benutzer.setPasswort("1345678");
+
+		Set<BenutzerRolle> rollen = new HashSet<>();
+		rollen.add(new BenutzerRolle(id, benutzer, Rollen.USER));
+		benutzer.setBenutzerRolle(rollen);
+
+		Assert.assertTrue(service.hatBenutzerRolle(benutzer, Rollen.USER));
+		Assert.assertFalse(service.hatBenutzerRolle(benutzer, Rollen.ADMIN));
+		Assert.assertFalse(service.hatBenutzerRolle(null, Rollen.USER));
+		Assert.assertFalse(service.hatBenutzerRolle(benutzer, null));
+		
+		Benutzer b = new Benutzer();
+		b.setBenutzerRolle(null);
+		Assert.assertFalse(service.hatBenutzerRolle(b, Rollen.USER));
+		
+
+	}
 }
