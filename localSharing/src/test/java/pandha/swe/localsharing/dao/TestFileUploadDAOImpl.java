@@ -142,13 +142,15 @@ public class TestFileUploadDAOImpl {
 
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Test
 	public void testFindAllIsEmpty() {
 
 		resetAndInitAll();
 
-		when(hibernateTemplate.loadAll(FileUpload.class)).thenReturn(
-				new ArrayList<>());
+		List list = new ArrayList<>();
+
+		when(hibernateTemplate.loadAll(FileUpload.class)).thenReturn(list);
 
 		Assert.assertTrue(dao.findAll().isEmpty());
 
