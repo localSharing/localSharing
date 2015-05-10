@@ -37,7 +37,43 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 				.loadAll(Ausleihartikel.class);
 		return ausleihartikel;
 	}
+	
 
+	@Override
+	public List<Ausleihartikel> findAllEnabled() {
+		
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = (List<Ausleihartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return ausleihartikelListe;
+	}
+
+	@Override
+	public List<Ausleihartikel> findAllDisabled() {
+		
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = (List<Ausleihartikel>) hibernateTemplate
+		.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+				.add(Restrictions.eq("enabled", Boolean.FALSE)));
+		
+		return ausleihartikelListe;
+	}
+
+	@Override
+	public List<Ausleihartikel> findAllEnabledByBenutzer(Benutzer benutzer) {
+		
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = 
+		(List<Ausleihartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+						.add(Restrictions.eq("benutzer", benutzer))
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return ausleihartikelListe;
+	}
+	
 	@Override
 	public List<Ausleihartikel> findAllByBenutzer(Benutzer benutzer) {
 

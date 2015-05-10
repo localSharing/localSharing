@@ -14,6 +14,12 @@ public interface TauschartikelService {
 	
 	public List<TauschartikelDTO> findAllDTO();
 
+	public List<TauschartikelDTO> findAllEnabled();
+
+	public List<TauschartikelDTO> findAllDisabled();
+
+	public List<TauschartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer);
+	
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer);
 
 	public Long save(Tauschartikel tauschartikel);

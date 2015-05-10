@@ -28,13 +28,16 @@
 			<button id="btnProfil" type="submit" class="btn btn-success">Profil</button>
 		</form>
 		<br />
-		<form th:action="@{/angebote}" method="get">
-			<button id="btnAngebote" type="submit" class="btn btn-success">Eigene
-				Angebote</button>
+		<form th:action="@{/angebote/} + ${userid}" method="get">
+			<button id="btnAngebote" type="submit" class="btn btn-success">Eigene Angebote</button>
 		</form>
 		<br />
-		<form th:action="@{/alleAngebote}" method="get">
+		<form th:action="@{/angebote}" method="get">
 			<button id="btnAlleAngebote" type="submit" class="btn btn-success">Alle Angebote</button>
+		</form>
+		<br />
+		<form sec:authorize="hasRole('ADMIN')" th:action="@{/angebote/disabled}" method="get">
+			<button id="btnDeaktivierteAngebote" type="submit" class="btn btn-success">Deaktiverte Angebote</button>
 		</form>
 	</div>
 </body>
