@@ -305,7 +305,7 @@ public class StepDefs {
 
 	@Then("^I can see my offer page$")
 	public void I_can_see_my_offer_page() throws Throwable {
-		method.checkPage("angebote");
+		method.checkPage("angebote/3");
 	}
 
 	@When("^I click on \"([^\"]*)\" on the new offer page$")

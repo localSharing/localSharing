@@ -175,6 +175,8 @@ public class AngebotController {
 			return "redirect:../../angebot/" + id + "/" + type;
 		}
 
+		model.addAttribute("userid", user.getId());
+
 		return addAngebotToModel(model, id, type, "angebotEdit");
 	}
 

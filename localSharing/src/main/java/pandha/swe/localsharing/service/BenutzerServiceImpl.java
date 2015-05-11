@@ -28,10 +28,10 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Autowired
 	private PasswordEncoder encoder;
-	
+
 	@Autowired
 	private AusleihartikelDAO ausleihartikelDao;
-	
+
 	@Autowired
 	private TauschartikelDAO tauschartikelDao;
 
@@ -42,7 +42,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 	public Benutzer findById(long id) {
 		return benutzerDao.findById(id);
 	}
-	
+
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
 		Benutzer benutzer = null;
@@ -62,7 +62,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		return benutzer;
 	}
-	
+
 	@Override
 	public Benutzer getUserByPrincipal(Principal principal) {
 		String email = principal.getName();
@@ -84,6 +84,11 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public void update(Benutzer benutzer) {
+
+		if (benutzer.isEnabled() == null) {
+			benutzer.setEnabled(Boolean.TRUE);
+		}
+
 		benutzerDao.update(benutzer);
 	}
 
@@ -125,11 +130,12 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer) {
-		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.isEnabled(), benutzer.getGeschlecht(),
-				benutzer.getEmail(), benutzer.getVorname(),
-				benutzer.getNachname(), benutzer.getStrasse(),
-				benutzer.getHausnummer(), benutzer.getPlz().toString(),
-				benutzer.getStadt(), benutzer.getTelefonNr());
+		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.isEnabled(),
+				benutzer.getGeschlecht(), benutzer.getEmail(),
+				benutzer.getVorname(), benutzer.getNachname(),
+				benutzer.getStrasse(), benutzer.getHausnummer(), benutzer
+						.getPlz().toString(), benutzer.getStadt(),
+				benutzer.getTelefonNr());
 
 		String plz = benutzerDTO.getPlz();
 
@@ -173,11 +179,13 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		return benutzer;
 	}
-	
+
 	@Override
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle) {
-		if (benutzer != null && benutzer.getBenutzerRolle() != null && rolle != null) {
-			Iterator<BenutzerRolle> iterator = benutzer.getBenutzerRolle().iterator();
+		if (benutzer != null && benutzer.getBenutzerRolle() != null
+				&& rolle != null) {
+			Iterator<BenutzerRolle> iterator = benutzer.getBenutzerRolle()
+					.iterator();
 			while (iterator.hasNext()) {
 				if (rolle.equals(iterator.next().getRolle())) {
 					return Boolean.TRUE;

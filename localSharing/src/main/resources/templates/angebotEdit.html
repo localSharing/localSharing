@@ -155,7 +155,7 @@
 		</form>
 		<div class="col-md-8 col-md-offset-4">
 			<div class="pull-right">
-				<form th:action="@{/angebote}" method="get">
+				<form th:action="@{/angebote/} + ${userid}" method="get">
 					<button id="btnAngebote" class="btn btn-danger">
 						<span class="glyphicon glyphicon-remove"></span> Abbrechen
 					</button>
