@@ -14,7 +14,7 @@ public class SeleniumTestMethods {
 
 	private FirefoxDriver driver;
 
-	private static String baseUrl = "http://localhost:8080/";
+	private static String baseUrl = "http://localhost:8090/";
 
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver();
