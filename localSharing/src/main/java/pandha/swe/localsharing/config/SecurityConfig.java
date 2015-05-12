@@ -38,11 +38,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 		http.authorizeRequests()
 				.antMatchers("/", "/homepage", "/login", "/register",
-						"/webjars/**", "/static/**").permitAll().anyRequest()
-				.authenticated();
+						"/webjars/**", "/static/**", "/resources/**", "/js/**",
+						"/css/**", "/font-awesome/**", "/fonts/**", "/img/**",
+						"/less/**").permitAll().anyRequest().authenticated();
 		http.formLogin().loginPage("/login").permitAll().and().logout()
 				.permitAll();
 		http.csrf().disable();
 	}
-
 }
