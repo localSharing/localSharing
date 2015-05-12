@@ -21,7 +21,7 @@
 		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
 		</a>
 
-		<h2>Angebot bearbeiten</h2>
+		<h2>Neues Angebot erstellen</h2>
 
 		<form class="form-horizontal" method="post" id="form"
 			enctype="multipart/form-data" th:object="${newAngebot}">
@@ -101,7 +101,7 @@
 									id="startDatum" th:field="*{startDatum}" required="required" />
 								<div th:if="${ausleihen != null || helfen != null}">
 									<strong>Enddatum: </strong><input type="datetime" th:field="*{endDatum}"
-										class="form-control" id="endDatum" />
+										class="form-control" id="endDatum" required="required" />
 								</div>
 								<div th:if="${ausleihen != null}">
 									<br /> <strong>maximale Ausleihdauer: </strong><input type="text"
