@@ -16,9 +16,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
+import pandha.swe.localsharing.model.enums.Rollen;
 import pandha.swe.localsharing.service.BenutzerService;
 import pandha.swe.localsharing.service.FileService;
-
 import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
 
 @Controller
@@ -59,7 +59,7 @@ public class ProfilController {
 				benutzerService.benutzer_TO_BenutzerDTO(
 						benutzerService.findById(Long.valueOf(id)));
 		if (gesuchterUser == null) {
-			return "redirect:startPage";
+			return "redirect:../startPage";
 		}
 		model.addAttribute("besitzer", false);
 		model.addAttribute("user", gesuchterUser);
@@ -94,6 +94,50 @@ public class ProfilController {
 		}
 
 		return "redirect:profil";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/disable/{id}")
+	public String disableUser(
+			Principal principal, 
+			@PathVariable("id") String id) {
+		
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+
+		if (!benutzerService.hatBenutzerRolle(user, Rollen.ADMIN)) {
+			return "redirect:../profil/" + id;
+		}
+		
+		Benutzer userToDisable = benutzerService.findById(Long.valueOf(id));
+		if (userToDisable == null) {
+			return "redirect:../startPage";
+		}
+		
+		userToDisable.setEnabled(Boolean.FALSE);
+		benutzerService.update(userToDisable);
+		
+		return "redirect:../profil/" + id;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/enable/{id}")
+	public String enableUser(
+			Principal principal, 
+			@PathVariable("id") String id) {
+		
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+
+		if (!benutzerService.hatBenutzerRolle(user, Rollen.ADMIN)) {
+			return "redirect:../profil/" + id;
+		}
+		
+		Benutzer userToEnable = benutzerService.findById(Long.valueOf(id));
+		if (userToEnable == null) {
+			return "redirect:../startPage";
+		}
+		
+		userToEnable.setEnabled(Boolean.TRUE);
+		benutzerService.update(userToEnable);
+		
+		return "redirect:../profil/" + id;
 	}
 
 }
