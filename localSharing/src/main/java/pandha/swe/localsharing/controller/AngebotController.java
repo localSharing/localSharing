@@ -25,6 +25,7 @@ import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
+import pandha.swe.localsharing.service.AngebotService;
 import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.BenutzerService;
 import pandha.swe.localsharing.service.FileService;
@@ -33,6 +34,9 @@ import pandha.swe.localsharing.service.TauschartikelService;
 
 @Controller
 public class AngebotController {
+	
+	@Autowired
+	private AngebotService angebotService;
 
 	@Autowired
 	private AusleihartikelService ausleihartikelService;
@@ -155,8 +159,10 @@ public class AngebotController {
 
 		if (user.getId().equals(angebotsersteller.getId())) {
 			model.addAttribute("besitzer", true);
-		} else {
+		} else if (angebotService.getAngebotByIdAndType(Long.valueOf(id), type).getEnabled()) {
 			model.addAttribute("besitzer", false);
+		} else {
+			return "redirect:../../angebote";
 		}
 
 		return addAngebotToModel(model, id, type, "angebot");

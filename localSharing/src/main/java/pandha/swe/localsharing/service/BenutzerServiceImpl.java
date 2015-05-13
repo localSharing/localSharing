@@ -33,13 +33,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 	private PasswordEncoder encoder;
 
 	@Autowired
-	private AusleihartikelDAO ausleihartikelDao;
-
-	@Autowired
-	private TauschartikelDAO tauschartikelDao;
-
-	@Autowired
-	private HilfeleistungDAO hilfeleistungDao;
+	private AngebotService angebotService;
 
 	@Override
 	public Benutzer findById(long id) {
@@ -48,22 +42,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
-		Benutzer benutzer = null;
-		switch (type) {
-		case "ausleihen":
-			benutzer = ausleihartikelDao.findById(id).getBenutzer();
-			break;
-
-		case "tauschen":
-			benutzer = tauschartikelDao.findById(id).getBenutzer();
-			break;
-
-		case "helfen":
-			benutzer = hilfeleistungDao.findById(id).getBenutzer();
-			break;
-		}
-
-		return benutzer;
+		return angebotService.getAngebotByIdAndType(id, type).getBenutzer();
 	}
 
 	@Override
