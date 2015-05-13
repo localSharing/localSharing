@@ -195,7 +195,14 @@ header .header-content {
 
 header .header-content .header-content-inner h1 {
     margin-top: 0;
-    margin-bottom: 450px;
+    margin-bottom: 35%;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+header .header-content .header-content-inner h2 {
+    margin-top: 0;
+    margin-bottom: 15%;
     text-transform: uppercase;
     font-weight: 700;
 }
@@ -209,6 +216,18 @@ header .header-content .header-content-inner p {
     font-size: 16px;
     font-weight: 300;
     color: rgba(255,255,255,.7);
+}
+
+ .container {
+    	text-align: center; 
+    	max-width: 70%;
+    }
+    
+    .jumbotron {
+    	margin-left: auto;
+    	margin-top: auto;
+  		background: rgb(74,201,72); /* This is for ie8 and below */
+   		background: rgba(74,201,72, 0.5); 
 }
 
 @media(min-width:768px) {
@@ -229,6 +248,7 @@ header .header-content .header-content-inner p {
         margin-right: auto;
         margin-left: auto;
         max-width: 1000px;
+        text-align: center;
     }
 
     header .header-content .header-content-inner p {
@@ -237,6 +257,18 @@ header .header-content .header-content-inner p {
         max-width: 80%;
         font-size: 18px;
     }
+    
+    .container {
+    	text-align: center; 
+    	max-width: 70%;
+    }
+    
+    .jumbotron {
+    	margin-left: auto;
+    	margin-top: auto;
+  		background: rgb(74,201,72); /* This is for ie8 and below */
+   		background: rgba(74,201,72, 0.5); 
+}
 }
 
 .section-heading {

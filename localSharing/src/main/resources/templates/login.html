@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html lang="de">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
 <head>
 <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -42,7 +45,7 @@
 						class="icon-bar"></span> <span class="icon-bar"></span> <span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand page-scroll" href="#page-top">LocalSharing</a>
+				<a class="navbar-brand page-scroll" href="/">LocalSharing</a>
 			</div>
 
 			<!-- Collect the nav links, forms, and other content for toggling -->
@@ -61,7 +64,54 @@
 
 	<header>
 		<div class="header-content">
-			<div class="header-content-inner">Hier kommt der Login rein!</div>
+			<div class="header-content-inner">
+				<div class="alert alert-success" th:if="${messageRegSuccess}"
+					th:text="${messageRegSuccess}">Benutzer registriert</div>
+
+				<div class="container">
+					
+					<form class="form-horizontal" th:action="@{/login}" method="post">
+						<fieldset>
+							<h2>Login
+							</h2>
+							<div class="jumbotron">
+								<!-- Text input-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="username">Email</label>
+									<div class="col-md-4">
+										<input id="username" name="username" type="text"
+											placeholder="beispiel@123.de" class="form-control input-md"
+											required="required" />
+									</div>
+								</div>
+
+								<!-- Password input-->
+								<div class="form-group">
+									<label class="col-md-4 control-label" for="password">Passwort</label>
+									<div class="col-md-4">
+										<input id="password" name="password" type="password"
+											placeholder="Passwort" class="form-control input-md"
+											required="required" />
+									</div>
+								</div>
+							</div>
+
+
+							<!-- Button -->
+							<div class="form-group">
+								<div class="col-md-12">
+									<button id="btnLogin" name="btnLogin" type="submit"
+										class="btn btn-primary btn-xl page-scroll">
+										<span class="glyphicon glyphicon-log-in"></span> Login
+									</button>
+								</div>
+							</div>
+
+						</fieldset>
+					</form>
+				</div>
+
+			</div>
 		</div>
 	</header>
 
