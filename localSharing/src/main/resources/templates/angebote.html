@@ -23,7 +23,15 @@
 		<div class="jumbotron">
 			<h3>Ausleihartikel</h3>
 			<table class="table">
-
+				<thead>
+					<tr>
+						<th>Titel</th>
+						<th>Kategorie</th>
+						<th>Startdatum</th>
+						<th>Enddatum</th>
+					</tr>
+				</thead>
+				<tbody>
 				<tr th:each="artikel : ${artikelListA}"
 					th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/ausleihen' +''';'}">
 					<td><span th:text="${artikel.titel}"></span></td>
@@ -31,7 +39,7 @@
 					<td><span th:text="${artikel.startDatum}"></span></td>
 					<td><span th:text="${artikel.endDatum}"></span></td>
 				</tr>
-
+				</tbody>
 			</table>
 			<div class="col-md-4" th:if="${titel} == 'Deine'">
 				<form th:action="@{/angebotNeu/ausleihen}" method="get">
@@ -45,7 +53,15 @@
 			<h3>Tauschartikel</h3>
 
 			<table class="table">
-
+			
+				<thead>
+					<tr>
+						<th>Titel</th>
+						<th>Kategorie</th>
+						<th>Startdatum</th>
+					</tr>
+				</thead>
+				<tbody>
 				<tr th:each="artikel : ${artikelListT}"
 					th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/tauschen' +''';'}">
 					<td><span th:text="${artikel.titel}"></span></td>
@@ -54,6 +70,7 @@
 					<td><input type="hidden" name="data" th:value="${artikel.id}"
 						value="tauschen" /></td>
 				</tr>
+				</tbody>
 
 			</table>
 
@@ -71,6 +88,14 @@
 
 			<table class="table">
 
+				<thead>
+					<tr>
+						<th>Titel</th>
+						<th>Startdatum</th>
+						<th>Enddatum</th>
+					</tr>
+				</thead>
+				<tbody>
 				<tr th:each="artikel : ${artikelListH}"
 					th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/helfen' +''';'}">
 					<td><span th:text="${artikel.titel}"></span></td>
@@ -79,6 +104,7 @@
 					<td><input type="hidden" name="data" th:value="${artikel.id}"
 						value="helfen" /></td>
 				</tr>
+				</tbody>
 
 			</table>
 

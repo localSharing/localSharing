@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+<title>User</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div class="container">
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+		<h2>Alle User</h2>
+
+		<div class="jumbotron">
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Aktiviert</th>
+						<th>Vorname</th>
+						<th>Nachname</th>
+						<th>E-Mail</th>
+						<th>PLZ</th>
+						<th>Stadt</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="user : ${userList}"
+						th:onclick="${'window.location.href='+'''../profil/' + user.id + ''';'}">
+						<td th:if="${user.enabled}"><span class="glyphicon glyphicon-ok-circle"></span></td>
+						<td th:unless="${user.enabled}"><span class="glyphicon glyphicon-ban-circle"></span></td>
+						<td><span th:text="${user.vorname}"></span></td>
+						<td><span th:text="${user.nachname}"></span></td>
+						<td><span th:text="${user.email}"></span></td>
+						<td><span th:text="${user.plz}"></span></td>
+						<td><span th:text="${user.stadt}"></span></td>
+					</tr>
+				</tbody>
+
+			</table>
+		</div>
+		
+	</div>
+</body>
+</html>

@@ -100,8 +100,7 @@ public class AngebotController {
 	public String showAngebote(Model model) {
 
 		// Liste mit allen Ausleihangeboten eines Benutzers
-		List<AusleihartikelDTO> aArtikel = ausleihartikelService
-				.findAllEnabled();
+		List<AusleihartikelDTO> aArtikel = ausleihartikelService.findAllEnabled();
 
 		// Liste mit allen Tauschangeboten eines Benutzers
 		List<TauschartikelDTO> tArtikel = tauschartikelService.findAllEnabled();

@@ -39,6 +39,10 @@
 		<form sec:authorize="hasRole('ADMIN')" th:action="@{/angebote/disabled}" method="get">
 			<button id="btnDeaktivierteAngebote" type="submit" class="btn btn-success">Deaktiverte Angebote</button>
 		</form>
+		<br />
+		<form sec:authorize="hasRole('ADMIN')" th:action="@{/profile}" method="get">
+			<button id="btnAlleUser" type="submit" class="btn btn-success">Alle User</button>
+		</form>
 	</div>
 </body>
 </html>

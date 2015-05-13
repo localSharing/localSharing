@@ -4,6 +4,7 @@ import java.security.Principal;
 import java.util.List;
 
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
@@ -19,6 +20,8 @@ public interface BenutzerService {
 
 	public List<Benutzer> findAll();
 
+	public List<BenutzerDTO> findAllDTO();
+
 	public void save(Benutzer benutzer);
 
 	public void update(Benutzer benutzer);
@@ -31,8 +34,11 @@ public interface BenutzerService {
 			Principal user);
 
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer);
+
+	public List<BenutzerDTO> list_Benutzer_TO_BenutzerDTO(List<Benutzer> listBenutzer);
 	
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle);
 	
 	public void shutdown();
+
 }

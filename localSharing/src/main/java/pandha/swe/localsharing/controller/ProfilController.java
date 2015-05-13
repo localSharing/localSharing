@@ -139,5 +139,19 @@ public class ProfilController {
 		
 		return "redirect:../profil/" + id;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/profile")
+	public String showAllUsers(Principal principal, Model model) {
+		
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		
+		if (!benutzerService.hatBenutzerRolle(user, Rollen.ADMIN)) {
+			return "redirect:../startPage";
+		}
+		
+		model.addAttribute("userList", benutzerService.findAllDTO());
+
+		return "profile";
+	}
 
 }
