@@ -48,6 +48,54 @@ public class Bewertung {
 	public Bewertung(){
 		
 	}
+	
+	public Long getBewertungsid() {
+		return bewertungsid;
+	}
+
+	public void setBewertungsid(Long bewertungsid) {
+		this.bewertungsid = bewertungsid;
+	}
+
+	public Angebot getAngebot() {
+		return angebot;
+	}
+
+	public void setAngebot(Angebot angebot) {
+		this.angebot = angebot;
+	}
+
+	public Benutzer getBewerter() {
+		return bewerter;
+	}
+
+	public void setBewerter(Benutzer bewerter) {
+		this.bewerter = bewerter;
+	}
+
+	public Integer getBewertungSterne() {
+		return bewertungSterne;
+	}
+
+	public void setBewertungSterne(Integer bewertungSterne) {
+		this.bewertungSterne = bewertungSterne;
+	}
+
+	public String getKommentar() {
+		return kommentar;
+	}
+
+	public void setKommentar(String kommentar) {
+		this.kommentar = kommentar;
+	}
+
+	public Date getDatum() {
+		return datum;
+	}
+
+	public void setDatum(Date datum) {
+		this.datum = datum;
+	}
 
 	@Override
 	public String toString() {
@@ -56,8 +104,5 @@ public class Bewertung {
 				+ bewertungSterne + ", kommentar=" + kommentar + ", datum="
 				+ datum + "]";
 	}
-	
-	
-	
 	
 }
