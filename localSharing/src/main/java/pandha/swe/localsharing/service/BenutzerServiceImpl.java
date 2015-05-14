@@ -11,14 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
-import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
-import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
-import pandha.swe.localsharing.model.dao.TauschartikelDAO;
-import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
