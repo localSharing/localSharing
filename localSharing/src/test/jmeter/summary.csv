@@ -1,0 +1,5 @@
+Label,Anz. der Proben,Durchschnitt,Min,Max,Std. Dev.,% Fehler,Durchsatz,KB/sek,Durchschnittliche Bytes
+User :GET Homepage,2500,3397,1,26510,"5525,05","0,00%","12,4","36,73","3026,0"
+User :GET Login,2500,3721,1,33069,"5858,79","0,00%","12,7","26,93","2163,0"
+User :POST Login,2500,29355,401,64329,"13664,80","0,00%","11,9","29,82","2570,0"
+Gesamt,7500,12158,1,64329,"15223,54","0,00%","34,4","86,78","2586,3"
