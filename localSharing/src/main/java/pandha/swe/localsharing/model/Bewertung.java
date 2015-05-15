@@ -24,7 +24,7 @@ public class Bewertung {
 	private Angebot angebot; 
 	
 	@OneToOne
-	private Benutzer bewerter; 
+	private Benutzer benutzer; 
 	
 	@Column(name = "BEWERTUNGSTERNE")
 	private Integer bewertungSterne;
@@ -39,7 +39,7 @@ public class Bewertung {
 			Integer bewertungSterne, String kommentar, Date datum) {
 		this.bewertungsid = id;
 		this.angebot = angebot;
-		this.bewerter = bewerter;
+		this.benutzer = bewerter;
 		this.bewertungSterne = bewertungSterne;
 		this.kommentar = kommentar;
 		this.datum = datum;
@@ -66,11 +66,11 @@ public class Bewertung {
 	}
 
 	public Benutzer getBewerter() {
-		return bewerter;
+		return benutzer;
 	}
 
 	public void setBewerter(Benutzer bewerter) {
-		this.bewerter = bewerter;
+		this.benutzer = bewerter;
 	}
 
 	public Integer getBewertungSterne() {
@@ -100,7 +100,7 @@ public class Bewertung {
 	@Override
 	public String toString() {
 		return "Bewertung [bewertungsid=" + bewertungsid + ", angebot="
-				+ angebot + ", bewerter=" + bewerter + ", bewertungSterne="
+				+ angebot + ", bewerter=" + benutzer + ", bewertungSterne="
 				+ bewertungSterne + ", kommentar=" + kommentar + ", datum="
 				+ datum + "]";
 	}

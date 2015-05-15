@@ -12,7 +12,7 @@ public class BewertungDTO {
 
 	private Angebot angebot;
 
-	private Benutzer bewerter;
+	private Benutzer benutzer;
 	
 	@Size(min = 1, max = 1)
 	private Integer bewertungSterne;
@@ -28,7 +28,7 @@ public class BewertungDTO {
 		super();
 		this.id = id;
 		this.angebot = angebot;
-		this.bewerter = bewerter;
+		this.benutzer = bewerter;
 		this.bewertungSterne = bewertungSterne;
 		this.kommentar = kommentar;
 		this.datum = datum;
@@ -55,11 +55,11 @@ public class BewertungDTO {
 	}
 
 	public Benutzer getBewerter() {
-		return bewerter;
+		return benutzer;
 	}
 
 	public void setBewerter(Benutzer bewerter) {
-		this.bewerter = bewerter;
+		this.benutzer = bewerter;
 	}
 
 	public Integer getBewertungSterne() {
@@ -89,7 +89,7 @@ public class BewertungDTO {
 	@Override
 	public String toString() {
 		return "BewertungDTO [id=" + id + ", angebot=" + angebot
-				+ ", bewerter=" + bewerter + ", bewertungSterne="
+				+ ", bewerter=" + benutzer + ", bewertungSterne="
 				+ bewertungSterne + ", kommentar=" + kommentar + ", datum="
 				+ datum + "]";
 	}

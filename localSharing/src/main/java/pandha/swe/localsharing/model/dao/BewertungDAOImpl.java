@@ -55,7 +55,7 @@ public class BewertungDAOImpl implements BewertungDAO {
 		@SuppressWarnings("unchecked")
 		List<Bewertung> bewertungen = (List<Bewertung>) hibernateTemplate
 				.findByCriteria(DetachedCriteria.forClass(Bewertung.class).add(
-						Restrictions.eq("bewerter", bewerter)));
+						Restrictions.eq("benutzer", bewerter)));
 
 		return bewertungen;
 	}
