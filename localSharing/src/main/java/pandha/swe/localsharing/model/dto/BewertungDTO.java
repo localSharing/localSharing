@@ -1,6 +1,7 @@
 package pandha.swe.localsharing.model.dto;
 
-import javax.validation.constraints.Pattern;
+import java.util.Date;
+
 import javax.validation.constraints.Size;
 
 import pandha.swe.localsharing.model.Angebot;
@@ -13,19 +14,17 @@ public class BewertungDTO {
 	private Angebot angebot;
 
 	private Benutzer benutzer;
-	
+
 	@Size(min = 1, max = 1)
 	private Integer bewertungSterne;
-	
+
 	@Size(max = 1000)
 	private String kommentar;
-	
-	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}")
-	private String datum;
+
+	private Date datum;
 
 	public BewertungDTO(Long id, Angebot angebot, Benutzer bewerter,
-			Integer bewertungSterne, String kommentar, String datum) {
-		super();
+			Integer bewertungSterne, String kommentar, Date datum) {
 		this.id = id;
 		this.angebot = angebot;
 		this.benutzer = bewerter;
@@ -33,9 +32,9 @@ public class BewertungDTO {
 		this.kommentar = kommentar;
 		this.datum = datum;
 	}
-	
-	public BewertungDTO(){
-		
+
+	public BewertungDTO() {
+
 	}
 
 	public Long getId() {
@@ -78,11 +77,11 @@ public class BewertungDTO {
 		this.kommentar = kommentar;
 	}
 
-	public String getDatum() {
+	public Date getDatum() {
 		return datum;
 	}
 
-	public void setDatum(String datum) {
+	public void setDatum(Date datum) {
 		this.datum = datum;
 	}
 
