@@ -12,9 +12,9 @@ public interface BenutzerService {
 	public Benutzer findById(long id);
 
 	public Benutzer findByEmail(String email);
-	
+
 	public Benutzer findByAngebotsIdAndType(Long id, String type);
-	
+
 	public Benutzer getUserByPrincipal(Principal principal);
 
 	public List<Benutzer> findAll();
@@ -31,8 +31,10 @@ public interface BenutzerService {
 			Principal user);
 
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer);
-	
+
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle);
-	
+
+	public Boolean sindDieBenutzerGleich(Benutzer benutzer1, Benutzer benutzer2);
+
 	public void shutdown();
 }

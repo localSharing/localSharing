@@ -194,4 +194,15 @@ public class BenutzerServiceImpl implements BenutzerService {
 		}
 		return Boolean.FALSE;
 	}
+
+	@Override
+	public Boolean sindDieBenutzerGleich(Benutzer benutzer1, Benutzer benutzer2) {
+
+		if (benutzer1 != null && benutzer2 != null
+				&& benutzer1.getId().equals(benutzer2.getId())) {
+			return Boolean.TRUE;
+		}
+
+		return Boolean.FALSE;
+	}
 }
