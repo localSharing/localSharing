@@ -9,16 +9,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebotDTO;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebotDTO;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
 
 @Controller
 public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 
-	private final static String REQUEST_URL = "/angebot/{id}/{type}";
-	private final static String SUCCESS_VIEW = "angebot";
-	private final static String ERROR_VIEW = "redirect:/angebote";
+	private static final String REQUEST_URL = "/angebot/{id}/{type}";
+	private static final String SUCCESS_VIEW = "angebot";
+	private static final String ERROR_VIEW = "redirect:/angebote";
 
 	private Long angebotsId;
 	private String type;

@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.controller.pattern.backend.holeDaten;
+package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,9 +17,9 @@ import pandha.swe.localsharing.service.TauschartikelService;
 @Component
 public abstract class AlleAngebotsTypen extends LadeDaten {
 
-	protected String LISTE_AUSLEIHARTIKEL = "artikelListA";
-	protected String LISTE_TAUSCHARTIKEL = "artikelListT";
-	protected String LISTE_HILFELEISTUNGEN = "artikelListH";
+	protected String listeAusleihartikel = "artikelListA";
+	protected String listeTauschartikel = "artikelListT";
+	protected String listeHilfeleistungen = "artikelListH";
 
 	@Autowired
 	protected AusleihartikelService ausleihartikelService;
@@ -31,9 +31,9 @@ public abstract class AlleAngebotsTypen extends LadeDaten {
 	@Override
 	public Map<String, Object> ladeDaten() {
 		Map<String, Object> daten = new HashMap<String, Object>();
-		daten.put(LISTE_AUSLEIHARTIKEL, getListeAusleihartikel());
-		daten.put(LISTE_TAUSCHARTIKEL, getListeTauschartikel());
-		daten.put(LISTE_HILFELEISTUNGEN, getListeHilfeleistungen());
+		daten.put(listeAusleihartikel, getListeAusleihartikel());
+		daten.put(listeTauschartikel, getListeTauschartikel());
+		daten.put(listeHilfeleistungen, getListeHilfeleistungen());
 		return daten;
 	}
 

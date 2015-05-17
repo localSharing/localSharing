@@ -23,8 +23,8 @@ import pandha.swe.localsharing.model.enums.FileUploadType;
 public class POST_SpeichereEinenNeuenTauschartikel extends
 		EmpfangeDatenMitBild<TauschartikelDTO, TauschartikelDTO> {
 
-	private final static String REQUEST_URL = "/angebotNeu/tauschen";
-	private final static String ERROR_VIEW = "redirect:angebote";
+	private static final String REQUEST_URL = "/angebotNeu/tauschen";
+	private static final String ERROR_VIEW = "redirect:angebote";
 
 	private TauschartikelDTO artikel;
 
@@ -75,7 +75,7 @@ public class POST_SpeichereEinenNeuenTauschartikel extends
 	}
 
 	@Override
-	protected Speicherer<TauschartikelDTO> getSpeicherer(
+	protected Speicherer getSpeicherer(
 			TauschartikelDTO artikel) {
 		createArtikelInServiceTauschartikel.setArtikel(artikel);
 		return createArtikelInServiceTauschartikel;

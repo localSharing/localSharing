@@ -29,8 +29,8 @@ public class POST_SpeichereEineHilfeLeistung extends
 	@Autowired
 	private ErlaubeAnfrageVonBesitzer erlaubeAnfrageVonBesitzer;
 
-	private final static String REQUEST_URL = "/angebotEdit/{id}/helfen";
-	private final static String ERROR_VIEW = "redirect:angebote";
+	private static final String REQUEST_URL = "/angebotEdit/{id}/helfen";
+	private static final String ERROR_VIEW = "redirect:angebote";
 
 	private HilfeleistungDTO artikel;
 	private Hilfeleistung hilfeleistung;
@@ -84,7 +84,7 @@ public class POST_SpeichereEineHilfeLeistung extends
 	}
 
 	@Override
-	protected Speicherer<Hilfeleistung> getSpeicherer(Hilfeleistung artikel) {
+	protected Speicherer getSpeicherer(Hilfeleistung artikel) {
 		updateArtikelInServiceHilfeleistung.setArtikel(artikel);
 		return updateArtikelInServiceHilfeleistung;
 	}

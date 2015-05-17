@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pandha.swe.localsharing.controller.pattern.backend.BearbeiteDaten;
 import pandha.swe.localsharing.controller.pattern.backend.BearbeiteEtwasAdmin;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebot;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebot;
 import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.B_AktiviereEinAngebot;
 
 @Controller
 public class GET_AktiviereEinAngebot extends BearbeiteEtwasAdmin {
 
-	private final static String REQUEST_URL = "/enable/{id}/{type}";
+	private static final String REQUEST_URL = "/enable/{id}/{type}";
 	private static String SUCCESS_VIEW = "redirect:../../angebote/";
 	private static String ERROR_VIEW = "redirect:angebote";
 
@@ -32,7 +32,7 @@ public class GET_AktiviereEinAngebot extends BearbeiteEtwasAdmin {
 	private LadeEinAngebot ladeEinAngebot;
 
 	@RequestMapping(method = RequestMethod.GET, value = REQUEST_URL)
-	protected String bearbeiteAnfrage(Model model, Principal principal,
+	protected String bearbeiteAnfrage(Principal principal,
 			@PathVariable("id") String angebotsId,
 			@PathVariable("type") String type) {
 		this.angebotsId = Long.valueOf(angebotsId);

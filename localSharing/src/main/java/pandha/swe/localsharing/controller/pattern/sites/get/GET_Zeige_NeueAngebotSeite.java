@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.NeuesAngebot;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.NeuesAngebot;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite;
 
 @Controller
 public class GET_Zeige_NeueAngebotSeite extends ZeigeSeite {
 
-	private final static String REQUEST_URL = "/angebotNeu/{type}";
-	private final static String SUCCESS_VIEW = "angebotNeu";
-	private final static String ERROR_VIEW = "redirect:angebote";
+	private static final String REQUEST_URL = "/angebotNeu/{type}";
+	private static final String SUCCESS_VIEW = "angebotNeu";
+	private static final String ERROR_VIEW = "redirect:angebote";
 
 	private String type;
 

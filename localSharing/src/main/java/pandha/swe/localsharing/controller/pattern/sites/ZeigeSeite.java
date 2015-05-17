@@ -3,7 +3,7 @@ package pandha.swe.localsharing.controller.pattern.sites;
 import org.springframework.ui.Model;
 
 import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 
 public abstract class ZeigeSeite extends LocalSharingControllerTemplate {
 

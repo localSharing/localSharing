@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonBesitzer;
 import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebotDTO;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebotDTO;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
 
 @Controller
 public class GET_ZeigeBearbeitenAnsichtAngebot extends ZeigeSeite_Benutzer {
 
-	private final static String REQUEST_URL = "/angebotEdit/{id}/{type}";
-	private final static String SUCCESS_VIEW = "angebotEdit";
+	private static final String REQUEST_URL = "/angebotEdit/{id}/{type}";
+	private static final String SUCCESS_VIEW = "angebotEdit";
 	private static String ERROR_VIEW = "redirect:angebote";
 
 	private Long angebotsId;

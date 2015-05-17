@@ -12,7 +12,7 @@ import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.HilfeleistungService;
 import pandha.swe.localsharing.service.TauschartikelService;
 
-public abstract class AngebotsUmwandler<T, E> extends Umwandler<T, E> {
+public abstract class AngebotsUmwandler<T, E> extends Umwandler<E> {
 
 	@Autowired
 	protected AusleihartikelService ausleihartikelService;

@@ -35,6 +35,6 @@ public abstract class EmpfangeDaten<T, E> extends
 
 	protected abstract E wandleUm(T artikel);
 
-	protected abstract Speicherer<E> getSpeicherer(E e);
+	protected abstract Speicherer getSpeicherer(E e);
 
 }

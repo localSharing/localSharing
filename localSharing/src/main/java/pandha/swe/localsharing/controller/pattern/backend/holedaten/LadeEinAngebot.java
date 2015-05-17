@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.controller.pattern.backend.holeDaten;
+package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Hilfeleistung;

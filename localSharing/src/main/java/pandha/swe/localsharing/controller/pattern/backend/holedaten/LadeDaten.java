@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.controller.pattern.backend.holeDaten;
+package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import java.util.Map;
 

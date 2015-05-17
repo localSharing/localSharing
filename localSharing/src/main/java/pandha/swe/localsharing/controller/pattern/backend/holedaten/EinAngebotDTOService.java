@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.controller.pattern.backend.holeDaten;
+package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import java.util.Map;
 
@@ -22,9 +22,7 @@ public abstract class EinAngebotDTOService extends EinAngebot {
 	@Autowired
 	protected HilfeleistungService hilfeleistungService;
 
-	public EinAngebotDTOService() {
-	}
-
+	@Override
 	protected void addAusleihartikel(Map<String, Object> daten) {
 
 		AusleihartikelDTO ausleihartikel = getAusleihartikel();
@@ -38,6 +36,7 @@ public abstract class EinAngebotDTOService extends EinAngebot {
 
 	}
 
+	@Override
 	protected void addTauschartikel(Map<String, Object> daten) {
 		TauschartikelDTO tauschartikel = getTauschartikel();
 
@@ -48,6 +47,7 @@ public abstract class EinAngebotDTOService extends EinAngebot {
 
 	}
 
+	@Override
 	protected void addHilfeleistung(Map<String, Object> daten) {
 
 		HilfeleistungDTO hilfeleistung = getHilfeleistung();

@@ -10,16 +10,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonAdmin;
 import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleDeaktiviertenAngebote;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleDeaktiviertenAngebote;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
 
 @Controller
 public class GET_ZeigeAlleDeaktiviertenAngebote extends ZeigeSeite_Benutzer {
 
-	private final static String REQUEST_URL = "/angebote/disabled";
-	private final static String SUCCESS_VIEW = "angebote";
-	private final static String ERROR_VIEW = "redirect:../angebote";
+	private static final String REQUEST_URL = "/angebote/disabled";
+	private static final String SUCCESS_VIEW = "angebote";
+	private static final String ERROR_VIEW = "redirect:../angebote";
 
 	@Autowired
 	private LadeAlleDeaktiviertenAngebote ladeAlleDeaktiviertenAngebote;

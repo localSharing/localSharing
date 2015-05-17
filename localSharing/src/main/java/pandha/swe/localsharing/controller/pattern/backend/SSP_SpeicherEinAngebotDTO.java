@@ -9,7 +9,7 @@ import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.HilfeleistungService;
 import pandha.swe.localsharing.service.TauschartikelService;
 
-public abstract class SSP_SpeicherEinAngebotDTO<T> extends Speicherer<T> {
+public abstract class SSP_SpeicherEinAngebotDTO<T> extends Speicherer {
 
 	private T artikel;
 

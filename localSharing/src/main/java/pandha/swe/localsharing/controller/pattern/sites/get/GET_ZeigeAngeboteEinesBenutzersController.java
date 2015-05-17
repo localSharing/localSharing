@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleAngeboteEinesBenutzers;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleEigenenAngebote;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleAngeboteEinesBenutzers;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleEigenenAngebote;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
 import pandha.swe.localsharing.model.Benutzer;
 
@@ -22,9 +22,9 @@ import pandha.swe.localsharing.model.Benutzer;
 public class GET_ZeigeAngeboteEinesBenutzersController extends
 		ZeigeSeite_Benutzer {
 
-	private final static String REQUEST_URL = "/angebote/{id}";
-	private final static String SUCCESS_VIEW = "angebote";
-	private final static String ERROR_VIEW = "redirect:angebote";
+	private static final String REQUEST_URL = "/angebote/{id}";
+	private static final String SUCCESS_VIEW = "angebote";
+	private static final String ERROR_VIEW = "redirect:angebote";
 
 	@Autowired
 	private LadeAlleEigenenAngebote eigeneAngebote;
@@ -61,8 +61,7 @@ public class GET_ZeigeAngeboteEinesBenutzersController extends
 			return eigeneAngebote;
 
 		} else {
-			Benutzer angebotsersteller = benutzerService.findById(Long
-					.valueOf(userId));
+			Benutzer angebotsersteller = benutzerService.findById(userId);
 
 			model.addAttribute("titel",
 					erzeugeVornameFuerAngebotsseite(angebotsersteller

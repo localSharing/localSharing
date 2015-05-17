@@ -4,7 +4,7 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.sites.GoToErrorViewException;
 import pandha.swe.localsharing.controller.pattern.sites.LocalSharingControllerTemplate;
 import pandha.swe.localsharing.model.Benutzer;

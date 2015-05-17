@@ -14,14 +14,13 @@ import pandha.swe.localsharing.controller.pattern.backend.CreateArtikelInService
 import pandha.swe.localsharing.controller.pattern.backend.DtoToModelUmwander;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonAdmin;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonBesitzer;
-import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonBesitzerUndAdmin;
 import pandha.swe.localsharing.controller.pattern.backend.UpdateArtikelInService;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleAngeboteEinesBenutzers;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleDeaktiviertenAngebote;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleEigenenAngebote;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebot;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebotDTO;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.NeuesAngebot;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleAngeboteEinesBenutzers;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleDeaktiviertenAngebote;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleEigenenAngebote;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebot;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebotDTO;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.NeuesAngebot;
 import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.B_AktiviereEinAngebot;
 import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.B_DeaktiviereEinAngebot;
 import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.LoescheEinAngebot;
@@ -130,11 +129,6 @@ public class FrontendConfig extends WebMvcAutoConfigurationAdapter {
 	@Bean
 	public CreateArtikelInService<HilfeleistungDTO> createArtikelInServiceAusleihartikel() {
 		return new CreateArtikelInService<HilfeleistungDTO>();
-	}
-
-	@Bean
-	public ErlaubeAnfrageVonBesitzerUndAdmin erlaubeAnfrageVonBesitzerUndAdmin() {
-		return new ErlaubeAnfrageVonBesitzerUndAdmin();
 	}
 
 	@Bean

@@ -7,16 +7,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeAlleAktiviertenAngebote;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeAlleAktiviertenAngebote;
+import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite;
 
 @Controller
 public class GET_ZeigeAlleAktiviertenAngebote extends ZeigeSeite {
 
-	private final static String REQUEST_URL = "/angebote";
-	private final static String SUCCESS_VIEW = "angebote";
-	private final static String ERROR_VIEW = "redirect:startPage";
+	private static final String REQUEST_URL = "/angebote";
+	private static final String SUCCESS_VIEW = "angebote";
+	private static final String ERROR_VIEW = "redirect:startPage";
 
 	@Autowired
 	private LadeAlleAktiviertenAngebote ladeAlleAktiviertenAngebote;

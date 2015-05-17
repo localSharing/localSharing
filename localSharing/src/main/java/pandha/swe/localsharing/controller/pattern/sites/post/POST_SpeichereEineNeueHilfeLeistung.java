@@ -23,8 +23,8 @@ import pandha.swe.localsharing.model.enums.FileUploadType;
 public class POST_SpeichereEineNeueHilfeLeistung extends
 		EmpfangeDatenMitBild<HilfeleistungDTO, HilfeleistungDTO> {
 
-	private final static String REQUEST_URL = "/angebotNeu/helfen";
-	private final static String ERROR_VIEW = "redirect:angebote";
+	private static final String REQUEST_URL = "/angebotNeu/helfen";
+	private static final String ERROR_VIEW = "redirect:angebote";
 
 	private HilfeleistungDTO artikel;
 
@@ -75,7 +75,7 @@ public class POST_SpeichereEineNeueHilfeLeistung extends
 	}
 
 	@Override
-	protected Speicherer<HilfeleistungDTO> getSpeicherer(
+	protected Speicherer getSpeicherer(
 			HilfeleistungDTO artikel) {
 		createArtikelInServiceHilfeleistung.setArtikel(artikel);
 		return createArtikelInServiceHilfeleistung;

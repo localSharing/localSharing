@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.controller.pattern.backend.holeDaten;
+package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +11,6 @@ public abstract class EinAngebot extends LadeDaten {
 
 	private String type;
 
-	public EinAngebot() {
-	}
 
 	@Override
 	public Map<String, Object> ladeDaten() {
