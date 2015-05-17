@@ -21,23 +21,19 @@ public abstract class AngebotsUmwandler<T, E> extends Umwandler<T, E> {
 	@Autowired
 	protected HilfeleistungService hilfeleistungService;
 
-	protected T artikel;
+	private T artikel;
 	private E ergebnis;
-
-	public AngebotsUmwandler(T artikel) {
-		this.artikel = artikel;
-	}
 
 	@Override
 	protected E wandleUmIntern() {
 
 		ergebnis = null;
 
-		if (artikel instanceof AusleihartikelDTO) {
+		if (getArtikel() instanceof AusleihartikelDTO) {
 			ergebnis = (E) wandleAusleihartikelDTO();
-		} else if (artikel instanceof TauschartikelDTO) {
+		} else if (getArtikel() instanceof TauschartikelDTO) {
 			ergebnis = (E) wandleTauschartikelDTO();
-		} else if (artikel instanceof HilfeleistungDTO) {
+		} else if (getArtikel() instanceof HilfeleistungDTO) {
 			ergebnis = (E) wandleHilfeleisungDTO();
 		}
 
@@ -49,5 +45,13 @@ public abstract class AngebotsUmwandler<T, E> extends Umwandler<T, E> {
 	protected abstract Tauschartikel wandleTauschartikelDTO();
 
 	protected abstract Hilfeleistung wandleHilfeleisungDTO();
+
+	protected T getArtikel() {
+		return artikel;
+	}
+
+	public void setArtikel(T artikel) {
+		this.artikel = artikel;
+	}
 
 }

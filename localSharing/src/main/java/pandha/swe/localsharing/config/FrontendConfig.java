@@ -11,6 +11,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import pandha.swe.localsharing.controller.pattern.backend.CreateArtikelInService;
+import pandha.swe.localsharing.controller.pattern.backend.DtoToModelUmwander;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonAdmin;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonBesitzer;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonBesitzerUndAdmin;
@@ -144,6 +145,21 @@ public class FrontendConfig extends WebMvcAutoConfigurationAdapter {
 	@Bean
 	public ErlaubeAnfrageVonBesitzer erlaubeAnfrageVonBesitzer() {
 		return new ErlaubeAnfrageVonBesitzer();
+	}
+
+	@Bean
+	public DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel> dtoToModelUmwanderAusleih() {
+		return new DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel>();
+	}
+
+	@Bean
+	public DtoToModelUmwander<TauschartikelDTO, Tauschartikel> dtoToModelUmwanderTausch() {
+		return new DtoToModelUmwander<TauschartikelDTO, Tauschartikel>();
+	}
+
+	@Bean
+	public DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung> dtoToModelUmwanderHilfe() {
+		return new DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung>();
 	}
 
 }

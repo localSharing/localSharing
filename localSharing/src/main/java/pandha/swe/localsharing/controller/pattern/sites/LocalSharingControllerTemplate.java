@@ -20,6 +20,7 @@ public abstract class LocalSharingControllerTemplate {
 			bearbeiteAnfrageIntern();
 
 		} catch (GoToErrorViewException e) {
+			System.out.println("ERROR");
 			return getErrorView();
 		}
 

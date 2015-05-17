@@ -8,29 +8,23 @@ import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 
 public class DtoToModelUmwander<T, E> extends AngebotsUmwandler<T, E> {
-	
-	
-	public DtoToModelUmwander(T artikel) {
-		super(artikel);
-	}
-	
 
 	@Override
 	protected Ausleihartikel wandleAusleihartikelDTO() {
 		return ausleihartikelService
-				.ausleihartikelDTO_TO_Ausleihartikel((AusleihartikelDTO) artikel);
+				.ausleihartikelDTO_TO_Ausleihartikel((AusleihartikelDTO) getArtikel());
 	}
 
 	@Override
 	protected Tauschartikel wandleTauschartikelDTO() {
 		return tauschartikelService
-				.tauschartikelDTO_TO_Tauschartikel((TauschartikelDTO) artikel);
+				.tauschartikelDTO_TO_Tauschartikel((TauschartikelDTO) getArtikel());
 	}
 
 	@Override
 	protected Hilfeleistung wandleHilfeleisungDTO() {
 		return hilfeleistungService
-				.hilfeleistungDTO_TO_Hilfeleistung((HilfeleistungDTO) artikel);
+				.hilfeleistungDTO_TO_Hilfeleistung((HilfeleistungDTO) getArtikel());
 	}
 
 }

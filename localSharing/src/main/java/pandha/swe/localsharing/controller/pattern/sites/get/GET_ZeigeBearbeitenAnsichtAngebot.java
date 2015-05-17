@@ -68,4 +68,9 @@ public class GET_ZeigeBearbeitenAnsichtAngebot extends ZeigeSeite_Benutzer {
 		return ladeEinAngebot;
 	}
 
+	@Override
+	protected void setzeWeitereModelAttribute() {
+		model.addAttribute("userid", anfragenderBenutzer.getId());
+	}
+
 }

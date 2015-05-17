@@ -13,7 +13,6 @@ import pandha.swe.localsharing.controller.pattern.backend.BearbeiteDaten;
 import pandha.swe.localsharing.controller.pattern.backend.BearbeiteEtwasAdmin;
 import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebot;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebotDTO;
 import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.B_AktiviereEinAngebot;
 
 @Controller

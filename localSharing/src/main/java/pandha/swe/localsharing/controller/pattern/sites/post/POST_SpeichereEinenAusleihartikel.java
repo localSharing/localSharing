@@ -38,6 +38,9 @@ public class POST_SpeichereEinenAusleihartikel extends
 	@Autowired
 	private UpdateArtikelInService<Ausleihartikel> updateArtikelInServiceAusleihartikel;
 
+	@Autowired
+	private DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel> umwandler;
+
 	@RequestMapping(method = RequestMethod.POST, value = REQUEST_URL)
 	public String saveAusleihartikel(
 			@ModelAttribute("angebot") @Valid AusleihartikelDTO angebot,
@@ -57,8 +60,8 @@ public class POST_SpeichereEinenAusleihartikel extends
 	@Override
 	protected Ausleihartikel wandleUm(AusleihartikelDTO artikel) {
 		artikel.setBenutzer(anfragenderBenutzer);
-		ausleihartikel = new DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel>(
-				artikel).wandleUm();
+		umwandler.setArtikel(artikel);
+		ausleihartikel = umwandler.wandleUm();
 		return ausleihartikel;
 	}
 
@@ -72,7 +75,7 @@ public class POST_SpeichereEinenAusleihartikel extends
 
 	@Override
 	protected String getSuccessView() {
-		return "redirect:../../angebote/" + anfragenderBenutzer.getId();
+		return "redirect:/angebote/" + anfragenderBenutzer.getId();
 	}
 
 	@Override

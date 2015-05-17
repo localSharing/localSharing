@@ -13,7 +13,6 @@ import pandha.swe.localsharing.controller.pattern.backend.BearbeiteDaten;
 import pandha.swe.localsharing.controller.pattern.backend.BearbeiteEtwasBesitzer;
 import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebot;
-import pandha.swe.localsharing.controller.pattern.backend.holeDaten.LadeEinAngebotDTO;
 import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.LoescheEinAngebot;
 import pandha.swe.localsharing.model.Benutzer;
 
@@ -41,7 +40,7 @@ public class GET_Loesche_EinAngebot extends BearbeiteEtwasBesitzer {
 		this.type = type;
 		ERROR_VIEW = "redirect:../../angebot/" + angebotsId + "/" + type;
 
-		return bearbeiteAnfrageLogik();
+		return bearbeiteAnfrageIntern(principal);
 	}
 
 	@Override
@@ -63,7 +62,7 @@ public class GET_Loesche_EinAngebot extends BearbeiteEtwasBesitzer {
 
 	@Override
 	protected BearbeiteDaten getBearbeiter() {
-		return new LoescheEinAngebot();
+		return loeescheEinAngebot;
 	}
 
 	@Override
