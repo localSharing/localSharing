@@ -348,7 +348,6 @@
               <url>true</url>
               <threadCounts>true</threadCounts>
               <sampleCount>true</sampleCount>
-              <connectTime>true</connectTime>
             </value>
           </objProp>
           <stringProp name="filename"></stringProp>
