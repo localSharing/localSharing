@@ -1,4 +1,4 @@
-//package pandha.swe.localsharing.controller;
+//package pandha.swe.localsharing.controller.pattern;
 //
 //import static org.mockito.Matchers.any;
 //import static org.mockito.Matchers.eq;
