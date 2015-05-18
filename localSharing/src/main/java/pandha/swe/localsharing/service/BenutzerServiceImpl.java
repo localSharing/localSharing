@@ -182,6 +182,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle) {
+
 		if (benutzer != null && benutzer.getBenutzerRolle() != null
 				&& rolle != null) {
 			Iterator<BenutzerRolle> iterator = benutzer.getBenutzerRolle()
