@@ -2,6 +2,7 @@ package pandha.swe.localsharing.controller.pattern.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
@@ -9,7 +10,8 @@ import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.HilfeleistungService;
 import pandha.swe.localsharing.service.TauschartikelService;
 
-public abstract class SSP_SpeicherEinAngebot<T> extends Speicherer {
+public abstract class SSP_SpeicherEinAngebot<T extends Angebot> extends
+		Speicherer {
 
 	private T artikel;
 

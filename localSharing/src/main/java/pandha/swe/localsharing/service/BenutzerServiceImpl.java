@@ -1,9 +1,10 @@
 package pandha.swe.localsharing.service;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
+import pandha.swe.localsharing.model.dao.AngebotsDAO;
 import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
 import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
@@ -38,6 +40,16 @@ public class BenutzerServiceImpl implements BenutzerService {
 	@Autowired
 	private HilfeleistungDAO hilfeleistungDao;
 
+	@Autowired
+	private Map<String, AngebotsDAO<?>> angebotDAOs;
+
+	public BenutzerServiceImpl() {
+		angebotDAOs = new HashMap<String, AngebotsDAO<?>>();
+		angebotDAOs.put("ausleihen", ausleihartikelDao);
+		angebotDAOs.put("tauschen", tauschartikelDao);
+		angebotDAOs.put("helfen", hilfeleistungDao);
+	}
+
 	@Override
 	public Benutzer findById(long id) {
 		return benutzerDao.findById(id);
@@ -45,31 +57,12 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
-		Benutzer benutzer = null;
-		switch (type) {
-		case "ausleihen":
-			benutzer = ausleihartikelDao.findById(id).getBenutzer();
-			break;
-
-		case "tauschen":
-			benutzer = tauschartikelDao.findById(id).getBenutzer();
-			break;
-
-		case "helfen":
-			benutzer = hilfeleistungDao.findById(id).getBenutzer();
-			break;
-		}
-
-		return benutzer;
+		return angebotDAOs.get(type).findById(id).getBenutzer();
 	}
 
 	@Override
 	public Benutzer getUserByPrincipal(Principal principal) {
-		String email = principal.getName();
-
-		Benutzer user = findByEmail(email);
-
-		return user;
+		return findByEmail(principal.getName());
 	}
 
 	@Override
@@ -158,9 +151,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		benutzerDTO.setId(id);
 
-		Benutzer benutzer = benutzerDTO_TO_Benutzer(benutzerDTO);
-
-		return benutzer;
+		return benutzerDTO_TO_Benutzer(benutzerDTO);
 	}
 
 	private Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
@@ -183,12 +174,9 @@ public class BenutzerServiceImpl implements BenutzerService {
 	@Override
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle) {
 
-		if (benutzer != null && benutzer.getBenutzerRolle() != null
-				&& rolle != null) {
-			Iterator<BenutzerRolle> iterator = benutzer.getBenutzerRolle()
-					.iterator();
-			while (iterator.hasNext()) {
-				if (rolle.equals(iterator.next().getRolle())) {
+		if (benutzer != null) {
+			for (BenutzerRolle benutzerRolle : benutzer.getBenutzerRolle()) {
+				if (rolle.equals(benutzerRolle.getRolle())) {
 					return Boolean.TRUE;
 				}
 			}

@@ -1,10 +1,12 @@
 package pandha.swe.localsharing.controller.pattern.backend;
 
+import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
 
-public class UpdateArtikelInService<T> extends SSP_SpeicherEinAngebot<T> {
+public class UpdateArtikelInService<T extends Angebot> extends
+		SSP_SpeicherEinAngebot<T> {
 
 	public UpdateArtikelInService() {
 	}

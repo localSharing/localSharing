@@ -31,35 +31,35 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 
 	@Override
 	public List<HilfeleistungDTO> findAllDTO() {
-		return list_Hilfeleistung_TO_HilfeleistungDTO(findAll());
+		return list_angebot_TO_AngebotDTO(findAll());
 	}
 	
 	@Override
 	public List<HilfeleistungDTO> findAllEnabled() {
 		List<Hilfeleistung> hilfeleistungListe = 
 				hilfeleistungDao.findAllEnabled();
-		return list_Hilfeleistung_TO_HilfeleistungDTO(hilfeleistungListe);
+		return list_angebot_TO_AngebotDTO(hilfeleistungListe);
 	}
 	
 	@Override
 	public List<HilfeleistungDTO> findAllDisabled() {
 		List<Hilfeleistung> hilfeleistungListe = 
 				hilfeleistungDao.findAllDisabled();
-		return list_Hilfeleistung_TO_HilfeleistungDTO(hilfeleistungListe);
+		return list_angebot_TO_AngebotDTO(hilfeleistungListe);
 	}
 	
 	@Override
 	public List<HilfeleistungDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
 		List<Hilfeleistung> hilfeleistungListe = 
 				hilfeleistungDao.findAllEnabledByBenutzer(benutzer);
-		return list_Hilfeleistung_TO_HilfeleistungDTO(hilfeleistungListe);
+		return list_angebot_TO_AngebotDTO(hilfeleistungListe);
 	}
 
 	@Override
 	public List<HilfeleistungDTO> findAllByBenutzer(Benutzer benutzer) {
 		List<Hilfeleistung> hilfeleistungListe = 
 				hilfeleistungDao.findAllByBenutzer(benutzer);
-		return list_Hilfeleistung_TO_HilfeleistungDTO(hilfeleistungListe);
+		return list_angebot_TO_AngebotDTO(hilfeleistungListe);
 	}
 	
 
@@ -79,7 +79,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	}
 
 	@Override
-	public Long createHilfeleistung(HilfeleistungDTO hilfeleistungDTO) {
+	public Long createAngebot(HilfeleistungDTO hilfeleistungDTO) {
 
 		Hilfeleistung hilfeleistung = new Hilfeleistung(null,
 				Boolean.TRUE, hilfeleistungDTO.getBenutzer(),
@@ -93,7 +93,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	}
 
 	@Override
-	public Hilfeleistung hilfeleistungDTO_TO_Hilfeleistung(
+	public Hilfeleistung angebotDTO_TO_Angebot(
 			HilfeleistungDTO hilfeleistungDTO) {
 
 		Hilfeleistung hilfeleistung = findById(hilfeleistungDTO.getId());
@@ -109,7 +109,7 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	}
 
 	@Override
-	public HilfeleistungDTO hilfeleistung_TO_HilfeleistungDTO(
+	public HilfeleistungDTO angebot_TO_AngebotDTO(
 			Hilfeleistung hilfeleistung) {
 
 		HilfeleistungDTO hilfeleistungDTO = new HilfeleistungDTO(
@@ -124,11 +124,11 @@ public class HilfeleistungServiceImpl implements HilfeleistungService {
 	}
 	
 	@Override
-	public List<HilfeleistungDTO> list_Hilfeleistung_TO_HilfeleistungDTO(
+	public List<HilfeleistungDTO> list_angebot_TO_AngebotDTO(
 			List<Hilfeleistung> listHilfeleistung) {
 		List<HilfeleistungDTO> listHilfeleistungDTO = new ArrayList<HilfeleistungDTO>();
 		for (Hilfeleistung hilfeleistung : listHilfeleistung) {
-			listHilfeleistungDTO.add(hilfeleistung_TO_HilfeleistungDTO(hilfeleistung));
+			listHilfeleistungDTO.add(angebot_TO_AngebotDTO(hilfeleistung));
 		}
 		return listHilfeleistungDTO;
 	}

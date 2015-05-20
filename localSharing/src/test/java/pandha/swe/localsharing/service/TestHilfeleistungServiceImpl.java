@@ -169,7 +169,7 @@ public class TestHilfeleistungServiceImpl {
 
 		when(HilfeleistungDao.save(any(Hilfeleistung.class))).thenReturn(id);
 
-		Assert.assertEquals(id, service.createHilfeleistung(a));
+		Assert.assertEquals(id, service.createAngebot(a));
 
 		verify(HilfeleistungDao, times(1)).save(any(Hilfeleistung.class));
 
@@ -198,7 +198,7 @@ public class TestHilfeleistungServiceImpl {
 
 		when(HilfeleistungDao.findById(id)).thenReturn(aReturn);
 
-		Hilfeleistung a = service.hilfeleistungDTO_TO_Hilfeleistung(dto);
+		Hilfeleistung a = service.angebotDTO_TO_Angebot(dto);
 
 		Assert.assertEquals(dto.getId(), a.getAngebotsid());
 		Assert.assertEquals(dto.getBenutzer(), a.getBenutzer());
@@ -222,7 +222,7 @@ public class TestHilfeleistungServiceImpl {
 		a.setStartDatum(new SimpleDateFormat("dd-MM-yyyy").parse("11-11-1999"));
 		a.setEndDatum(new SimpleDateFormat("yyyy-MM-dd").parse("2011-01-01"));
 
-		HilfeleistungDTO dto = service.hilfeleistung_TO_HilfeleistungDTO(a);
+		HilfeleistungDTO dto = service.angebot_TO_AngebotDTO(a);
 
 		Assert.assertEquals(a.getAngebotsid(), dto.getId());
 		Assert.assertEquals(a.getBenutzer(), dto.getBenutzer());

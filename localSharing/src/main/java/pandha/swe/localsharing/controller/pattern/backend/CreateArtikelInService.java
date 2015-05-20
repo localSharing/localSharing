@@ -12,19 +12,19 @@ public class CreateArtikelInService<T> extends SSP_SpeicherEinAngebotDTO<T> {
 	@Override
 	protected Long speichereAusleihartikelDTO() {
 		return ausleihartikelService
-				.createAusleihartikel((AusleihartikelDTO) getArtikel());
+				.createAngebot((AusleihartikelDTO) getArtikel());
 	}
 
 	@Override
 	protected Long speichereTauschartikelDTO() {
 		return tauschartikelService
-				.createTauschartikel((TauschartikelDTO) getArtikel());
+				.createAngebot((TauschartikelDTO) getArtikel());
 	}
 
 	@Override
 	protected Long speichereHilfeleistungDTO() {
 		return hilfeleistungService
-				.createHilfeleistung((HilfeleistungDTO) getArtikel());
+				.createAngebot((HilfeleistungDTO) getArtikel());
 
 	}
 }

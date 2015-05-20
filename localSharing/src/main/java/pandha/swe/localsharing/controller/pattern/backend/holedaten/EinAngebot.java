@@ -11,7 +11,6 @@ public abstract class EinAngebot extends LadeDaten {
 
 	private String type;
 
-
 	@Override
 	public Map<String, Object> ladeDaten() {
 

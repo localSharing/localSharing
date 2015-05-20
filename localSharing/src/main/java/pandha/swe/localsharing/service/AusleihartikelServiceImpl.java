@@ -31,32 +31,35 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 
 	@Override
 	public List<AusleihartikelDTO> findAllDTO() {
-		return list_Ausleihartikel_TO_AusleihartikelDTO(findAll());
+		return list_angebot_TO_AngebotDTO(findAll());
 	}
-	
+
 	@Override
 	public List<AusleihartikelDTO> findAllEnabled() {
-		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllEnabled();
-		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao
+				.findAllEnabled();
+		return list_angebot_TO_AngebotDTO(ausleihartikelEnabled);
 	}
-	
+
 	@Override
 	public List<AusleihartikelDTO> findAllDisabled() {
-		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllDisabled();
-		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao
+				.findAllDisabled();
+		return list_angebot_TO_AngebotDTO(ausleihartikelEnabled);
 	}
 
 	@Override
 	public List<AusleihartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
-		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao.findAllEnabledByBenutzer(benutzer);
-		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelEnabled);
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao
+				.findAllEnabledByBenutzer(benutzer);
+		return list_angebot_TO_AngebotDTO(ausleihartikelEnabled);
 	}
 
 	@Override
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
-		List<Ausleihartikel> ausleihartikelListe = 
-				ausleihartikelDao.findAllByBenutzer(benutzer);
-		return list_Ausleihartikel_TO_AusleihartikelDTO(ausleihartikelListe);
+		List<Ausleihartikel> ausleihartikelListe = ausleihartikelDao
+				.findAllByBenutzer(benutzer);
+		return list_angebot_TO_AngebotDTO(ausleihartikelListe);
 	}
 
 	@Override
@@ -75,10 +78,9 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public Long createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
+	public Long createAngebot(AusleihartikelDTO ausleihartikelDTO) {
 
-		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
-				Boolean.TRUE,
+		Ausleihartikel ausleihartikel = new Ausleihartikel(null, Boolean.TRUE,
 				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
 				ausleihartikelDTO.getBeschreibung(),
 				stringToDate(ausleihartikelDTO.getStartDatum()),
@@ -90,7 +92,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public Ausleihartikel ausleihartikelDTO_TO_Ausleihartikel(
+	public Ausleihartikel angebotDTO_TO_Angebot(
 			AusleihartikelDTO ausleihartikelDTO) {
 
 		Ausleihartikel ausleihartikel = findById(ausleihartikelDTO.getId());
@@ -109,8 +111,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public AusleihartikelDTO ausleihartikel_TO_AusleihartikelDTO(
-			Ausleihartikel ausleihartikel) {
+	public AusleihartikelDTO angebot_TO_AngebotDTO(Ausleihartikel ausleihartikel) {
 
 		AusleihartikelDTO ausleihartikelDTO = new AusleihartikelDTO(
 				ausleihartikel.getAngebotsid(), ausleihartikel.getEnabled(),
@@ -123,17 +124,16 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 		return ausleihartikelDTO;
 	}
 
-
 	@Override
-	public List<AusleihartikelDTO> list_Ausleihartikel_TO_AusleihartikelDTO(
+	public List<AusleihartikelDTO> list_angebot_TO_AngebotDTO(
 			List<Ausleihartikel> listAusleihartikel) {
 		List<AusleihartikelDTO> listAusleihartikelDTO = new ArrayList<AusleihartikelDTO>();
 		for (Ausleihartikel ausleihartikel : listAusleihartikel) {
-			listAusleihartikelDTO.add(ausleihartikel_TO_AusleihartikelDTO(ausleihartikel));
+			listAusleihartikelDTO.add(angebot_TO_AngebotDTO(ausleihartikel));
 		}
 		return listAusleihartikelDTO;
 	}
-	
+
 	@Override
 	public void shutdown() {
 		ausleihartikelDao.shutdown();

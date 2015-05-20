@@ -12,19 +12,19 @@ public class DtoToModelUmwander<T, E> extends AngebotsUmwandler<T, E> {
 	@Override
 	protected Ausleihartikel wandleAusleihartikelDTO() {
 		return ausleihartikelService
-				.ausleihartikelDTO_TO_Ausleihartikel((AusleihartikelDTO) getArtikel());
+				.angebotDTO_TO_Angebot((AusleihartikelDTO) getArtikel());
 	}
 
 	@Override
 	protected Tauschartikel wandleTauschartikelDTO() {
 		return tauschartikelService
-				.tauschartikelDTO_TO_Tauschartikel((TauschartikelDTO) getArtikel());
+				.angebotDTO_TO_Angebot((TauschartikelDTO) getArtikel());
 	}
 
 	@Override
 	protected Hilfeleistung wandleHilfeleisungDTO() {
 		return hilfeleistungService
-				.hilfeleistungDTO_TO_Hilfeleistung((HilfeleistungDTO) getArtikel());
+				.angebotDTO_TO_Angebot((HilfeleistungDTO) getArtikel());
 	}
 
 }

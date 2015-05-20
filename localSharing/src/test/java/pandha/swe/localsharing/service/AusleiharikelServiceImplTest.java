@@ -187,7 +187,7 @@ public class AusleiharikelServiceImplTest {
 
 		when(ausleihartikelDao.findById(id)).thenReturn(aReturn);
 
-		Ausleihartikel a = service.ausleihartikelDTO_TO_Ausleihartikel(dto);
+		Ausleihartikel a = service.angebotDTO_TO_Angebot(dto);
 
 		Assert.assertEquals(dto.getId(), a.getAngebotsid());
 		Assert.assertEquals(dto.getBenutzer(), a.getBenutzer());
@@ -215,7 +215,7 @@ public class AusleiharikelServiceImplTest {
 		a.setEndDatum(new SimpleDateFormat("dd-MM-yyyy").parse("11-11-2000"));
 		a.setKategorie("Test");
 
-		AusleihartikelDTO dto = service.ausleihartikel_TO_AusleihartikelDTO(a);
+		AusleihartikelDTO dto = service.angebot_TO_AngebotDTO(a);
 
 		Assert.assertEquals(a.getAngebotsid(), dto.getId());
 		Assert.assertEquals(a.getBenutzer(), dto.getBenutzer());
@@ -247,7 +247,7 @@ public class AusleiharikelServiceImplTest {
 
 		when(ausleihartikelDao.save(any(Ausleihartikel.class))).thenReturn(id);
 
-		Assert.assertEquals(id, service.createAusleihartikel(a));
+		Assert.assertEquals(id, service.createAngebot(a));
 
 		verify(ausleihartikelDao, times(1)).save(any(Ausleihartikel.class));
 
