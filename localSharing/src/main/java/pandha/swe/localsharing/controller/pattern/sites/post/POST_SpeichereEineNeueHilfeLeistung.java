@@ -13,19 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.controller.pattern.backend.CreateArtikelInService;
-import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
 import pandha.swe.localsharing.controller.pattern.backend.Speicherer;
-import pandha.swe.localsharing.controller.pattern.sites.EmpfangeDatenMitBild;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.enums.FileUploadType;
 
 @Controller
 public class POST_SpeichereEineNeueHilfeLeistung extends
-		EmpfangeDatenMitBild<HilfeleistungDTO, HilfeleistungDTO> {
+		POST_NeuesAngebot<HilfeleistungDTO, HilfeleistungDTO> {
 
 	private static final String REQUEST_URL = "/angebotNeu/helfen";
-	private static final String ERROR_VIEW = "redirect:angebote";
-
 	private HilfeleistungDTO artikel;
 
 	@Autowired
@@ -38,7 +34,6 @@ public class POST_SpeichereEineNeueHilfeLeistung extends
 			@RequestParam(value = "angebotImage", required = false) MultipartFile image) {
 
 		this.artikel = angebot;
-
 		return bearbeiteAnfrageIntern(principal, image);
 	}
 
@@ -54,29 +49,7 @@ public class POST_SpeichereEineNeueHilfeLeistung extends
 	}
 
 	@Override
-	protected IstAnfrageErlaubt getAnfrageErlaubt() {
-		return new IstAnfrageErlaubt() {
-
-			@Override
-			public Boolean istAnfrageErlaubt() {
-				return Boolean.TRUE;
-			}
-		};
-	}
-
-	@Override
-	protected String getSuccessView() {
-		return "redirect:/angebote/" + anfragenderBenutzer.getId();
-	}
-
-	@Override
-	protected String getErrorView() {
-		return ERROR_VIEW;
-	}
-
-	@Override
-	protected Speicherer getSpeicherer(
-			HilfeleistungDTO artikel) {
+	protected Speicherer getSpeicherer(HilfeleistungDTO artikel) {
 		createArtikelInServiceHilfeleistung.setArtikel(artikel);
 		return createArtikelInServiceHilfeleistung;
 	}

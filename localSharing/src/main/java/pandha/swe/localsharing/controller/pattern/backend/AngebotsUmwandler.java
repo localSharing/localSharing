@@ -24,6 +24,7 @@ public abstract class AngebotsUmwandler<T, E> extends Umwandler<E> {
 	private T artikel;
 	private E ergebnis;
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected E wandleUmIntern() {
 

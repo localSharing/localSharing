@@ -13,19 +13,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.controller.pattern.backend.CreateArtikelInService;
-import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
 import pandha.swe.localsharing.controller.pattern.backend.Speicherer;
-import pandha.swe.localsharing.controller.pattern.sites.EmpfangeDatenMitBild;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.enums.FileUploadType;
 
 @Controller
 public class POST_SpeichereEinenNeuenAusleihartikel extends
-		EmpfangeDatenMitBild<AusleihartikelDTO, AusleihartikelDTO> {
+		POST_NeuesAngebot<AusleihartikelDTO, AusleihartikelDTO> {
 
 	private static final String REQUEST_URL = "/angebotNeu/ausleihen";
-	private static final String ERROR_VIEW = "redirect:/angebote";
-
 	private AusleihartikelDTO artikel;
 
 	@Autowired
@@ -55,29 +51,7 @@ public class POST_SpeichereEinenNeuenAusleihartikel extends
 	}
 
 	@Override
-	protected IstAnfrageErlaubt getAnfrageErlaubt() {
-		return new IstAnfrageErlaubt() {
-
-			@Override
-			public Boolean istAnfrageErlaubt() {
-				return Boolean.TRUE;
-			}
-		};
-	}
-
-	@Override
-	protected String getSuccessView() {
-		return "redirect:/angebote/" + anfragenderBenutzer.getId();
-	}
-
-	@Override
-	protected String getErrorView() {
-		return ERROR_VIEW;
-	}
-
-	@Override
-	protected Speicherer getSpeicherer(
-			AusleihartikelDTO artikel) {
+	protected Speicherer getSpeicherer(AusleihartikelDTO artikel) {
 
 		createArtikelInServiceAusleihartikel.setArtikel(artikel);
 		return createArtikelInServiceAusleihartikel;
