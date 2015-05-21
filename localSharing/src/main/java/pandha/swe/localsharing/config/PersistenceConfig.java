@@ -1,28 +1,16 @@
 package pandha.swe.localsharing.config;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
-
-import pandha.swe.localsharing.model.dao.AngebotsDAO;
-import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
-import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
-import pandha.swe.localsharing.model.dao.TauschartikelDAO;
-import pandha.swe.localsharing.service.AusleihartikelService;
-import pandha.swe.localsharing.service.HilfeleistungService;
-import pandha.swe.localsharing.service.LS_AngebotService;
-import pandha.swe.localsharing.service.TauschartikelService;
 
 @Configuration
 public class PersistenceConfig {
@@ -81,43 +69,6 @@ public class PersistenceConfig {
 		properties.put("hibernate.connection.charSet", "UTF-8");
 
 		return properties;
-	}
-
-	@Autowired
-	private AusleihartikelDAO ausleihartikelDao;
-
-	@Autowired
-	private TauschartikelDAO tauschartikelDao;
-
-	@Autowired
-	private HilfeleistungDAO hilfeleistungDao;
-
-	@Bean
-	public Map<String, AngebotsDAO<?>> getAngebotDAOs() {
-		Map<String, AngebotsDAO<?>> angebotDAOs = new HashMap<String, AngebotsDAO<?>>();
-		angebotDAOs.put("ausleihen", ausleihartikelDao);
-		angebotDAOs.put("tauschen", tauschartikelDao);
-		angebotDAOs.put("helfen", hilfeleistungDao);
-
-		return angebotDAOs;
-
-	}
-
-	@Autowired
-	protected AusleihartikelService ausleihartikelService;
-	@Autowired
-	protected TauschartikelService tauschartikelService;
-	@Autowired
-	protected HilfeleistungService hilfeleistungService;
-
-	@Bean
-	public Map<String, LS_AngebotService<?, ?>> getAngebotServices() {
-		Map<String, LS_AngebotService<?, ?>> angebotServices = new HashMap<String, LS_AngebotService<?, ?>>();
-		angebotServices.put("ausleihen", ausleihartikelService);
-		angebotServices.put("tauschen", tauschartikelService);
-		angebotServices.put("helfen", hilfeleistungService);
-		return angebotServices;
-
 	}
 
 }

@@ -1,7 +1,11 @@
 package pandha.swe.localsharing.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.MultipartConfigElement;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter;
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
@@ -27,9 +31,17 @@ import pandha.swe.localsharing.controller.pattern.backend.speichereDaten.Loesche
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
+import pandha.swe.localsharing.model.dao.AngebotsDAO;
+import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
+import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
+import pandha.swe.localsharing.model.dao.TauschartikelDAO;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
+import pandha.swe.localsharing.service.AusleihartikelService;
+import pandha.swe.localsharing.service.HilfeleistungService;
+import pandha.swe.localsharing.service.LS_AngebotService;
+import pandha.swe.localsharing.service.TauschartikelService;
 
 @EnableAutoConfiguration
 @Configuration
@@ -154,6 +166,45 @@ public class FrontendConfig extends WebMvcAutoConfigurationAdapter {
 	@Bean
 	public DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung> dtoToModelUmwanderHilfe() {
 		return new DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung>();
+	}
+
+	@Autowired
+	private AusleihartikelDAO ausleihartikelDao;
+
+	@Autowired
+	private TauschartikelDAO tauschartikelDao;
+
+	@Autowired
+	private HilfeleistungDAO hilfeleistungDao;
+
+	@Bean
+	public HashMap<String, AngebotsDAO<?>> getAngebotDAOs() {
+		HashMap<String, AngebotsDAO<?>> angebotDAOs = new HashMap<String, AngebotsDAO<?>>();
+		angebotDAOs.put(StringConstants.AUSLEIHEN, ausleihartikelDao);
+		angebotDAOs.put(StringConstants.TAUSCHEN, tauschartikelDao);
+		angebotDAOs.put(StringConstants.HELFEN, hilfeleistungDao);
+
+		System.out.println(angebotDAOs);
+
+		return angebotDAOs;
+
+	}
+
+	@Autowired
+	protected AusleihartikelService ausleihartikelService;
+	@Autowired
+	protected TauschartikelService tauschartikelService;
+	@Autowired
+	protected HilfeleistungService hilfeleistungService;
+
+	@Bean
+	public Map<String, LS_AngebotService<?, ?>> getAngebotServices() {
+		Map<String, LS_AngebotService<?, ?>> angebotServices = new HashMap<String, LS_AngebotService<?, ?>>();
+		angebotServices.put("ausleihen", ausleihartikelService);
+		angebotServices.put("tauschen", tauschartikelService);
+		angebotServices.put("helfen", hilfeleistungService);
+		return angebotServices;
+
 	}
 
 }

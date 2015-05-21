@@ -2,9 +2,9 @@ package pandha.swe.localsharing.service;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 	private AngebotService angebotService;
 
 	@Autowired
-	private Map<String, AngebotsDAO<?>> angebotDAOs;
+	private HashMap<String, AngebotsDAO<?>> angebotDAOs;
 
 	@Override
 	public Benutzer findById(long id) {
@@ -41,6 +41,16 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
+		System.out.println("" + id + "   " + type);
+
+		System.out.println(angebotDAOs);
+
+		System.out.println(angebotDAOs.get("ausleihen"));
+
+		for (AngebotsDAO<?> angebotsDAO : angebotDAOs.values()) {
+			System.out.println(angebotsDAO);
+		}
+
 		return angebotDAOs.get(type).findById(id).getBenutzer();
 	}
 
