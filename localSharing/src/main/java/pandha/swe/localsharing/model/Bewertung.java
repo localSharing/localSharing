@@ -19,19 +19,21 @@ public class Bewertung {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BEWERTUNGSID")
 	private Long bewertungsid;
-	
+
+	// Hier muss noch was geaendert werden, damit das auch zugeordnet werden
+	// kann
 	@ManyToOne
-	private Angebot angebot; 
-	
+	private Angebot angebot;
+
 	@OneToOne
-	private Benutzer benutzer; 
-	
+	private Benutzer benutzer;
+
 	@Column(name = "BEWERTUNGSTERNE")
 	private Integer bewertungSterne;
-	
+
 	@Column(name = "KOMMENTAR", length = 1000)
 	private String kommentar;
-	
+
 	@Column(name = "DATUM", nullable = false)
 	private Date datum;
 
@@ -44,11 +46,11 @@ public class Bewertung {
 		this.kommentar = kommentar;
 		this.datum = datum;
 	}
-	
-	public Bewertung(){
-		
+
+	public Bewertung() {
+
 	}
-	
+
 	public Long getBewertungsid() {
 		return bewertungsid;
 	}
@@ -104,5 +106,5 @@ public class Bewertung {
 				+ bewertungSterne + ", kommentar=" + kommentar + ", datum="
 				+ datum + "]";
 	}
-	
+
 }
