@@ -33,6 +33,8 @@ public interface FileService {
 
 	public void save(Hilfeleistung angebot, MultipartFile image);
 
+	public void save(Long associatedId, FileUploadType type, MultipartFile image);
+
 	public FileUpload findByAssociated(Hilfeleistung angebot);
 
 	public FileUpload findByAssociated(Ausleihartikel angebot);

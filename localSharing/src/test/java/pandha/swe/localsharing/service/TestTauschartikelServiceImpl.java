@@ -169,7 +169,7 @@ public class TestTauschartikelServiceImpl {
 
 		when(tauschartikelDao.save(any(Tauschartikel.class))).thenReturn(id);
 
-		Assert.assertEquals(id, service.createTauschartikel(a));
+		Assert.assertEquals(id, service.createAngebot(a));
 
 		verify(tauschartikelDao, times(1)).save(any(Tauschartikel.class));
 
@@ -197,7 +197,7 @@ public class TestTauschartikelServiceImpl {
 
 		when(tauschartikelDao.findById(id)).thenReturn(aReturn);
 
-		Tauschartikel a = service.tauschartikelDTO_TO_Tauschartikel(dto);
+		Tauschartikel a = service.angebotDTO_TO_Angebot(dto);
 
 		Assert.assertEquals(dto.getId(), a.getAngebotsid());
 		Assert.assertEquals(dto.getBenutzer(), a.getBenutzer());
@@ -220,7 +220,7 @@ public class TestTauschartikelServiceImpl {
 		a.setStartDatum(new SimpleDateFormat("dd-MM-yyyy").parse("11-11-1999"));
 		a.setKategorie("Test");
 
-		TauschartikelDTO dto = service.tauschartikel_TO_TauschartikelDTO(a);
+		TauschartikelDTO dto = service.angebot_TO_AngebotDTO(a);
 
 		Assert.assertEquals(a.getAngebotsid(), dto.getId());
 		Assert.assertEquals(a.getBenutzer(), dto.getBenutzer());

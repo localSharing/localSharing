@@ -39,6 +39,8 @@ public interface BenutzerService {
 
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle);
 
+	public Boolean sindDieBenutzerGleich(Benutzer benutzer1, Benutzer benutzer2);
+
 	public void shutdown();
 
 }
