@@ -1,6 +1,7 @@
 package pandha.swe.localsharing.controller.pattern.sites.get;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,7 +14,10 @@ import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebotDTO;
 import pandha.swe.localsharing.controller.pattern.sites.GoToErrorViewException;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
+import pandha.swe.localsharing.model.dto.BewertungDTO;
+import pandha.swe.localsharing.model.enums.Rollen;
 import pandha.swe.localsharing.service.AngebotService;
+import pandha.swe.localsharing.service.BewertungService;
 
 @Controller
 public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
@@ -30,6 +34,9 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 
 	@Autowired
 	private LadeEinAngebotDTO ladeEinAngebot;
+
+	@Autowired
+	private BewertungService bewertungService;
 
 	@RequestMapping(method = RequestMethod.GET, value = REQUEST_URL)
 	protected String bearbeiteAnfrage(Model model, Principal principal,
@@ -69,12 +76,24 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 			model.addAttribute("besitzer", true);
 		} else {
 			if (!angebotService.getAngebotByIdAndType(angebotsId, type)
-					.getEnabled()) {
+					.getEnabled()
+					&& !benutzerService.hatBenutzerRolle(anfragenderBenutzer,
+							Rollen.ADMIN)) {
 				throw new GoToErrorViewException();
 			}
 
 			model.addAttribute("besitzer", false);
 		}
+
+		// Angebot angebot =
+		// angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
+		// List<Bewertung> bewertungen =
+		// bewertungService.findByAngebot(angebot);
+		// List<BewertungDTO> bewertungenDTO =
+		// bewertungService.list_Bewertung_TO_BewertungDTO(bewertungen);
+		List<BewertungDTO> bewertungenDTO = bewertungService
+				.erzeugeDummyDaten();
+		model.addAttribute("bewertungen", bewertungenDTO);
 
 	}
 

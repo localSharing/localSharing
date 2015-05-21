@@ -67,6 +67,7 @@ public class PersistenceConfig {
 		properties.put("hibernate.connection.useUnicode", "true");
 		properties.put("hibernate.connection.characterEncoding", "UTF-8");
 		properties.put("hibernate.connection.charSet", "UTF-8");
+		properties.put("hibernate.id.new_generator_mappings", true);
 
 		return properties;
 	}

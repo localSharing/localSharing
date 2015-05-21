@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -19,19 +18,19 @@ public class Bewertung {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BEWERTUNGSID")
 	private Long bewertungsid;
-	
-	@ManyToOne
-	private Angebot angebot; 
-	
+
 	@OneToOne
-	private Benutzer benutzer; 
-	
+	private Angebot angebot;
+
+	@OneToOne
+	private Benutzer benutzer;
+
 	@Column(name = "BEWERTUNGSTERNE")
 	private Integer bewertungSterne;
-	
+
 	@Column(name = "KOMMENTAR", length = 1000)
 	private String kommentar;
-	
+
 	@Column(name = "DATUM", nullable = false)
 	private Date datum;
 
@@ -44,11 +43,11 @@ public class Bewertung {
 		this.kommentar = kommentar;
 		this.datum = datum;
 	}
-	
-	public Bewertung(){
-		
+
+	public Bewertung() {
+
 	}
-	
+
 	public Long getBewertungsid() {
 		return bewertungsid;
 	}
@@ -104,5 +103,5 @@ public class Bewertung {
 				+ bewertungSterne + ", kommentar=" + kommentar + ", datum="
 				+ datum + "]";
 	}
-	
+
 }

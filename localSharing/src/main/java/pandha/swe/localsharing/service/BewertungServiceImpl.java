@@ -1,7 +1,7 @@
 package pandha.swe.localsharing.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import static pandha.swe.localsharing.util.Datumsumwandler.stringToDate;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,10 +14,15 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Bewertung;
 import pandha.swe.localsharing.model.dao.BewertungDAO;
 import pandha.swe.localsharing.model.dto.BewertungDTO;
-import pandha.swe.localsharing.util.Datumsumwandler;
 
 @Service("bewertungService")
 public class BewertungServiceImpl implements BewertungService {
+	
+	@Autowired
+	private AngebotService angebotService;
+
+	@Autowired
+	private BenutzerService benutzerService;
 
 	@Autowired
 	private BewertungDAO bewertungDAO;
@@ -109,15 +114,21 @@ public class BewertungServiceImpl implements BewertungService {
 	@Override
 	public Long createBewertung(BewertungDTO bewertungDTO) {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String currentDate = dateFormat.format(new Date());
-
 		Bewertung bewertung = new Bewertung(null, bewertungDTO.getAngebot(),
 				bewertungDTO.getBewerter(), bewertungDTO.getBewertungSterne(),
-				bewertungDTO.getKommentar(),
-				Datumsumwandler.stringToDate(currentDate));
+				bewertungDTO.getKommentar(), new Date());
 
 		return save(bewertung);
+	}
+	
+	@Override
+	public List<BewertungDTO> erzeugeDummyDaten() {
+		List<BewertungDTO> dummyBewertungen = new ArrayList<BewertungDTO>();
+		for (int i = 0; i < 10; i++) {
+			dummyBewertungen.add(new BewertungDTO(Long.valueOf(i), angebotService.getAngebotByIdAndType(Long.valueOf(1), "ausleihen"), benutzerService.findById(Long.valueOf(1)), Integer.valueOf(2), "Wirklich toll. Super. Alles hat so gut funktioniert! Ich würde das Angebot jederzeit wieder annehmen. Der User ist sehr nett und die Kommunikaton hat problemlos geklappt. Die DVD war in einem hervorragenden Zustand. Schön, wenn alles so gut klappt. Von mir 2 Sterne!", stringToDate("20.04.2015")));
+		}
+		
+		return dummyBewertungen;
 	}
 
 }

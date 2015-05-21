@@ -35,4 +35,6 @@ public interface BewertungService {
 			List<Bewertung> listBewertung);
 
 	public void shutdown();
+
+	List<BewertungDTO> erzeugeDummyDaten();
 }

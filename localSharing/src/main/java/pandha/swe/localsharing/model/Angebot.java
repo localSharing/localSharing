@@ -10,15 +10,17 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "seq", initialValue = 100)
 public class Angebot {
 
 	// GenerationType.TABLE bewirkt, dass IDs in Tabelle unique sind
 	// GenerationType.AUTO bewirkt, dass IDs in allen drei Tabellen unique sind
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "ANGEBOTSID")
 	private Long angebotsid;
 
