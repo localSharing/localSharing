@@ -1,7 +1,5 @@
 package pandha.swe.localsharing.service;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -14,7 +12,6 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Bewertung;
 import pandha.swe.localsharing.model.dao.BewertungDAO;
 import pandha.swe.localsharing.model.dto.BewertungDTO;
-import pandha.swe.localsharing.util.Datumsumwandler;
 
 @Service("bewertungService")
 public class BewertungServiceImpl implements BewertungService {
@@ -109,13 +106,9 @@ public class BewertungServiceImpl implements BewertungService {
 	@Override
 	public Long createBewertung(BewertungDTO bewertungDTO) {
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		String currentDate = dateFormat.format(new Date());
-
 		Bewertung bewertung = new Bewertung(null, bewertungDTO.getAngebot(),
 				bewertungDTO.getBewerter(), bewertungDTO.getBewertungSterne(),
-				bewertungDTO.getKommentar(),
-				Datumsumwandler.stringToDate(currentDate));
+				bewertungDTO.getKommentar(), new Date());
 
 		return save(bewertung);
 	}
