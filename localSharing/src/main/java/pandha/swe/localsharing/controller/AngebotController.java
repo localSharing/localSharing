@@ -164,10 +164,16 @@ public class AngebotController {
 			return "redirect:angebote";
 		}
 
+		boolean kommentarErlaubt = false;
+		
 		if (user.getId().equals(angebotsersteller.getId())) {
 			model.addAttribute("besitzer", true);
 		} else if (angebotService.getAngebotByIdAndType(Long.valueOf(id), type).getEnabled()) {
 			model.addAttribute("besitzer", false);
+			// TODO Wann ist es erlaubt zu kommentieren? > Anfragenmanagement
+			if (true) {
+				kommentarErlaubt = true;
+			}
 		} else {
 			return "redirect:../../angebote";
 		}
@@ -177,6 +183,7 @@ public class AngebotController {
 //		List<BewertungDTO> bewertungenDTO = bewertungService.list_Bewertung_TO_BewertungDTO(bewertungen);
 		List<BewertungDTO> bewertungenDTO = bewertungService.erzeugeDummyDaten();
 		model.addAttribute("bewertungen", bewertungenDTO);
+		model.addAttribute("kommentarErlaubt", kommentarErlaubt);
 		
 		return addAngebotToModel(model, id, type, "angebot");
 	}
@@ -336,7 +343,39 @@ public class AngebotController {
 
 		return "redirect:../../angebot/" + id + "/" + type;
 	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/rate/{id}/{type}")
+	public String bewerteAngebot(
+			Principal principal,
+			Model model,
+			@PathVariable("id") String id,
+			@PathVariable("type") String type) {
+		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
+		String titel = angebot.getTitel();
+		String beschreibung = angebot.getBeschreibung();
+		model.addAttribute("bewertung", new BewertungDTO());
+		model.addAttribute("beschreibung", beschreibung);
+		model.addAttribute("titel", titel);
+		return "bewerten";
+	}
+	
+	@RequestMapping(method = RequestMethod.POST, value = "/rate/{id}/{type}")
+	public String saveRating(
+			@ModelAttribute("bewertung") @Valid BewertungDTO bewertungDTO,
+			Principal principal) {
 
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+
+		bewertungDTO.setBewerter(user);
+
+		Bewertung bewertung = bewertungService.bewertungDTO_TO_Bewertung(bewertungDTO);
+
+		bewertungService.update(bewertung);
+		
+		return "redirect:../../angebote/" + user.getId();
+	}
+
+	
 	private void angebotActivation(String id, String type, Boolean enable) {
 		switch (type) {
 		case "ausleihen":
