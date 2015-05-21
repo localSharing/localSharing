@@ -3,11 +3,9 @@ package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class EinAngebot extends LadeDaten {
+import pandha.swe.localsharing.config.StringConstants;
 
-	protected static final String TYPE_AUSLEIHEN = "ausleihen";
-	protected static final String TYPE_TAUSCHEN = "tauschen";
-	protected static final String TYPE_HELFEN = "helfen";
+public abstract class EinAngebot extends LadeDaten {
 
 	private String type;
 
@@ -17,13 +15,13 @@ public abstract class EinAngebot extends LadeDaten {
 		Map<String, Object> daten = new HashMap<String, Object>();
 
 		switch (getType()) {
-		case TYPE_AUSLEIHEN:
+		case StringConstants.AUSLEIHEN:
 			addAusleihartikel(daten);
 			break;
-		case TYPE_TAUSCHEN:
+		case StringConstants.TAUSCHEN:
 			addTauschartikel(daten);
 			break;
-		case TYPE_HELFEN:
+		case StringConstants.HELFEN:
 			addHilfeleistung(daten);
 			break;
 		default:

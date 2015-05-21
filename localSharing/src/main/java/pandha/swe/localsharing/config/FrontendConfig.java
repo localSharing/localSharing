@@ -200,9 +200,9 @@ public class FrontendConfig extends WebMvcAutoConfigurationAdapter {
 	@Bean
 	public Map<String, LS_AngebotService<?, ?>> getAngebotServices() {
 		Map<String, LS_AngebotService<?, ?>> angebotServices = new HashMap<String, LS_AngebotService<?, ?>>();
-		angebotServices.put("ausleihen", ausleihartikelService);
-		angebotServices.put("tauschen", tauschartikelService);
-		angebotServices.put("helfen", hilfeleistungService);
+		angebotServices.put(StringConstants.AUSLEIHEN, ausleihartikelService);
+		angebotServices.put(StringConstants.TAUSCHEN, tauschartikelService);
+		angebotServices.put(StringConstants.HELFEN, hilfeleistungService);
 		return angebotServices;
 
 	}

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pandha.swe.localsharing.config.StringConstants;
 import pandha.swe.localsharing.controller.pattern.backend.DtoToModelUmwander;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonBesitzer;
 import pandha.swe.localsharing.controller.pattern.backend.IstAnfrageErlaubt;
@@ -69,7 +70,7 @@ public class POST_SpeichereEineHilfeLeistung extends
 	protected IstAnfrageErlaubt getAnfrageErlaubt() {
 		erlaubeAnfrageVonBesitzer.setAnfragendenBenutzer(anfragenderBenutzer);
 		erlaubeAnfrageVonBesitzer.setBesitzer(benutzerService
-				.findByAngebotsIdAndType(getArtikel().getId(), TYPE_HELFEN));
+				.findByAngebotsIdAndType(getArtikel().getId(), StringConstants.HELFEN));
 		return erlaubeAnfrageVonBesitzer;
 	}
 

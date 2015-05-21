@@ -11,10 +11,6 @@ import pandha.swe.localsharing.service.BenutzerService;
 public abstract class EmpfangeDaten<T, E> extends
 		LocalSharingControllerTemplate {
 
-	protected static final String TYPE_AUSLEIHEN = "ausleihen";
-	protected static final String TYPE_TAUSCHEN = "tauschen";
-	protected static final String TYPE_HELFEN = "helfen";
-
 	@Autowired
 	protected BenutzerService benutzerService;
 

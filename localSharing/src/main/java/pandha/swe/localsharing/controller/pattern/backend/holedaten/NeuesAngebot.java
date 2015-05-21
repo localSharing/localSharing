@@ -2,6 +2,7 @@ package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import java.util.Map;
 
+import pandha.swe.localsharing.config.StringConstants;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
@@ -16,19 +17,19 @@ public class NeuesAngebot extends EinAngebot {
 	@Override
 	protected void addAusleihartikel(Map<String, Object> daten) {
 		daten.put(newAngebot, new AusleihartikelDTO());
-		daten.put(TYPE_AUSLEIHEN, TYPE_AUSLEIHEN);
+		daten.put(StringConstants.AUSLEIHEN, StringConstants.AUSLEIHEN);
 	}
 
 	@Override
 	protected void addTauschartikel(Map<String, Object> daten) {
 		daten.put(newAngebot, new TauschartikelDTO());
-		daten.put(TYPE_TAUSCHEN, TYPE_TAUSCHEN);
+		daten.put(StringConstants.TAUSCHEN, StringConstants.TAUSCHEN);
 	}
 
 	@Override
 	protected void addHilfeleistung(Map<String, Object> daten) {
 		daten.put(newAngebot, new HilfeleistungDTO());
-		daten.put(TYPE_HELFEN, TYPE_HELFEN);
+		daten.put(StringConstants.HELFEN, StringConstants.HELFEN);
 	}
 
 }
