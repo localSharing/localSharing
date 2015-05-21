@@ -192,11 +192,40 @@
 
 					<div class="panel panel-success">
 						<div class="panel-heading">Kommentare</div>
-						<div class="panel-body">Kommentare anzeigen?</div>
+						<ul class="list-group">
+							<li th:each="bewertung : ${bewertungen}" class="list-group-item">
+								<div class="row">
+									<div class="col-md-4">
+										<span th:if="${bewertung.bewertungSterne > 0}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 0}"
+											class="glyphicon glyphicon-star-empty"></span> <span
+											th:if="${bewertung.bewertungSterne > 1}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 1}"
+											class="glyphicon glyphicon-star-empty"></span> <span
+											th:if="${bewertung.bewertungSterne > 2}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 2}"
+											class="glyphicon glyphicon-star-empty"></span>
+
+										<div
+											th:onclick="${'window.location.href='+'''../../profil/' + bewertung.bewerter.id +''';'}">
+											<img class="img-circle"
+												th:src="@{/images/user/{id}(id=${bewertung.bewerter.id})}"
+												src="/imageUser/" width="20px" height="20px" /> <span
+												th:text="${bewertung.bewerter.vorname}"></span>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div th:text="${bewertung.datum}"></div>
+									</div>
+								</div>
+								<br/>
+								<div  th:text="${bewertung.kommentar}"></div>
+							</li>
+						</ul>
 					</div>
-
-
-
 				</div>
 			</div>
 		</div>

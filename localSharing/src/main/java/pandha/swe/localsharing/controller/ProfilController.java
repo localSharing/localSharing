@@ -1,6 +1,7 @@
 package pandha.swe.localsharing.controller;
 
 import java.security.Principal;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -16,8 +17,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
+import pandha.swe.localsharing.model.dto.BewertungDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
+import pandha.swe.localsharing.service.AngebotService;
 import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.BewertungService;
 import pandha.swe.localsharing.service.FileService;
 import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
 
@@ -25,7 +29,13 @@ import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVo
 public class ProfilController {
 
 	@Autowired
+	private AngebotService angebotService;
+	
+	@Autowired
 	private BenutzerService benutzerService;
+	
+	@Autowired
+	private BewertungService bewertungService;
 
 	@Autowired
 	private FileService fileService;
@@ -33,14 +43,8 @@ public class ProfilController {
 	@RequestMapping(method = RequestMethod.GET, value = "/profil")
 	public String showProfil(Model model, Principal principal) {
 
-		BenutzerDTO user = 
-				benutzerService.benutzer_TO_BenutzerDTO(
-						benutzerService.getUserByPrincipal(principal));
-
-		model.addAttribute("user", user);
-		model.addAttribute("besitzer", true);
-		model.addAttribute("titel", "Dein");
-		return "profil";
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		return "redirect:/profil/" + user.getId();
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/profil/{id}")
@@ -50,20 +54,27 @@ public class ProfilController {
 			@PathVariable("id") String id) {
 
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		BenutzerDTO userDTO;
 		
 		if (Long.valueOf(id).equals(user.getId())) {
-			return "redirect:../profil";
+			userDTO = benutzerService.benutzer_TO_BenutzerDTO(user);
+			model.addAttribute("besitzer", true);
+			model.addAttribute("titel", "Dein");
 		}
 		
-		BenutzerDTO gesuchterUser = 
-				benutzerService.benutzer_TO_BenutzerDTO(
-						benutzerService.findById(Long.valueOf(id)));
-		if (gesuchterUser == null) {
-			return "redirect:../startPage";
+		else {
+			userDTO = benutzerService.benutzer_TO_BenutzerDTO(benutzerService.findById(Long.valueOf(id)));
+			model.addAttribute("besitzer", false);
+			model.addAttribute("titel", erzeugeVornameFuerAngebotsseite(userDTO.getVorname()));
 		}
-		model.addAttribute("besitzer", false);
-		model.addAttribute("user", gesuchterUser);
-		model.addAttribute("titel", erzeugeVornameFuerAngebotsseite(gesuchterUser.getVorname()));
+		
+		model.addAttribute("user", userDTO);
+//		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
+//		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
+//		List<BewertungDTO> bewertungenDTO = bewertungService.list_Bewertung_TO_BewertungDTO(bewertungen);
+		List<BewertungDTO> bewertungenDTO = bewertungService.erzeugeDummyDaten();
+		model.addAttribute("bewertungen", bewertungenDTO);
+		
 		return "profil";
 	}
 
@@ -153,5 +164,5 @@ public class ProfilController {
 
 		return "profile";
 	}
-
+	
 }

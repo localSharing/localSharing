@@ -17,17 +17,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.Bewertung;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
+import pandha.swe.localsharing.model.dto.BewertungDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
 import pandha.swe.localsharing.service.AngebotService;
 import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.BewertungService;
 import pandha.swe.localsharing.service.FileService;
 import pandha.swe.localsharing.service.HilfeleistungService;
 import pandha.swe.localsharing.service.TauschartikelService;
@@ -49,6 +53,9 @@ public class AngebotController {
 
 	@Autowired
 	private BenutzerService benutzerService;
+
+	@Autowired
+	private BewertungService bewertungService;
 
 	@Autowired
 	private FileService fileService;
@@ -165,6 +172,12 @@ public class AngebotController {
 			return "redirect:../../angebote";
 		}
 
+//		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
+//		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
+//		List<BewertungDTO> bewertungenDTO = bewertungService.list_Bewertung_TO_BewertungDTO(bewertungen);
+		List<BewertungDTO> bewertungenDTO = bewertungService.erzeugeDummyDaten();
+		model.addAttribute("bewertungen", bewertungenDTO);
+		
 		return addAngebotToModel(model, id, type, "angebot");
 	}
 
