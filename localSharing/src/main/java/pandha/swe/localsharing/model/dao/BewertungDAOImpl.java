@@ -113,4 +113,16 @@ public class BewertungDAOImpl implements BewertungDAO {
 				.createSQLQuery("SHUTDOWN").executeUpdate();
 
 	}
+
+	@Override
+	public List<Bewertung> findAllByEmpfaenger(Benutzer empfaenger) {
+
+		@SuppressWarnings("unchecked")
+		List<Bewertung> bewertungen = (List<Bewertung>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Bewertung.class)
+						.createAlias("angebot.benutzer", "empfaenger")
+						.add(Restrictions.eq("empfaenger.userid", empfaenger.getId())));
+
+		return bewertungen;
+	}
 }

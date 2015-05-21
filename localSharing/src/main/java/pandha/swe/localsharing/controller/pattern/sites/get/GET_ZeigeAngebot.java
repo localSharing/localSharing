@@ -14,6 +14,8 @@ import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.pattern.backend.holedaten.LadeEinAngebotDTO;
 import pandha.swe.localsharing.controller.pattern.sites.GoToErrorViewException;
 import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
+import pandha.swe.localsharing.model.Angebot;
+import pandha.swe.localsharing.model.Bewertung;
 import pandha.swe.localsharing.model.dto.BewertungDTO;
 import pandha.swe.localsharing.model.enums.Rollen;
 import pandha.swe.localsharing.service.AngebotService;
@@ -85,14 +87,12 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 			model.addAttribute("besitzer", false);
 		}
 
-		// Angebot angebot =
-		// angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
-		// List<Bewertung> bewertungen =
-		// bewertungService.findByAngebot(angebot);
-		// List<BewertungDTO> bewertungenDTO =
-		// bewertungService.list_Bewertung_TO_BewertungDTO(bewertungen);
+		Angebot angebot = angebotService
+				.getAngebotByIdAndType(angebotsId, type);
+		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
 		List<BewertungDTO> bewertungenDTO = bewertungService
-				.erzeugeDummyDaten();
+				.list_Bewertung_TO_BewertungDTO(bewertungen);
+
 		model.addAttribute("bewertungen", bewertungenDTO);
 
 	}

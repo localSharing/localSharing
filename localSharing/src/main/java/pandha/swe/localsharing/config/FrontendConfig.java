@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
+import pandha.swe.localsharing.StringConstants;
 import pandha.swe.localsharing.controller.pattern.backend.CreateArtikelInService;
 import pandha.swe.localsharing.controller.pattern.backend.DtoToModelUmwander;
 import pandha.swe.localsharing.controller.pattern.backend.ErlaubeAnfrageVonAdmin;

@@ -12,19 +12,21 @@ public interface BewertungService {
 	public Bewertung findById(long id);
 
 	public List<Bewertung> findAll();
-	
+
 	public List<BewertungDTO> findAllDTO();
 
 	public List<Bewertung> findByAngebot(Angebot angebot);
 
 	public List<Bewertung> findByBewerter(Benutzer bewerter);
 
+	public List<Bewertung> findAllByEmpfaenger(Benutzer empfaenger);
+
 	public Long save(Bewertung bewertung);
 
 	public void update(Bewertung bewertung);
 
 	public void delete(Bewertung bewertung);
-	
+
 	public Long createBewertung(BewertungDTO bewertungDTO);
 
 	public Bewertung bewertungDTO_TO_Bewertung(BewertungDTO bewertungDTO);
@@ -36,5 +38,5 @@ public interface BewertungService {
 
 	public void shutdown();
 
-	List<BewertungDTO> erzeugeDummyDaten();
+	List<Bewertung> findAllByEmpfaengerId(Long id);
 }

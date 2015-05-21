@@ -3,7 +3,7 @@ package pandha.swe.localsharing.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import pandha.swe.localsharing.config.StringConstants;
+import pandha.swe.localsharing.StringConstants;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dao.HilfeleistungDAO;

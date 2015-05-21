@@ -16,6 +16,8 @@ public interface BewertungDAO {
 	
 	public List<Bewertung> findAllByBewerter(Benutzer bewerter);
 	
+	public List<Bewertung> findAllByEmpfaenger(Benutzer empfaenger);
+	
 	public Long save(Bewertung bewertung);
 	
 	public void update(Bewertung bewertung);

@@ -3,7 +3,7 @@ package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 import java.util.HashMap;
 import java.util.Map;
 
-import pandha.swe.localsharing.config.StringConstants;
+import pandha.swe.localsharing.StringConstants;
 
 public abstract class EinAngebot extends LadeDaten {
 

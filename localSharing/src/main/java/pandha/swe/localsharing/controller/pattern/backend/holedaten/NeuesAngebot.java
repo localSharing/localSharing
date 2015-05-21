@@ -2,7 +2,7 @@ package pandha.swe.localsharing.controller.pattern.backend.holedaten;
 
 import java.util.Map;
 
-import pandha.swe.localsharing.config.StringConstants;
+import pandha.swe.localsharing.StringConstants;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
 import pandha.swe.localsharing.model.dto.TauschartikelDTO;

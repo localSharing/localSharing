@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.config;
+package pandha.swe.localsharing;
 
 public class StringConstants {
 
