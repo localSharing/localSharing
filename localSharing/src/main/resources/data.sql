@@ -48,6 +48,11 @@ insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM,
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('3', 'TRUE', 'Kalender von 2011. Mottokalender "Natur". Tolle Bilder, auch 2015.', '2014-12-05', 'Kalender (2011, Natur)', '1', 'Dekoration');
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('4', 'TRUE', 'Ein paar Larven, von Timon und Pumba gefangen. Seeehr lecker. Hakuna Matata!', '2014-12-06', 'Larven', '5', 'Essen');
 insert into PUBLIC.TAUSCHARTIKEL (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, KATEGORIE) values ('5', 'TRUE', 'MarcoPolo-Reiseführer für Rom (8. Auflage, 2013). Tausche gerne gegen andere Reiseführer :)', '2014-12-07', 'Rom: Marco-Polo-Reiseführer', '3', 'Reisen');
+
+--Bewertung
+insert into PUBLIC.BEWERTUNG (BEWERTUNGSID, ANGEBOT_ANGEBOTSID, BENUTZER_USERID, BEWERTUNGSTERNE, KOMMENTAR, DATUM) values ('1', '1', '1', '3', 'War super!', '2015-05-15');
+insert into PUBLIC.BEWERTUNG (BEWERTUNGSID, ANGEBOT_ANGEBOTSID, BENUTZER_USERID, BEWERTUNGSTERNE, KOMMENTAR, DATUM) values ('2', '2', '1', '0', 'Gar nicht gut', '2015-05-15');
+
 --ID
 insert into PUBLIC.HIBERNATE_SEQUENCES (SEQUENCE_NAME, SEQUENCE_NEXT_HI_VALUE) values ('Angebot', '30');
 
