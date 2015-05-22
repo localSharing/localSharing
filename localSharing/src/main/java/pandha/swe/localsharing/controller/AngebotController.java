@@ -23,6 +23,7 @@ import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
+import pandha.swe.localsharing.model.dto.AngebotDTO;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.dto.BewertungDTO;
 import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
@@ -171,7 +172,7 @@ public class AngebotController {
 		
 		if (user.getId().equals(angebotsersteller.getId())) {
 			model.addAttribute("besitzer", true);
-		} else if (angebotService.getAngebotByIdAndType(Long.valueOf(id), type).getEnabled()) {
+		} else if (angebotService.findAngebotByIdAndType(Long.valueOf(id), type).getEnabled()) {
 			model.addAttribute("besitzer", false);
 			// TODO Wann ist es erlaubt zu kommentieren? > Anfragenmanagement
 			if (true) {
@@ -354,19 +355,20 @@ public class AngebotController {
 			@PathVariable("id") String id) {
 
 		// TODO Angebot mit ID holen
-		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), "ausleihen");
+		Angebot angebot = angebotService.findAngebotByIdAndType(Long.valueOf(id), "ausleihen");
 //		Angebot angebot = angebotService.getAngebotById(Long.valueOf(id));
+		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
 		
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		Benutzer angebotsersteller = angebot.getBenutzer();
-		if (!user.getId().equals(angebotsersteller.getId())) {
+		Benutzer angebotsersteller = angebotDTO.getBenutzer();
+		if (user.getId().equals(angebotsersteller.getId())) {
 			return "redirect:../" + id + "/ausleihen";
 		}
 		
 		BewertungDTO bewertung = new BewertungDTO();
 		
 		model.addAttribute("bewertung", bewertung);
-		model.addAttribute("angebot", angebot);
+		model.addAttribute("angebot", angebotDTO);
 		
 		return "bewerten";
 	}
@@ -382,7 +384,7 @@ public class AngebotController {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		bewertungDTO.setBewerter(user);
 		
-		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), "ausleihen");
+		Angebot angebot = angebotService.findAngebotByIdAndType(Long.valueOf(id), "ausleihen");
 //		Angebot angebot = angebotService.getAngebotById(Long.valueOf(id));
 		bewertungDTO.setAngebot(angebot);
 

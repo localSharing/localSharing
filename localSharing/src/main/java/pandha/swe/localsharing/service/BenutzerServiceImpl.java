@@ -37,7 +37,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
-		return angebotService.getAngebotByIdAndType(id, type).getBenutzer();
+		return angebotService.findAngebotByIdAndType(id, type).getBenutzer();
 	}
 
 	@Override

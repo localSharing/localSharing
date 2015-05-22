@@ -27,7 +27,7 @@ public class AngebotServiceImpl implements AngebotService {
 	private HilfeleistungDAO hilfeleistungDao;
 
 	@Override
-	public Angebot getAngebotByIdAndType(Long id, String type) {
+	public Angebot findAngebotByIdAndType(Long id, String type) {
 		Angebot angebot = null;
 		switch (type) {
 		case "ausleihen":
@@ -43,6 +43,12 @@ public class AngebotServiceImpl implements AngebotService {
 			break;
 		}
 		return angebot;
+	}
+	
+	@Override
+	public Angebot findAngebotById(Long id) {
+		// TODO Implement method by using methods of AngebotDAO
+		return null;
 	}
 	
 	@Override
