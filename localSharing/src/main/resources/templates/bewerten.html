@@ -28,28 +28,22 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="jumbotron">
-						<div class="row text-center">
-							<strong th:text="${titel}"></strong>
+						<strong th:text="${titel}"></strong>
 
-							<div class="panel panel-success">
-								<div class="panel-heading">Beschreibung</div>
-								<div class="panel-body">
-									<span th:text="${beschreibung}"></span>
-								</div>
+						<div class="panel panel-success">
+							<div class="panel-heading">Beschreibung</div>
+							<div class="panel-body">
+								<span th:text="${beschreibung}"></span>
 							</div>
-							<div class="panel panel-success">
-								<div class="panel-heading">Deine Anfragen</div>
-								<div class="panel-body">
-									<table>
-										<tr>
-											<td>Gesendet</td>
-											<td>05.12.2014</td>
-										</tr>
-										<tr>
-											<td>Angenommen</td>
-											<td>06.12.2014</td>
-										</tr>
-									</table>
+						</div>
+						<div class="panel panel-success">
+							<div class="panel-heading">Deine Anfragen</div>
+							<div class="panel-body">
+								<div>
+									<strong>Gesendet: </strong> 05.12.2014
+								</div>
+								<div>
+									<strong>Angenommen: </strong> 06.12.2014
 								</div>
 							</div>
 						</div>
@@ -57,14 +51,18 @@
 				</div>
 				<div class="col-md-6">
 					<div class="jumbotron">
-						<strong>Deine Bewertung</strong>
-						<div>
-							<strong>Starrating</strong>
-							<input type="text" class="form-control" th:field="*{bewertungSterne}"
-									id="stars" required="required"/>
+						<strong>Deine Bewertung</strong> <br />
+						<div class="row">
+							<div class="col-md-2">
+								<strong>Starrating</strong>
+							</div>
+							<div class="col-md-4">
+								<input type="number" class="form-control"
+									th:field="*{bewertungSterne}" id="stars" required="required"
+									min="1" max="3" />
+							</div>
 						</div>
-						<br/>
-						<strong>Kommentar</strong>
+						<br /> <strong>Kommentar</strong>
 						<textarea class="form-control" rows="7" id="kommentar"
 							maxlength="1000" th:field="*{kommentar}"
 							th:value="${bewertung.kommentar}"></textarea>
