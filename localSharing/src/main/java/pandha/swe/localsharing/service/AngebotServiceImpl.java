@@ -48,7 +48,14 @@ public class AngebotServiceImpl implements AngebotService {
 	@Override
 	public AngebotDTO angebot_TO_AngebotDTO(Angebot angebot) {
 		
-		AngebotDTO angebotDTO = null;
+		AngebotDTO angebotDTO = 
+				new AngebotDTO(
+						angebot.getAngebotsid(), 
+						angebot.getEnabled(), 
+						angebot.getBenutzer(), 
+						angebot.getTitel(), 
+						angebot.getBeschreibung(), 
+						dateToString(angebot.getStartDatum()));
 		
 		return angebotDTO;
 	}
@@ -56,8 +63,15 @@ public class AngebotServiceImpl implements AngebotService {
 	@Override
 	public Angebot angebotDTO_TO_Angebot(AngebotDTO angebotDTO) {
 
-		return null;
-
+		Angebot angebot =
+				new Angebot(
+						angebotDTO.getId(),
+						angebotDTO.getEnabled(),
+						angebotDTO.getBenutzer(),
+						angebotDTO.getTitel(),
+						angebotDTO.getBeschreibung(),
+						stringToDate(angebotDTO.getStartDatum()));
+		return angebot;
 	}
 
 }

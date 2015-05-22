@@ -349,14 +349,22 @@ public class AngebotController {
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{id}/rate")
 	public String bewerteAngebot(
+			Principal principal,
 			Model model,
 			@PathVariable("id") String id) {
+
+		// TODO Angebot mit ID holen
+		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), "ausleihen");
+//		Angebot angebot = angebotService.getAngebotById(Long.valueOf(id));
+		
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		Benutzer angebotsersteller = angebot.getBenutzer();
+		if (!user.getId().equals(angebotsersteller.getId())) {
+			return "redirect:../" + id + "/ausleihen";
+		}
 		
 		BewertungDTO bewertung = new BewertungDTO();
 		
-		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), "ausleihen");
-//		Angebot angebot = angebotService.getAngebotById(Long.valueOf(id));
-
 		model.addAttribute("bewertung", bewertung);
 		model.addAttribute("angebot", angebot);
 		
@@ -379,8 +387,8 @@ public class AngebotController {
 		bewertungDTO.setAngebot(angebot);
 
 		bewertungService.createBewertung(bewertungDTO);
-
-		return "redirect:../" + bewertungDTO.getAngebot().getAngebotsid() + "/ausleihen";
+		// TODO Redirect nur durch Angebotsid ('ausleihen' löschen)
+		return "redirect:../" + id + "/ausleihen";
 	}
 
 	
