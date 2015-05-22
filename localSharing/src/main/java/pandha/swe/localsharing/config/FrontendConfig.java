@@ -11,7 +11,6 @@ import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration.WebMvc
 import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 
 import pandha.swe.localsharing.StringConstants;
@@ -51,14 +50,6 @@ public class FrontendConfig extends WebMvcAutoConfigurationAdapter {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("homePage");
 		registry.addViewController("/homepage").setViewName("homePage");
-	}
-
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		if (!registry.hasMappingForPattern("/webjars/**")) {
-			registry.addResourceHandler("/webjars/**").addResourceLocations(
-					"classpath:/META-INF/resources/webjars/");
-		}
 	}
 
 	@Bean
