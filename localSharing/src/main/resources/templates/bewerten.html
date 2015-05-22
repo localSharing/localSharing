@@ -9,7 +9,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
-
+<link href="path/to/css/star-rating.min.css" media="all"
+	rel="stylesheet" type="text/css" />
+<script src="path/to/js/star-rating.min.js" type="text/javascript"></script>
 <script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
 </head>
 
@@ -22,18 +24,18 @@
 
 		<h2>Angebot bewerten</h2>
 
-		<form class="form-horizontal" th:action="@{/rate/}"
+		<form class="form-horizontal" th:action="@{/angebot/{id}/rate(id=5)}"
 			th:object="${bewertung}" method="post" enctype="multipart/form-data">
 
 			<div class="row">
 				<div class="col-md-6">
 					<div class="jumbotron">
-						<strong th:text="${titel}"></strong>
+						<strong th:text="${angebot.titel}"></strong>
 
 						<div class="panel panel-success">
 							<div class="panel-heading">Beschreibung</div>
 							<div class="panel-body">
-								<span th:text="${beschreibung}"></span>
+								<span th:text="${angebot.beschreibung}"></span>
 							</div>
 						</div>
 						<div class="panel panel-success">
@@ -51,7 +53,7 @@
 				</div>
 				<div class="col-md-6">
 					<div class="jumbotron">
-						<strong>Deine Bewertung</strong> <br />
+						<strong>Deine Bewertung</strong>
 						<div class="row">
 							<div class="col-md-2">
 								<strong>Starrating</strong>
@@ -60,12 +62,15 @@
 								<input type="number" class="form-control"
 									th:field="*{bewertungSterne}" id="stars" required="required"
 									min="1" max="3" />
+								<!-- <input id="bewertungSterne" type="number" class="rating" min=1 max=3 step=1 th:field="*{bewertungSterne}"
+							th:value="${bewertung.bewertungSterne}" required="required"> -->
 							</div>
 						</div>
 						<br /> <strong>Kommentar</strong>
 						<textarea class="form-control" rows="7" id="kommentar"
 							maxlength="1000" th:field="*{kommentar}"
-							th:value="${bewertung.kommentar}"></textarea>
+							th:value="${bewertung.kommentar}" required="required"></textarea>
+						<p><small>Maximal 1000 Zeichen</small></p>
 						<br />
 						<div class="alert alert-danger"
 							th:if="${#fields.hasErrors('kommentar')}"
@@ -78,7 +83,7 @@
 						</button>
 					</div>
 					<div class="col-md-4">
-						<button id="btnSave" name="btnSave" type="submit"
+						<button id="btnRate" name="btnRate" type="submit"
 							class="btn btn-success">
 							<span class="glyphicon glyphicon-star"></span> Bewerten
 						</button>

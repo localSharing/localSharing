@@ -31,6 +31,8 @@ public interface BenutzerService {
 
 	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO,
 			Principal user);
+	
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO);
 
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer);
 

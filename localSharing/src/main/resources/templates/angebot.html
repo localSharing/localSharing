@@ -70,23 +70,7 @@
 					</button>
 				</div>
 				<div class="col-md-4" th:if="${kommentarErlaubt}">
-					<form th:if="${dauer != null}"
-						th:action="${'../../rate/' + angebot.id + '/ausleihen'}"
-						method="get">
-						<button id="btnAngebotBewerten" class="btn btn-success">
-							<span class="glyphicon glyphicon-star"></span> Bewerten
-						</button>
-					</form>
-					<form th:if="${endDatum == null}"
-						th:action="${'../../rate/' + angebot.id + '/tauschen'}"
-						method="get">
-						<button id="btnAngebotBewerten" class="btn btn-success">
-							<span class="glyphicon glyphicon-star"></span> Bewerten
-						</button>
-					</form>
-					<form th:if="${kategorie == null}"
-						th:action="${'../../rate/' + angebot.id + '/helfen'}"
-						method="get">
+					<form th:action="${'../../angebot/' + angebot.id + '/rate'}" method="get">
 						<button id="btnAngebotBewerten" class="btn btn-success">
 							<span class="glyphicon glyphicon-star"></span> Bewerten
 						</button>

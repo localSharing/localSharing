@@ -1,5 +1,7 @@
 package pandha.swe.localsharing.controller;
 
+import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -23,7 +25,6 @@ import pandha.swe.localsharing.service.AngebotService;
 import pandha.swe.localsharing.service.BenutzerService;
 import pandha.swe.localsharing.service.BewertungService;
 import pandha.swe.localsharing.service.FileService;
-import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
 
 @Controller
 public class ProfilController {
@@ -69,8 +70,7 @@ public class ProfilController {
 		}
 		
 		model.addAttribute("user", userDTO);
-//		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
-//		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
+//		List<Bewertung> bewertungen = bewertungService.findByBewerter(benutzerService.benutzerDTO_TO_Benutzer(userDTO));
 //		List<BewertungDTO> bewertungenDTO = bewertungService.list_Bewertung_TO_BewertungDTO(bewertungen);
 		List<BewertungDTO> bewertungenDTO = bewertungService.erzeugeDummyDaten();
 		model.addAttribute("bewertungen", bewertungenDTO);

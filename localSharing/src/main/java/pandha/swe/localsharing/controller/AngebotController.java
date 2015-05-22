@@ -3,6 +3,7 @@ package pandha.swe.localsharing.controller;
 import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -20,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
-import pandha.swe.localsharing.model.Bewertung;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
@@ -154,8 +154,11 @@ public class AngebotController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{ID}/{Type}")
-	public String showAngebot(Model model, Principal principal,
-			@PathVariable("ID") String id, @PathVariable("Type") String type) {
+	public String showAngebot(
+			Model model,
+			Principal principal,
+			@PathVariable("ID") String id,
+			@PathVariable("Type") String type) {
 
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = benutzerService.findByAngebotsIdAndType(
@@ -344,35 +347,40 @@ public class AngebotController {
 		return "redirect:../../angebot/" + id + "/" + type;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/rate/{id}/{type}")
+	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{id}/rate")
 	public String bewerteAngebot(
-			Principal principal,
 			Model model,
-			@PathVariable("id") String id,
-			@PathVariable("type") String type) {
-		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), type);
-		String titel = angebot.getTitel();
-		String beschreibung = angebot.getBeschreibung();
-		model.addAttribute("bewertung", new BewertungDTO());
-		model.addAttribute("beschreibung", beschreibung);
-		model.addAttribute("titel", titel);
+			@PathVariable("id") String id) {
+		
+		BewertungDTO bewertung = new BewertungDTO();
+		
+		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), "ausleihen");
+//		Angebot angebot = angebotService.getAngebotById(Long.valueOf(id));
+
+		model.addAttribute("bewertung", bewertung);
+		model.addAttribute("angebot", angebot);
+		
 		return "bewerten";
 	}
 	
-	@RequestMapping(method = RequestMethod.POST, value = "/rate/{id}/{type}")
+	@RequestMapping(method = RequestMethod.POST, value = "/angebot/{id}/rate")
 	public String saveRating(
-			@ModelAttribute("bewertung") @Valid BewertungDTO bewertungDTO,
-			Principal principal) {
-
-		Benutzer user = benutzerService.getUserByPrincipal(principal);
-
-		bewertungDTO.setBewerter(user);
-
-		Bewertung bewertung = bewertungService.bewertungDTO_TO_Bewertung(bewertungDTO);
-
-		bewertungService.update(bewertung);
+			Principal principal,
+			@PathVariable("id") String id,
+			@ModelAttribute("bewertung") @Valid BewertungDTO bewertungDTO) {
 		
-		return "redirect:../../angebote/" + user.getId();
+		bewertungDTO.setDatum(new Date(System.currentTimeMillis()));
+		
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		bewertungDTO.setBewerter(user);
+		
+		Angebot angebot = angebotService.getAngebotByIdAndType(Long.valueOf(id), "ausleihen");
+//		Angebot angebot = angebotService.getAngebotById(Long.valueOf(id));
+		bewertungDTO.setAngebot(angebot);
+
+		bewertungService.createBewertung(bewertungDTO);
+
+		return "redirect:../" + bewertungDTO.getAngebot().getAngebotsid() + "/ausleihen";
 	}
 
 	
