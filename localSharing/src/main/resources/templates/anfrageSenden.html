@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+<title>Anfrage senden</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div class="container">
+
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+
+		<h2>
+			Anfrage an <span th:text="${angebot.benutzer.vorname}"></span>
+		</h2>
+
+		<form class="form-horizontal"
+			th:action="@{/angebot/{id}/anfragen(id=5)}" th:object="${anfrage}"
+			method="post" enctype="multipart/form-data">
+
+			<div class="row">
+				<div class="col-md-6">
+					<div class="jumbotron">
+						<strong th:text="${angebot.titel}"></strong>
+
+						<div class="panel panel-success">
+							<div class="panel-heading">Beschreibung</div>
+							<div class="panel-body">
+								<span th:text="${angebot.beschreibung}"></span>
+							</div>
+						</div>
+						<div class="panel panel-success">
+							<div class="panel-heading">Bedingungen</div>
+							<div class="panel-body">
+								<strong>Startdatum: </strong><span
+									th:text="${angebot.startDatum}"></span>
+								<div th:if="${endDatum != null}">
+									<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
+								</div>
+								<div th:if="${dauer != null}">
+									<br /> <strong>Maximale Ausleihdauer: </strong><span
+										th:text="${angebot.dauer}"></span> Tag(e)
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="jumbotron">
+						<strong>Deine Anfrage</strong>
+						<div class="row">
+							<div class="col-md-2">
+								<strong>Dein Startdatum</strong>
+							</div>
+							<div class="col-md-4">
+								<input type="date" class="form-control" th:field="*{startdatum}"
+									id="startdatum" required="required" />
+							</div>
+						</div>
+						<br /> <strong>Nachricht an <span
+							th:text="${angebot.benutzer.vorname}"></span></strong>
+						<textarea class="form-control" rows="7" id="kommentar"
+							maxlength="1000" th:field="*{nachricht}"
+							th:value="${anfrage.nachricht}" required="required"></textarea>
+						<p>
+							<small>Maximal 1000 Zeichen</small>
+						</p>
+						<br />
+					</div>
+					<div class="col-md-4">
+						<button id="btnBack" class="btn btn-success"
+							onclick="history.back(-1)">
+							<span class="glyphicon glyphicon-chevron-left"></span> Zurück
+						</button>
+					</div>
+					<div class="col-md-4">
+						<button id="btnInquire" name="btnInquire" type="submit"
+							class="btn btn-success">
+							<span class="glyphicon glyphicon-envelope"></span> Anfragen
+						</button>
+					</div>
+				</div>
+			</div>
+
+		</form>
+	</div>
+
+</body>
+</html>
