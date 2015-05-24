@@ -37,7 +37,6 @@ public class BewertungsController {
 	public String bewerteAngebot(Principal principal, Model model,
 			@PathVariable("id") String id) {
 
-		// TODO Angebot mit ID holen
 		Angebot angebot = angebotService.findAngebotById(Long.valueOf(id));
 		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
 

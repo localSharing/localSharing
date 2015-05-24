@@ -120,7 +120,7 @@ public class BewertungDAOImpl implements BewertungDAO {
 		DetachedCriteria besitzerCriteria = DetachedCriteria
 				.forClass(Bewertung.class).createAlias("angebot", "offer")
 				.createAlias("offer.benutzer", "empfaenger")
-				.add(Restrictions.idEq(empfaenger.getId()));
+				.add(Restrictions.eq("empfaenger.id", empfaenger.getId()));
 
 		@SuppressWarnings("unchecked")
 		List<Bewertung> bewertungen = (List<Bewertung>) hibernateTemplate
