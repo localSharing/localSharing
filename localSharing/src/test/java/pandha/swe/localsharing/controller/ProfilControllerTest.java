@@ -44,7 +44,6 @@ import pandha.swe.localsharing.service.BenutzerService;
 import pandha.swe.localsharing.service.BewertungService;
 import pandha.swe.localsharing.service.FileService;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
 public class ProfilControllerTest {
 
 	@InjectMocks
