@@ -76,6 +76,7 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 				benutzerService.findByAngebotsIdAndType(angebotsId, type));
 		if (benutzerGleich) {
 			model.addAttribute("besitzer", true);
+			model.addAttribute("kommentarErlaubt", false);
 		} else {
 			if (!angebotService.findAngebotByIdAndType(angebotsId, type)
 					.getEnabled()
@@ -85,10 +86,12 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 			}
 
 			model.addAttribute("besitzer", false);
+
+			model.addAttribute("kommentarErlaubt", true);
 		}
 
-		Angebot angebot = angebotService
-				.findAngebotByIdAndType(angebotsId, type);
+		Angebot angebot = angebotService.findAngebotByIdAndType(angebotsId,
+				type);
 		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
 		List<BewertungDTO> bewertungenDTO = bewertungService
 				.list_Bewertung_TO_BewertungDTO(bewertungen);
