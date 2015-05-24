@@ -119,24 +119,6 @@ public class BewertungServiceImpl implements BewertungService {
 		return save(bewertung);
 	}
 
-	// @Override
-	// public List<BewertungDTO> erzeugeDummyDaten() {
-	// List<BewertungDTO> dummyBewertungen = new ArrayList<BewertungDTO>();
-	// for (int i = 0; i < 10; i++) {
-	// dummyBewertungen
-	// .add(new BewertungDTO(
-	// Long.valueOf(i),
-	// angebotService.getAngebotByIdAndType(
-	// Long.valueOf(1), "ausleihen"),
-	// benutzerService.findById(Long.valueOf(1)),
-	// Integer.valueOf(2),
-	// "Wirklich toll. Super. Alles hat so gut funktioniert! Ich würde das Angebot jederzeit wieder annehmen. Der User ist sehr nett und die Kommunikaton hat problemlos geklappt. Die DVD war in einem hervorragenden Zustand. Schön, wenn alles so gut klappt. Von mir 2 Sterne!",
-	// stringToDate("20.04.2015")));
-	// }
-	//
-	// return dummyBewertungen;
-	// }
-
 	@Override
 	public List<Bewertung> findAllByEmpfaenger(Benutzer empfaenger) {
 		return bewertungDAO.findAllByEmpfaenger(empfaenger);

@@ -69,6 +69,13 @@
 						<span class="glyphicon glyphicon-chevron-left"></span> Zurück
 					</button>
 				</div>
+				<div class="col-md-4" th:if="${kommentarErlaubt}">
+					<form th:action="${'../../angebot/' + angebot.id + '/rate'}" method="get">
+						<button id="btnAngebotBewerten" class="btn btn-success">
+							<span class="glyphicon glyphicon-star"></span> Bewerten
+						</button>
+					</form>
+				</div>
 				<div class="col-md-4" sec:authorize="hasRole('ADMIN')">
 					<!-- Ausleihartikel Enable / Disable -->
 					<form th:if="${dauer != null and angebot.enabled}"

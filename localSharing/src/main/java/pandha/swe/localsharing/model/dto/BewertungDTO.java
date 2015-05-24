@@ -2,6 +2,8 @@ package pandha.swe.localsharing.model.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.Size;
 
 import pandha.swe.localsharing.model.Angebot;
@@ -15,7 +17,8 @@ public class BewertungDTO {
 
 	private Benutzer benutzer;
 
-	@Size(min = 1, max = 1)
+	@Min(value = 1)
+	@Max(value = 3)
 	private Integer bewertungSterne;
 
 	@Size(max = 1000)

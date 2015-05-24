@@ -117,11 +117,14 @@ public class BewertungDAOImpl implements BewertungDAO {
 	@Override
 	public List<Bewertung> findAllByEmpfaenger(Benutzer empfaenger) {
 
+		DetachedCriteria besitzerCriteria = DetachedCriteria
+				.forClass(Bewertung.class).createAlias("angebot", "offer")
+				.createAlias("offer.benutzer", "empfaenger")
+				.add(Restrictions.idEq(empfaenger.getId()));
+
 		@SuppressWarnings("unchecked")
 		List<Bewertung> bewertungen = (List<Bewertung>) hibernateTemplate
-				.findByCriteria(DetachedCriteria.forClass(Bewertung.class)
-						.createAlias("angebot.benutzer", "empfaenger")
-						.add(Restrictions.eq("empfaenger.userid", empfaenger.getId())));
+				.findByCriteria(besitzerCriteria);
 
 		return bewertungen;
 	}

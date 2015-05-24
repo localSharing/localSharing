@@ -143,7 +143,8 @@ public class BenutzerServiceImpl implements BenutzerService {
 		return benutzerDTO_TO_Benutzer(benutzerDTO);
 	}
 
-	private Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
+	@Override
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
 
 		Benutzer benutzer = findById(benutzerDTO.getId());
 
