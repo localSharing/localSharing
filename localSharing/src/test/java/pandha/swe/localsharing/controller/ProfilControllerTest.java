@@ -21,6 +21,7 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.internal.verification.VerificationModeFactory;
@@ -121,8 +122,10 @@ public class ProfilControllerTest {
 		when(bewertungService.findAllByEmpfaengerId(Long.valueOf(203)))
 				.thenReturn(new ArrayList<Bewertung>());
 
-		when(bewertungService.list_Bewertung_TO_BewertungDTO(any()))
-				.thenReturn(new ArrayList<BewertungDTO>());
+		when(
+				bewertungService.list_Bewertung_TO_BewertungDTO(Matchers
+						.anyListOf(Bewertung.class))).thenReturn(
+				new ArrayList<BewertungDTO>());
 	}
 
 	@Test
