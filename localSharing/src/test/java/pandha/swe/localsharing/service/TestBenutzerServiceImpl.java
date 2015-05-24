@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.security.Principal;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -18,17 +19,20 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
+import pandha.swe.localsharing.model.dao.AngebotsDAO;
 import pandha.swe.localsharing.model.dao.AusleihartikelDAO;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
 import pandha.swe.localsharing.model.dao.HilfeleistungDAO;
@@ -59,6 +63,9 @@ public class TestBenutzerServiceImpl {
 
 	@Mock
 	private HilfeleistungDAO hilfeleistungDao;
+
+	@Mock
+	private HashMap<String, AngebotsDAO<?>> angebotDAOs;
 
 	@Before
 	public void setUp() throws Exception {
@@ -399,6 +406,13 @@ public class TestBenutzerServiceImpl {
 		Hilfeleistung h = new Hilfeleistung();
 		h.setBenutzer(benutzer);
 
+		Mockito.<AngebotsDAO<? extends Angebot>> when(
+				angebotDAOs.get("ausleihen")).thenReturn(ausleihartikelDao);
+		Mockito.<AngebotsDAO<? extends Angebot>> when(
+				angebotDAOs.get("tauschen")).thenReturn(tauschartikelDao);
+		Mockito.<AngebotsDAO<? extends Angebot>> when(angebotDAOs.get("helfen"))
+				.thenReturn(hilfeleistungDao);
+
 		when(ausleihartikelDao.findById(id)).thenReturn(a);
 		when(tauschartikelDao.findById(id)).thenReturn(t);
 		when(hilfeleistungDao.findById(id)).thenReturn(h);
@@ -439,11 +453,6 @@ public class TestBenutzerServiceImpl {
 		Assert.assertFalse(service.hatBenutzerRolle(benutzer, Rollen.ADMIN));
 		Assert.assertFalse(service.hatBenutzerRolle(null, Rollen.USER));
 		Assert.assertFalse(service.hatBenutzerRolle(benutzer, null));
-		
-		Benutzer b = new Benutzer();
-		b.setBenutzerRolle(null);
-		Assert.assertFalse(service.hatBenutzerRolle(b, Rollen.USER));
-		
 
 	}
 }

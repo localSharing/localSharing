@@ -41,7 +41,12 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
-		return angebotDAOs.get(type).findById(id).getBenutzer();
+
+		AngebotsDAO<?> dao = angebotDAOs.get(type);
+		if (dao != null) {
+			return dao.findById(id).getBenutzer();
+		}
+		return null;
 	}
 
 	@Override
@@ -174,7 +179,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 	@Override
 	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle) {
 
-		if (benutzer != null) {
+		if (benutzer != null && rolle != null) {
 			for (BenutzerRolle benutzerRolle : benutzer.getBenutzerRolle()) {
 				if (rolle.equals(benutzerRolle.getRolle())) {
 					return Boolean.TRUE;
