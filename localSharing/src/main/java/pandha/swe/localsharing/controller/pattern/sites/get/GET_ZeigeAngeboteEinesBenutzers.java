@@ -19,7 +19,7 @@ import pandha.swe.localsharing.controller.pattern.sites.ZeigeSeite_Benutzer;
 import pandha.swe.localsharing.model.Benutzer;
 
 @Controller
-public class GET_ZeigeAngeboteEinesBenutzersController extends
+public class GET_ZeigeAngeboteEinesBenutzers extends
 		ZeigeSeite_Benutzer {
 
 	private static final String REQUEST_URL = "/angebote/{id}";

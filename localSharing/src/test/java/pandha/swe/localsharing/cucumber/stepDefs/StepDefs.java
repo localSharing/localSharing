@@ -225,7 +225,7 @@ public class StepDefs {
 
 	@Then("^I can see my profile page$")
 	public void I_can_see_my_profile_page() throws Throwable {
-		method.checkPage("profil");
+		method.checkPage("profil/3");
 	}
 
 	@Then("^I can see my firstname is \"([^\"]*)\" on my profil page$")
