@@ -66,6 +66,15 @@
 									id="startDatum" required="required" />
 							</div>
 						</div>
+						<div th:if="${dauer != null}" class="row">
+							<div class="col-md-4">
+								<strong>Dein Enddatum</strong>
+							</div>
+							<div class="col-md-4">
+								<input type="date" class="form-control" th:field="*{endDatum}" th:value="${anfrage.endDatum}"
+									id="endDatum" required="required" />
+							</div>
+						</div>
 						<br /> <strong>Nachricht an <span
 							th:text="${angebot.benutzer.vorname}"></span></strong>
 						<textarea class="form-control" rows="7" id="kommentar"
