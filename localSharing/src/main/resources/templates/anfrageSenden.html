@@ -24,7 +24,7 @@
 		</h2>
 
 		<form class="form-horizontal"
-			th:action="@{/angebot/{id}/anfragen(id=5)}" th:object="${anfrage}"
+			th:action="${'/angebot/' + angebot.id + '/inquire'}" th:object="${anfrage}"
 			method="post" enctype="multipart/form-data">
 
 			<div class="row">
