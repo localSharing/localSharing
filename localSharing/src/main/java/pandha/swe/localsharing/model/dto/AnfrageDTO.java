@@ -47,6 +47,9 @@ public class AnfrageDTO {
 		this.kontaktArt = kontaktArt;
 	}
 
+	public AnfrageDTO() {
+	}
+
 	public Long getId() {
 		return id;
 	}

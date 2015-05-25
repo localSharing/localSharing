@@ -11,6 +11,7 @@ import pandha.swe.localsharing.model.Anfrage;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dao.AnfrageDAO;
+import pandha.swe.localsharing.model.dao.BenutzerDAO;
 import pandha.swe.localsharing.model.dto.AnfrageDTO;
 import pandha.swe.localsharing.model.enums.AnfrageStatus;
 import pandha.swe.localsharing.util.Datumsumwandler;
@@ -19,22 +20,19 @@ import pandha.swe.localsharing.util.Datumsumwandler;
 public class AnfrageServiceImpl implements AnfrageService {
 
 	@Autowired
-	private AngebotService angebotService;
+	private BenutzerDAO benutzerDao;
 
 	@Autowired
-	private BenutzerService benutzerService;
-
-	@Autowired
-	private AnfrageDAO anfrageDAO;
+	private AnfrageDAO anfrageDao;
 
 	@Override
 	public Anfrage findById(long id) {
-		return anfrageDAO.findById(id);
+		return anfrageDao.findById(id);
 	}
 
 	@Override
 	public List<Anfrage> findAll() {
-		return anfrageDAO.findAll();
+		return anfrageDao.findAll();
 	}
 
 	@Override
@@ -44,42 +42,42 @@ public class AnfrageServiceImpl implements AnfrageService {
 
 	@Override
 	public List<Anfrage> findByAngebot(Angebot angebot) {
-		return anfrageDAO.findAllByAngebot(angebot);
+		return anfrageDao.findAllByAngebot(angebot);
 	}
 
 	@Override
 	public List<Anfrage> findAllBySender(Benutzer sender) {
-		return anfrageDAO.findAllBySender(sender);
+		return anfrageDao.findAllBySender(sender);
 	}
 
 	@Override
 	public List<Anfrage> findAllByEmpfaenger(Benutzer empfaenger) {
-		return anfrageDAO.findAllByEmpfaenger(empfaenger);
+		return anfrageDao.findAllByEmpfaenger(empfaenger);
 	}
 
 	@Override
 	public List<Anfrage> findAllByEmpfaengerId(Long id) {
-		return anfrageDAO.findAllByEmpfaenger(benutzerService.findById(id));
+		return anfrageDao.findAllByEmpfaenger(benutzerDao.findById(id));
 	}
 
 	@Override
 	public void save(Anfrage anfrage) {
-		anfrageDAO.save(anfrage);
+		anfrageDao.save(anfrage);
 	}
 
 	@Override
 	public void update(Anfrage anfrage) {
-		anfrageDAO.update(anfrage);
+		anfrageDao.update(anfrage);
 	}
 
 	@Override
 	public void delete(Anfrage anfrage) {
-		anfrageDAO.delete(anfrage);
+		anfrageDao.delete(anfrage);
 	}
 
 	@Override
 	public void shutdown() {
-		anfrageDAO.shutdown();
+		anfrageDao.shutdown();
 	}
 
 	@Override

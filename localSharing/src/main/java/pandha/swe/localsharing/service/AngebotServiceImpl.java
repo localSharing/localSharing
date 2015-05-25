@@ -11,7 +11,7 @@ import pandha.swe.localsharing.model.dao.TauschartikelDAO;
 
 @Service("angebotService")
 public class AngebotServiceImpl implements AngebotService {
-
+	
 	@Autowired
 	private AusleihartikelDAO ausleihartikelDao;
 
@@ -22,7 +22,7 @@ public class AngebotServiceImpl implements AngebotService {
 	private HilfeleistungDAO hilfeleistungDao;
 
 	@Override
-	public Angebot getAngebotByIdAndType(Long id, String type) {
+	public Angebot findByIdAndType(Long id, String type) {
 		Angebot angebot = null;
 		switch (type) {
 		case StringConstants.AUSLEIHEN:

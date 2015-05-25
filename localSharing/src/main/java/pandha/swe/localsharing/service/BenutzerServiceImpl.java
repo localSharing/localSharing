@@ -29,9 +29,6 @@ public class BenutzerServiceImpl implements BenutzerService {
 	private PasswordEncoder encoder;
 
 	@Autowired
-	private AngebotService angebotService;
-
-	@Autowired
 	private HashMap<String, AngebotsDAO<?>> angebotDAOs;
 
 	@Override
@@ -42,6 +39,12 @@ public class BenutzerServiceImpl implements BenutzerService {
 	@Override
 	public Benutzer findByAngebotsIdAndType(Long id, String type) {
 		return angebotDAOs.get(type).findById(id).getBenutzer();
+	}
+	
+	@Override
+	public Benutzer findByAngebotsId(Long id) {
+		// TODO Implement method
+		return angebotDAOs.get("ausleihen").findById(id).getBenutzer();
 	}
 
 	@Override

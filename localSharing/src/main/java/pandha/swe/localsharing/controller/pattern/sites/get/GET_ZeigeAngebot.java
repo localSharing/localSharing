@@ -77,7 +77,7 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 		if (benutzerGleich) {
 			model.addAttribute("besitzer", true);
 		} else {
-			if (!angebotService.getAngebotByIdAndType(angebotsId, type)
+			if (!angebotService.findByIdAndType(angebotsId, type)
 					.getEnabled()
 					&& !benutzerService.hatBenutzerRolle(anfragenderBenutzer,
 							Rollen.ADMIN)) {
@@ -88,7 +88,7 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 		}
 
 		Angebot angebot = angebotService
-				.getAngebotByIdAndType(angebotsId, type);
+				.findByIdAndType(angebotsId, type);
 		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
 		List<BewertungDTO> bewertungenDTO = bewertungService
 				.list_Bewertung_TO_BewertungDTO(bewertungen);

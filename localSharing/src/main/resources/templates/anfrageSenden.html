@@ -30,7 +30,7 @@
 			<div class="row">
 				<div class="col-md-6">
 					<div class="jumbotron">
-						<strong th:text="${angebot.titel}"></strong>
+						<h4 th:text="${angebot.titel}"></h4>
 
 						<div class="panel panel-success">
 							<div class="panel-heading">Beschreibung</div>
@@ -56,14 +56,14 @@
 				</div>
 				<div class="col-md-6">
 					<div class="jumbotron">
-						<strong>Deine Anfrage</strong>
+						<h4>Deine Anfrage</h4>
 						<div class="row">
-							<div class="col-md-2">
+							<div class="col-md-4">
 								<strong>Dein Startdatum</strong>
 							</div>
 							<div class="col-md-4">
-								<input type="date" class="form-control" th:field="*{startdatum}" th:value="${anfrage.startdatum}"
-									id="startdatum" required="required" />
+								<input type="date" class="form-control" th:field="*{startDatum}" th:value="${anfrage.startDatum}"
+									id="startDatum" required="required" />
 							</div>
 						</div>
 						<br /> <strong>Nachricht an <span
