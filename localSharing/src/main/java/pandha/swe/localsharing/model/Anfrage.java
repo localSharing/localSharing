@@ -63,6 +63,11 @@ public class Anfrage {
 		this.status = status;
 		this.kontaktArt = kontaktArt;
 	}
+	
+
+	public Anfrage() {
+	}
+
 
 	public Long getAnfrageid() {
 		return anfrageid;
