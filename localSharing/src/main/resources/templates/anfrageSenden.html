@@ -62,15 +62,15 @@
 								<strong>Dein Startdatum</strong>
 							</div>
 							<div class="col-md-4">
-								<input type="date" class="form-control" th:field="*{startdatum}"
+								<input type="date" class="form-control" th:field="*{startdatum}" th:value="${anfrage.startdatum}"
 									id="startdatum" required="required" />
 							</div>
 						</div>
 						<br /> <strong>Nachricht an <span
 							th:text="${angebot.benutzer.vorname}"></span></strong>
 						<textarea class="form-control" rows="7" id="kommentar"
-							maxlength="1000" th:field="*{nachricht}"
-							th:value="${anfrage.nachricht}" required="required"></textarea>
+							maxlength="1000" th:field="*{kommentar}"
+							th:value="${anfrage.kommentar}" required="required"></textarea>
 						<p>
 							<small>Maximal 1000 Zeichen</small>
 						</p>
