@@ -1,59 +1,42 @@
-package pandha.swe.localsharing.model;
+package pandha.swe.localsharing.model.dto;
 
 import java.util.Date;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
+import pandha.swe.localsharing.model.Angebot;
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.enums.AnfrageStatus;
 import pandha.swe.localsharing.model.enums.Kontaktart;
 
-@Entity
-@Table(name = "ANFRAGE")
-public class Anfrage {
+public class AnfrageDTO {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "anfrageID")
-	private Long anfrageid;
+	private Long id;
 
-	@OneToOne
 	private Angebot angebot;
 
-	@OneToOne
 	private Benutzer sender;
 
-	@Column(name = "DATUM")
 	private Date datum;
 
-	@Column(name = "STARTDATUM")
-	private Date startDatum;
+	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
+	private String startDatum;
 
-	@Column(name = "ENDDATUM")
-	private Date endDatum;
+	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
+	private String endDatum;
 
-	@Column(name = "KOMMENTAR")
+	@Size(max = 1000)
 	private String kommentar;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "ANFRAGESTATUS")
 	private AnfrageStatus status;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "KONTAKT")
 	private Kontaktart kontaktArt;
 
-	public Anfrage(Long anfrageid, Angebot angebot, Benutzer sender,
-			Date datum, Date startDatum, Date endDatum, String kommentar,
+	public AnfrageDTO(Long id, Angebot angebot, Benutzer sender, Date datum,
+			String startDatum, String endDatum, String kommentar,
 			AnfrageStatus status, Kontaktart kontaktArt) {
-		this.anfrageid = anfrageid;
+		this.id = id;
 		this.angebot = angebot;
 		this.sender = sender;
 		this.datum = datum;
@@ -64,12 +47,12 @@ public class Anfrage {
 		this.kontaktArt = kontaktArt;
 	}
 
-	public Long getAnfrageid() {
-		return anfrageid;
+	public Long getId() {
+		return id;
 	}
 
-	public void setAnfrageid(Long anfrageid) {
-		this.anfrageid = anfrageid;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
 	public Angebot getAngebot() {
@@ -96,19 +79,19 @@ public class Anfrage {
 		this.datum = datum;
 	}
 
-	public Date getStartDatum() {
+	public String getStartDatum() {
 		return startDatum;
 	}
 
-	public void setStartDatum(Date startDatum) {
+	public void setStartDatum(String startDatum) {
 		this.startDatum = startDatum;
 	}
 
-	public Date getEndDatum() {
+	public String getEndDatum() {
 		return endDatum;
 	}
 
-	public void setEndDatum(Date endDatum) {
+	public void setEndDatum(String endDatum) {
 		this.endDatum = endDatum;
 	}
 
@@ -138,11 +121,10 @@ public class Anfrage {
 
 	@Override
 	public String toString() {
-		return "Anfrage [anfrageid=" + anfrageid + ", angebot=" + angebot
-				+ ", sender=" + sender + ", datum=" + datum + ", startDatum="
-				+ startDatum + ", endDatum=" + endDatum + ", kommentar="
-				+ kommentar + ", status=" + status + ", kontaktArt="
-				+ kontaktArt + "]";
+		return "AnfrageDTO [id=" + id + ", angebot=" + angebot + ", sender="
+				+ sender + ", datum=" + datum + ", startDatum=" + startDatum
+				+ ", endDatum=" + endDatum + ", kommentar=" + kommentar
+				+ ", status=" + status + ", kontaktArt=" + kontaktArt + "]";
 	}
 
 }

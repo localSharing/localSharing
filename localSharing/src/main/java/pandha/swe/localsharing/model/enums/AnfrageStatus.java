@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.model;
+package pandha.swe.localsharing.model.enums;
 
 public enum AnfrageStatus {
 	
