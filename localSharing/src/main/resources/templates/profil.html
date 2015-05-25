@@ -145,10 +145,21 @@
 						<li th:each="bewertung : ${bewertungen}" class="list-group-item">
 							<div class="row">
 								<div class="col-md-4">
-									<input id="bewertungSterne" type="number" class="rating"
-										min='1' max='3' step='1' data-min="0" data-max="3"
-										data-step="1" data-size="xs" data-readonly="true"
-										data-stars='3' th:value="${bewertung.bewertungSterne}" />
+									<div>
+										<span th:if="${bewertung.bewertungSterne > 0}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 0}"
+											class="glyphicon glyphicon-star-empty"></span> <span
+											th:if="${bewertung.bewertungSterne > 1}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 1}"
+											class="glyphicon glyphicon-star-empty"></span> <span
+											th:if="${bewertung.bewertungSterne > 2}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 2}"
+											class="glyphicon glyphicon-star-empty"></span>
+									</div>
+									<br/>
 
 									<div
 										th:onclick="${'window.location.href='+'''/profil/' + bewertung.bewerter.id +''';'}">
@@ -159,19 +170,10 @@
 									</div>
 								</div>
 								<div class="col-md-8">
-									<div th:text="${bewertung.datum}"></div>
-									<!-- <div th:if="${dauer != null}" th:onclick="${'window.location.href='+'''../../angebot/' + bewertung.angebot.id + '/ausleihen' +''';'}">
-						<span class="glyphicon glyphicon-arrow-right">Zum Angebot:</span>
-						<span th:text="${bewertung.angebot.titel}"></span>
-					</div>
-					<div th:if="${endDatum == null}" th:onclick="${'window.location.href='+'''../../angebot/' + bewertung.angebot.id + '/tauschen' +''';'}">
-						<span class="glyphicon glyphicon-arrow-right">Zum Angebot:</span>
-						<span th:text="${bewertung.angebot.titel}"></span>
-					</div>
-					<div th:if="${kategorie == null}" th:onclick="${'window.location.href='+'''../../angebot/' + bewertung.angebot.id + '/helfen' +''';'}">
-						<span class="glyphicon glyphicon-arrow-right">Zum Angebot:</span>
-						<span th:text="${bewertung.angebot.titel}"></span>
-					</div> -->
+									<div th:text="${bewertung.datum}"></div><br/>
+									<div th:onclick="${'window.location.href='+'''/angebot/' + bewertung.angebot.angebotsid + '/ausleihen' +''';'}">
+										<span class="glyphicon glyphicon-arrow-right"></span> Zum Angebot: <span th:text="${bewertung.angebot.titel}"></span>
+									</div>
 								</div>
 							</div> <br />
 							<div th:text="${bewertung.kommentar}"></div>
