@@ -2,6 +2,7 @@ package pandha.swe.localsharing.controller;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.Valid;
 
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import pandha.swe.localsharing.model.Anfrage;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
@@ -42,15 +44,23 @@ public class AnfrageController {
 	@Autowired
 	private AngebotService angebotService2;
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/anfragen/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/anfragen")
 	public String showInquiries(
 			Model model,
-			Principal principal,
-			@PathVariable("id") String userid) {
+			Principal principal) {
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		
-		// TODO Implement method to open page on which all inquiries are shown
+		List<Anfrage> gesendeteAnfragen = anfrageSerivce.findAllByEmpfaenger(user);
+		List<AnfrageDTO> gesendeteAnfragenDTO = anfrageSerivce.list_Anfrage_TO_AnfrageDTO(gesendeteAnfragen);
 		
-		return "alleAnfragen";
+		model.addAttribute("anfragenListG", gesendeteAnfragenDTO);
+		
+		List<Anfrage> empfangeneAnfragen = anfrageSerivce.findAllBySender(user);
+		List<AnfrageDTO> empfangeneAnfragenDTO = anfrageSerivce.list_Anfrage_TO_AnfrageDTO(empfangeneAnfragen);
+		
+		model.addAttribute("anfragenListG", empfangeneAnfragenDTO);
+		
+		return "anfragen";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{id}/inquire")
@@ -78,46 +88,6 @@ public class AnfrageController {
 		
 		return "anfrageSenden";
 	}
-	
-//	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{id}/rate")
-//	public String bewerteAngebot(Principal principal, Model model,
-//			@PathVariable("id") String id) {
-//
-//		Angebot angebot = angebotService.findAngebotById(Long.valueOf(id));
-//		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
-//
-//		Benutzer user = benutzerService.getUserByPrincipal(principal);
-//		Benutzer angebotsersteller = angebotDTO.getBenutzer();
-//		if (user.getId().equals(angebotsersteller.getId())) {
-//			return "redirect:../" + id + "/ausleihen";
-//		}
-//
-//		BewertungDTO bewertung = new BewertungDTO();
-//
-//		model.addAttribute("bewertung", bewertung);
-//		model.addAttribute("angebot", angebotDTO);
-//
-//		return "bewerten";
-//	}
-//
-//	@RequestMapping(method = RequestMethod.POST, value = "/angebot/{id}/rate")
-//	public String saveRating(Principal principal,
-//			@PathVariable("id") String id,
-//			@ModelAttribute("bewertung") @Valid BewertungDTO bewertungDTO) {
-//
-//		bewertungDTO.setDatum(new Date(System.currentTimeMillis()));
-//
-//		Benutzer user = benutzerService.getUserByPrincipal(principal);
-//		bewertungDTO.setBewerter(user);
-//
-//		Angebot angebot = angebotService.findAngebotById(Long.valueOf(id));
-//		bewertungDTO.setAngebot(angebot);
-//
-//		bewertungService.createBewertung(bewertungDTO);
-//		// TODO Redirect nur durch Angebotsid ('ausleihen' löschen)
-//		return "redirect:../" + id + "/ausleihen";
-//	}
-
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/angebot/{id}/inquire")
 	public String submitInquiry(
