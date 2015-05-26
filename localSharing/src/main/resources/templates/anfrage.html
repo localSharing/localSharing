@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+<title>Anfrage senden</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div class="container">
+
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+
+		<h2 th:if="{gesendet}">
+			Anfrage an <span th:text="${angebot.benutzer.vorname}"></span>
+		</h2>
+		<h2 th:gesendet="${gesendet}">
+			Anfrage von <span th:text="${anfrage.sender.vorname}"></span>
+		</h2>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="jumbotron">
+					<h4 th:text="${angebot.titel}"></h4>
+
+					<div class="panel panel-success">
+						<div class="panel-heading">Beschreibung</div>
+						<div class="panel-body">
+							<span th:text="${angebot.beschreibung}"></span>
+						</div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">Bedingungen</div>
+						<div class="panel-body">
+							<strong>Startdatum: </strong><span
+								th:text="${angebot.startDatum}"></span>
+							<div th:if="${endDatum != null}">
+								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
+							</div>
+							<div th:if="${dauer != null}">
+								<br /> <strong>Maximale Ausleihdauer: </strong><span
+									th:text="${angebot.dauer}"></span> Tag(e)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="jumbotron">
+					<h4 th:if="${gesendet}">Deine Anfrage</h4>
+					<h4 th:unless="${gesendet}">
+						<span th:text="${sendername}"></span> Anfrage
+					</h4>
+					<div class="row">
+						<div class="col-md-4">
+							<strong>Startdatum</strong>
+						</div>
+						<div class="col-md-4">
+							<span th:text="${anfrage.startDatum}"></span>
+						</div>
+					</div>
+					<div th:if="${dauer != null}" class="row">
+						<div class="col-md-4">
+							<strong>Enddatum</strong>
+						</div>
+						<div class="col-md-4">
+							<span th:text="${anfrage.endDatum}"></span>
+						</div>
+					</div>
+					<br />
+					<strong th:if="${gesendet}">Nachricht an 
+						<span th:text="${angebot.benutzer.vorname}"></span>
+					</strong>
+					<strong th:unless="${gesendet}">Nachricht von
+						<span th:text="${anfrage.sender.vorname}"></span>
+					</strong>
+					<div th:text="${anfrage.kommentar}"></div>
+				</div>
+				<div th:unless="{gesendet}">
+					<div class="col-md-4">
+						<form th:action="${'../inquiry/' + anfrage.id + '/accept'}"
+							method="get">
+							<button id="btnAccept" class="btn btn-success">
+								<span class="glyphicon glyphicon-ok"></span> Annehmen
+							</button>
+						</form>
+					</div>
+					<div class="col-md-4">
+						<form th:action="${'../inquiry/' + anfrage.id + '/decline'}"
+							method="get">
+							<button id="btnDecline" class="btn btn-danger">
+								<span class="glyphicon glyphicon-ok"></span> Ablehnen
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>
