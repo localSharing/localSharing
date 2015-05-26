@@ -1,5 +1,7 @@
 package pandha.swe.localsharing.controller;
 
+import static pandha.swe.localsharing.util.VornamenWandler.erzeugeVornameFuerAngebotsseite;
+
 import java.security.Principal;
 import java.util.Date;
 import java.util.List;
@@ -19,6 +21,7 @@ import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.dto.AnfrageDTO;
+import pandha.swe.localsharing.model.dto.AngebotDTO;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
 import pandha.swe.localsharing.model.enums.AnfrageStatus;
 import pandha.swe.localsharing.service.AnfrageService;
@@ -113,16 +116,98 @@ public class AnfrageController {
 		return "redirect:../" + angebotsid + "/ausleihen";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{angbotsid}/inquire/{inquiryid}")
+	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{angebotsid}/inquiry/{inquiryid}")
 	public String showInquiry(
 			Model model,
 			Principal principal,
 			@PathVariable("angebotsid") String angebotsid,
 			@PathVariable("inquiryid") String inquiryid) {
 		
-		// TODO Implement method to open page "Angebot senden"
+		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(inquiryid));
+		Angebot angebot = anfrage.getAngebot();
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		
+		Boolean principalIstAnfrageEmpfaenger = 
+				benutzerService.sindDieBenutzerGleich(
+						user,
+						angebot.getBenutzer());
+		Boolean principalIstAnfrageSender = 
+				benutzerService.sindDieBenutzerGleich(
+						user,
+						angebot.getBenutzer());
+		
+		if (! (principalIstAnfrageEmpfaenger || principalIstAnfrageSender)) {
+			return "redirect:../../anfragen";
+		}
+		
+		AnfrageDTO anfrageDTO = anfrageSerivce.anfrage_TO_AnfrageDTO(anfrage);
+		model.addAttribute("anfrage", anfrageDTO);
+		// TODO AngebotDTO übergeben
+		AngebotDTO angebotDTO = null;
+		model.addAttribute("angbeot", angebotDTO);
+		
+		if (principalIstAnfrageSender) {
+			model.addAttribute("gesendet",  true);
+		} else {
+			model.addAttribute("gesendet",  false);
+			model.addAttribute("sendername",  erzeugeVornameFuerAngebotsseite(anfrage.getSender().getVorname()));
+		}
 
-		return "anfrageSenden";
+		return "anfrage";
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/inquiry/{id}/accept")
+	public String acceptInquiry(
+			Model model,
+			Principal principal,
+			@PathVariable("id") String id) {
+		
+		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(id));
+		Angebot angebot = anfrage.getAngebot();
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		
+		Boolean principalIstAnfrageEmpfaenger = 
+				benutzerService.sindDieBenutzerGleich(
+						user,
+						angebot.getBenutzer());
+		
+		if (!(AnfrageStatus.offen.equals(anfrage.getStatus()) 
+				&& principalIstAnfrageEmpfaenger)) {
+			return "redirect:../../anfragen";
+		}
+		
+		anfrage.setStatus(AnfrageStatus.angenommen);
+		anfrageSerivce.update(anfrage);
+		
+		
+		return "redirect:../../angebot/" + angebot.getAngebotsid() + "/inquiry/" + id;
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/inquiry/{id}/decline")
+	public String declineInquiry(
+			Model model,
+			Principal principal,
+			@PathVariable("id") String id) {
+		
+		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(id));
+		Angebot angebot = anfrage.getAngebot();
+		Benutzer user = benutzerService.getUserByPrincipal(principal);
+		
+		Boolean principalIstAnfrageEmpfaenger = 
+				benutzerService.sindDieBenutzerGleich(
+						user,
+						angebot.getBenutzer());
+		
+		if (!(AnfrageStatus.offen.equals(anfrage.getStatus()) 
+				&& principalIstAnfrageEmpfaenger)) {
+			return "redirect:../../anfragen";
+		}
+		
+		anfrage.setStatus(AnfrageStatus.abgelehnt);
+		anfrageSerivce.update(anfrage);
+		
+		
+		return "redirect:../../angebot/" + angebot.getAngebotsid() + "/inquiry/" + id;
 	}
 
 }

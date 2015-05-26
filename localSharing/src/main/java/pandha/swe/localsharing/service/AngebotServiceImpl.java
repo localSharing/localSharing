@@ -39,5 +39,5 @@ public class AngebotServiceImpl implements AngebotService {
 		}
 		return angebot;
 	}
-
+	
 }
