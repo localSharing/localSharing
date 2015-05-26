@@ -142,11 +142,11 @@ public class AnfrageController {
 		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
 		model.addAttribute("angebot", angebotDTO);
 		
-		if (principalIstAnfrageSender) {
-			model.addAttribute("gesendet",  true);
-		} else {
-			model.addAttribute("gesendet",  false);
+		if (principalIstAnfrageEmpfaenger) {
+			model.addAttribute("empfangen",  true);
 			model.addAttribute("sendername",  erzeugeVornameFuerAngebotsseite(anfrage.getSender().getVorname()));
+		} else {
+			model.addAttribute("empfangen",  false);
 		}
 
 		return "anfrage";
