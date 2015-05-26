@@ -33,11 +33,17 @@
 				</thead>
 				<tbody>
 				<tr th:each="anfrage : ${anfragenListG}"
-					th:onclick="${'window.location.href='+'''../angebot/' + angebot.id + '/inquire' + anfrage.id +''';'}">
+					th:onclick="${'window.location.href='+'''../angebot/' + anfrage.angebot.angebotsid + '/inquiry/' + anfrage.id +''';'}">
 					<td><span th:text="${anfrage.angebot.titel}"></span></td>
 					<td><span th:text="${anfrage.sender.vorname}"></span></td>
 					<td><span th:text="${anfrage.datum}"></span></td>
-					<td><span th:text="${anfrage.status}"></span></td>
+					<td>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}" class="glyphicon glyphicon-time"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).abgelehnt}" class="glyphicon glyphicon-remove"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).gesperrt}" class="glyphicon glyphicon-lock"></span>
+						<span th:text="${anfrage.status}"></span>
+					</td>
 				</tr>
 				</tbody>
 			</table>
@@ -57,11 +63,17 @@
 				</thead>
 				<tbody>
 				<tr th:each="anfrage : ${anfragenListE}"
-					th:onclick="${'window.location.href='+'''../angebot/' + angebot.id + '/inquire' + anfrage.id +''';'}">
+					th:onclick="${'window.location.href='+'''../angebot/' + anfrage.angebot.angebotsid + '/inquiry/' + anfrage.id +''';'}">
 					<td><span th:text="${anfrage.angebot.titel}"></span></td>
 					<td><span th:text="${anfrage.sender.vorname}"></span></td>
 					<td><span th:text="${anfrage.datum}"></span></td>
-					<td><span th:text="${anfrage.status}"></span></td>
+					<td>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}" class="glyphicon glyphicon-time"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).abgelehnt}" class="glyphicon glyphicon-remove"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).gesperrt}" class="glyphicon glyphicon-lock"></span>
+						<span th:text="${anfrage.status}"></span>
+					</td>
 				</tr>
 				</tbody>
 

@@ -40,12 +40,9 @@ public class AnfrageController {
 	
 	@Autowired
 	private AusleihartikelService ausleihartikelService;
-
-//	@Autowired
-//	private LS_AngebotService<Angebot, AngebotDTO> angebotService;
 	
 	@Autowired
-	private AngebotService angebotService2;
+	private AngebotService angebotService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/anfragen")
 	public String showInquiries(
@@ -53,15 +50,15 @@ public class AnfrageController {
 			Principal principal) {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		
-		List<Anfrage> gesendeteAnfragen = anfrageSerivce.findAllByEmpfaenger(user);
+		List<Anfrage> gesendeteAnfragen = anfrageSerivce.findAllBySender(user);
 		List<AnfrageDTO> gesendeteAnfragenDTO = anfrageSerivce.list_Anfrage_TO_AnfrageDTO(gesendeteAnfragen);
 		
 		model.addAttribute("anfragenListG", gesendeteAnfragenDTO);
 		
-		List<Anfrage> empfangeneAnfragen = anfrageSerivce.findAllBySender(user);
+		List<Anfrage> empfangeneAnfragen = anfrageSerivce.findAllByEmpfaenger(user);
 		List<AnfrageDTO> empfangeneAnfragenDTO = anfrageSerivce.list_Anfrage_TO_AnfrageDTO(empfangeneAnfragen);
 		
-		model.addAttribute("anfragenListG", empfangeneAnfragenDTO);
+		model.addAttribute("anfragenListE", empfangeneAnfragenDTO);
 		
 		return "anfragen";
 	}
@@ -72,6 +69,7 @@ public class AnfrageController {
 			Principal principal,
 			@PathVariable("id") String angebotsid) {
 		
+		// TODO Angebot ermitteln
 //		Angebot angebot = angebotService.findById(Long.valueOf(angebotsid));
 //		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
 		Ausleihartikel angebot = ausleihartikelService.findById(Long.valueOf(angebotsid));
@@ -82,7 +80,7 @@ public class AnfrageController {
 				angebotDTO.getBenutzer());
 		if (benutzerGleich) {
 			// TODO Redirect ohne "ausleihen"
-			return "redirect:../" + angebotsid + "ausleihen";
+			return "redirect:../" + angebotsid + "/ausleihen";
 		}
 		model.addAttribute("angebot", angebotDTO);
 		model.addAttribute("endDatum", angebotDTO.getEndDatum());
@@ -104,8 +102,7 @@ public class AnfrageController {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		anfrageDTO.setSender(user);
 		
-		// TODO Anfrage für richtiges Angebot speichern
-		Angebot angebot = angebotService2.findByIdAndType(Long.valueOf(angebotsid), "ausleihen");
+		Angebot angebot = angebotService.findAngebotById(Long.valueOf(angebotsid));
 		anfrageDTO.setAngebot(angebot);
 		
 		anfrageDTO.setStatus(AnfrageStatus.offen);
@@ -134,17 +131,16 @@ public class AnfrageController {
 		Boolean principalIstAnfrageSender = 
 				benutzerService.sindDieBenutzerGleich(
 						user,
-						angebot.getBenutzer());
+						anfrage.getSender());
 		
 		if (! (principalIstAnfrageEmpfaenger || principalIstAnfrageSender)) {
-			return "redirect:../../anfragen";
+			return "redirect:../../../anfragen";
 		}
 		
 		AnfrageDTO anfrageDTO = anfrageSerivce.anfrage_TO_AnfrageDTO(anfrage);
 		model.addAttribute("anfrage", anfrageDTO);
-		// TODO AngebotDTO übergeben
-		AngebotDTO angebotDTO = null;
-		model.addAttribute("angbeot", angebotDTO);
+		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
+		model.addAttribute("angebot", angebotDTO);
 		
 		if (principalIstAnfrageSender) {
 			model.addAttribute("gesendet",  true);

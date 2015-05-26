@@ -19,12 +19,20 @@
 		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
 		</a>
 
-		<h2 th:if="{gesendet}">
+		<h2 th:if="${gesendet}">
 			Anfrage an <span th:text="${angebot.benutzer.vorname}"></span>
 		</h2>
 		<h2 th:gesendet="${gesendet}">
 			Anfrage von <span th:text="${anfrage.sender.vorname}"></span>
 		</h2>
+		<h3>
+			Status: <span th:text="${anfrage.status}"></span>
+			<!--  th:if="${titel} == 'Deine'" -->
+			<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}" class="glyphicon glyphicon-time"></span>
+			<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}" class="glyphicon glyphicon-ok"></span>
+			<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).abgelehnt}" class="glyphicon glyphicon-remove"></span>
+			<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).gesperrt}" class="glyphicon glyphicon-lock"></span>
+		</h3>
 
 		<div class="row">
 			<div class="col-md-6">
@@ -84,7 +92,7 @@
 					</strong>
 					<div th:text="${anfrage.kommentar}"></div>
 				</div>
-				<div th:unless="{gesendet}">
+				<div th:unless="${gesendet}">
 					<div class="col-md-4">
 						<form th:action="${'../inquiry/' + anfrage.id + '/accept'}"
 							method="get">
@@ -97,7 +105,7 @@
 						<form th:action="${'../inquiry/' + anfrage.id + '/decline'}"
 							method="get">
 							<button id="btnDecline" class="btn btn-danger">
-								<span class="glyphicon glyphicon-ok"></span> Ablehnen
+								<span class="glyphicon glyphicon-remove"></span> Ablehnen
 							</button>
 						</form>
 					</div>
