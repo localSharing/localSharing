@@ -42,12 +42,6 @@ public class BenutzerServiceImpl implements BenutzerService {
 	}
 	
 	@Override
-	public Benutzer findByAngebotsId(Long id) {
-		// TODO Implement method
-		return angebotDAOs.get("ausleihen").findById(id).getBenutzer();
-	}
-
-	@Override
 	public Benutzer getUserByPrincipal(Principal principal) {
 		return findByEmail(principal.getName());
 	}

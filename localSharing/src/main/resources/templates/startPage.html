@@ -37,7 +37,7 @@
 		</form>
 		<br />
 		<form th:action="@{/anfragen}" method="get">
-			<button id="btnAlleAnfragen" type="submit" class="btn btn-success">Anfragen</button>
+			<button id="btnAlleAnfragen" type="submit" class="btn btn-success">Deine Anfragen</button>
 		</form>
 		<br />
 		<form sec:authorize="hasRole('ADMIN')" th:action="@{/angebote/disabled}" method="get">

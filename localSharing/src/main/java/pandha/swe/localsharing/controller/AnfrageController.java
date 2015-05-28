@@ -20,14 +20,20 @@ import pandha.swe.localsharing.model.Anfrage;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.Hilfeleistung;
+import pandha.swe.localsharing.model.Tauschartikel;
 import pandha.swe.localsharing.model.dto.AnfrageDTO;
 import pandha.swe.localsharing.model.dto.AngebotDTO;
 import pandha.swe.localsharing.model.dto.AusleihartikelDTO;
+import pandha.swe.localsharing.model.dto.HilfeleistungDTO;
+import pandha.swe.localsharing.model.dto.TauschartikelDTO;
 import pandha.swe.localsharing.model.enums.AnfrageStatus;
 import pandha.swe.localsharing.service.AnfrageService;
 import pandha.swe.localsharing.service.AngebotService;
 import pandha.swe.localsharing.service.AusleihartikelService;
 import pandha.swe.localsharing.service.BenutzerService;
+import pandha.swe.localsharing.service.HilfeleistungService;
+import pandha.swe.localsharing.service.TauschartikelService;
 
 @Controller
 public class AnfrageController {
@@ -39,10 +45,16 @@ public class AnfrageController {
 	private BenutzerService benutzerService;
 	
 	@Autowired
+	private AngebotService angebotService;
+
+	@Autowired
 	private AusleihartikelService ausleihartikelService;
 	
 	@Autowired
-	private AngebotService angebotService;
+	private TauschartikelService tauschartikelService;
+	
+	@Autowired
+	private HilfeleistungService hilfeleistungService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/anfragen")
 	public String showInquiries(
@@ -69,11 +81,8 @@ public class AnfrageController {
 			Principal principal,
 			@PathVariable("id") String angebotsid) {
 		
-		// TODO Angebot ermitteln
-//		Angebot angebot = angebotService.findById(Long.valueOf(angebotsid));
-//		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
-		Ausleihartikel angebot = ausleihartikelService.findById(Long.valueOf(angebotsid));
-		AusleihartikelDTO angebotDTO = ausleihartikelService.angebot_TO_AngebotDTO(angebot);
+		Angebot angebot = angebotService.findAngebotById(Long.valueOf(angebotsid));
+		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
 
 		Boolean benutzerGleich = benutzerService.sindDieBenutzerGleich(
 				benutzerService.getUserByPrincipal(principal),
@@ -82,10 +91,29 @@ public class AnfrageController {
 			// TODO Redirect ohne "ausleihen"
 			return "redirect:../" + angebotsid + "/ausleihen";
 		}
-		model.addAttribute("angebot", angebotDTO);
-		model.addAttribute("endDatum", angebotDTO.getEndDatum());
-		model.addAttribute("dauer", angebotDTO.getDauer());
+		
 		model.addAttribute("anfrage", new AnfrageDTO());
+
+		if (angebot instanceof Ausleihartikel) {
+			Ausleihartikel ausleihartikel = (Ausleihartikel) angebot;
+			AusleihartikelDTO ausleihartikelDTO = ausleihartikelService.angebot_TO_AngebotDTO(ausleihartikel);
+			model.addAttribute("angebot", ausleihartikelDTO);
+			model.addAttribute("enddatum", true);
+			model.addAttribute("dauer", true);
+		}
+		
+		else if (angebot instanceof Tauschartikel) {
+			Tauschartikel tauschartikel = (Tauschartikel) angebot;
+			TauschartikelDTO tauschartikelDTO = tauschartikelService.angebot_TO_AngebotDTO(tauschartikel);
+			model.addAttribute("angebot", tauschartikelDTO);
+		}
+		
+		else if (angebot instanceof Hilfeleistung) {
+			Hilfeleistung hilfeleistung = (Hilfeleistung) angebot;
+			HilfeleistungDTO hilfeleistungDTO = hilfeleistungService.angebot_TO_AngebotDTO(hilfeleistung);
+			model.addAttribute("angebot", hilfeleistungDTO);
+			model.addAttribute("enddatum", true);
+		}
 		
 		return "anfrageSenden";
 	}
@@ -110,7 +138,8 @@ public class AnfrageController {
 		anfrageSerivce.createAnfrage(anfrageDTO);
 		
 		// TODO Redirect nur über ID (ohne "ausleihen")
-		return "redirect:../" + angebotsid + "/ausleihen";
+//		return "redirect:../" + angebotsid + "/ausleihen";
+		return "redirect:../../anfragen";
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{angebotsid}/inquiry/{inquiryid}")
@@ -139,8 +168,26 @@ public class AnfrageController {
 		
 		AnfrageDTO anfrageDTO = anfrageSerivce.anfrage_TO_AnfrageDTO(anfrage);
 		model.addAttribute("anfrage", anfrageDTO);
-		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
-		model.addAttribute("angebot", angebotDTO);
+		if (angebot instanceof Ausleihartikel) {
+			Ausleihartikel ausleihartikel = (Ausleihartikel) angebot;
+			AusleihartikelDTO ausleihartikelDTO = ausleihartikelService.angebot_TO_AngebotDTO(ausleihartikel);
+			model.addAttribute("angebot", ausleihartikelDTO);
+			model.addAttribute("enddatum", true);
+			model.addAttribute("dauer", true);
+		}
+		
+		else if (angebot instanceof Tauschartikel) {
+			Tauschartikel tauschartikel = (Tauschartikel) angebot;
+			TauschartikelDTO tauschartikelDTO = tauschartikelService.angebot_TO_AngebotDTO(tauschartikel);
+			model.addAttribute("angebot", tauschartikelDTO);
+		}
+		
+		else if (angebot instanceof Hilfeleistung) {
+			Hilfeleistung hilfeleistung = (Hilfeleistung) angebot;
+			HilfeleistungDTO hilfeleistungDTO = hilfeleistungService.angebot_TO_AngebotDTO(hilfeleistung);
+			model.addAttribute("angebot", hilfeleistungDTO);
+			model.addAttribute("enddatum", true);
+		}
 		
 		if (principalIstAnfrageEmpfaenger) {
 			model.addAttribute("empfangen",  true);

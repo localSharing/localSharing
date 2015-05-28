@@ -23,37 +23,36 @@
 			Anfrage an <span th:text="${angebot.benutzer.vorname}"></span>
 		</h2>
 
-		<form class="form-horizontal"
-			th:action="${'/angebot/' + angebot.id + '/inquire'}" th:object="${anfrage}"
-			method="post" enctype="multipart/form-data">
+		<div class="row">
+			<div class="col-md-6">
+				<div class="jumbotron">
+					<h4 th:text="${angebot.titel}"></h4>
 
-			<div class="row">
-				<div class="col-md-6">
-					<div class="jumbotron">
-						<h4 th:text="${angebot.titel}"></h4>
-
-						<div class="panel panel-success">
-							<div class="panel-heading">Beschreibung</div>
-							<div class="panel-body">
-								<span th:text="${angebot.beschreibung}"></span>
-							</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">Beschreibung</div>
+						<div class="panel-body">
+							<span th:text="${angebot.beschreibung}"></span>
 						</div>
-						<div class="panel panel-success">
-							<div class="panel-heading">Bedingungen</div>
-							<div class="panel-body">
-								<strong>Startdatum: </strong><span
-									th:text="${angebot.startDatum}"></span>
-								<div th:if="${endDatum != null}">
-									<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
-								</div>
-								<div th:if="${dauer != null}">
-									<br /> <strong>Maximale Ausleihdauer: </strong><span
-										th:text="${angebot.dauer}"></span> Tag(e)
-								</div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">Bedingungen</div>
+						<div class="panel-body">
+							<strong>Startdatum: </strong><span
+								th:text="${angebot.startDatum}"></span>
+							<div th:if="${enddatum}">
+								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
+							</div>
+							<div th:if="${dauer}">
+								<br /> <strong>Maximale Ausleihdauer: </strong><span
+									th:text="${angebot.dauer}"></span> Tag(e)
 							</div>
 						</div>
 					</div>
 				</div>
+			</div>
+			<form class="form-horizontal"
+				th:action="${'/angebot/' + angebot.id + '/inquire'}"
+				th:object="${anfrage}" method="post" enctype="multipart/form-data">
 				<div class="col-md-6">
 					<div class="jumbotron">
 						<h4>Deine Anfrage</h4>
@@ -61,18 +60,20 @@
 							<div class="col-md-4">
 								<strong>Dein Startdatum</strong>
 							</div>
-							<div class="col-md-4">
-								<input type="date" class="form-control" th:field="*{startDatum}" th:value="${anfrage.startDatum}"
-									id="startDatum" required="required" />
+							<div class="col-md-8">
+								<input type="text" placeholder="TT.MM.JJJJ" class="form-control" th:field="*{startDatum}"
+									th:value="${anfrage.startDatum}" id="startDatum"
+									required="required" />
 							</div>
 						</div>
-						<div th:if="${dauer != null}" class="row">
+						<div th:if="${enddatum}" class="row">
 							<div class="col-md-4">
 								<strong>Dein Enddatum</strong>
 							</div>
-							<div class="col-md-4">
-								<input type="date" class="form-control" th:field="*{endDatum}" th:value="${anfrage.endDatum}"
-									id="endDatum" required="required" />
+							<div class="col-md-8">
+								<input type="text" placeholder="TT.MM.JJJJ" class="form-control" th:field="*{endDatum}"
+									th:value="${anfrage.endDatum}" id="endDatum"
+									required="required" />
 							</div>
 						</div>
 						<br /> <strong>Nachricht an <span
@@ -98,10 +99,8 @@
 						</button>
 					</div>
 				</div>
-			</div>
-
-		</form>
+			</form>
+		</div>
 	</div>
-
 </body>
 </html>

@@ -82,7 +82,7 @@ public class AnfrageServiceImpl implements AnfrageService {
 
 	@Override
 	public void createAnfrage(AnfrageDTO anfrageDTO) {
-
+		
 		Anfrage anfrage = new Anfrage(null, anfrageDTO.getAngebot(),
 				anfrageDTO.getSender(), new Date(),
 				Datumsumwandler.stringToDate(anfrageDTO.getStartDatum()),

@@ -50,10 +50,10 @@
 						<div class="panel-body">
 							<strong>Startdatum: </strong><span
 								th:text="${angebot.startDatum}"></span>
-							<div th:if="${endDatum != null}">
+							<div th:if="${enddatum}">
 								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
 							</div>
-							<div th:if="${dauer != null}">
+							<div th:if="${dauer}">
 								<br /> <strong>Maximale Ausleihdauer: </strong><span
 									th:text="${angebot.dauer}"></span> Tag(e)
 							</div>
@@ -75,7 +75,7 @@
 							<span th:text="${anfrage.startDatum}"></span>
 						</div>
 					</div>
-					<div th:if="${dauer != null}" class="row">
+					<div th:if="${enddatum}" class="row">
 						<div class="col-md-4">
 							<strong>Enddatum</strong>
 						</div>
@@ -89,8 +89,17 @@
 					</strong>
 					<strong th:unless="${empfangen}">Nachricht an 
 						<span th:text="${angebot.benutzer.vorname}"></span>
-					</strong>
+					</strong> am <span th:text="${anfrage.datum}"></span>
 					<div th:text="${anfrage.kommentar}"></div>
+					<div th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}">
+						<strong th:if="${empfangen}">Antwort an
+							<span th:text="${anfrage.sender.vorname}"></span>
+						</strong>
+						<strong th:unless="${empfangen}">Antwort von 
+							<span th:text="${angebot.benutzer.vorname}"></span>
+						</strong> am <span th:text="${anfrage.antwortsdatum}"></span>
+						<div th:text="${anfrage.antwort}"></div>
+					</div>
 				</div>
 				<div th:if="${empfangen and anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}">
 					<div class="col-md-4">

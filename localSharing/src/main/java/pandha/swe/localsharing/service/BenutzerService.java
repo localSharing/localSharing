@@ -15,8 +15,6 @@ public interface BenutzerService {
 
 	public Benutzer findByAngebotsIdAndType(Long id, String type);
 
-	public Benutzer findByAngebotsId(Long id);
-
 	public Benutzer getUserByPrincipal(Principal principal);
 
 	public List<Benutzer> findAll();
