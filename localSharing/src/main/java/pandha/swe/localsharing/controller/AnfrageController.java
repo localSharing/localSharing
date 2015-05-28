@@ -199,13 +199,15 @@ public class AnfrageController {
 		return "anfrage";
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/inquiry/{id}/accept")
+	@RequestMapping(method = RequestMethod.POST, value = "/inquiry/{id}/accept")
 	public String acceptInquiry(
 			Model model,
 			Principal principal,
-			@PathVariable("id") String id) {
+			@PathVariable("id") String id,
+			@ModelAttribute("anfrage") @Valid AnfrageDTO anfrageDTO) {
 		
 		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(id));
+		
 		Angebot angebot = anfrage.getAngebot();
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		
@@ -219,9 +221,11 @@ public class AnfrageController {
 			return "redirect:../../anfragen";
 		}
 		
+		anfrage.setAnnahmeDatum(new Date(System.currentTimeMillis()));
+		anfrage.setAnnahmeKommentar(anfrageDTO.getAnnahmeKommentar());
+		anfrage.setKontaktArt(anfrageDTO.getKontaktArt());
 		anfrage.setStatus(AnfrageStatus.angenommen);
 		anfrageSerivce.update(anfrage);
-		
 		
 		return "redirect:../../angebot/" + angebot.getAngebotsid() + "/inquiry/" + id;
 	}
@@ -232,8 +236,9 @@ public class AnfrageController {
 			Principal principal,
 			@PathVariable("id") String id) {
 		
-		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(id));
-		Angebot angebot = anfrage.getAngebot();
+		Anfrage abgelehnteAnfrage = anfrageSerivce.findById(Long.valueOf(id));
+		
+		Angebot angebot = abgelehnteAnfrage.getAngebot();
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		
 		Boolean principalIstAnfrageEmpfaenger = 
@@ -241,14 +246,14 @@ public class AnfrageController {
 						user,
 						angebot.getBenutzer());
 		
-		if (!(AnfrageStatus.offen.equals(anfrage.getStatus()) 
+		if (!(AnfrageStatus.offen.equals(abgelehnteAnfrage.getStatus()) 
 				&& principalIstAnfrageEmpfaenger)) {
 			return "redirect:../../anfragen";
 		}
 		
-		anfrage.setStatus(AnfrageStatus.abgelehnt);
-		anfrageSerivce.update(anfrage);
-		
+		abgelehnteAnfrage.setAnnahmeDatum(new Date(System.currentTimeMillis()));
+		abgelehnteAnfrage.setStatus(AnfrageStatus.abgelehnt);
+		anfrageSerivce.update(abgelehnteAnfrage);
 		
 		return "redirect:../../angebot/" + angebot.getAngebotsid() + "/inquiry/" + id;
 	}
