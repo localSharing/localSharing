@@ -49,10 +49,17 @@ public class Anfrage {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "KONTAKT")
 	private Kontaktart kontaktArt;
+	
+	@Column(name = "ANNAHMEKOMMENTAR")
+	private String annahmeKommentar;
+	
+	@Column(name = "ANNAHMEDATUM")
+	private Date annahmeDatum;
 
 	public Anfrage(Long anfrageid, Angebot angebot, Benutzer sender,
 			Date datum, Date startDatum, Date endDatum, String kommentar,
-			AnfrageStatus status, Kontaktart kontaktArt) {
+			AnfrageStatus status, Kontaktart kontaktArt,
+			String annahmeKommentar, Date annahmeDatum) {
 		this.anfrageid = anfrageid;
 		this.angebot = angebot;
 		this.sender = sender;
@@ -62,8 +69,10 @@ public class Anfrage {
 		this.kommentar = kommentar;
 		this.status = status;
 		this.kontaktArt = kontaktArt;
+		this.annahmeKommentar = annahmeKommentar;
+		this.annahmeDatum = annahmeDatum;
 	}
-	
+
 
 	public Anfrage() {
 	}
@@ -141,13 +150,34 @@ public class Anfrage {
 		this.kontaktArt = kontaktArt;
 	}
 
+	public String getAnnahmeKommentar() {
+		return annahmeKommentar;
+	}
+
+
+	public void setAnnahmeKommentar(String annahmeKommentar) {
+		this.annahmeKommentar = annahmeKommentar;
+	}
+
+
+	public Date getAnnahmeDatum() {
+		return annahmeDatum;
+	}
+
+
+	public void setAnnahmeDatum(Date annahmeDatum) {
+		this.annahmeDatum = annahmeDatum;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Anfrage [anfrageid=" + anfrageid + ", angebot=" + angebot
 				+ ", sender=" + sender + ", datum=" + datum + ", startDatum="
 				+ startDatum + ", endDatum=" + endDatum + ", kommentar="
 				+ kommentar + ", status=" + status + ", kontaktArt="
-				+ kontaktArt + "]";
+				+ kontaktArt + ", annahmeKommentar=" + annahmeKommentar
+				+ ", annahmeDatum=" + annahmeDatum + "]";
 	}
 
 }

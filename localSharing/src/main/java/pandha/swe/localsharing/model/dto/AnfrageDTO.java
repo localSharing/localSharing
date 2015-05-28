@@ -33,9 +33,15 @@ public class AnfrageDTO {
 
 	private Kontaktart kontaktArt;
 
+	@Size(max = 1000)
+	private String annahmeKommentar;
+
+	private Date annahmeDatum;
+
 	public AnfrageDTO(Long id, Angebot angebot, Benutzer sender, Date datum,
 			String startDatum, String endDatum, String kommentar,
-			AnfrageStatus status, Kontaktart kontaktArt) {
+			AnfrageStatus status, Kontaktart kontaktArt,
+			String annahmeKommentar, Date annahmeDatum) {
 		this.id = id;
 		this.angebot = angebot;
 		this.sender = sender;
@@ -45,6 +51,8 @@ public class AnfrageDTO {
 		this.kommentar = kommentar;
 		this.status = status;
 		this.kontaktArt = kontaktArt;
+		this.annahmeKommentar = annahmeKommentar;
+		this.annahmeDatum = annahmeDatum;
 	}
 
 	public AnfrageDTO() {
@@ -122,12 +130,30 @@ public class AnfrageDTO {
 		this.kontaktArt = kontaktArt;
 	}
 
+	public String getAnnahmeKommentar() {
+		return annahmeKommentar;
+	}
+
+	public void setAnnahmeKommentar(String annahmeKommentar) {
+		this.annahmeKommentar = annahmeKommentar;
+	}
+
+	public Date getAnnahmeDatum() {
+		return annahmeDatum;
+	}
+
+	public void setAnnahmeDatum(Date annahmeDatum) {
+		this.annahmeDatum = annahmeDatum;
+	}
+
 	@Override
 	public String toString() {
 		return "AnfrageDTO [id=" + id + ", angebot=" + angebot + ", sender="
 				+ sender + ", datum=" + datum + ", startDatum=" + startDatum
 				+ ", endDatum=" + endDatum + ", kommentar=" + kommentar
-				+ ", status=" + status + ", kontaktArt=" + kontaktArt + "]";
+				+ ", status=" + status + ", kontaktArt=" + kontaktArt
+				+ ", annahmeKommentar=" + annahmeKommentar + ", annahmeDatum="
+				+ annahmeDatum + "]";
 	}
 
 }

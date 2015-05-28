@@ -82,13 +82,14 @@ public class AnfrageServiceImpl implements AnfrageService {
 
 	@Override
 	public void createAnfrage(AnfrageDTO anfrageDTO) {
-		
+
 		Anfrage anfrage = new Anfrage(null, anfrageDTO.getAngebot(),
 				anfrageDTO.getSender(), new Date(),
 				Datumsumwandler.stringToDate(anfrageDTO.getStartDatum()),
 				Datumsumwandler.stringToDate(anfrageDTO.getEndDatum()),
 				anfrageDTO.getKommentar(), AnfrageStatus.offen,
-				anfrageDTO.getKontaktArt());
+				anfrageDTO.getKontaktArt(), anfrageDTO.getAnnahmeKommentar(),
+				null);
 
 		save(anfrage);
 	}
@@ -108,6 +109,8 @@ public class AnfrageServiceImpl implements AnfrageService {
 		anfrage.setKommentar(anfrageDTO.getKommentar());
 		anfrage.setStatus(anfrageDTO.getStatus());
 		anfrage.setKontaktArt(anfrageDTO.getKontaktArt());
+		anfrage.setAnnahmeKommentar(anfrageDTO.getAnnahmeKommentar());
+		anfrage.setAnnahmeDatum(anfrageDTO.getAnnahmeDatum());
 
 		return anfrage;
 	}
@@ -120,7 +123,8 @@ public class AnfrageServiceImpl implements AnfrageService {
 				Datumsumwandler.dateToString(anfrage.getStartDatum()),
 				Datumsumwandler.dateToString(anfrage.getEndDatum()),
 				anfrage.getKommentar(), anfrage.getStatus(),
-				anfrage.getKontaktArt());
+				anfrage.getKontaktArt(), anfrage.getAnnahmeKommentar(),
+				anfrage.getAnnahmeDatum());
 
 		return anfrageDTO;
 	}
