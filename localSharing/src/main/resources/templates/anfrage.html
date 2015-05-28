@@ -90,15 +90,18 @@
 					<strong th:unless="${empfangen}">Nachricht an 
 						<span th:text="${angebot.benutzer.vorname}"></span>
 					</strong> am <span th:text="${anfrage.datum}"></span>
-					<div th:text="${anfrage.kommentar}"></div>
+					<div th:text="${anfrage.kommentar}"></div><br/>
 					<div th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}">
 						<strong th:if="${empfangen}">Antwort an
 							<span th:text="${anfrage.sender.vorname}"></span>
 						</strong>
 						<strong th:unless="${empfangen}">Antwort von 
 							<span th:text="${angebot.benutzer.vorname}"></span>
-						</strong> am <span th:text="${anfrage.antwortsdatum}"></span>
-						<div th:text="${anfrage.antwort}"></div>
+						</strong> am <span th:text="${anfrage.annahmeDatum}"></span>
+						<div th:text="${anfrage.annahmeKommentar}"></div><br/>
+						<strong>Kontakt: </strong>
+						<span th:if="${anfrage.kontaktArt == T(pandha.swe.localsharing.model.enums.Kontaktart).telefon}" th:text="${anfrage.angebot.benutzer.telefonNr}"></span>
+						<span th:if="${anfrage.kontaktArt == T(pandha.swe.localsharing.model.enums.Kontaktart).email}" th:text="${anfrage.angebot.benutzer.email}"></span>
 					</div>
 				</div>
 				<div th:if="${empfangen and anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}">
