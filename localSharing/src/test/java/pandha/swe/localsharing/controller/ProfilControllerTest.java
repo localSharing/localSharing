@@ -249,4 +249,154 @@ public class ProfilControllerTest {
 				eq(benutzer), any(MultipartFile.class));
 	}
 
+	@Test
+	public void testDisableBenutzerNoAdmin() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.FALSE);
+
+		when(benutzerService.findById(42l)).thenReturn(benutzer);
+
+		mockMvc.perform(get("/disable/user/42").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../profil/42"));
+
+	}
+
+	@Test
+	public void testDisableBenutzerAdmin() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.TRUE);
+		when(benutzerService.findById(42l)).thenReturn(benutzer);
+
+		mockMvc.perform(get("/disable/user/42").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../profil/42"));
+
+	}
+
+	@Test
+	public void testDisableBenutzerNotExists() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.TRUE);
+
+		mockMvc.perform(get("/disable/user/42").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../startPage"));
+
+	}
+
+	@Test
+	public void testEnableBenutzerNoAdmin() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.FALSE);
+
+		when(benutzerService.findById(42l)).thenReturn(benutzer);
+
+		mockMvc.perform(get("/enable/user/42").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../profil/42"));
+
+	}
+
+	@Test
+	public void testEnableBenutzerAdmin() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.TRUE);
+		when(benutzerService.findById(42l)).thenReturn(benutzer);
+
+		mockMvc.perform(get("/enable/user/42").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../profil/42"));
+
+	}
+
+	@Test
+	public void testEnableBenutzerNotExists() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.TRUE);
+
+		mockMvc.perform(get("/enable/user/42").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../startPage"));
+
+	}
+
+	@Test
+	public void testGetAlleUserNoAdmin() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.FALSE);
+
+		mockMvc.perform(get("/profile").principal(principal))
+				.andExpect(status().isFound())
+				.andExpect(view().name("redirect:../startPage"));
+
+	}
+
+	@Test
+	public void testGetAlleUserAdmin() throws Exception {
+		reset(benutzerService);
+		reset(fileService);
+		initServices();
+
+		when(benutzerService.getUserByPrincipal(principal))
+				.thenReturn(benutzer);
+
+		when(benutzerService.hatBenutzerRolle(benutzer, Rollen.ADMIN))
+				.thenReturn(Boolean.TRUE);
+
+		mockMvc.perform(get("/profile").principal(principal))
+				.andExpect(status().isOk())
+				.andExpect(model().attributeExists("userList"))
+				.andExpect(view().name("profile"));
+
+	}
 }
