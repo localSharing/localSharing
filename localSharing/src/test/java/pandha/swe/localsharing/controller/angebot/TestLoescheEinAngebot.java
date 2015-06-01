@@ -7,41 +7,42 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Before;
 import org.junit.Test;
 
-import pandha.swe.localsharing.controller.angebot.sites.get.GET_AktiviereEinAngebot;
+import pandha.swe.localsharing.controller.angebot.sites.get.GET_LoescheEinAngebot;
 
-public class TestGET_AktiviereEinAngebot extends TestAngebote {
+public class TestLoescheEinAngebot extends TestAngebote {
 
 	@Before
 	public void setUp() throws Exception {
-		initTestsAngebote(new GET_AktiviereEinAngebot());
+		initTestsAngebote(new GET_LoescheEinAngebot());
+
 		resetAndInitAllServices();
 	}
 
 	@Test
-	public void testAktiviereAusleihartikel() throws Exception {
+	public void testLoescheAusleihartikel() throws Exception {
 
-		String url = "/enable/angebot/111/ausleihen";
-		String response = "redirect:../../angebot/111/ausleihen";
-
-		mockMvc.perform(get(url).principal(testUser))
-				.andExpect(status().isFound()).andExpect(view().name(response));
-	}
-
-	@Test
-	public void testAktiviereTauschartikel() throws Exception {
-
-		String url = "/enable/angebot/222/tauschen";
-		String response = "redirect:../../angebot/222/tauschen";
+		String url = "/delete/111/ausleihen";
+		String response = "redirect:/angebote/42";
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));
 	}
 
 	@Test
-	public void testAktiviereHilfeleistung() throws Exception {
+	public void testLoescheTauschartikel() throws Exception {
 
-		String url = "/enable/angebot/333/helfen";
-		String response = "redirect:../../angebot/333/helfen";
+		String url = "/delete/222/tauschen";
+		String response = "redirect:/angebote/42";
+
+		mockMvc.perform(get(url).principal(testUser))
+				.andExpect(status().isFound()).andExpect(view().name(response));
+	}
+
+	@Test
+	public void testLoescheHilfeleistung() throws Exception {
+
+		String url = "/delete/333/helfen";
+		String response = "redirect:/angebote/42";
 
 		mockMvc.perform(get(url).principal(testUser))
 				.andExpect(status().isFound()).andExpect(view().name(response));

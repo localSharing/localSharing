@@ -7,44 +7,45 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.Before;
 import org.junit.Test;
 
-import pandha.swe.localsharing.controller.angebot.sites.get.GET_AktiviereEinAngebot;
+import pandha.swe.localsharing.controller.angebot.sites.get.GET_ZeigeBearbeitenAnsichtAngebot;
 
-public class TestGET_AktiviereEinAngebot extends TestAngebote {
+public class TestGET_ZeigeBearbeitenAnsichtAngebot extends TestAngebote {
 
 	@Before
 	public void setUp() throws Exception {
-		initTestsAngebote(new GET_AktiviereEinAngebot());
+		initTestsAngebote(new GET_ZeigeBearbeitenAnsichtAngebot());
+
 		resetAndInitAllServices();
 	}
 
 	@Test
 	public void testAktiviereAusleihartikel() throws Exception {
 
-		String url = "/enable/angebot/111/ausleihen";
-		String response = "redirect:../../angebot/111/ausleihen";
+		String url = "/angebotEdit/111/ausleihen";
+		String response = "angebotEdit";
 
 		mockMvc.perform(get(url).principal(testUser))
-				.andExpect(status().isFound()).andExpect(view().name(response));
+				.andExpect(status().isOk()).andExpect(view().name(response));
 	}
 
 	@Test
 	public void testAktiviereTauschartikel() throws Exception {
 
-		String url = "/enable/angebot/222/tauschen";
-		String response = "redirect:../../angebot/222/tauschen";
+		String url = "/angebotEdit/222/tauschen";
+		String response = "angebotEdit";
 
 		mockMvc.perform(get(url).principal(testUser))
-				.andExpect(status().isFound()).andExpect(view().name(response));
+				.andExpect(status().isOk()).andExpect(view().name(response));
 	}
 
 	@Test
 	public void testAktiviereHilfeleistung() throws Exception {
 
-		String url = "/enable/angebot/333/helfen";
-		String response = "redirect:../../angebot/333/helfen";
+		String url = "/angebotEdit/333/helfen";
+		String response = "angebotEdit";
 
 		mockMvc.perform(get(url).principal(testUser))
-				.andExpect(status().isFound()).andExpect(view().name(response));
+				.andExpect(status().isOk()).andExpect(view().name(response));
 	}
 
 }

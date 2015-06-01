@@ -57,7 +57,7 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 		} else if (angebot instanceof Tauschartikel) {
 			return "redirect:/angebot/" + angebotsId + "/tauschen";
 		} else if (angebot instanceof Hilfeleistung) {
-			return "redirect:/angebot/" + angebotsId + "/tauschen";
+			return "redirect:/angebot/" + angebotsId + "/helfen";
 		}
 
 		return "redirect:/angebote";

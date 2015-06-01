@@ -6,6 +6,7 @@ import static org.mockito.Mockito.when;
 
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.mockito.InjectMocks;
@@ -16,7 +17,18 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import pandha.swe.localsharing.controller.angebot.backend.ErlaubeAnfrageVonAdmin;
+import pandha.swe.localsharing.controller.angebot.backend.ErlaubeAnfrageVonBesitzer;
+import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleAktiviertenAngebote;
+import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleAngeboteEinesBenutzers;
+import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleDeaktiviertenAngebote;
+import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleEigenenAngebote;
+import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeEinAngebot;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeEinAngebotDTO;
+import pandha.swe.localsharing.controller.angebot.backend.holedaten.NeuesAngebot;
+import pandha.swe.localsharing.controller.angebot.backend.speichereDaten.B_AktiviereEinAngebot;
+import pandha.swe.localsharing.controller.angebot.backend.speichereDaten.B_DeaktiviereEinAngebot;
+import pandha.swe.localsharing.controller.angebot.backend.speichereDaten.LoescheEinAngebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Hilfeleistung;
@@ -56,10 +68,42 @@ public class TestAngebote {
 	protected AngebotService angebotService;
 
 	@Mock
-	protected LadeEinAngebotDTO ladeEinAngebot;
+	protected LadeEinAngebotDTO ladeEinAngebotDTO;
+
+	@Mock
+	protected LadeEinAngebot ladeEinAngebot;
 
 	@Mock
 	protected BewertungService bewertungService;
+
+	@Mock
+	protected ErlaubeAnfrageVonAdmin erlaubeAnfrageVonAdmin;
+
+	@Mock
+	protected ErlaubeAnfrageVonBesitzer erlaubeAnfrageVonBesitzer;
+
+	@Mock
+	protected LoescheEinAngebot loeescheEinAngebot;
+
+	@Mock
+	protected B_AktiviereEinAngebot bAktiviereEinAngebot;
+
+	@Mock
+	protected B_DeaktiviereEinAngebot b_DeaktiviereEinAngebot;
+
+	@Mock
+	private LadeAlleEigenenAngebote eigeneAngebote;
+
+	@Mock
+	private LadeAlleAngeboteEinesBenutzers alleAngebote;
+
+	@Mock
+	protected NeuesAngebot neuesAngebot;
+
+	@Mock
+	protected LadeAlleDeaktiviertenAngebote ladeAlleDeaktiviertenAngebote;
+	@Mock
+	protected LadeAlleAktiviertenAngebote ladeAlleAktiviertenAngebote;
 
 	protected Principal testUser;
 
@@ -130,6 +174,7 @@ public class TestAngebote {
 		ausleihartikel.setAngebotsid(new Long(111));
 		ausleihartikel.setTitel("Ich teste deinen Code");
 		ausleihartikel.setBenutzer(benutzer);
+		ausleihartikel.setEnabled(Boolean.TRUE);
 
 		when(ausleihartikelService.findById(ausleihartikel.getAngebotsid()))
 				.thenReturn(ausleihartikel);
@@ -171,6 +216,7 @@ public class TestAngebote {
 		tauschartikel.setAngebotsid(new Long(222));
 		tauschartikel.setTitel("Ich teste deinen Code");
 		tauschartikel.setBenutzer(benutzer);
+		tauschartikel.setEnabled(Boolean.TRUE);
 
 		when(tauschartikelService.findById(new Long(222))).thenReturn(
 				tauschartikel);
@@ -211,6 +257,7 @@ public class TestAngebote {
 		hilfeleistung.setAngebotsid(new Long(333));
 		hilfeleistung.setTitel("Ich teste deinen Code");
 		hilfeleistung.setBenutzer(benutzer);
+		hilfeleistung.setEnabled(Boolean.TRUE);
 
 		when(hilfeleistungService.findById(new Long(333))).thenReturn(
 				hilfeleistung);
@@ -237,6 +284,9 @@ public class TestAngebote {
 
 		when(hilfeleistungService.findById(new Long(334))).thenReturn(null);
 
+		when(hilfeleistungService.findById(new Long(333))).thenReturn(
+				hilfeleistung);
+
 		when(hilfeleistungService.createAngebot(any(HilfeleistungDTO.class)))
 				.thenReturn(new Long(333));
 
@@ -251,11 +301,38 @@ public class TestAngebote {
 		initAllServices();
 	}
 
+	private void initAngebotService() {
+		when(angebotService.findAngebotByIdAndType(333l, "helfen")).thenReturn(
+				hilfeleistung);
+
+		when(angebotService.findAngebotByIdAndType(111l, "ausleihen"))
+				.thenReturn(ausleihartikel);
+
+		when(angebotService.findAngebotByIdAndType(222l, "tauschen"))
+				.thenReturn(tauschartikel);
+
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("angebot", ausleihartikel);
+
+		when(ladeEinAngebotDTO.ladeDaten()).thenReturn(map);
+
+		when(erlaubeAnfrageVonAdmin.istAnfrageErlaubt()).thenReturn(
+				Boolean.TRUE);
+
+		when(erlaubeAnfrageVonBesitzer.istAnfrageErlaubt()).thenReturn(
+				Boolean.TRUE);
+
+		map.put("newAngebot", new AusleihartikelDTO());
+		when(neuesAngebot.ladeDaten()).thenReturn(map);
+
+	}
+
 	private void initAllServices() {
 		initBenutzerService();
 		initAusleihartikelService();
 		initHilfService();
 		initTauschartikelService();
+		initAngebotService();
 	}
 
 	private void resetAllServices() {
@@ -263,6 +340,6 @@ public class TestAngebote {
 		reset(ausleihartikelService);
 		reset(tauschartikelService);
 		reset(hilfeleistungService);
+		reset(angebotService);
 	}
-
 }

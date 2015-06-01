@@ -1,5 +1,7 @@
 package pandha.swe.localsharing.controller.angebot.sites;
 
+import java.util.Map;
+
 import org.springframework.ui.Model;
 
 import pandha.swe.localsharing.controller.angebot.backend.IstAnfrageErlaubt;
@@ -16,7 +18,8 @@ public abstract class ZeigeSeite extends LocalSharingControllerTemplate {
 
 	@Override
 	protected void bearbeiteAnfrageIntern() throws GoToErrorViewException {
-		model.addAllAttributes(attribute().ladeDaten());
+		Map<String, Object> daten = attribute().ladeDaten();
+		model.addAllAttributes(daten);
 		setzeWeitereModelAttribute();
 
 		if (model.asMap().containsValue(null)) {

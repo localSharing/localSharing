@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import pandha.swe.localsharing.controller.angebot.sites.get.GET_AktiviereEinAngebot;
 
-public class TestGET_AktiviereEinAngebot extends TestAngebote {
+public class TestGET_ZeigeAlleDeaktiviertenAngebot extends TestAngebote {
 
 	@Before
 	public void setUp() throws Exception {
