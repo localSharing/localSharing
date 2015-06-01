@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.junit.Before;
@@ -118,6 +119,7 @@ public class TestAnfrageController {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	private void initServices() {
 		when(benutzerService.findByEmail(principal.getName())).thenReturn(
 				benutzer);
@@ -128,11 +130,11 @@ public class TestAnfrageController {
 		when(benutzerService.benutzer_TO_BenutzerDTO(benutzer)).thenReturn(dto);
 
 		when(anfrageService.findAllBySender(benutzer)).thenReturn(
-				new ArrayList<>());
+				new ArrayList<Anfrage>());
 		when(anfrageService.findAllByEmpfaenger(benutzer)).thenReturn(
-				new ArrayList<>());
-		when(anfrageService.list_Anfrage_TO_AnfrageDTO(any())).thenReturn(
-				new ArrayList<AnfrageDTO>());
+				new ArrayList<Anfrage>());
+		when(anfrageService.list_Anfrage_TO_AnfrageDTO(any(List.class)))
+				.thenReturn(new ArrayList<AnfrageDTO>());
 
 	}
 
@@ -162,10 +164,12 @@ public class TestAnfrageController {
 		AngebotDTO angebot = new AngebotDTO();
 		angebot.setBenutzer(benutzer);
 
-		when(angebotService.angebot_TO_AngebotDTO(any())).thenReturn(angebot);
+		when(angebotService.angebot_TO_AngebotDTO(any(Angebot.class)))
+				.thenReturn(angebot);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 
 		mockMvc.perform(get("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isFound())
@@ -179,10 +183,12 @@ public class TestAnfrageController {
 		AngebotDTO angebot = new AngebotDTO();
 		angebot.setBenutzer(benutzer);
 
-		when(angebotService.angebot_TO_AngebotDTO(any())).thenReturn(angebot);
+		when(angebotService.angebot_TO_AngebotDTO(any(Angebot.class)))
+				.thenReturn(angebot);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
 
 		mockMvc.perform(get("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isOk())
@@ -198,11 +204,15 @@ public class TestAnfrageController {
 		AusleihartikelDTO angebot = new AusleihartikelDTO();
 		angebot.setBenutzer(benutzer);
 
-		when(ausleihartikelService.angebot_TO_AngebotDTO(any())).thenReturn(
-				angebot);
-		when(angebotService.angebot_TO_AngebotDTO(any())).thenReturn(angebot);
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
+		when(
+				ausleihartikelService
+						.angebot_TO_AngebotDTO(any(Ausleihartikel.class)))
+				.thenReturn(angebot);
+		when(angebotService.angebot_TO_AngebotDTO(any(Angebot.class)))
+				.thenReturn(angebot);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
 
 		mockMvc.perform(get("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isOk())
@@ -218,11 +228,15 @@ public class TestAnfrageController {
 		TauschartikelDTO angebot = new TauschartikelDTO();
 		angebot.setBenutzer(benutzer);
 
-		when(tauschartikelService.angebot_TO_AngebotDTO(any())).thenReturn(
-				angebot);
-		when(angebotService.angebot_TO_AngebotDTO(any())).thenReturn(angebot);
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
+		when(
+				tauschartikelService
+						.angebot_TO_AngebotDTO(any(Tauschartikel.class)))
+				.thenReturn(angebot);
+		when(angebotService.angebot_TO_AngebotDTO(any(Angebot.class)))
+				.thenReturn(angebot);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
 
 		mockMvc.perform(get("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isOk())
@@ -238,12 +252,16 @@ public class TestAnfrageController {
 		HilfeleistungDTO angebot = new HilfeleistungDTO();
 		angebot.setBenutzer(benutzer);
 
-		when(hilfeleistungService.angebot_TO_AngebotDTO(any())).thenReturn(
-				angebot);
+		when(
+				hilfeleistungService
+						.angebot_TO_AngebotDTO(any(Hilfeleistung.class)))
+				.thenReturn(angebot);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
-		when(angebotService.angebot_TO_AngebotDTO(any())).thenReturn(angebot);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
+		when(angebotService.angebot_TO_AngebotDTO(any(Angebot.class)))
+				.thenReturn(angebot);
 		mockMvc.perform(get("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isOk())
 				.andExpect(model().attributeExists("anfrage"))
@@ -257,18 +275,22 @@ public class TestAnfrageController {
 		HilfeleistungDTO angebot = new HilfeleistungDTO();
 		angebot.setBenutzer(benutzer);
 
-		when(hilfeleistungService.angebot_TO_AngebotDTO(any())).thenReturn(
-				angebot);
+		when(
+				hilfeleistungService
+						.angebot_TO_AngebotDTO(any(Hilfeleistung.class)))
+				.thenReturn(angebot);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
-		when(angebotService.angebot_TO_AngebotDTO(any())).thenReturn(angebot);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
+		when(angebotService.angebot_TO_AngebotDTO(any(Angebot.class)))
+				.thenReturn(angebot);
 		mockMvc.perform(post("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(model().attributeExists("anfrage"))
 				.andExpect(view().name("redirect:../../anfragen"));
 
-		verify(anfrageService, times(1)).createAnfrage(any());
+		verify(anfrageService, times(1)).createAnfrage(any(AnfrageDTO.class));
 	}
 
 	@Test
@@ -282,8 +304,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(get("/angebot/111/inquiry/1").principal(principal))
 				.andExpect(status().isOk()).andExpect(view().name("anfrage"));
 
@@ -300,8 +323,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(get("/angebot/111/inquiry/1").principal(principal))
 				.andExpect(status().isOk()).andExpect(view().name("anfrage"));
 
@@ -318,8 +342,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(get("/angebot/111/inquiry/1").principal(principal))
 				.andExpect(status().isOk()).andExpect(view().name("anfrage"));
 
@@ -336,8 +361,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(get("/angebot/111/inquiry/1").principal(principal))
 				.andExpect(status().isOk()).andExpect(view().name("anfrage"));
 
@@ -356,8 +382,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(post("/inquiry/1/accept").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:../../angebot/111/inquiry/1"));
@@ -379,8 +406,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(post("/inquiry/1/accept").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:../../anfragen"));
@@ -402,8 +430,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
 		mockMvc.perform(post("/inquiry/1/accept").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:../../anfragen"));
@@ -425,8 +454,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(get("/inquiry/1/decline").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:../../angebot/111/inquiry/1"));
@@ -448,8 +478,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.TRUE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.TRUE);
 		mockMvc.perform(get("/inquiry/1/decline").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:../../anfragen"));
@@ -471,8 +502,9 @@ public class TestAnfrageController {
 		anfrage.setSender(benutzer);
 		when(anfrageService.findById(Long.valueOf(1l))).thenReturn(anfrage);
 
-		when(benutzerService.sindDieBenutzerGleich(any(), any())).thenReturn(
-				Boolean.FALSE);
+		when(
+				benutzerService.sindDieBenutzerGleich(any(Benutzer.class),
+						any(Benutzer.class))).thenReturn(Boolean.FALSE);
 		mockMvc.perform(get("/inquiry/1/decline").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:../../anfragen"));
