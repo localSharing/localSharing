@@ -7,7 +7,6 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ FileControllerTest.class, LoginControllerTest.class,
 		ProfilControllerTest.class, RegisterControllerTest.class,
-		StartPageControllerTest.class })
+		StartPageControllerTest.class, TestBewertungsController.class })
 public class ControllerUnitTest {
-	// AngebotControllerTest.class
 }

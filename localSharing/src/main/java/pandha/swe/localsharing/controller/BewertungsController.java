@@ -43,7 +43,7 @@ public class BewertungsController {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		Benutzer angebotsersteller = angebotDTO.getBenutzer();
 		if (user.getId().equals(angebotsersteller.getId())) {
-			return "redirect:../" + id + "/ausleihen";
+			return "redirect:/angebot/" + id;
 		}
 
 		BewertungDTO bewertung = new BewertungDTO();
@@ -68,8 +68,7 @@ public class BewertungsController {
 		bewertungDTO.setAngebot(angebot);
 
 		bewertungService.createBewertung(bewertungDTO);
-		// TODO Redirect nur durch Angebotsid ('ausleihen' löschen)
-		return "redirect:../" + id + "/ausleihen";
+		return "redirect:/angebot/" + id;
 	}
 
 }
