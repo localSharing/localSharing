@@ -8,6 +8,7 @@ import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.angebot.sites.GoToErrorViewException;
 import pandha.swe.localsharing.controller.angebot.sites.LocalSharingControllerTemplate;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.service.AngebotService;
 import pandha.swe.localsharing.service.BenutzerService;
 
 public abstract class BearbeiteEtwas extends LocalSharingControllerTemplate {
@@ -15,6 +16,9 @@ public abstract class BearbeiteEtwas extends LocalSharingControllerTemplate {
 	@Autowired
 	protected BenutzerService benutzerService;
 
+	@Autowired
+	protected AngebotService angebotService;
+	
 	protected Benutzer anfragenderBenutzer;
 
 	protected String bearbeiteAnfrageIntern(Principal principal) {

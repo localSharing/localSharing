@@ -1,4 +1,4 @@
-//package pandha.swe.localsharing.controller.pattern;
+//package pandha.swe.localsharing.controller.angebot;
 //
 //import static org.mockito.Matchers.any;
 //import static org.mockito.Matchers.eq;
@@ -29,6 +29,7 @@
 //import org.springframework.web.multipart.MultipartFile;
 //import org.springframework.web.servlet.view.InternalResourceViewResolver;
 //
+//import pandha.swe.localsharing.controller.angebot.sites.get.GET_AktiviereEinAngebot;
 //import pandha.swe.localsharing.model.Ausleihartikel;
 //import pandha.swe.localsharing.model.Benutzer;
 //import pandha.swe.localsharing.model.Hilfeleistung;
@@ -46,7 +47,9 @@
 //public class AngebotControllerTest {
 //
 //	@InjectMocks
-//	AngebotController controller;
+//	GET_AktiviereEinAngebot controller;
+//	
+//	
 //
 //	MockMvc mockMvc;
 //

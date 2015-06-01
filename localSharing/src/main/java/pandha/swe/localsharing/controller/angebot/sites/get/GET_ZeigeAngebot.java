@@ -16,6 +16,7 @@ import pandha.swe.localsharing.controller.angebot.sites.GoToErrorViewException;
 import pandha.swe.localsharing.controller.angebot.sites.ZeigeSeite_Benutzer;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Ausleihartikel;
+import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Bewertung;
 import pandha.swe.localsharing.model.Hilfeleistung;
 import pandha.swe.localsharing.model.Tauschartikel;
@@ -93,9 +94,15 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 	@Override
 	protected void setzeWeitereModelAttribute() throws GoToErrorViewException {
 
+		Benutzer besitzer = benutzerService.findByAngebotsIdAndType(angebotsId,
+				type);
+
+		if (besitzer == null) {
+			throw new GoToErrorViewException();
+		}
+
 		Boolean benutzerGleich = benutzerService.sindDieBenutzerGleich(
-				anfragenderBenutzer,
-				benutzerService.findByAngebotsIdAndType(angebotsId, type));
+				anfragenderBenutzer, besitzer);
 		if (benutzerGleich) {
 			model.addAttribute("besitzer", true);
 			model.addAttribute("kommentarErlaubt", false);

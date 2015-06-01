@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import pandha.swe.localsharing.controller.angebot.backend.BearbeiteEtwasAdmin;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeEinAngebot;
+import pandha.swe.localsharing.service.AngebotService;
 
 public abstract class AktivierenDeaktiveren extends BearbeiteEtwasAdmin {
 
@@ -15,6 +16,9 @@ public abstract class AktivierenDeaktiveren extends BearbeiteEtwasAdmin {
 
 	protected Long angebotsId;
 	protected String type;
+
+	@Autowired
+	protected AngebotService angebotService;
 
 	@Autowired
 	private LadeEinAngebot ladeEinAngebot;

@@ -4,6 +4,7 @@ import java.security.Principal;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,7 +14,11 @@ import pandha.swe.localsharing.controller.angebot.backend.BearbeiteEtwasBesitzer
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeEinAngebot;
 import pandha.swe.localsharing.controller.angebot.backend.speichereDaten.LoescheEinAngebot;
+import pandha.swe.localsharing.model.Angebot;
+import pandha.swe.localsharing.model.Ausleihartikel;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.Hilfeleistung;
+import pandha.swe.localsharing.model.Tauschartikel;
 
 @Controller
 public class GET_LoescheEinAngebot extends BearbeiteEtwasBesitzer {
@@ -29,6 +34,25 @@ public class GET_LoescheEinAngebot extends BearbeiteEtwasBesitzer {
 
 	@Autowired
 	private LadeEinAngebot ladeEinAngebot;
+
+	@RequestMapping(method = RequestMethod.GET, value = "/delete/angebot/{id}")
+	protected String redirectAnfrage(Model model, Principal principal,
+			@PathVariable("id") String angebotsId) {
+
+		this.angebotsId = Long.valueOf(angebotsId);
+
+		Angebot angebot = angebotService.findAngebotById(this.angebotsId);
+
+		if (angebot instanceof Ausleihartikel) {
+			return "redirect:/delete/angebot/" + angebotsId + "/ausleihen";
+		} else if (angebot instanceof Tauschartikel) {
+			return "redirect:/delete/angebot/" + angebotsId + "/tauschen";
+		} else if (angebot instanceof Hilfeleistung) {
+			return "redirect:/delete/angebot/" + angebotsId + "/tauschen";
+		}
+
+		return "redirect:/angebote";
+	}
 
 	@RequestMapping(method = RequestMethod.GET, value = REQUEST_URL)
 	protected String bearbeiteAnfrage(Principal principal,

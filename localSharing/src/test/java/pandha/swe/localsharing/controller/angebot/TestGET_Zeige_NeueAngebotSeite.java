@@ -1,4 +1,4 @@
-package pandha.swe.localsharing.controller.pattern;
+package pandha.swe.localsharing.controller.angebot;
 
 import static org.junit.Assert.*;
 

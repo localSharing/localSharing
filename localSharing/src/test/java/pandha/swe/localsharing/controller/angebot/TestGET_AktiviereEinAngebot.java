@@ -1,10 +1,18 @@
-package pandha.swe.localsharing.controller.pattern;
+package pandha.swe.localsharing.controller.angebot;
 
 import static org.junit.Assert.*;
 
+import org.junit.Before;
 import org.junit.Test;
 
-public class TestGET_AktiviereEinAngebot {
+import pandha.swe.localsharing.controller.angebot.sites.get.GET_AktiviereEinAngebot;
+
+public class TestGET_AktiviereEinAngebot extends TestAngebote {
+
+	@Before
+	public void setUp() throws Exception {
+		initTestsAngebote(new GET_AktiviereEinAngebot());
+	}
 
 	@Test
 	public void testGetSuccessView() {

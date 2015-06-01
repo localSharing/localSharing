@@ -109,7 +109,7 @@ public class ProfilController {
 		return "redirect:profil";
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/disable/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/disable/user/{id}")
 	public String disableUser(Principal principal, @PathVariable("id") String id) {
 
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
@@ -129,7 +129,7 @@ public class ProfilController {
 		return "redirect:../profil/" + id;
 	}
 
-	@RequestMapping(method = RequestMethod.GET, value = "/enable/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/enable/user/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") String id) {
 
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
