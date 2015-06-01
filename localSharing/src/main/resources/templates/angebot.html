@@ -83,6 +83,13 @@
 						</button>
 					</form>
 				</div>
+				<div class="col-md-4" th:if="${!besitzer}">
+					<form th:action="${'./inquire'}" method="get">
+						<button id="btnInquire" class="btn btn-success">
+							<span class="glyphicon glyphicon-envelope"></span> Anfragen
+						</button>
+					</form>
+				</div>
 				<div class="col-md-4" sec:authorize="hasRole('ADMIN')">
 					<!-- Ausleihartikel Enable / Disable -->
 					<form th:if="${dauer != null and angebot.enabled}"
@@ -198,7 +205,7 @@
 								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
 							</div>
 							<div th:if="${dauer != null}">
-								<br /> <strong>maximale Ausleihdauer: </strong><span
+								<br /> <strong>Maximale Ausleihdauer: </strong><span
 									th:text="${angebot.dauer}"></span> Tag(e)
 							</div>
 						</div>

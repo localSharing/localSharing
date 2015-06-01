@@ -38,7 +38,7 @@ insert into PUBLIC.AUSLEIHARTIKEL (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM
 
 --Hilfeleistungen
 insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('12', 'TRUE', 'Ich bin gerne behilflich, wenn Streicharbeiten anfallen (und ich ein Stück Kuchen bekomme).', '2014-12-02', 'Streichen', '3', '2015-12-02');
-insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('13', 'TRUE', 'Ich bin gerne behilflich bei Fragen zu Algorithmen, vor allem theoretischer Natur. Lassen Sie mich ihr O-Kalkül mithilfe der Induktion berechnen!', '2014-12-02', 'Theoretische Informatik', '1', '2015-11-30');
+insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('13', 'TRUE', 'Ich bin gerne behilflich bei Fragen zu Algorithmen, vor allem theoretischer Natur. Lassen Sie mich Ihr O-Kalkül mithilfe der Induktion berechnen!', '2014-12-02', 'Theoretische Informatik', '1', '2015-11-30');
 insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('14', 'TRUE', 'Ich bin nett und gehe gerne für meine Mitmenschen einkaufen, wenn ich sowieso schon dabei bin. Bitte rechtzeitig anfragen - ich gehe weder für 5 Leute gleichzeitig einkaufen noch für ein großes Fest. Ansonsten helfe ich gerne :D', '2014-12-02', 'Einkaufen', '5', '2015-12-02');
 insert into PUBLIC.HILFELEISTUNG (ANGEBOTSID, ENABLED, BESCHREIBUNG, STARTDATUM, TITEL, BENUTZER_USERID, ENDDATUM) values ('15', 'TRUE', 'If you need any help regarding "Obamacare" just get in touch with me. I will do my best at helping you out!', '2014-12-02', 'Obamacare FAQ', '6', '2015-12-02');
 
@@ -56,6 +56,13 @@ insert into PUBLIC.BEWERTUNG (BEWERTUNGSID, ANGEBOT_ANGEBOTSID, BENUTZER_USERID,
 --ID
 --insert into PUBLIC.HIBERNATE_SEQUENCES (SEQUENCE_NAME, SEQUENCE_NEXT_HI_VALUE) values ('Angebot', '30');
 
+--Anfrage
+insert into PUBLIC.ANFRAGE (ANFRAGEID, ANGEBOT_ANGEBOTSID, SENDER_USERID, DATUM, STARTDATUM, ENDDATUM, KOMMENTAR, ANFRAGESTATUS, KONTAKT, ANNAHMEKOMMENTAR, ANNAHMEDATUM) values ('1', '1', '1', '2015-05-25', '2015-05-27', '2015-05-30', 'Hätte ich jez mal gerne', 'offen', null, null, null);
+insert into PUBLIC.ANFRAGE (ANFRAGEID, ANGEBOT_ANGEBOTSID, SENDER_USERID, DATUM, STARTDATUM, ENDDATUM, KOMMENTAR, ANFRAGESTATUS, KONTAKT, ANNAHMEKOMMENTAR, ANNAHMEDATUM) values ('2', '9', '8', '2015-05-27', '2015-05-28', '2015-05-31', 'Ich liebe das Traumschiff <3 Plane einen Nacht, in der ich alle Staffeln schaue', 'offen', null, null, null);
+insert into PUBLIC.ANFRAGE (ANFRAGEID, ANGEBOT_ANGEBOTSID, SENDER_USERID, DATUM, STARTDATUM, ENDDATUM, KOMMENTAR, ANFRAGESTATUS, KONTAKT, ANNAHMEKOMMENTAR, ANNAHMEDATUM) values ('3', '1', '7', '2015-05-28', '2015-06-07', '2015-06-10', 'Büüüüüdeeeee', 'offen', null, null, null);
+insert into PUBLIC.ANFRAGE (ANFRAGEID, ANGEBOT_ANGEBOTSID, SENDER_USERID, DATUM, STARTDATUM, ENDDATUM, KOMMENTAR, ANFRAGESTATUS, KONTAKT, ANNAHMEKOMMENTAR, ANNAHMEDATUM) values ('4', '1', '5', '2015-05-25', '2015-05-27', '2015-05-30', 'Tarzan ist so ein toller Film, aber meine Kinder kennen ihn nicht. Wär super, wenn ich ihn ausleihen kann :)', 'offen', null, null, null);
+insert into PUBLIC.ANFRAGE (ANFRAGEID, ANGEBOT_ANGEBOTSID, SENDER_USERID, DATUM, STARTDATUM, ENDDATUM, KOMMENTAR, ANFRAGESTATUS, KONTAKT, ANNAHMEKOMMENTAR, ANNAHMEDATUM) values ('5', '17', '3', '2015-05-25', '2015-05-27', '2015-05-30', 'Macht sich bestimmt gut in meinem Wohnzimmer :)', 'offen', null, null, null);
+insert into PUBLIC.ANFRAGE (ANFRAGEID, ANGEBOT_ANGEBOTSID, SENDER_USERID, DATUM, STARTDATUM, ENDDATUM, KOMMENTAR, ANFRAGESTATUS, KONTAKT, ANNAHMEKOMMENTAR, ANNAHMEDATUM) values ('6', '2', '2', '2015-05-25', '2015-05-27', '2015-05-30', 'Gib her', 'angenommen', 'telefon', 'Ja gerne', '2015-05-28');
 
 
 commit;

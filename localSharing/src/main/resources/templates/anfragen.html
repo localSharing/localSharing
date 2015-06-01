@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+<title>Angebote</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+
+	<div class="container">
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+		<h2><span th:text="${titel}"></span> Anfragen</h2>
+
+		<div class="jumbotron">
+			<h3>Gesendete Anfragen</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Angebot</th>
+						<th>Benutzer</th>
+						<th>Datum</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr th:each="anfrage : ${anfragenListG}"
+					th:onclick="${'window.location.href='+'''../angebot/' + anfrage.angebot.angebotsid + '/inquiry/' + anfrage.id +''';'}">
+					<td><span th:text="${anfrage.angebot.titel}"></span></td>
+					<td><span th:text="${anfrage.sender.vorname}"></span></td>
+					<td><span th:text="${anfrage.datum}"></span></td>
+					<td>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}" class="glyphicon glyphicon-time"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).abgelehnt}" class="glyphicon glyphicon-remove"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).gesperrt}" class="glyphicon glyphicon-lock"></span>
+						<span th:text="${anfrage.status}"></span>
+					</td>
+				</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="jumbotron">
+			<h3>Empfangene Anfragen</h3>
+
+			<table class="table">
+			
+				<thead>
+					<tr>
+						<th>Angebot</th>
+						<th>Benutzer</th>
+						<th>Datum</th>
+						<th>Status</th>
+					</tr>
+				</thead>
+				<tbody>
+				<tr th:each="anfrage : ${anfragenListE}"
+					th:onclick="${'window.location.href='+'''../angebot/' + anfrage.angebot.angebotsid + '/inquiry/' + anfrage.id +''';'}">
+					<td><span th:text="${anfrage.angebot.titel}"></span></td>
+					<td><span th:text="${anfrage.sender.vorname}"></span></td>
+					<td><span th:text="${anfrage.datum}"></span></td>
+					<td>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}" class="glyphicon glyphicon-time"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}" class="glyphicon glyphicon-ok"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).abgelehnt}" class="glyphicon glyphicon-remove"></span>
+						<span th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).gesperrt}" class="glyphicon glyphicon-lock"></span>
+						<span th:text="${anfrage.status}"></span>
+					</td>
+				</tr>
+				</tbody>
+
+			</table>
+
+		</div>
+
+	</div>
+</body>
+</html>

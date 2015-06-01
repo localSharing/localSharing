@@ -4,7 +4,7 @@ import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.dto.AngebotDTO;
 
 public interface AngebotService {
-	
+
 	public Angebot findAngebotByIdAndType(Long id, String type);
 
 	public Angebot findAngebotById(Long id);

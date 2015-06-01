@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
+<head>
+<title>Anfrage senden</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
+	rel="stylesheet" media="screen" />
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<script src="/webjars/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+	<div class="modal fade" id="myModal" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+					<h4 class="modal-title">Angebot annehmen</h4>
+				</div>
+				<form class="form-horizontal"
+					th:action="${'../../../inquiry/' + anfrage.id + '/accept'}"
+					th:object="${anfrage}" method="post" enctype="multipart/form-data">
+					<div class="modal-body">
+						Kontaktdaten zur weiteren Kommunikation wählen: <select
+							class="form-control" th:field="*{kontaktArt}">
+							<option
+								th:value="${T(pandha.swe.localsharing.model.enums.Kontaktart).telefon}"
+								th:if="${anfrage.angebot.benutzer.telefonNr != null}">Telefon</option>
+							<option
+								th:value="${T(pandha.swe.localsharing.model.enums.Kontaktart).email}">E-Mail</option>
+						</select> <br /> <strong>Antwort an <span
+							th:text="${anfrage.sender.vorname}"></span></strong>
+						<textarea class="form-control" rows="5" maxlength="1000"
+							th:field="*{annahmeKommentar}"
+							th:value="${anfrage.annahmeKommentar}" required="required"></textarea>
+						<p>
+							<small>Maximal 1000 Zeichen</small>
+						</p>
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Abbrechen</button>
+						<button type="submit" class="btn btn-success">
+							<span class='glyphicon glyphicon-ok'></span> Annehmen
+						</button>
+					</div>
+				</form>
+			</div>
+			<!--/.modal-content -->
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+
+	<div class="container">
+
+		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
+		</a>
+
+		<h2 th:if="${empfangen}">
+			Anfrage von <span th:text="${anfrage.sender.vorname}"></span>
+		</h2>
+		<h2 th:unless="${empfangen}">
+			Anfrage an <span th:text="${angebot.benutzer.vorname}"></span>
+		</h2>
+		<h3>
+			Status: <span th:text="${anfrage.status}"></span> <span
+				th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}"
+				class="glyphicon glyphicon-time"></span> <span
+				th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}"
+				class="glyphicon glyphicon-ok"></span> <span
+				th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).abgelehnt}"
+				class="glyphicon glyphicon-remove"></span> <span
+				th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).gesperrt}"
+				class="glyphicon glyphicon-lock"></span>
+		</h3>
+
+		<div class="row">
+			<div class="col-md-6">
+				<div class="jumbotron">
+					<h4 th:text="${angebot.titel}"></h4>
+
+					<div class="panel panel-success">
+						<div class="panel-heading">Beschreibung</div>
+						<div class="panel-body">
+							<span th:text="${angebot.beschreibung}"></span>
+						</div>
+					</div>
+					<div class="panel panel-success">
+						<div class="panel-heading">Bedingungen</div>
+						<div class="panel-body">
+							<strong>Startdatum: </strong><span
+								th:text="${angebot.startDatum}"></span>
+							<div th:if="${enddatum}">
+								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
+							</div>
+							<div th:if="${dauer}">
+								<br /> <strong>Maximale Ausleihdauer: </strong><span
+									th:text="${angebot.dauer}"></span> Tag(e)
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<div class="jumbotron">
+					<h4 th:if="${empfangen}">
+						<span th:text="${sendername}"></span> Anfrage
+					</h4>
+					<h4 th:unless="${empfangen}">Deine Anfrage</h4>
+					<div class="row">
+						<div class="col-md-4">
+							<strong>Startdatum</strong>
+						</div>
+						<div class="col-md-4">
+							<span th:text="${anfrage.startDatum}"></span>
+						</div>
+					</div>
+					<div th:if="${enddatum}" class="row">
+						<div class="col-md-4">
+							<strong>Enddatum</strong>
+						</div>
+						<div class="col-md-4">
+							<span th:text="${anfrage.endDatum}"></span>
+						</div>
+					</div>
+					<br /> <strong th:if="${empfangen}">Nachricht von <span
+						th:text="${anfrage.sender.vorname}"></span>
+					</strong> <strong th:unless="${empfangen}">Nachricht an <span
+						th:text="${angebot.benutzer.vorname}"></span>
+					</strong> am <span th:text="${anfrage.datum}"></span>
+					<div th:text="${anfrage.kommentar}"></div>
+					<br />
+					<div
+						th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).angenommen}">
+						<strong th:if="${empfangen}">Antwort an <span
+							th:text="${anfrage.sender.vorname}"></span>
+						</strong> <strong th:unless="${empfangen}">Antwort von <span
+							th:text="${angebot.benutzer.vorname}"></span>
+						</strong> am <span th:text="${anfrage.annahmeDatum}"></span>
+						<div th:text="${anfrage.annahmeKommentar}"></div>
+						<br /> <strong>Kontakt: </strong> <span
+							th:if="${anfrage.kontaktArt == T(pandha.swe.localsharing.model.enums.Kontaktart).telefon}"
+							th:text="${anfrage.angebot.benutzer.telefonNr}"></span> <span
+							th:if="${anfrage.kontaktArt == T(pandha.swe.localsharing.model.enums.Kontaktart).email}"
+							th:text="${anfrage.angebot.benutzer.email}"></span>
+					</div>
+				</div>
+				<div
+					th:if="${empfangen and anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}">
+					<!-- 					<div class="col-md-4"> -->
+					<!-- 						<form th:action="${'../../../inquiry/' + anfrage.id + '/accept'}" -->
+					<!-- 							method="get"> -->
+					<!-- 							<button id="btnAccept" class="btn btn-success"> -->
+					<!-- 								<span class="glyphicon glyphicon-ok"></span> Annehmen -->
+					<!-- 							</button> -->
+					<!-- 						</form> -->
+					<!-- 					</div> -->
+					<div class="col-md-4">
+						<!-- 						<button id="btnFirstAccept" class="btn btn-success"> -->
+						<!-- 							<span class="glyphicon glyphicon-ok"></span> Annehmen -->
+						<!-- 						</button> -->
+						<button class="btn btn-success" type="button" data-toggle="modal"
+							data-target="#myModal">
+							<span class="glyphicon glyphicon-ok"></span> Annehmen
+						</button>
+					</div>
+					<div class="col-md-4">
+						<form th:action="${'../../../inquiry/' + anfrage.id + '/decline'}"
+							method="get">
+							<button id="btnDecline" class="btn btn-danger">
+								<span class="glyphicon glyphicon-remove"></span> Ablehnen
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+
+</body>
+</html>

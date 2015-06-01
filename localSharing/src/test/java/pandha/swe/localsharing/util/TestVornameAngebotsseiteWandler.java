@@ -11,10 +11,10 @@ public class TestVornameAngebotsseiteWandler {
 		String vornameNotNeedS = "Johannes";
 		String vornameNeedS = "Corinna";
 
-		Assert.assertEquals(vornameNotNeedS, VornameAngebotsseiteWandler
+		Assert.assertEquals(vornameNotNeedS, VornamenWandler
 				.erzeugeVornameFuerAngebotsseite(vornameNotNeedS));
 
-		Assert.assertEquals(vornameNeedS + "s", VornameAngebotsseiteWandler
+		Assert.assertEquals(vornameNeedS + "s", VornamenWandler
 				.erzeugeVornameFuerAngebotsseite(vornameNeedS));
 
 	}

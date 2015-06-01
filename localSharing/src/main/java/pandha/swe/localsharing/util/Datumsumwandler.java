@@ -10,6 +10,9 @@ public class Datumsumwandler {
 	}
 
 	public static Date stringToDate(String dateAsString) {
+		if (dateAsString == null) {
+			return null;
+		}
 		Date dateAsDate = new Date();
 		try {
 			dateAsDate = new SimpleDateFormat("dd.MM.yyyy").parse(dateAsString);
@@ -20,6 +23,9 @@ public class Datumsumwandler {
 	}
 
 	public static String dateToString(Date dateAsDate) {
+		if (dateAsDate == null) {
+			return null;
+		}
 		return new SimpleDateFormat("dd.MM.yyyy").format(dateAsDate);
 	}
 

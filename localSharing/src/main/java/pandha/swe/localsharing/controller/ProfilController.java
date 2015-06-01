@@ -1,6 +1,6 @@
 package pandha.swe.localsharing.controller;
 
-import static pandha.swe.localsharing.util.VornameAngebotsseiteWandler.erzeugeVornameFuerAngebotsseite;
+import static pandha.swe.localsharing.util.VornamenWandler.erzeugeVornameFuerAngebotsseite;
 
 import java.security.Principal;
 import java.util.List;

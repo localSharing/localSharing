@@ -29,9 +29,6 @@ public class BenutzerServiceImpl implements BenutzerService {
 	private PasswordEncoder encoder;
 
 	@Autowired
-	private AngebotService angebotService;
-
-	@Autowired
 	private HashMap<String, AngebotsDAO<?>> angebotDAOs;
 
 	@Override
@@ -48,7 +45,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 		}
 		return null;
 	}
-
+	
 	@Override
 	public Benutzer getUserByPrincipal(Principal principal) {
 		return findByEmail(principal.getName());

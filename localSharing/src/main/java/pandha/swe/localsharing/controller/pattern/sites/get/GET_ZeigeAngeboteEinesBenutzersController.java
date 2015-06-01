@@ -1,4 +1,6 @@
-package pandha.swe.localsharing.controller.angebot.sites.get;
+package pandha.swe.localsharing.controller.pattern.sites.get;
+
+import static pandha.swe.localsharing.util.VornamenWandler.erzeugeVornameFuerAngebotsseite;
 
 import java.security.Principal;
 
@@ -15,10 +17,10 @@ import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleEige
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeDaten;
 import pandha.swe.localsharing.controller.angebot.sites.ZeigeSeite_Benutzer;
 import pandha.swe.localsharing.model.Benutzer;
-import pandha.swe.localsharing.util.VornamenWandler;
 
 @Controller
-public class GET_ZeigeAngeboteEinesBenutzers extends ZeigeSeite_Benutzer {
+public class GET_ZeigeAngeboteEinesBenutzersController extends
+		ZeigeSeite_Benutzer {
 
 	private static final String REQUEST_URL = "/angebote/{id}";
 	private static final String SUCCESS_VIEW = "angebote";
@@ -61,8 +63,8 @@ public class GET_ZeigeAngeboteEinesBenutzers extends ZeigeSeite_Benutzer {
 		} else {
 			Benutzer angebotsersteller = benutzerService.findById(userId);
 
-			model.addAttribute("titel", VornamenWandler
-					.erzeugeVornameFuerAngebotsseite(angebotsersteller
+			model.addAttribute("titel",
+					erzeugeVornameFuerAngebotsseite(angebotsersteller
 							.getVorname()));
 
 			alleAngebote.setUser(angebotsersteller);
