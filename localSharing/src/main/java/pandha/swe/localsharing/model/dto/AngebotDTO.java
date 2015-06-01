@@ -8,7 +8,7 @@ import pandha.swe.localsharing.model.Benutzer;
 public class AngebotDTO {
 
 	private Long id;
-	
+
 	private Boolean enabled;
 
 	private Benutzer benutzer;
@@ -22,8 +22,8 @@ public class AngebotDTO {
 	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
 	private String startDatum;
 
-	public AngebotDTO(Long id, Boolean enabled, Benutzer benutzer, String titel,
-			String beschreibung, String startDatum) {
+	public AngebotDTO(Long id, Boolean enabled, Benutzer benutzer,
+			String titel, String beschreibung, String startDatum) {
 		this.id = id;
 		this.enabled = enabled;
 		this.benutzer = benutzer;
@@ -89,6 +89,5 @@ public class AngebotDTO {
 				+ benutzer + ", titel=" + titel + ", beschreibung="
 				+ beschreibung + ", startDatum=" + startDatum + "]";
 	}
-	
 
 }

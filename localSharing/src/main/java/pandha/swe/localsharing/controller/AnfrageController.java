@@ -37,225 +37,217 @@ import pandha.swe.localsharing.service.TauschartikelService;
 
 @Controller
 public class AnfrageController {
-	
+
 	@Autowired
 	private AnfrageService anfrageSerivce;
-	
+
 	@Autowired
 	private BenutzerService benutzerService;
-	
+
 	@Autowired
 	private AngebotService angebotService;
 
 	@Autowired
 	private AusleihartikelService ausleihartikelService;
-	
+
 	@Autowired
 	private TauschartikelService tauschartikelService;
-	
+
 	@Autowired
 	private HilfeleistungService hilfeleistungService;
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/anfragen")
-	public String showInquiries(
-			Model model,
-			Principal principal) {
+	public String showInquiries(Model model, Principal principal) {
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		
+
 		List<Anfrage> gesendeteAnfragen = anfrageSerivce.findAllBySender(user);
-		List<AnfrageDTO> gesendeteAnfragenDTO = anfrageSerivce.list_Anfrage_TO_AnfrageDTO(gesendeteAnfragen);
-		
+		List<AnfrageDTO> gesendeteAnfragenDTO = anfrageSerivce
+				.list_Anfrage_TO_AnfrageDTO(gesendeteAnfragen);
+
 		model.addAttribute("anfragenListG", gesendeteAnfragenDTO);
-		
-		List<Anfrage> empfangeneAnfragen = anfrageSerivce.findAllByEmpfaenger(user);
-		List<AnfrageDTO> empfangeneAnfragenDTO = anfrageSerivce.list_Anfrage_TO_AnfrageDTO(empfangeneAnfragen);
-		
+
+		List<Anfrage> empfangeneAnfragen = anfrageSerivce
+				.findAllByEmpfaenger(user);
+		List<AnfrageDTO> empfangeneAnfragenDTO = anfrageSerivce
+				.list_Anfrage_TO_AnfrageDTO(empfangeneAnfragen);
+
 		model.addAttribute("anfragenListE", empfangeneAnfragenDTO);
-		
+
 		return "anfragen";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{id}/inquire")
-	public String writeInquiry(
-			Model model,
-			Principal principal,
+	public String writeInquiry(Model model, Principal principal,
 			@PathVariable("id") String angebotsid) {
-		
-		Angebot angebot = angebotService.findAngebotById(Long.valueOf(angebotsid));
+
+		Angebot angebot = angebotService.findAngebotById(Long
+				.valueOf(angebotsid));
 		AngebotDTO angebotDTO = angebotService.angebot_TO_AngebotDTO(angebot);
 
 		Boolean benutzerGleich = benutzerService.sindDieBenutzerGleich(
 				benutzerService.getUserByPrincipal(principal),
 				angebotDTO.getBenutzer());
 		if (benutzerGleich) {
-			// TODO Redirect ohne "ausleihen"
-			return "redirect:../" + angebotsid + "/ausleihen";
+			return "redirect:/angebot/" + angebotsid;
 		}
-		
+
 		model.addAttribute("anfrage", new AnfrageDTO());
 
 		if (angebot instanceof Ausleihartikel) {
 			Ausleihartikel ausleihartikel = (Ausleihartikel) angebot;
-			AusleihartikelDTO ausleihartikelDTO = ausleihartikelService.angebot_TO_AngebotDTO(ausleihartikel);
+			AusleihartikelDTO ausleihartikelDTO = ausleihartikelService
+					.angebot_TO_AngebotDTO(ausleihartikel);
 			model.addAttribute("angebot", ausleihartikelDTO);
 			model.addAttribute("enddatum", true);
 			model.addAttribute("dauer", true);
 		}
-		
+
 		else if (angebot instanceof Tauschartikel) {
 			Tauschartikel tauschartikel = (Tauschartikel) angebot;
-			TauschartikelDTO tauschartikelDTO = tauschartikelService.angebot_TO_AngebotDTO(tauschartikel);
+			TauschartikelDTO tauschartikelDTO = tauschartikelService
+					.angebot_TO_AngebotDTO(tauschartikel);
 			model.addAttribute("angebot", tauschartikelDTO);
 		}
-		
+
 		else if (angebot instanceof Hilfeleistung) {
 			Hilfeleistung hilfeleistung = (Hilfeleistung) angebot;
-			HilfeleistungDTO hilfeleistungDTO = hilfeleistungService.angebot_TO_AngebotDTO(hilfeleistung);
+			HilfeleistungDTO hilfeleistungDTO = hilfeleistungService
+					.angebot_TO_AngebotDTO(hilfeleistung);
 			model.addAttribute("angebot", hilfeleistungDTO);
 			model.addAttribute("enddatum", true);
 		}
-		
+
 		return "anfrageSenden";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/angebot/{id}/inquire")
-	public String submitInquiry(
-			Model model,
-			Principal principal,
+	public String submitInquiry(Model model, Principal principal,
 			@PathVariable("id") String angebotsid,
 			@ModelAttribute("anfrage") @Valid AnfrageDTO anfrageDTO) {
-		
+
 		anfrageDTO.setDatum(new Date(System.currentTimeMillis()));
-		
+
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
 		anfrageDTO.setSender(user);
-		
-		Angebot angebot = angebotService.findAngebotById(Long.valueOf(angebotsid));
+
+		Angebot angebot = angebotService.findAngebotById(Long
+				.valueOf(angebotsid));
 		anfrageDTO.setAngebot(angebot);
-		
+
 		anfrageDTO.setStatus(AnfrageStatus.offen);
-		
+
 		anfrageSerivce.createAnfrage(anfrageDTO);
-		
+
 		// TODO Redirect nur über ID (ohne "ausleihen")
-//		return "redirect:../" + angebotsid + "/ausleihen";
+		// return "redirect:../" + angebotsid + "/ausleihen";
 		return "redirect:../../anfragen";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{angebotsid}/inquiry/{inquiryid}")
-	public String showInquiry(
-			Model model,
-			Principal principal,
+	public String showInquiry(Model model, Principal principal,
 			@PathVariable("angebotsid") String angebotsid,
 			@PathVariable("inquiryid") String inquiryid) {
-		
+
 		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(inquiryid));
 		Angebot angebot = anfrage.getAngebot();
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		
-		Boolean principalIstAnfrageEmpfaenger = 
-				benutzerService.sindDieBenutzerGleich(
-						user,
-						angebot.getBenutzer());
-		Boolean principalIstAnfrageSender = 
-				benutzerService.sindDieBenutzerGleich(
-						user,
-						anfrage.getSender());
-		
-		if (! (principalIstAnfrageEmpfaenger || principalIstAnfrageSender)) {
+
+		Boolean principalIstAnfrageEmpfaenger = benutzerService
+				.sindDieBenutzerGleich(user, angebot.getBenutzer());
+		Boolean principalIstAnfrageSender = benutzerService
+				.sindDieBenutzerGleich(user, anfrage.getSender());
+
+		if (!(principalIstAnfrageEmpfaenger || principalIstAnfrageSender)) {
 			return "redirect:../../../anfragen";
 		}
-		
+
 		AnfrageDTO anfrageDTO = anfrageSerivce.anfrage_TO_AnfrageDTO(anfrage);
 		model.addAttribute("anfrage", anfrageDTO);
 		if (angebot instanceof Ausleihartikel) {
 			Ausleihartikel ausleihartikel = (Ausleihartikel) angebot;
-			AusleihartikelDTO ausleihartikelDTO = ausleihartikelService.angebot_TO_AngebotDTO(ausleihartikel);
+			AusleihartikelDTO ausleihartikelDTO = ausleihartikelService
+					.angebot_TO_AngebotDTO(ausleihartikel);
 			model.addAttribute("angebot", ausleihartikelDTO);
 			model.addAttribute("enddatum", true);
 			model.addAttribute("dauer", true);
 		}
-		
+
 		else if (angebot instanceof Tauschartikel) {
 			Tauschartikel tauschartikel = (Tauschartikel) angebot;
-			TauschartikelDTO tauschartikelDTO = tauschartikelService.angebot_TO_AngebotDTO(tauschartikel);
+			TauschartikelDTO tauschartikelDTO = tauschartikelService
+					.angebot_TO_AngebotDTO(tauschartikel);
 			model.addAttribute("angebot", tauschartikelDTO);
 		}
-		
+
 		else if (angebot instanceof Hilfeleistung) {
 			Hilfeleistung hilfeleistung = (Hilfeleistung) angebot;
-			HilfeleistungDTO hilfeleistungDTO = hilfeleistungService.angebot_TO_AngebotDTO(hilfeleistung);
+			HilfeleistungDTO hilfeleistungDTO = hilfeleistungService
+					.angebot_TO_AngebotDTO(hilfeleistung);
 			model.addAttribute("angebot", hilfeleistungDTO);
 			model.addAttribute("enddatum", true);
 		}
-		
+
 		if (principalIstAnfrageEmpfaenger) {
-			model.addAttribute("empfangen",  true);
-			model.addAttribute("sendername",  erzeugeVornameFuerAngebotsseite(anfrage.getSender().getVorname()));
+			model.addAttribute("empfangen", true);
+			model.addAttribute("sendername",
+					erzeugeVornameFuerAngebotsseite(anfrage.getSender()
+							.getVorname()));
 		} else {
-			model.addAttribute("empfangen",  false);
+			model.addAttribute("empfangen", false);
 		}
 
 		return "anfrage";
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST, value = "/inquiry/{id}/accept")
-	public String acceptInquiry(
-			Model model,
-			Principal principal,
+	public String acceptInquiry(Model model, Principal principal,
 			@PathVariable("id") String id,
 			@ModelAttribute("anfrage") @Valid AnfrageDTO anfrageDTO) {
-		
+
 		Anfrage anfrage = anfrageSerivce.findById(Long.valueOf(id));
-		
+
 		Angebot angebot = anfrage.getAngebot();
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		
-		Boolean principalIstAnfrageEmpfaenger = 
-				benutzerService.sindDieBenutzerGleich(
-						user,
-						angebot.getBenutzer());
-		
-		if (!(AnfrageStatus.offen.equals(anfrage.getStatus()) 
-				&& principalIstAnfrageEmpfaenger)) {
+
+		Boolean principalIstAnfrageEmpfaenger = benutzerService
+				.sindDieBenutzerGleich(user, angebot.getBenutzer());
+
+		if (!(AnfrageStatus.offen.equals(anfrage.getStatus()) && principalIstAnfrageEmpfaenger)) {
 			return "redirect:../../anfragen";
 		}
-		
+
 		anfrage.setAnnahmeDatum(new Date(System.currentTimeMillis()));
 		anfrage.setAnnahmeKommentar(anfrageDTO.getAnnahmeKommentar());
 		anfrage.setKontaktArt(anfrageDTO.getKontaktArt());
 		anfrage.setStatus(AnfrageStatus.angenommen);
 		anfrageSerivce.update(anfrage);
-		
-		return "redirect:../../angebot/" + angebot.getAngebotsid() + "/inquiry/" + id;
+
+		return "redirect:../../angebot/" + angebot.getAngebotsid()
+				+ "/inquiry/" + id;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/inquiry/{id}/decline")
-	public String declineInquiry(
-			Model model,
-			Principal principal,
+	public String declineInquiry(Model model, Principal principal,
 			@PathVariable("id") String id) {
-		
+
 		Anfrage abgelehnteAnfrage = anfrageSerivce.findById(Long.valueOf(id));
-		
+
 		Angebot angebot = abgelehnteAnfrage.getAngebot();
 		Benutzer user = benutzerService.getUserByPrincipal(principal);
-		
-		Boolean principalIstAnfrageEmpfaenger = 
-				benutzerService.sindDieBenutzerGleich(
-						user,
-						angebot.getBenutzer());
-		
-		if (!(AnfrageStatus.offen.equals(abgelehnteAnfrage.getStatus()) 
-				&& principalIstAnfrageEmpfaenger)) {
+
+		Boolean principalIstAnfrageEmpfaenger = benutzerService
+				.sindDieBenutzerGleich(user, angebot.getBenutzer());
+
+		if (!(AnfrageStatus.offen.equals(abgelehnteAnfrage.getStatus()) && principalIstAnfrageEmpfaenger)) {
 			return "redirect:../../anfragen";
 		}
-		
+
 		abgelehnteAnfrage.setAnnahmeDatum(new Date(System.currentTimeMillis()));
 		abgelehnteAnfrage.setStatus(AnfrageStatus.abgelehnt);
 		anfrageSerivce.update(abgelehnteAnfrage);
-		
-		return "redirect:../../angebot/" + angebot.getAngebotsid() + "/inquiry/" + id;
+
+		return "redirect:../../angebot/" + angebot.getAngebotsid()
+				+ "/inquiry/" + id;
 	}
 
 }
