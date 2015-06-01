@@ -40,7 +40,7 @@ public class POST_SpeichereEineHilfeLeistung extends
 	private UpdateArtikelInService<Hilfeleistung> updateArtikelInServiceHilfeleistung;
 
 	@Autowired
-	private DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung> umwandler;
+	private DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung> umwandlerHilfeleistung;
 
 	@RequestMapping(method = RequestMethod.POST, value = REQUEST_URL)
 	public String saveHilfeleistung(
@@ -61,8 +61,8 @@ public class POST_SpeichereEineHilfeLeistung extends
 	@Override
 	protected Hilfeleistung wandleUm(HilfeleistungDTO artikel) {
 		artikel.setBenutzer(anfragenderBenutzer);
-		umwandler.setArtikel(artikel);
-		hilfeleistung = umwandler.wandleUm();
+		umwandlerHilfeleistung.setArtikel(artikel);
+		hilfeleistung = umwandlerHilfeleistung.wandleUm();
 		return hilfeleistung;
 	}
 

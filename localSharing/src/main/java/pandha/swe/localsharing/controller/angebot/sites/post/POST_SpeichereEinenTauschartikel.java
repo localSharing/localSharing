@@ -40,7 +40,7 @@ public class POST_SpeichereEinenTauschartikel extends
 	private UpdateArtikelInService<Tauschartikel> updateArtikelInServiceTauschartikel;
 
 	@Autowired
-	private DtoToModelUmwander<TauschartikelDTO, Tauschartikel> umwandler;
+	private DtoToModelUmwander<TauschartikelDTO, Tauschartikel> umwandlerTauschartikel;
 
 	@RequestMapping(method = RequestMethod.POST, value = REQUEST_URL)
 	public String saveTauschartikel(
@@ -61,8 +61,8 @@ public class POST_SpeichereEinenTauschartikel extends
 	@Override
 	protected Tauschartikel wandleUm(TauschartikelDTO artikel) {
 		artikel.setBenutzer(anfragenderBenutzer);
-		umwandler.setArtikel(artikel);
-		tauschartikel = umwandler.wandleUm();
+		umwandlerTauschartikel.setArtikel(artikel);
+		tauschartikel = umwandlerTauschartikel.wandleUm();
 		return tauschartikel;
 	}
 

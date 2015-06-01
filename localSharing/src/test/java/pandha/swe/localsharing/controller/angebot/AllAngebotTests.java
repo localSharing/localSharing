@@ -12,7 +12,11 @@ import org.junit.runners.Suite.SuiteClasses;
 		TestGET_ZeigeAlleDeaktiviertenAngebot.class,
 		TestGET_ZeigeAngebote.class, TestGet_ZeigeAngeboteEinesBenutzers.class,
 		TestGET_ZeigeBearbeitenAnsichtAngebot.class,
-		TestLoescheEinAngebot.class })
+		TestLoescheEinAngebot.class, TestPOST_NeueAusleihartikel.class,
+		TestPOST_NeueHilfeLeistung.class, TestPOST_NeueTauschartikel.class,
+		TestPOST_SpeichereEineHilfeLeistung.class,
+		TestPOST_SpeichereEinenAusleihartikel.class,
+		TestPOST_SpeichereEinenTauschartikel.class })
 public class AllAngebotTests {
 
 }

@@ -40,7 +40,7 @@ public class POST_SpeichereEinenAusleihartikel extends
 	private UpdateArtikelInService<Ausleihartikel> updateArtikelInServiceAusleihartikel;
 
 	@Autowired
-	private DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel> umwandler;
+	private DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel> umwandlerAusleihartikel;
 
 	@RequestMapping(method = RequestMethod.POST, value = REQUEST_URL)
 	public String saveAusleihartikel(
@@ -61,8 +61,8 @@ public class POST_SpeichereEinenAusleihartikel extends
 	@Override
 	protected Ausleihartikel wandleUm(AusleihartikelDTO artikel) {
 		artikel.setBenutzer(anfragenderBenutzer);
-		umwandler.setArtikel(artikel);
-		ausleihartikel = umwandler.wandleUm();
+		umwandlerAusleihartikel.setArtikel(artikel);
+		ausleihartikel = umwandlerAusleihartikel.wandleUm();
 		return ausleihartikel;
 	}
 

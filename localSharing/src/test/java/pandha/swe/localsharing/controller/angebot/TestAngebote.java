@@ -17,8 +17,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 
+import pandha.swe.localsharing.controller.angebot.backend.CreateArtikelInService;
+import pandha.swe.localsharing.controller.angebot.backend.DtoToModelUmwander;
 import pandha.swe.localsharing.controller.angebot.backend.ErlaubeAnfrageVonAdmin;
 import pandha.swe.localsharing.controller.angebot.backend.ErlaubeAnfrageVonBesitzer;
+import pandha.swe.localsharing.controller.angebot.backend.UpdateArtikelInService;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleAktiviertenAngebote;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleAngeboteEinesBenutzers;
 import pandha.swe.localsharing.controller.angebot.backend.holedaten.LadeAlleDeaktiviertenAngebote;
@@ -99,6 +102,31 @@ public class TestAngebote {
 
 	@Mock
 	protected NeuesAngebot neuesAngebot;
+
+	@Mock
+	protected DtoToModelUmwander<HilfeleistungDTO, Hilfeleistung> umwandlerHilfeleistung;
+
+	@Mock
+	protected DtoToModelUmwander<AusleihartikelDTO, Ausleihartikel> umwandlerAusleihartikel;
+
+	@Mock
+	protected DtoToModelUmwander<TauschartikelDTO, Hilfeleistung> umwandlerTauschartikel;
+
+	@Mock
+	protected CreateArtikelInService<HilfeleistungDTO> createArtikelInServiceHilfeleistung;
+	@Mock
+	protected CreateArtikelInService<TauschartikelDTO> createArtikelInServiceTauschartikel;
+	@Mock
+	protected CreateArtikelInService<AusleihartikelDTO> createArtikelInServiceAusleihartikel;
+
+	@Mock
+	protected UpdateArtikelInService<Hilfeleistung> updateArtikelInServiceHilfeleistung;
+
+	@Mock
+	protected UpdateArtikelInService<Ausleihartikel> updateArtikelInServiceAusleihartikel;
+
+	@Mock
+	protected UpdateArtikelInService<Tauschartikel> updateArtikelInServiceTauschartikel;
 
 	@Mock
 	protected LadeAlleDeaktiviertenAngebote ladeAlleDeaktiviertenAngebote;
