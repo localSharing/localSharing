@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -16,6 +18,7 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 
 @Repository("benutzerDao")
+@Cacheable("benutzer")
 public class BenutzerDAOImpl implements BenutzerDAO {
 
 	@Autowired
@@ -38,6 +41,7 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 	}
 
 	@Override
+	@CacheEvict(value = "benutzer", allEntries = true)
 	public void save(Benutzer benutzer) {
 
 		if (benutzer != null) {
@@ -58,6 +62,7 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 	}
 
 	@Override
+	@CacheEvict(value = "benutzer", allEntries = true)
 	public void update(Benutzer benutzer) {
 		if (benutzer != null) {
 
@@ -77,6 +82,7 @@ public class BenutzerDAOImpl implements BenutzerDAO {
 	}
 
 	@Override
+	@CacheEvict(value = "benutzer", allEntries = true)
 	public void delete(Benutzer benutzer) {
 		if (benutzer != null) {
 

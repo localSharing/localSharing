@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -70,6 +72,12 @@ public class PersistenceConfig {
 		properties.put("hibernate.id.new_generator_mappings", true);
 
 		return properties;
+	}
+
+	@Bean
+	public CacheManager BenutzerCache() {
+		return new ConcurrentMapCacheManager("benutzer", "ausleihartikel",
+				"tauschartikel", "hilfeleistung", "anfragen", "bewertung");
 	}
 
 }

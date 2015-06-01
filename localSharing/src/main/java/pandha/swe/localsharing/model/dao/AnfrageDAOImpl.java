@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,6 +25,7 @@ public class AnfrageDAOImpl implements AnfrageDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
+	@Cacheable("anfragen")
 	@Override
 	public Anfrage findById(Long id) {
 		Anfrage anfrage = hibernateTemplate.get(Anfrage.class, id);
@@ -66,6 +68,7 @@ public class AnfrageDAOImpl implements AnfrageDAO {
 	}
 
 	@Override
+	@Cacheable("anfragen")
 	public List<Anfrage> findAll() {
 		List<Anfrage> anfragen = hibernateTemplate.loadAll(Anfrage.class);
 		return anfragen;
