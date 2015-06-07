@@ -1,8 +1,8 @@
 package pandha.swe.localsharing.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -112,7 +112,7 @@ public class FileController {
 
 			ClassPathResource classPathResource = new ClassPathResource(path);
 
-			data = Files.readAllBytes(classPathResource.getFile().toPath());
+			data = IOUtils.toByteArray(classPathResource.getInputStream());
 
 			fileUpload.setFile(data);
 
