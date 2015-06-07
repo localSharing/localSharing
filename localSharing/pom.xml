@@ -279,7 +279,11 @@
 					</configuration>
 
 				</configuration>
-
+				<deployables>
+					<deployable>
+						<type>war</type>
+					</deployable>
+				</deployables>
 
 				<executions>
 					<execution>
