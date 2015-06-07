@@ -22,6 +22,8 @@ public interface AnfrageService {
 	public List<Anfrage> findAllByEmpfaenger(Benutzer empfaenger);
 
 	public List<Anfrage> findAllByEmpfaengerId(Long id);
+	
+	public List<Anfrage> findAngenommeneAnfragenByAngebotAndSender(Angebot angebot, Benutzer sender);
 
 	public void save(Anfrage anfrage);
 

@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.Bewertung;
+import pandha.swe.localsharing.model.dao.AnfrageDAO;
 import pandha.swe.localsharing.model.dao.BewertungDAO;
 import pandha.swe.localsharing.model.dto.BewertungDTO;
 
@@ -24,6 +25,9 @@ public class BewertungServiceImpl implements BewertungService {
 
 	@Autowired
 	private BewertungDAO bewertungDAO;
+	
+	@Autowired
+	private AnfrageDAO anfrageDAO;
 
 	@Override
 	public Bewertung findById(long id) {
@@ -127,6 +131,11 @@ public class BewertungServiceImpl implements BewertungService {
 	@Override
 	public List<Bewertung> findAllByEmpfaengerId(Long id) {
 		return bewertungDAO.findAllByEmpfaenger(benutzerService.findById(id));
+	}
+	
+	@Override
+	public Boolean istBewertenErlaubt(Benutzer user, Angebot angebot) {
+		return !(anfrageDAO.findAngenommeneAnfragenByAngebotAndSender(angebot, user).isEmpty());
 	}
 
 }

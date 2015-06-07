@@ -38,5 +38,7 @@ public interface BewertungService {
 
 	public void shutdown();
 
-	List<Bewertung> findAllByEmpfaengerId(Long id);
+	public List<Bewertung> findAllByEmpfaengerId(Long id);
+
+	public Boolean istBewertenErlaubt(Benutzer user, Angebot angebot);
 }

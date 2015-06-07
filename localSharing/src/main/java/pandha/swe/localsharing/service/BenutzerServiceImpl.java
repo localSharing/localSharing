@@ -24,7 +24,7 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Autowired
 	private BenutzerDAO benutzerDao;
-
+	
 	@Autowired
 	private PasswordEncoder encoder;
 
@@ -196,4 +196,5 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		return Boolean.FALSE;
 	}
+	
 }

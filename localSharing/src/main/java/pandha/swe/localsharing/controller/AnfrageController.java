@@ -138,9 +138,7 @@ public class AnfrageController {
 
 		anfrageSerivce.createAnfrage(anfrageDTO);
 
-		// TODO Redirect nur über ID (ohne "ausleihen")
-		// return "redirect:../" + angebotsid + "/ausleihen";
-		return "redirect:../../anfragen";
+		return "redirect:../" + angebotsid;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{angebotsid}/inquiry/{inquiryid}")

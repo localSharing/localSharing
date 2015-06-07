@@ -15,6 +15,8 @@ public interface AnfrageDAO {
 	public List<Anfrage> findAllBySender(Benutzer sender);
 	
 	public List<Anfrage> findAllByEmpfaenger(Benutzer empfanger);
+
+	public List<Anfrage> findAngenommeneAnfragenByAngebotAndSender(Angebot angebot, Benutzer sender);
 	
 	public List<Anfrage> findAll();
 	

@@ -24,7 +24,8 @@
 
 		<h2>Angebot bewerten</h2>
 
-		<form class="form-horizontal" th:action="${'/angebot/' + angebot.id + '/rate'}"
+		<form class="form-horizontal"
+			th:action="${'/angebot/' + angebot.id + '/rate'}"
 			th:object="${bewertung}" method="post" enctype="multipart/form-data">
 
 			<div class="row">
@@ -41,12 +42,16 @@
 						<div class="panel panel-success">
 							<div class="panel-heading">Deine Anfragen</div>
 							<div class="panel-body">
-								<div>
-									<strong>Gesendet: </strong> 05.12.2014
-								</div>
-								<div>
-									<strong>Angenommen: </strong> 06.12.2014
-								</div>
+								<ul class="list-group">
+									<li th:each="anfrage : ${anfragen}" class="list-group-item">
+										<div>
+											<strong>Gesendet: </strong> <span th:text="${anfrage.datum}"></span>
+										</div>
+										<div>
+											<strong>Angenommen: </strong> <span th:text="${anfrage.annahmeDatum}"></span>
+										</div>
+									</li>
+								</ul>
 							</div>
 						</div>
 					</div>

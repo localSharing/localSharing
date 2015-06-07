@@ -37,7 +37,7 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 
 	@Autowired
 	private AngebotService angebotService;
-
+	
 	@Autowired
 	private LadeEinAngebotDTO ladeEinAngebot;
 
@@ -94,9 +94,9 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 	@Override
 	protected void setzeWeitereModelAttribute() throws GoToErrorViewException {
 
-		Benutzer besitzer = benutzerService.findByAngebotsIdAndType(angebotsId,
-				type);
-
+		Benutzer besitzer = benutzerService.findByAngebotsIdAndType(angebotsId, type);
+		Angebot angebot = angebotService.findAngebotByIdAndType(angebotsId,	type);
+		
 		if (besitzer == null) {
 			throw new GoToErrorViewException();
 		}
@@ -116,11 +116,14 @@ public class GET_ZeigeAngebot extends ZeigeSeite_Benutzer {
 
 			model.addAttribute("besitzer", false);
 
-			model.addAttribute("kommentarErlaubt", true);
+			if (bewertungService.istBewertenErlaubt(anfragenderBenutzer, angebot)) {
+				model.addAttribute("kommentarErlaubt", true);
+			}
+			else {
+				model.addAttribute("kommentarErlaubt", false);
+			}
 		}
 
-		Angebot angebot = angebotService.findAngebotByIdAndType(angebotsId,
-				type);
 		List<Bewertung> bewertungen = bewertungService.findByAngebot(angebot);
 		List<BewertungDTO> bewertungenDTO = bewertungService
 				.list_Bewertung_TO_BewertungDTO(bewertungen);

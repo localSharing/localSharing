@@ -59,6 +59,13 @@ public class AnfrageServiceImpl implements AnfrageService {
 	public List<Anfrage> findAllByEmpfaengerId(Long id) {
 		return anfrageDao.findAllByEmpfaenger(benutzerDao.findById(id));
 	}
+	
+
+	@Override
+	public List<Anfrage> findAngenommeneAnfragenByAngebotAndSender(Angebot angebot,
+			Benutzer sender) {
+		return anfrageDao.findAngenommeneAnfragenByAngebotAndSender(angebot, sender);
+	}
 
 	@Override
 	public void save(Anfrage anfrage) {

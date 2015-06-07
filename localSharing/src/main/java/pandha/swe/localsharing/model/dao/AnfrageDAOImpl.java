@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import pandha.swe.localsharing.model.Anfrage;
 import pandha.swe.localsharing.model.Angebot;
 import pandha.swe.localsharing.model.Benutzer;
+import pandha.swe.localsharing.model.enums.AnfrageStatus;
 
 @Repository("anfrageDao")
 public class AnfrageDAOImpl implements AnfrageDAO {
@@ -64,6 +65,19 @@ public class AnfrageDAOImpl implements AnfrageDAO {
 						.add(Restrictions.eq("empfaenger.userid",
 								empfanger.getId())));
 
+		return anfragen;
+	}
+	
+	@Override
+	public List<Anfrage> findAngenommeneAnfragenByAngebotAndSender(
+			Angebot angebot,
+			Benutzer sender) {
+		@SuppressWarnings("unchecked")
+		List<Anfrage> anfragen = (List<Anfrage>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Anfrage.class)
+						.add(Restrictions.eq("status", AnfrageStatus.angenommen))
+						.add(Restrictions.eq("angebot", angebot))
+						.add(Restrictions.eq("sender", sender)));
 		return anfragen;
 	}
 
