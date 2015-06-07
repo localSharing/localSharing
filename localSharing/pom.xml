@@ -176,18 +176,9 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<attachClasses>true</attachClasses>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-
 
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -277,15 +268,6 @@
 							</deployable>
 						</deployables>
 					</configuration>
-
-
-					<deployables>
-						<deployable>
-							<groupId>${project.groupId}</groupId>
-							<artifactId>${project.artifactId}</artifactId>
-							<type>war</type>
-						</deployable>
-					</deployables>
 				</configuration>
 				<executions>
 					<execution>
