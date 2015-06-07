@@ -165,7 +165,7 @@ public class SeleniumTestMethods {
 		write_InElementWithID("username", arg1);
 		write_InElementWithID("password", arg2);
 
-		click_ElementWithText("Login");
+		click_ElementWithText("Sign In");
 
 	}
 
