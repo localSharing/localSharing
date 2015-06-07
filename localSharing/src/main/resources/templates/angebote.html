@@ -9,6 +9,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
 	rel="stylesheet" media="screen" />
+<link href="/css/table.css" rel="stylesheet" media="all" />
 
 <script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
 </head>
@@ -32,13 +33,13 @@
 					</tr>
 				</thead>
 				<tbody>
-				<tr th:each="artikel : ${artikelListA}"
-					th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/ausleihen' +''';'}">
-					<td><span th:text="${artikel.titel}"></span></td>
-					<td><span th:text="${artikel.kategorie}"></span></td>
-					<td><span th:text="${artikel.startDatum}"></span></td>
-					<td><span th:text="${artikel.endDatum}"></span></td>
-				</tr>
+					<tr th:each="artikel : ${artikelListA}"
+						th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/ausleihen' +''';'}">
+						<td><span th:text="${artikel.titel}"></span></td>
+						<td><span th:text="${artikel.kategorie}"></span></td>
+						<td><span th:text="${artikel.startDatum}"></span></td>
+						<td><span th:text="${artikel.endDatum}"></span></td>
+					</tr>
 				</tbody>
 			</table>
 			<div class="col-md-4" th:if="${titel} == 'Deine'">
@@ -62,14 +63,14 @@
 					</tr>
 				</thead>
 				<tbody>
-				<tr th:each="artikel : ${artikelListT}"
-					th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/tauschen' +''';'}">
-					<td><span th:text="${artikel.titel}"></span></td>
-					<td><span th:text="${artikel.kategorie}"></span></td>
-					<td><span th:text="${artikel.startDatum}"></span></td>
-					<td><input type="hidden" name="data" th:value="${artikel.id}"
-						value="tauschen" /></td>
-				</tr>
+					<tr th:each="artikel : ${artikelListT}"
+						th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/tauschen' +''';'}">
+						<td><span th:text="${artikel.titel}"></span></td>
+						<td><span th:text="${artikel.kategorie}"></span></td>
+						<td><span th:text="${artikel.startDatum}"></span></td>
+						<td><input type="hidden" name="data" th:value="${artikel.id}"
+							value="tauschen" /></td>
+					</tr>
 				</tbody>
 
 			</table>
@@ -96,14 +97,14 @@
 					</tr>
 				</thead>
 				<tbody>
-				<tr th:each="artikel : ${artikelListH}"
-					th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/helfen' +''';'}">
-					<td><span th:text="${artikel.titel}"></span></td>
-					<td><span th:text="${artikel.startDatum}"></span></td>
-					<td><span th:text="${artikel.endDatum}"></span></td>
-					<td><input type="hidden" name="data" th:value="${artikel.id}"
-						value="helfen" /></td>
-				</tr>
+					<tr th:each="artikel : ${artikelListH}"
+						th:onclick="${'window.location.href='+'''../angebot/' + artikel.id + '/helfen' +''';'}">
+						<td><span th:text="${artikel.titel}"></span></td>
+						<td><span th:text="${artikel.startDatum}"></span></td>
+						<td><span th:text="${artikel.endDatum}"></span></td>
+						<td><input type="hidden" name="data" th:value="${artikel.id}"
+							value="helfen" /></td>
+					</tr>
 				</tbody>
 
 			</table>
