@@ -278,13 +278,15 @@
 						</deployables>
 					</configuration>
 
-				</configuration>
-				<deployables>
-					<deployable>
-						<type>war</type>
-					</deployable>
-				</deployables>
 
+					<deployables>
+						<deployable>
+							<groupId>${project.groupId}</groupId>
+							<artifactId>${project.artifactId}</artifactId>
+							<type>war</type>
+						</deployable>
+					</deployables>
+				</configuration>
 				<executions>
 					<execution>
 						<id>start-tomcat</id>
