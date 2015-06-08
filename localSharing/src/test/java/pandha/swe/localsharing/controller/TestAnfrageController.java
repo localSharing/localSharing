@@ -288,7 +288,7 @@ public class TestAnfrageController {
 		mockMvc.perform(post("/angebot/111/inquire").principal(principal))
 				.andExpect(status().isFound())
 				.andExpect(model().attributeExists("anfrage"))
-				.andExpect(view().name("redirect:../../anfragen"));
+				.andExpect(view().name("redirect:/angebot/111"));
 
 		verify(anfrageService, times(1)).createAnfrage(any(AnfrageDTO.class));
 	}

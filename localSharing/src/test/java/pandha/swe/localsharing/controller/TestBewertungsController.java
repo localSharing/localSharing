@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -145,25 +144,6 @@ public class TestBewertungsController {
 				.andExpect(status().isFound())
 				.andExpect(view().name("redirect:/angebot/111"));
 
-	}
-
-	@Test
-	public void testBewerteAngebotNotBesitzer() throws Exception {
-
-		when(angebotService.findAngebotById(111l)).thenReturn(ausleihartikel);
-		when(angebotService.angebot_TO_AngebotDTO(ausleihartikel)).thenReturn(
-				ausleihartikelDTO);
-
-		Benutzer benutzer2 = new Benutzer();
-		benutzer2.setId(12l);
-		when(benutzerService.getUserByPrincipal(principal)).thenReturn(
-				benutzer2);
-
-		mockMvc.perform(get("/angebot/111/rate").principal(principal))
-				.andExpect(status().isOk())
-				.andExpect(model().attributeExists("bewertung"))
-				.andExpect(model().attributeExists("angebot"))
-				.andExpect(view().name("bewerten"));
 	}
 
 	@Test

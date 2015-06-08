@@ -138,7 +138,7 @@ public class AnfrageController {
 
 		anfrageSerivce.createAnfrage(anfrageDTO);
 
-		return "redirect:../" + angebotsid;
+		return "redirect:/angebot/" + angebotsid;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/angebot/{angebotsid}/inquiry/{inquiryid}")
