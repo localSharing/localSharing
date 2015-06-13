@@ -19,12 +19,12 @@ import pandha.swe.localsharing.model.Tauschartikel;
 @Controller
 public class GET_DeaktiviereEinAngebot extends AktivierenDeaktiveren {
 
-	private static final String REQUEST_URL = "/disable/angebot/{id}/{type}";
+	private static final String REQUEST_URL = "/angebot/disable/{id}/{type}";
 
 	@Autowired
 	private B_DeaktiviereEinAngebot bDeaktiviereEinAngebot;
 
-	@RequestMapping(method = RequestMethod.GET, value = "/disable/angebot/{id}")
+	@RequestMapping(method = RequestMethod.GET, value = "/angebot/disable/{id}")
 	protected String redirectAnfrage(Model model, Principal principal,
 			@PathVariable("id") String angebotsId) {
 

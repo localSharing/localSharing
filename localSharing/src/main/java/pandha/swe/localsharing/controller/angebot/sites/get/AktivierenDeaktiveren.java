@@ -11,7 +11,7 @@ import pandha.swe.localsharing.service.AngebotService;
 
 public abstract class AktivierenDeaktiveren extends BearbeiteEtwasAdmin {
 
-	protected static String SUCCESS_VIEW = "redirect:../../angebote/";
+	protected static String SUCCESS_VIEW = "redirect:/angebote/";
 	protected static String ERROR_VIEW = "redirect:angebote";
 
 	protected Long angebotsId;
@@ -27,7 +27,7 @@ public abstract class AktivierenDeaktiveren extends BearbeiteEtwasAdmin {
 			String angebotsId, String type) {
 		this.angebotsId = Long.valueOf(angebotsId);
 		this.type = type;
-		SUCCESS_VIEW = "redirect:../../angebot/" + angebotsId + "/" + type;
+		SUCCESS_VIEW = "redirect:/angebot/" + angebotsId + "/" + type;
 
 		return bearbeiteAnfrageIntern(principal);
 	}

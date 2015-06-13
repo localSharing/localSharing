@@ -43,7 +43,6 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
-	@Cacheable("ausleihartikel")
 	public List<Ausleihartikel> findAllEnabled() {
 
 		@SuppressWarnings("unchecked")
@@ -55,7 +54,6 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
-	@Cacheable("ausleihartikel")
 	public List<Ausleihartikel> findAllDisabled() {
 
 		@SuppressWarnings("unchecked")
