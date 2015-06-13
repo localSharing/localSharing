@@ -5,18 +5,63 @@
 <head>
 <title>Angebot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="/webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
 
-<script src="/webjars/jquery/2.1.1/jquery.min.js"
-	type="text/javascript"></script>
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+
+<!-- Custom Fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css' />
+<link
+	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+	rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	type="text/css" />
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+<link rel="stylesheet" href="/css/startPage.css" type="text/css" />
+
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- 			Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="/startPage">LocalSharing</a>
+			</div>
+
+			<!-- 			Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="page-scroll" th:href="@{/anfragen}">Anfragen</a></li>
+					<li><a class="page-scroll" th:href="@{/profil}">Profil</a></li>
+					<li><a class="page-scroll" th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+			<!-- 			/.navbar-collapse -->
+		</div>
+		<!-- 		/.container-fluid -->
+	</nav>
+
+	<br />
+	<br />
+	<br />
+
 	<div class="container">
-		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
-		</a>
+
 		<h2>Angebot bearbeiten</h2>
 
 		<form class="form-horizontal" method="post" id="form"
@@ -92,8 +137,9 @@
 							<div class="panel-heading">Beschreibung</div>
 							<div class="panel-body">
 								<div th:if="${kategorie != null}">
-									<strong>Kategorie: </strong><input type="text" class="form-control"
-										id="kategorie" th:field="*{angebot.kategorie}"
+									<strong>Kategorie: </strong><input type="text"
+										class="form-control" id="kategorie"
+										th:field="*{angebot.kategorie}"
 										th:value="${angebot.kategorie}" /> <br />
 									<div class="alert alert-danger"
 										th:if="${#fields.hasErrors('angebot.kategorie')}"
@@ -113,24 +159,25 @@
 						<div class="panel panel-success">
 							<div class="panel-heading">Bedingungen</div>
 							<div class="panel-body">
-								<strong>Startdatum: </strong><input type="datetime" class="form-control"
-									id="startDatum" th:field="*{angebot.startDatum}"
+								<strong>Startdatum: </strong><input type="datetime"
+									class="form-control" id="startDatum"
+									th:field="*{angebot.startDatum}"
 									th:value="${angebot.startDatum}" required="required" />
 								<div class="alert alert-danger"
 									th:if="${#fields.hasErrors('angebot.startDatum')}"
 									th:errors="*{angebot.startDatum}">Error</div>
 								<div th:if="${endDatum != null}">
-									<strong>Enddatum: </strong><input type="datetime" class="form-control"
-										id="endDatum" th:field="*{angebot.endDatum}"
-										th:value="${angebot.endDatum}" />
+									<strong>Enddatum: </strong><input type="datetime"
+										class="form-control" id="endDatum"
+										th:field="*{angebot.endDatum}" th:value="${angebot.endDatum}" />
 									<div class="alert alert-danger"
 										th:if="${#fields.hasErrors('angebot.endDatum')}"
 										th:errors="*{angebot.endDatum}">Error</div>
 								</div>
 								<div th:if="${dauer != null}">
-									<br /> <strong>maximale Ausleihdauer: </strong><input type="text"
-										class="form-control" id="dauer" th:field="*{angebot.dauer}"
-										th:value="${angebot.dauer}" />
+									<br /> <strong>maximale Ausleihdauer: </strong><input
+										type="text" class="form-control" id="dauer"
+										th:field="*{angebot.dauer}" th:value="${angebot.dauer}" />
 									<div class="alert alert-danger"
 										th:if="${#fields.hasErrors('angebot.dauer')}"
 										th:errors="*{angebot.dauer}">Error</div>
