@@ -20,7 +20,7 @@ public class TestGET_AktiviereEinAngebot extends TestAngebote {
 	@Test
 	public void testAktiviereAusleihartikel() throws Exception {
 
-		String url = "/enable/angebot/111/ausleihen";
+		String url = "/angebot/enable/111/ausleihen";
 		String response = "redirect:../../angebot/111/ausleihen";
 
 		mockMvc.perform(get(url).principal(testUser))
@@ -30,7 +30,7 @@ public class TestGET_AktiviereEinAngebot extends TestAngebote {
 	@Test
 	public void testAktiviereTauschartikel() throws Exception {
 
-		String url = "/enable/angebot/222/tauschen";
+		String url = "/angebot/enable/222/tauschen";
 		String response = "redirect:../../angebot/222/tauschen";
 
 		mockMvc.perform(get(url).principal(testUser))
@@ -40,7 +40,7 @@ public class TestGET_AktiviereEinAngebot extends TestAngebote {
 	@Test
 	public void testAktiviereHilfeleistung() throws Exception {
 
-		String url = "/enable/angebot/333/helfen";
+		String url = "/angebot/enable/333/helfen";
 		String response = "redirect:../../angebot/333/helfen";
 
 		mockMvc.perform(get(url).principal(testUser))
