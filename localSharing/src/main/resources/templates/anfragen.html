@@ -86,7 +86,7 @@
 					<tr th:each="anfrage : ${anfragenListG}"
 						th:onclick="${'window.location.href='+'''../angebot/' + anfrage.angebot.angebotsid + '/inquiry/' + anfrage.id +''';'}">
 						<td><span th:text="${anfrage.angebot.titel}"></span></td>
-						<td><span th:text="${anfrage.sender.vorname}"></span></td>
+						<td><span th:text="${anfrage.angebot.benutzer.vorname}"></span></td>
 						<td><span th:text="${anfrage.datum}"></span></td>
 						<td><span
 							th:if="${anfrage.status == T(pandha.swe.localsharing.model.enums.AnfrageStatus).offen}"
