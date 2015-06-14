@@ -126,7 +126,7 @@ public class ProfilController {
 		userToDisable.setEnabled(Boolean.FALSE);
 		benutzerService.update(userToDisable);
 
-		return "redirect:../profil/" + id;
+		return "redirect:/profil/" + id;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/enable/user/{id}")
@@ -146,7 +146,7 @@ public class ProfilController {
 		userToEnable.setEnabled(Boolean.TRUE);
 		benutzerService.update(userToEnable);
 
-		return "redirect:../profil/" + id;
+		return "redirect:/profil/" + id;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/profile")
