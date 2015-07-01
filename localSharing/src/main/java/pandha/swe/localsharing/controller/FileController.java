@@ -1,8 +1,8 @@
 package pandha.swe.localsharing.controller;
 
 import java.io.IOException;
-import java.nio.file.Files;
 
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
@@ -28,16 +28,13 @@ public class FileController {
 		FileUpload image = fileService
 				.findByAssociated(id, FileUploadType.USER);
 
-		byte[] content = null;
 		if (image == null) {
 			// TODO Default Image via Insert Script
-
-			content = getUserDefaultImageIfNotExistInsertIT();
-		} else {
-			content = image.getFile();
+			return getUserDefaultImageIfNotExistInsertIT();
 		}
 
-		return content;
+		return image.getFile();
+
 	}
 
 	@RequestMapping(value = "/images/hilfsangebot/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -47,7 +44,7 @@ public class FileController {
 		FileUpload image = fileService.findByAssociated(id,
 				FileUploadType.HILFANGEBOT);
 
-		return getImageIfNoImageFound_GetDefaultImage(image);
+		return getImageIfNoImageFoundGetDefaultImage(image);
 	}
 
 	@RequestMapping(value = "/images/ausleihangebot/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -57,7 +54,7 @@ public class FileController {
 		FileUpload image = fileService.findByAssociated(id,
 				FileUploadType.AUSLEIHANGEBOT);
 
-		return getImageIfNoImageFound_GetDefaultImage(image);
+		return getImageIfNoImageFoundGetDefaultImage(image);
 
 	}
 
@@ -68,7 +65,7 @@ public class FileController {
 		FileUpload image = fileService.findByAssociated(id,
 				FileUploadType.TAUSCHANGEBOT);
 
-		return getImageIfNoImageFound_GetDefaultImage(image);
+		return getImageIfNoImageFoundGetDefaultImage(image);
 	}
 
 	@RequestMapping(value = "/images/angebot", produces = MediaType.IMAGE_JPEG_VALUE)
@@ -78,16 +75,13 @@ public class FileController {
 		return getAngebotDefaultImageIfNotExistInsertIT();
 	}
 
-	private byte[] getImageIfNoImageFound_GetDefaultImage(FileUpload image) {
-		byte[] content = null;
+	private byte[] getImageIfNoImageFoundGetDefaultImage(FileUpload image) {
 		if (image == null) {
 			// TODO Default Image via Insert Script
-
-			content = getAngebotDefaultImageIfNotExistInsertIT();
-		} else {
-			content = image.getFile();
+			return getAngebotDefaultImageIfNotExistInsertIT();
 		}
-		return content;
+
+		return image.getFile();
 	}
 
 	private byte[] getAngebotDefaultImageIfNotExistInsertIT() {
@@ -102,28 +96,34 @@ public class FileController {
 			fileUpload.setAssID(new Long(1));
 			fileUpload.setFileUploadType(FileUploadType.DEFAULT_ANGEBOT);
 
-			byte[] data;
-			try {
+			String path = "static/images/angebot_default.jpg";
 
-				ClassPathResource classPathResource = new ClassPathResource(
-						"static/images/angebot_default.jpg");
-
-				data = Files.readAllBytes(classPathResource.getFile().toPath());
-
-				fileUpload.setFile(data);
-
-				fileService.save(fileUpload);
-
-				image = fileUpload;
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			image = loadDefaultImage(image, fileUpload, path);
 		}
 
 		return image.getFile();
 
+	}
+
+	private FileUpload loadDefaultImage(FileUpload image,
+			FileUpload fileUpload, String path) {
+		byte[] data;
+		try {
+
+			ClassPathResource classPathResource = new ClassPathResource(path);
+
+			data = IOUtils.toByteArray(classPathResource.getInputStream());
+
+			fileUpload.setFile(data);
+
+			fileService.save(fileUpload);
+
+			return fileUpload;
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	private byte[] getUserDefaultImageIfNotExistInsertIT() {
@@ -138,24 +138,10 @@ public class FileController {
 			fileUpload.setAssID(new Long(1));
 			fileUpload.setFileUploadType(FileUploadType.DEFAULT_USER);
 
-			byte[] data;
-			try {
+			String path = "static/images/user_default.jpg";
 
-				ClassPathResource classPathResource = new ClassPathResource(
-						"static/images/user_default.jpg");
+			image = loadDefaultImage(image, fileUpload, path);
 
-				data = Files.readAllBytes(classPathResource.getFile().toPath());
-
-				fileUpload.setFile(data);
-
-				fileService.save(fileUpload);
-
-				image = fileUpload;
-
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 		}
 
 		return image.getFile();

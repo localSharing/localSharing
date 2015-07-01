@@ -16,8 +16,8 @@ public class BenutzerRegisterDTO extends BenutzerDTO {
 			String password2, String email, String vorname, String nachname,
 			String strasse, String hausnummer, String plz, String stadt,
 			String telefonNummer) {
-		super(geschlecht, email, vorname, nachname, strasse, hausnummer, plz,
-				stadt, telefonNummer);
+		super(Boolean.TRUE, geschlecht, email, vorname, nachname, strasse,
+				hausnummer, plz, stadt, telefonNummer);
 		this.password1 = password1;
 		this.password2 = password2;
 	}

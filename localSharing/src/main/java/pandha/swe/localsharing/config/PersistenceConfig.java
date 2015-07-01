@@ -6,6 +6,8 @@ import javax.sql.DataSource;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -14,7 +16,6 @@ import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
 
 @Configuration
 public class PersistenceConfig {
-	// ${jdbc.driverClassName}
 	@Value("${jdbc.driverClassName}")
 	private String driverClassName;
 	@Value("${jdbc.url}")
@@ -68,8 +69,15 @@ public class PersistenceConfig {
 		properties.put("hibernate.connection.useUnicode", "true");
 		properties.put("hibernate.connection.characterEncoding", "UTF-8");
 		properties.put("hibernate.connection.charSet", "UTF-8");
+		properties.put("hibernate.id.new_generator_mappings", true);
 
 		return properties;
+	}
+
+	@Bean
+	public CacheManager BenutzerCache() {
+		return new ConcurrentMapCacheManager("benutzer", "ausleihartikel",
+				"tauschartikel", "hilfeleistung", "anfragen", "bewertung");
 	}
 
 }

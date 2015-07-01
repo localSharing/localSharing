@@ -30,15 +30,36 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
+	public List<AusleihartikelDTO> findAllDTO() {
+		return list_angebot_TO_AngebotDTO(findAll());
+	}
+
+	@Override
+	public List<AusleihartikelDTO> findAllEnabled() {
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao
+				.findAllEnabled();
+		return list_angebot_TO_AngebotDTO(ausleihartikelEnabled);
+	}
+
+	@Override
+	public List<AusleihartikelDTO> findAllDisabled() {
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao
+				.findAllDisabled();
+		return list_angebot_TO_AngebotDTO(ausleihartikelEnabled);
+	}
+
+	@Override
+	public List<AusleihartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
+		List<Ausleihartikel> ausleihartikelEnabled = ausleihartikelDao
+				.findAllEnabledByBenutzer(benutzer);
+		return list_angebot_TO_AngebotDTO(ausleihartikelEnabled);
+	}
+
+	@Override
 	public List<AusleihartikelDTO> findAllByBenutzer(Benutzer benutzer) {
 		List<Ausleihartikel> ausleihartikelListe = ausleihartikelDao
 				.findAllByBenutzer(benutzer);
-		List<AusleihartikelDTO> ausleihartikelDTOListe = new ArrayList<>();
-		for (Ausleihartikel ausleihartikel : ausleihartikelListe) {
-			ausleihartikelDTOListe
-					.add(ausleihartikel_TO_AusleihartikelDTO(ausleihartikel));
-		}
-		return ausleihartikelDTOListe;
+		return list_angebot_TO_AngebotDTO(ausleihartikelListe);
 	}
 
 	@Override
@@ -57,9 +78,9 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public Long createAusleihartikel(AusleihartikelDTO ausleihartikelDTO) {
+	public Long createAngebot(AusleihartikelDTO ausleihartikelDTO) {
 
-		Ausleihartikel ausleihartikel = new Ausleihartikel(null,
+		Ausleihartikel ausleihartikel = new Ausleihartikel(null, Boolean.TRUE,
 				ausleihartikelDTO.getBenutzer(), ausleihartikelDTO.getTitel(),
 				ausleihartikelDTO.getBeschreibung(),
 				stringToDate(ausleihartikelDTO.getStartDatum()),
@@ -71,7 +92,7 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public Ausleihartikel ausleihartikelDTO_TO_Ausleihartikel(
+	public Ausleihartikel angebotDTO_TO_Angebot(
 			AusleihartikelDTO ausleihartikelDTO) {
 
 		Ausleihartikel ausleihartikel = findById(ausleihartikelDTO.getId());
@@ -90,18 +111,27 @@ public class AusleihartikelServiceImpl implements AusleihartikelService {
 	}
 
 	@Override
-	public AusleihartikelDTO ausleihartikel_TO_AusleihartikelDTO(
-			Ausleihartikel ausleihartikel) {
+	public AusleihartikelDTO angebot_TO_AngebotDTO(Ausleihartikel ausleihartikel) {
 
 		AusleihartikelDTO ausleihartikelDTO = new AusleihartikelDTO(
-				ausleihartikel.getAngebotsid(), ausleihartikel.getBenutzer(),
-				ausleihartikel.getTitel(), ausleihartikel.getBeschreibung(),
+				ausleihartikel.getAngebotsid(), ausleihartikel.getEnabled(),
+				ausleihartikel.getBenutzer(), ausleihartikel.getTitel(),
+				ausleihartikel.getBeschreibung(),
 				dateToString(ausleihartikel.getStartDatum()),
 				dateToString(ausleihartikel.getEndDatum()),
 				ausleihartikel.getDauer(), ausleihartikel.getKategorie());
 
 		return ausleihartikelDTO;
+	}
 
+	@Override
+	public List<AusleihartikelDTO> list_angebot_TO_AngebotDTO(
+			List<Ausleihartikel> listAusleihartikel) {
+		List<AusleihartikelDTO> listAusleihartikelDTO = new ArrayList<AusleihartikelDTO>();
+		for (Ausleihartikel ausleihartikel : listAusleihartikel) {
+			listAusleihartikelDTO.add(angebot_TO_AngebotDTO(ausleihartikel));
+		}
+		return listAusleihartikelDTO;
 	}
 
 	@Override

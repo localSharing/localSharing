@@ -30,15 +30,36 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	}
 
 	@Override
+	public List<TauschartikelDTO> findAllDTO() {
+		return list_angebot_TO_AngebotDTO(findAll());
+	}
+
+	@Override
+	public List<TauschartikelDTO> findAllEnabled() {
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllEnabled();
+		return list_angebot_TO_AngebotDTO(tauschartikelListe);
+	}
+
+	@Override
+	public List<TauschartikelDTO> findAllDisabled() {
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllDisabled();
+		return list_angebot_TO_AngebotDTO(tauschartikelListe);
+	}
+
+	@Override
+	public List<TauschartikelDTO> findAllEnabledByBenutzer(Benutzer benutzer) {
+		List<Tauschartikel> tauschartikelListe = tauschartikelDao
+				.findAllEnabledByBenutzer(benutzer);
+		return list_angebot_TO_AngebotDTO(tauschartikelListe);
+	}
+
+	@Override
 	public List<TauschartikelDTO> findAllByBenutzer(Benutzer benutzer) {
 		List<Tauschartikel> tauschartikelListe = tauschartikelDao
 				.findAllByBenutzer(benutzer);
-		List<TauschartikelDTO> tauschartikelDTOListe = new ArrayList<>();
-		for (Tauschartikel tauschartikel : tauschartikelListe) {
-			tauschartikelDTOListe
-					.add(tauschartikel_TO_TauschartikelDTO(tauschartikel));
-		}
-		return tauschartikelDTOListe;
+		return list_angebot_TO_AngebotDTO(tauschartikelListe);
 	}
 
 	@Override
@@ -57,9 +78,9 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	}
 
 	@Override
-	public Long createTauschartikel(TauschartikelDTO tauschartikelDTO) {
+	public Long createAngebot(TauschartikelDTO tauschartikelDTO) {
 
-		Tauschartikel tauschartikel = new Tauschartikel(null,
+		Tauschartikel tauschartikel = new Tauschartikel(null, Boolean.TRUE,
 				tauschartikelDTO.getBenutzer(), tauschartikelDTO.getTitel(),
 				tauschartikelDTO.getBeschreibung(),
 				stringToDate(tauschartikelDTO.getStartDatum()),
@@ -70,7 +91,7 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	}
 
 	@Override
-	public Tauschartikel tauschartikelDTO_TO_Tauschartikel(
+	public Tauschartikel angebotDTO_TO_Angebot(
 			TauschartikelDTO tauschartikelDTO) {
 
 		Tauschartikel tauschartikel = findById(tauschartikelDTO.getId());
@@ -86,16 +107,28 @@ public class TauschartikelServiceImpl implements TauschartikelService {
 	}
 
 	@Override
-	public TauschartikelDTO tauschartikel_TO_TauschartikelDTO(
+	public TauschartikelDTO angebot_TO_AngebotDTO(
 			Tauschartikel tauschartikel) {
 
 		TauschartikelDTO tauschartikelDTO = new TauschartikelDTO(
-				tauschartikel.getAngebotsid(), tauschartikel.getBenutzer(),
-				tauschartikel.getTitel(), tauschartikel.getBeschreibung(),
+				tauschartikel.getAngebotsid(), tauschartikel.getEnabled(),
+				tauschartikel.getBenutzer(), tauschartikel.getTitel(),
+				tauschartikel.getBeschreibung(),
 				dateToString(tauschartikel.getStartDatum()),
 				tauschartikel.getKategorie());
 
 		return tauschartikelDTO;
+	}
+
+	@Override
+	public List<TauschartikelDTO> list_angebot_TO_AngebotDTO(
+			List<Tauschartikel> listTauschartikel) {
+		List<TauschartikelDTO> listTauschartikelDTO = new ArrayList<TauschartikelDTO>();
+		for (Tauschartikel tauschartikel : listTauschartikel) {
+			listTauschartikelDTO
+					.add(angebot_TO_AngebotDTO(tauschartikel));
+		}
+		return listTauschartikelDTO;
 	}
 
 	@Override

@@ -171,4 +171,20 @@ public class FileServiceImpl implements FileService {
 
 		return file;
 	}
+
+	@Override
+	public void save(Long associatedId, FileUploadType type, MultipartFile image) {
+
+		FileUpload upload = new FileUpload();
+		upload.setAssID(associatedId);
+		upload.setFileUploadType(type);
+
+		try {
+			byte[] bytes = image.getBytes();
+			upload.setFile(bytes);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		fileDAO.save(upload);
+	}
 }

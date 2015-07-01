@@ -7,18 +7,79 @@
 <head>
 <title>Profil</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
 
-<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+
+<!-- Custom Fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css' />
+<link
+	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+	rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	type="text/css" />
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+
+<link href="/css/star-rating.min.css" media="all" rel="stylesheet"
+	type="text/css" />
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/css/startPage.css" type="text/css" />
+<!-- <link href="/css/table.css" rel="stylesheet" media="all" /> -->
+
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css"
+	rel="stylesheet" />
+<script
+	src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<script src="/js/star-rating.min.js" type="text/javascript"></script>
 </head>
 
 <body>
 
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- 			Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="/startPage">LocalSharing</a>
+			</div>
+
+			<!-- 			Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="page-scroll" th:href="@{/anfragen}">Anfragen</a></li>
+					<li><a class="page-scroll" th:href="@{/profil}">Profil</a></li>
+					<li><a class="page-scroll" th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+			<!-- 			/.navbar-collapse -->
+		</div>
+		<!-- 		/.container-fluid -->
+	</nav>
+
+	<br />
+	<br />
+	<br />
+
 	<div class="container">
-		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
-		</a>
-		<h2>Dein Profil</h2>
+		<h2>
+			<span th:text="${titel}"></span> Profil
+		</h2>
 
 		<div class="row">
 			<div class="col-md-4">
@@ -29,11 +90,27 @@
 							width="100px" height="100px" />
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4" th:if="${besitzer}">
 					<form th:action="@{/profilEdit}" method="get">
 						<button id="btnProfilBearbeiten" class="btn btn-success">
 							<span class="glyphicon glyphicon-edit"></span> Bearbeiten
 						</button>
+					</form>
+				</div>
+				<div class="col-md-4" sec:authorize="hasRole('ADMIN')">
+					<form th:if="${user.enabled}"
+						th:action="${'../../disable/user/' + user.id}" method="get">
+						<input data-toggle="toggle" type="checkbox" id="toggle-button"
+							data-onstyle="info" data-offstyle="danger" data-on="Aktiviert"
+							data-off="Deaktiviert" checked="checked"
+							onChange="confirmChange(this, 'deaktivieren');" />
+					</form>
+					<form th:if="${!user.enabled}"
+						th:action="${'../../enable/user/' + user.id}" method="get">
+						<input data-toggle="toggle" type="checkbox" id="toggle-button"
+							data-onstyle="info" data-offstyle="danger" data-on="Aktiviert"
+							data-off="Deaktiviert"
+							onChange="confirmChange(this, 'aktivieren');" />
 					</form>
 				</div>
 			</div>
@@ -42,7 +119,7 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<td><b>Adressinformationen</b></td>
+								<td><strong>Adressinformationen</strong></td>
 							</tr>
 
 						</thead>
@@ -90,7 +167,7 @@
 					<table class="table">
 						<thead>
 							<tr>
-								<td><b>Kontaktinformationen</b></td>
+								<td><strong>Kontaktinformationen</strong></td>
 							</tr>
 
 						</thead>
@@ -110,9 +187,80 @@
 					</table>
 
 				</div>
-			</div>
-		</div>
 
+				<div class="jumbotron">
+					<strong>Kommentare</strong>
+					<ul class="list-group">
+						<li th:each="bewertung : ${bewertungen}" class="list-group-item">
+							<div class="row">
+								<div class="col-md-4">
+									<div>
+										<span th:if="${bewertung.bewertungSterne > 0}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 0}"
+											class="glyphicon glyphicon-star-empty"></span> <span
+											th:if="${bewertung.bewertungSterne > 1}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 1}"
+											class="glyphicon glyphicon-star-empty"></span> <span
+											th:if="${bewertung.bewertungSterne > 2}"
+											class="glyphicon glyphicon-star"></span> <span
+											th:unless="${bewertung.bewertungSterne > 2}"
+											class="glyphicon glyphicon-star-empty"></span>
+									</div>
+									<br />
+
+									<div
+										th:onclick="${'window.location.href='+'''/profil/' + bewertung.bewerter.id +''';'}">
+										<img class="img-circle"
+											th:src="@{/images/user/{id}(id=${bewertung.bewerter.id})}"
+											src="/imageUser/" width="20px" height="20px" /> <span
+											th:text="${bewertung.bewerter.vorname}"></span>
+									</div>
+								</div>
+								<div class="col-md-8">
+									<div th:text="${bewertung.datum}"></div>
+									<br />
+									<div
+										th:onclick="${'window.location.href='+'''/angebot/' + bewertung.angebot.angebotsid + '/ausleihen' +''';'}">
+										<span class="glyphicon glyphicon-arrow-right"></span> Zum
+										Angebot: <span th:text="${bewertung.angebot.titel}"></span>
+									</div>
+								</div>
+							</div> <br />
+							<div th:text="${bewertung.kommentar}"></div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
 	</div>
+
+	<script type="text/javascript">
+		var callFunction = true;
+
+		function confirmChange(element, text) {
+
+			if (callFunction == true) {
+
+				var answer = confirm("Willst du diesen User wirklich " + text
+						+ "?");
+
+				if (answer == true) {
+					element.form.submit();
+					return false;
+
+				} else {
+					callFunction = false;
+					$(element).bootstrapToggle('toggle');
+					return false;
+				}
+			} else {
+				callFunction = true;
+				return false;
+			}
+		}
+	</script>
 </body>
 </html>

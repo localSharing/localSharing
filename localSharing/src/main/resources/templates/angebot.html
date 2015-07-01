@@ -5,19 +5,73 @@
 <head>
 <title>Angebot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../../webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
 
-<script src="../../webjars/jquery/2.1.1/jquery.min.js"
-	type="text/javascript"></script>
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+
+<!-- Custom Fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css' />
+<link
+	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+	rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	type="text/css" />
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+<link href="/css/star-rating.min.css" media="all" rel="stylesheet"
+	type="text/css" />
+<link rel="stylesheet" href="/css/startPage.css" type="text/css" />
+
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<link
+	href="https://gitcdn.github.io/bootstrap-toggle/2.2.0/css/bootstrap-toggle.min.css"
+	rel="stylesheet" />
+<script
+	src="https://gitcdn.github.io/bootstrap-toggle/2.2.0/js/bootstrap-toggle.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+<script src="/js/star-rating.min.js" type="text/javascript"></script>
+
+
 </head>
 <body>
 
-	<div class="container">
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- 			Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="/startPage">LocalSharing</a>
+			</div>
 
-		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
-		</a>
+			<!-- 			Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="page-scroll" th:href="@{/anfragen}">Anfragen</a></li>
+					<li><a class="page-scroll" th:href="@{/profil}">Profil</a></li>
+					<li><a class="page-scroll" th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+			<!-- 			/.navbar-collapse -->
+		</div>
+		<!--  /.container-fluid-->
+	</nav>
+
+	<br />
+	<br />
+	<br />
+
+	<div class="container">
 
 		<h2>Angebotsansicht</h2>
 
@@ -36,7 +90,7 @@
 							alt="Bild" width="100px" height="100px" />
 					</div>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4" th:if="${besitzer}">
 					<form th:if="${dauer != null}"
 						th:action="${'../../angebotEdit/' + angebot.id + '/ausleihen'}"
 						method="get">
@@ -60,13 +114,76 @@
 					</form>
 				</div>
 				<div class="col-md-4">
-					<form th:action="@{/angebote}" method="get">
-						<button id="btnAngebote" class="btn btn-success">
-							<span class="glyphicon glyphicon-chevron-left"></span> Zurück
+					<button id="btnAngebote" class="btn btn-success"
+						onclick="history.back(-1)">
+						<span class="glyphicon glyphicon-chevron-left"></span> Zurück
+					</button>
+				</div>
+				<div class="col-md-4" th:if="${kommentarErlaubt}">
+					<form th:action="${'../../angebot/' + angebot.id + '/rate'}"
+						method="get">
+						<button id="btnAngebotBewerten" class="btn btn-success">
+							<span class="glyphicon glyphicon-star"></span> Bewerten
 						</button>
 					</form>
 				</div>
+				<div class="col-md-4" th:if="${!besitzer}">
+					<form th:action="${'./inquire'}" method="get">
+						<button id="btnInquire" class="btn btn-success">
+							<span class="glyphicon glyphicon-envelope"></span> Anfragen
+						</button>
+					</form>
+				</div>
+				<div class="col-md-4" sec:authorize="hasRole('ADMIN')">
+					<!-- Ausleihartikel Enable / Disable -->
+					<form th:if="${angebot.enabled}"
+						th:action="${'../../angebot/disable/' + angebot.id}" method="get">
+						<input data-toggle="toggle" type="checkbox" id="toggle-button"
+							data-onstyle="info" data-offstyle="danger" data-on="Aktiviert"
+							data-off="Deaktiviert" checked="checked"
+							onChange="confirmChange(this, 'deaktivieren');" />
+					</form>
+					<form th:if="${!angebot.enabled}"
+						th:action="${'../../angebot/enable/' + angebot.id}" method="get">
+						<input data-toggle="toggle" type="checkbox" id="toggle-button"
+							data-onstyle="info" data-offstyle="danger" data-on="Aktiviert"
+							data-off="Deaktiviert"
+							onChange="confirmChange(this, 'aktivieren');" />
+					</form>
+				</div>
 			</div>
+
+
+
+			<script type="text/javascript">
+				var callFunction = true;
+
+				function confirmChange(element, text) {
+
+					if (callFunction == true) {
+
+						var answer = confirm("Willst du wirklich das Angebot "
+								+ text + "?");
+
+						if (answer == true) {
+							element.form.submit();
+							return false;
+
+						} else {
+							callFunction = false;
+							$(element).bootstrapToggle('toggle');
+							return false;
+						}
+					} else {
+						callFunction = true;
+						return false;
+					}
+				}
+			</script>
+
+
+
+
 			<div class="col-md-8">
 				<div class="jumbotron">
 
@@ -78,9 +195,10 @@
 						<div class="panel-heading">Beschreibung</div>
 						<div class="panel-body">
 							<div th:if="${kategorie != null}">
-								<b>Kategorie: </b><span th:text="${angebot.kategorie}"></span> <br />
+								<strong>Kategorie: </strong><span th:text="${angebot.kategorie}"></span>
+								<br />
 							</div>
-							<b>Angebotsbeschreibung: </b><span
+							<strong>Angebotsbeschreibung: </strong><span
 								th:text="${angebot.beschreibung}"></span>
 
 						</div>
@@ -89,12 +207,13 @@
 					<div class="panel panel-success">
 						<div class="panel-heading">Bedingungen</div>
 						<div class="panel-body">
-							<b>Startdatum: </b><span th:text="${angebot.startDatum}"></span>
+							<strong>Startdatum: </strong><span
+								th:text="${angebot.startDatum}"></span>
 							<div th:if="${endDatum != null}">
-								<b>Enddatum: </b><span th:text="${angebot.endDatum}"></span>
+								<strong>Enddatum: </strong><span th:text="${angebot.endDatum}"></span>
 							</div>
 							<div th:if="${dauer != null}">
-								<br /> <b>maximale Ausleihdauer: </b><span
+								<br /> <strong>Maximale Ausleihdauer: </strong><span
 									th:text="${angebot.dauer}"></span> Tag(e)
 							</div>
 						</div>
@@ -102,16 +221,48 @@
 
 					<div class="panel panel-success">
 						<div class="panel-heading">Kommentare</div>
-						<div class="panel-body">Kommentare anzeigen?</div>
+						<ul class="list-group">
+							<li th:each="bewertung : ${bewertungen}" class="list-group-item">
+								<div class="row">
+									<div class="col-md-4">
+										<div>
+											<span th:if="${bewertung.bewertungSterne > 0}"
+												class="glyphicon glyphicon-star"></span> <span
+												th:unless="${bewertung.bewertungSterne > 0}"
+												class="glyphicon glyphicon-star-empty"></span> <span
+												th:if="${bewertung.bewertungSterne > 1}"
+												class="glyphicon glyphicon-star"></span> <span
+												th:unless="${bewertung.bewertungSterne > 1}"
+												class="glyphicon glyphicon-star-empty"></span> <span
+												th:if="${bewertung.bewertungSterne > 2}"
+												class="glyphicon glyphicon-star"></span> <span
+												th:unless="${bewertung.bewertungSterne > 2}"
+												class="glyphicon glyphicon-star-empty"></span>
+										</div>
+										<br />
+										<div
+											th:onclick="${'window.location.href='+'''../../profil/' + bewertung.bewerter.id +''';'}">
+											<img class="img-circle"
+												th:src="@{/images/user/{id}(id=${bewertung.bewerter.id})}"
+												src="/imageUser/" width="20px" height="20px" /> <span
+												th:text="${bewertung.bewerter.vorname}"></span>
+										</div>
+									</div>
+									<div class="col-md-8">
+										<div th:text="${bewertung.datum}"></div>
+									</div>
+								</div> <br />
+								<div th:text="${bewertung.kommentar}"></div>
+							</li>
+						</ul>
 					</div>
-
-
-
 				</div>
 			</div>
 		</div>
 
 	</div>
+
+
 </body>
 </html>
 

@@ -10,17 +10,22 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "seq", initialValue = 100)
 public class Angebot {
 
 	// GenerationType.TABLE bewirkt, dass IDs in Tabelle unique sind
 	// GenerationType.AUTO bewirkt, dass IDs in allen drei Tabellen unique sind
 	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq")
 	@Column(name = "ANGEBOTSID")
 	private Long angebotsid;
+
+	@Column(name = "ENABLED", nullable = false)
+	private Boolean enabled;
 
 	@OneToOne
 	private Benutzer benutzer;
@@ -34,9 +39,10 @@ public class Angebot {
 	@Column(name = "STARTDATUM", nullable = false)
 	private Date startDatum;
 
-	public Angebot(Long id, Benutzer benutzer, String titel,
+	public Angebot(Long id, Boolean enabled, Benutzer benutzer, String titel,
 			String beschreibung, Date startDatum) {
 		this.angebotsid = id;
+		this.enabled = enabled;
 		this.benutzer = benutzer;
 		this.titel = titel;
 		this.beschreibung = beschreibung;
@@ -53,6 +59,14 @@ public class Angebot {
 
 	public void setAngebotsid(Long angebotsid) {
 		this.angebotsid = angebotsid;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Benutzer getBenutzer() {
@@ -89,9 +103,10 @@ public class Angebot {
 
 	@Override
 	public String toString() {
-		return "Angebot [angebotsid = " + angebotsid + ", benutzer = "
-				+ benutzer + ", titel = " + titel + ", beschreibung = "
-				+ beschreibung + ", startDatum = " + startDatum + "]";
+		return "Angebot [angebotsid = " + angebotsid + ", enabled = " + enabled
+				+ ", benutzer = " + benutzer + ", titel = " + titel
+				+ ", beschreibung = " + beschreibung + ", startDatum = "
+				+ startDatum + "]";
 	}
 
 }

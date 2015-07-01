@@ -9,6 +9,8 @@ import org.hibernate.Transaction;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -25,12 +27,14 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	private SessionFactory sessionFactory;
 
 	@Override
+	@Cacheable("ausleihartikel")
 	public Ausleihartikel findById(Long id) {
 		Ausleihartikel ausleihartikel = (Ausleihartikel) hibernateTemplate.get(
 				Ausleihartikel.class, id);
 		return ausleihartikel;
 	}
 
+	@Cacheable("ausleihartikel")
 	@Override
 	public List<Ausleihartikel> findAll() {
 		List<Ausleihartikel> ausleihartikel = hibernateTemplate
@@ -39,6 +43,42 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
+	public List<Ausleihartikel> findAllEnabled() {
+
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = (List<Ausleihartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return ausleihartikelListe;
+	}
+
+	@Override
+	public List<Ausleihartikel> findAllDisabled() {
+
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = (List<Ausleihartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+						.add(Restrictions.eq("enabled", Boolean.FALSE)));
+
+		return ausleihartikelListe;
+	}
+
+	@Override
+	@Cacheable("ausleihartikel")
+	public List<Ausleihartikel> findAllEnabledByBenutzer(Benutzer benutzer) {
+
+		@SuppressWarnings("unchecked")
+		List<Ausleihartikel> ausleihartikelListe = (List<Ausleihartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Ausleihartikel.class)
+						.add(Restrictions.eq("benutzer", benutzer))
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return ausleihartikelListe;
+	}
+
+	@Override
+	@Cacheable("ausleihartikel")
 	public List<Ausleihartikel> findAllByBenutzer(Benutzer benutzer) {
 
 		@SuppressWarnings("unchecked")
@@ -50,6 +90,7 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
+	@CacheEvict(value = "ausleihartikel", allEntries = true)
 	public Long save(Ausleihartikel ausleihartikel) {
 		if (ausleihartikel != null) {
 
@@ -68,6 +109,7 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
+	@CacheEvict(value = "ausleihartikel", allEntries = true)
 	public void update(Ausleihartikel ausleihartikel) {
 		if (ausleihartikel != null) {
 
@@ -82,6 +124,7 @@ public class AusleihartikelDAOImpl implements AusleihartikelDAO {
 	}
 
 	@Override
+	@CacheEvict(value = "ausleihartikel", allEntries = true)
 	public void delete(Ausleihartikel ausleihartikel) {
 		if (ausleihartikel != null) {
 

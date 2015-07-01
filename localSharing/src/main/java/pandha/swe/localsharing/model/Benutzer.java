@@ -74,7 +74,7 @@ public class Benutzer {
 		this.hausnummer = hausnummer;
 		this.plz = plz;
 		this.stadt = stadt;
-		this.email = email;
+		this.email = email.toLowerCase();
 		this.telefonNr = telefonNr;
 		this.benutzerRolle = benutzerRolle;
 	}
@@ -156,7 +156,7 @@ public class Benutzer {
 	}
 
 	public void setEmail(String email) {
-		this.email = email;
+		this.email = email.toLowerCase();
 	}
 
 	public String getTelefonNr() {

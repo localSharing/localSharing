@@ -19,10 +19,10 @@ public class Ausleihartikel extends Angebot {
 	@Column(name = "KATEGORIE", nullable = false)
 	private String kategorie;
 
-	public Ausleihartikel(Long id, Benutzer benutzer, String titel,
-			String beschreibung, Date startDatum, Date endDatum, int dauer,
-			String kategorie) {
-		super(id, benutzer, titel, beschreibung, startDatum);
+	public Ausleihartikel(Long id, Boolean enabled, Benutzer benutzer,
+			String titel, String beschreibung, Date startDatum, Date endDatum,
+			int dauer, String kategorie) {
+		super(id, enabled, benutzer, titel, beschreibung, startDatum);
 		this.endDatum = endDatum;
 		this.dauer = dauer;
 		this.kategorie = kategorie;
@@ -59,11 +59,12 @@ public class Ausleihartikel extends Angebot {
 	@Override
 	public String toString() {
 		return "Ausleihartikel [angebotsid = " + super.getAngebotsid()
-				+ ", benutzer = " + super.getBenutzer() + ", titel = "
-				+ super.getTitel() + ", beschreibung = "
-				+ super.getBeschreibung() + ", startDatum = "
-				+ super.getStartDatum() + ", endDatum = " + endDatum
-				+ ", dauer = " + dauer + ", kategorie = " + kategorie + "]";
+				+ ", enabled = " + super.getEnabled() + ", benutzer = "
+				+ super.getBenutzer() + ", titel = " + super.getTitel()
+				+ ", beschreibung = " + super.getBeschreibung()
+				+ ", startDatum = " + super.getStartDatum() + ", endDatum = "
+				+ endDatum + ", dauer = " + dauer + ", kategorie = "
+				+ kategorie + "]";
 	}
 
 }

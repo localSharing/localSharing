@@ -1,6 +1,8 @@
 package pandha.swe.localsharing.service;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
+import pandha.swe.localsharing.model.dao.AngebotsDAO;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
 import pandha.swe.localsharing.model.dto.BenutzerDTO;
 import pandha.swe.localsharing.model.dto.BenutzerRegisterDTO;
@@ -21,9 +24,12 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Autowired
 	private BenutzerDAO benutzerDao;
-
+	
 	@Autowired
 	private PasswordEncoder encoder;
+
+	@Autowired
+	private HashMap<String, AngebotsDAO<?>> angebotDAOs;
 
 	@Override
 	public Benutzer findById(long id) {
@@ -31,8 +37,28 @@ public class BenutzerServiceImpl implements BenutzerService {
 	}
 
 	@Override
+	public Benutzer findByAngebotsIdAndType(Long id, String type) {
+
+		AngebotsDAO<?> dao = angebotDAOs.get(type);
+		if (dao != null) {
+			return dao.findById(id).getBenutzer();
+		}
+		return null;
+	}
+	
+	@Override
+	public Benutzer getUserByPrincipal(Principal principal) {
+		return findByEmail(principal.getName());
+	}
+
+	@Override
 	public List<Benutzer> findAll() {
 		return benutzerDao.findAll();
+	}
+
+	@Override
+	public List<BenutzerDTO> findAllDTO() {
+		return list_Benutzer_TO_BenutzerDTO(findAll());
 	}
 
 	@Override
@@ -42,6 +68,11 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public void update(Benutzer benutzer) {
+
+		if (benutzer.isEnabled() == null) {
+			benutzer.setEnabled(Boolean.TRUE);
+		}
+
 		benutzerDao.update(benutzer);
 	}
 
@@ -83,16 +114,17 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 	@Override
 	public BenutzerDTO benutzer_TO_BenutzerDTO(Benutzer benutzer) {
-		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.getGeschlecht(),
-				benutzer.getEmail(), benutzer.getVorname(),
-				benutzer.getNachname(), benutzer.getStrasse(),
-				benutzer.getHausnummer(), benutzer.getPlz().toString(),
-				benutzer.getStadt(), benutzer.getTelefonNr());
+		BenutzerDTO benutzerDTO = new BenutzerDTO(benutzer.isEnabled(),
+				benutzer.getGeschlecht(), benutzer.getEmail(),
+				benutzer.getVorname(), benutzer.getNachname(),
+				benutzer.getStrasse(), benutzer.getHausnummer(), benutzer
+						.getPlz().toString(), benutzer.getStadt(),
+				benutzer.getTelefonNr());
 
 		String plz = benutzerDTO.getPlz();
 
 		for (int i = plz.length(); i < 5; i++) {
-			plz = "0" + plz;
+			plz += "0";
 		}
 
 		benutzerDTO.setPlz(plz);
@@ -110,15 +142,15 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		benutzerDTO.setId(id);
 
-		Benutzer benutzer = benutzerDTO_TO_Benutzer(benutzerDTO);
-
-		return benutzer;
+		return benutzerDTO_TO_Benutzer(benutzerDTO);
 	}
 
-	private Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
+	@Override
+	public Benutzer benutzerDTO_TO_Benutzer(BenutzerDTO benutzerDTO) {
 
 		Benutzer benutzer = findById(benutzerDTO.getId());
 
+		benutzer.setEnabled(benutzerDTO.isEnabled());
 		benutzer.setEmail(benutzerDTO.getEmail());
 		benutzer.setHausnummer(benutzerDTO.getHausnummer());
 		benutzer.setNachname(benutzerDTO.getNachname());
@@ -130,4 +162,39 @@ public class BenutzerServiceImpl implements BenutzerService {
 
 		return benutzer;
 	}
+
+	@Override
+	public List<BenutzerDTO> list_Benutzer_TO_BenutzerDTO(
+			List<Benutzer> listBenutzer) {
+		List<BenutzerDTO> listBenutzerDTO = new ArrayList<BenutzerDTO>();
+		for (Benutzer benutzer : listBenutzer) {
+			listBenutzerDTO.add(benutzer_TO_BenutzerDTO(benutzer));
+		}
+		return listBenutzerDTO;
+	}
+
+	@Override
+	public Boolean hatBenutzerRolle(Benutzer benutzer, Rollen rolle) {
+
+		if (benutzer != null && rolle != null) {
+			for (BenutzerRolle benutzerRolle : benutzer.getBenutzerRolle()) {
+				if (rolle.equals(benutzerRolle.getRolle())) {
+					return Boolean.TRUE;
+				}
+			}
+		}
+		return Boolean.FALSE;
+	}
+
+	@Override
+	public Boolean sindDieBenutzerGleich(Benutzer benutzer1, Benutzer benutzer2) {
+
+		if (benutzer1 != null && benutzer2 != null
+				&& benutzer1.getId().equals(benutzer2.getId())) {
+			return Boolean.TRUE;
+		}
+
+		return Boolean.FALSE;
+	}
+	
 }

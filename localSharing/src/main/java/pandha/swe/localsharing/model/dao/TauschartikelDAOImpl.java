@@ -39,6 +39,52 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	}
 
 	@Override
+	public List<Tauschartikel> findAllEnabled() {
+		
+		@SuppressWarnings("unchecked")
+		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
+				.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
+						.add(Restrictions.eq("enabled", Boolean.TRUE)));
+
+		return tauschartikelListe;
+	}
+	
+	@Override
+	public List<Tauschartikel> findAllDisabled() {
+		
+		@SuppressWarnings("unchecked")
+		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
+		.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
+				.add(Restrictions.eq("enabled", Boolean.FALSE)));
+		
+		return tauschartikelListe;
+	}
+	
+	@Override
+	public List<Tauschartikel> findAllEnabledByBenutzer(Benutzer benutzer) {
+
+		@SuppressWarnings("unchecked")
+		List<Tauschartikel> tauschartikelListe = 
+		(List<Tauschartikel>) hibernateTemplate
+		.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
+				.add(Restrictions.eq("benutzer", benutzer))
+				.add(Restrictions.eq("enabled", Boolean.TRUE)));
+		
+		return tauschartikelListe;
+	}
+	
+	@Override
+	public List<Tauschartikel> findAllByBenutzer(Benutzer benutzer) {
+		
+		@SuppressWarnings("unchecked")
+		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
+		.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
+				.add(Restrictions.eq("benutzer", benutzer)));
+		
+		return tauschartikelListe;
+	}
+
+	@Override
 	public Long save(Tauschartikel tauschartikel) {
 		if (tauschartikel != null) {
 
@@ -83,17 +129,6 @@ public class TauschartikelDAOImpl implements TauschartikelDAO {
 	public void shutdown() {
 		hibernateTemplate.getSessionFactory().openSession()
 				.createSQLQuery("SHUTDOWN").executeUpdate();
-	}
-
-	@Override
-	public List<Tauschartikel> findAllByBenutzer(Benutzer benutzer) {
-
-		@SuppressWarnings("unchecked")
-		List<Tauschartikel> tauschartikelListe = (List<Tauschartikel>) hibernateTemplate
-				.findByCriteria(DetachedCriteria.forClass(Tauschartikel.class)
-						.add(Restrictions.eq("benutzer", benutzer)));
-
-		return tauschartikelListe;
 	}
 
 }

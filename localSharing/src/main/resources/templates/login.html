@@ -2,74 +2,101 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
-
 <head>
-<title>Sign In</title>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
-
-<script src="webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<title>LocalSharing</title>
+
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+
+<!-- Custom Fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css' />
+<link
+	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+	rel='stylesheet' type='text/css' />
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	type="text/css" />
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+
+<!-- Custom CSS -->
+<link rel="stylesheet" href="/css/creative.css" type="text/css" />
+<link rel="stylesheet" href="/css/login.css" type="text/css" />
+
 </head>
 
-<body>
+<body id="page-top">
 
 	<div class="alert alert-success" th:if="${messageRegSuccess}"
-		th:text="${messageRegSuccess}">Benutzer Registriert</div>
+		th:text="${messageRegSuccess}">Benutzer registriert</div>
 
-	<div class="container">
-		<h2>Login</h2>
-		<form class="form-horizontal" th:action="@{/login}" method="post">
-			<fieldset>
+	<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="/">LocalSharing</a>
+			</div>
 
-				<div class="jumbotron">
-					<!-- Text input-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="username">Email</label>
-						<div class="col-md-4">
-							<input id="username" name="username" type="text"
-								placeholder="beispiel@123.de" class="form-control input-md"
-								required="required" /> <span class="help-block">Bitte
-								die Email Adresse angeben</span>
-						</div>
-					</div>
+			<!-- Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="page-scroll" href="/register">Registrieren</a></li>
+					<li><a class="page-scroll animated slideInRight" href="/login">Login</a></li>
+					<li><a class="page-scroll" href="#portfolio">Über</a></li>
+				</ul>
+			</div>
+			<!-- /.navbar-collapse -->
+		</div>
+		<!-- /.container-fluid -->
+	</nav>
 
-					<!-- Password input-->
-					<div class="form-group">
-						<label class="col-md-4 control-label" for="password">Passwort</label>
-						<div class="col-md-4">
-							<input id="password" name="password" type="password"
-								placeholder="Passwort" class="form-control input-md"
-								required="required" /> <span class="help-block">Bitte
-								Passwort eingeben</span>
-						</div>
-					</div>
-				</div>
-
-
-				<!-- Button -->
-				<div class="form-group">
-					<div class="col-md-12">
-						<button id="btnLogin" name="btnLogin" type="submit"
-							class="btn btn-success">
-							<span class="glyphicon glyphicon-log-in"></span> Login
-						</button>
-
-
-						<div class="pull-right">
-							<p>
-								Neu hier? <a href="signup" th:href="@{/register}">Registrieren</a>
-							</p>
-
-						</div>
+	<header>
+		<div class="backgroundImage"></div>
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<div class="wrap">
+						<p class="form-title">Sign In</p>
+						<form class="login" th:action="@{/login}" method="post">
+							<input id="username" name="username" type="text" placeholder="Username" required="required" /> 
+							<input id="password" name="password" type="password" placeholder="Password" required="required"/> 
+							<input id="btnLogin" name="btnLogin" type="submit"
+								value="Sign In" class="btn btn-success btn-sm" />
+						</form>
 					</div>
 				</div>
+			</div>
+		</div>
 
-			</fieldset>
-		</form>
-	</div>
+	</header>
+
+	<!-- jQuery -->
+	<script src="/js/jquery.js"></script>
+
+	<!-- Bootstrap Core JavaScript -->
+	<script src="/js/bootstrap.min.js"></script>
+
+	<!-- Plugin JavaScript -->
+	<script src="/js/jquery.easing.min.js"></script>
+	<script src="/js/jquery.fittext.js"></script>
+	<script src="/js/wow.min.js"></script>
+
+	<!-- Custom Theme JavaScript -->
+	<script src="/js/creative.js"></script>
 
 </body>
+
 </html>

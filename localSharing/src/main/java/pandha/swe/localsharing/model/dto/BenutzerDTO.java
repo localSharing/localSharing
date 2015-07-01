@@ -12,6 +12,8 @@ public class BenutzerDTO {
 
 	private Long id;
 
+	private Boolean enabled;
+
 	@NotNull
 	private Geschlecht geschlecht;
 
@@ -39,9 +41,10 @@ public class BenutzerDTO {
 	@Size(min = 3, max = 20, message = "Mindestens 3 Zeichen, maximal 20")
 	private String telefonNummer;
 
-	public BenutzerDTO(Geschlecht geschlecht, String email, String vorname,
-			String nachname, String strasse, String hausnummer, String plz,
-			String stadt, String telefonNummer) {
+	public BenutzerDTO(Boolean enabled, Geschlecht geschlecht, String email,
+			String vorname, String nachname, String strasse, String hausnummer,
+			String plz, String stadt, String telefonNummer) {
+		this.enabled = enabled;
 		this.geschlecht = geschlecht;
 		this.email = email;
 		this.vorname = vorname;
@@ -55,6 +58,14 @@ public class BenutzerDTO {
 
 	public BenutzerDTO() {
 
+	}
+
+	public Boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Geschlecht getGeschlecht() {

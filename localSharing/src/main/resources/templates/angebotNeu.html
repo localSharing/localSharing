@@ -2,24 +2,70 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+
 <head>
 <title>Angebot</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="../../webjars/bootstrap/3.2.0/css/bootstrap.min.css"
-	rel="stylesheet" media="screen" />
 
-<script src="../../webjars/jquery/2.1.1/jquery.min.js"
-	type="text/javascript"></script>
+<!-- Bootstrap Core CSS -->
+<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css" />
+
+<!-- Custom Fonts -->
+<link
+	href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+	rel='stylesheet' type='text/css' />
+<link
+	href='http://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic,900,900italic'
+	rel='stylesheet' type='text/css' />
+	
+<link rel="stylesheet" href="/font-awesome/css/font-awesome.min.css"
+	type="text/css" />
+
+<!-- Plugin CSS -->
+<link rel="stylesheet" href="/css/animate.min.css" type="text/css" />
+<link rel="stylesheet" href="/css/startPage.css" type="text/css" />
+
+<script src="/webjars/jquery/2.1.1/jquery.min.js" type="text/javascript"></script>
+
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 </head>
 <body>
 
+<nav id="mainNav" class="navbar navbar-default navbar-fixed-top">
+		<div class="container-fluid">
+			<!-- 			Brand and toggle get grouped for better mobile display -->
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand page-scroll" href="/startPage">LocalSharing</a>
+			</div>
+
+			<!-- 			Collect the nav links, forms, and other content for toggling -->
+			<div class="collapse navbar-collapse"
+				id="bs-example-navbar-collapse-1">
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="page-scroll" th:href="@{/anfragen}">Anfragen</a></li>
+					<li><a class="page-scroll" th:href="@{/profil}">Profil</a></li>
+					<li><a class="page-scroll" th:href="@{/logout}">Logout</a></li>
+				</ul>
+			</div>
+			<!-- 			/.navbar-collapse -->
+		</div>
+		<!-- 		/.container-fluid -->
+	</nav>
+
+	<br />
+	<br />
+	<br />
+
 	<div class="container">
 
-		<a th:href="@{/startPage}"> <span class="glyphicon glyphicon-home"></span>
-		</a>
-
-		<h2>Angebot bearbeiten</h2>
+		<h2>Neues Angebot erstellen</h2>
 
 		<form class="form-horizontal" method="post" id="form"
 			enctype="multipart/form-data" th:object="${newAngebot}">
@@ -69,7 +115,7 @@
 
 						<div class="row">
 							<div class="col-md-2">
-								<b>Titel: </b>
+								<strong>Titel: </strong>
 							</div>
 							<div class="col-md-10">
 								<input type="text" class="form-control" th:field="*{titel}"
@@ -82,10 +128,10 @@
 							<div class="panel-heading">Beschreibung</div>
 							<div class="panel-body">
 								<div th:if="${ausleihen != null || tauschen != null}">
-									<b>Kategorie: </b><input type="text" class="form-control"
+									<strong>Kategorie: </strong><input type="text" class="form-control"
 										th:field="*{kategorie}" id="kategorie" /> <br />
 								</div>
-								<b>Angebotsbeschreibung: </b>
+								<strong>Angebotsbeschreibung: </strong>
 								<textarea rows="10" class="form-control"
 									th:field="*{beschreibung}" id="beschreibung"> </textarea>
 
@@ -95,14 +141,14 @@
 						<div class="panel panel-success">
 							<div class="panel-heading">Bedingungen</div>
 							<div class="panel-body">
-								<b>Startdatum: </b><input type="datetime" class="form-control"
+								<strong>Startdatum: </strong><input type="datetime" class="form-control"
 									id="startDatum" th:field="*{startDatum}" required="required" />
 								<div th:if="${ausleihen != null || helfen != null}">
-									<b>Enddatum: </b><input type="datetime" th:field="*{endDatum}"
-										class="form-control" id="endDatum" />
+									<strong>Enddatum: </strong><input type="datetime" th:field="*{endDatum}"
+										class="form-control" id="endDatum" required="required" />
 								</div>
 								<div th:if="${ausleihen != null}">
-									<br /> <b>maximale Ausleihdauer: </b><input type="text"
+									<br /> <strong>maximale Ausleihdauer: </strong><input type="text"
 										class="form-control" th:field="*{dauer}" id="dauer" /> Tag(e)
 								</div>
 							</div>

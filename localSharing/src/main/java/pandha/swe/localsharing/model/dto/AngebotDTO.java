@@ -9,6 +9,8 @@ public class AngebotDTO {
 
 	private Long id;
 
+	private Boolean enabled;
+
 	private Benutzer benutzer;
 
 	@Size(min = 2, max = 50)
@@ -20,9 +22,10 @@ public class AngebotDTO {
 	@Pattern(regexp = "[0-9]{2}.[0-9]{2}.[0-9]{4}", message = "Bitte das Datum richtig angeben (dd.mm.yyyy)")
 	private String startDatum;
 
-	public AngebotDTO(Long id, Benutzer benutzer, String titel,
-			String beschreibung, String startDatum) {
+	public AngebotDTO(Long id, Boolean enabled, Benutzer benutzer,
+			String titel, String beschreibung, String startDatum) {
 		this.id = id;
+		this.enabled = enabled;
 		this.benutzer = benutzer;
 		this.titel = titel;
 		this.beschreibung = beschreibung;
@@ -38,6 +41,14 @@ public class AngebotDTO {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Boolean getEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(Boolean enabled) {
+		this.enabled = enabled;
 	}
 
 	public Benutzer getBenutzer() {
@@ -74,9 +85,9 @@ public class AngebotDTO {
 
 	@Override
 	public String toString() {
-		return "AngebotDTO [benutzer = " + benutzer + "titel = " + titel
-				+ ", benutzer = " + benutzer + ", beschreibung = "
-				+ beschreibung + ", startDatum = " + startDatum + "]";
+		return "AngebotDTO [id=" + id + ", enabled=" + enabled + ", benutzer="
+				+ benutzer + ", titel=" + titel + ", beschreibung="
+				+ beschreibung + ", startDatum=" + startDatum + "]";
 	}
 
 }

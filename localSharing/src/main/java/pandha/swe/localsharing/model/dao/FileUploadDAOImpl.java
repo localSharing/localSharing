@@ -29,7 +29,7 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 
 		List<?> fileListUN = hibernateTemplate.loadAll(FileUpload.class);
 
-		if (fileListUN != null && fileListUN.size() > 0) {
+		if (fileListUN != null && !fileListUN.isEmpty()) {
 
 			List<FileUpload> fileList = new ArrayList<>();
 
@@ -41,10 +41,12 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 				}
 
 			}
+			
+			return fileList;
 
 		}
 
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -84,7 +86,7 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 							.add(Restrictions.eq("fileUploadType", type))
 							.add(Restrictions.eq("assID", id)));
 
-			if (fileListUN != null && fileListUN.size() > 0) {
+			if (fileListUN != null && !fileListUN.isEmpty()) {
 
 				List<FileUpload> fileList = new ArrayList<>();
 
@@ -111,7 +113,7 @@ public class FileUploadDAOImpl implements FileUploadDAO {
 					.findByCriteria(DetachedCriteria.forClass(FileUpload.class)
 							.add(Restrictions.eq("fileUploadType", type)));
 
-			if (fileListUN != null && fileListUN.size() > 0) {
+			if (fileListUN != null && !fileListUN.isEmpty()) {
 
 				List<FileUpload> fileList = new ArrayList<>();
 

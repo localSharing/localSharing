@@ -18,7 +18,6 @@ import pandha.swe.localsharing.model.Benutzer;
 import pandha.swe.localsharing.model.BenutzerRolle;
 import pandha.swe.localsharing.model.dao.BenutzerDAO;
 
-
 @Service("userDetailsService")
 public class LocalSharingUserDetailsService implements UserDetailsService {
 
@@ -29,26 +28,25 @@ public class LocalSharingUserDetailsService implements UserDetailsService {
 	public UserDetails loadUserByUsername(String email)
 			throws UsernameNotFoundException {
 
-		Benutzer benutzer = benutzerDao.findByEmail(email);
-		
-		if(benutzer == null){
+		Benutzer benutzer = benutzerDao.findByEmail(email.toLowerCase());
+
+		if (benutzer == null) {
 			throw new UsernameNotFoundException("User existiert nicht!!");
 		}
 		List<GrantedAuthority> authorities = buildUserAuthority(benutzer
 				.getBenutzerRolle());
-		
 
 		return buildUserForSpringSecurityAuthentication(benutzer, authorities);
 	}
 
-	public User buildUserForSpringSecurityAuthentication(Benutzer benutzer,
+	private User buildUserForSpringSecurityAuthentication(Benutzer benutzer,
 			List<GrantedAuthority> authorities) {
 		User user = new User(benutzer.getEmail(), benutzer.getPasswort(),
 				benutzer.isEnabled(), true, true, true, authorities);
 		return user;
 	}
 
-	public List<GrantedAuthority> buildUserAuthority(
+	private List<GrantedAuthority> buildUserAuthority(
 			Set<BenutzerRolle> benutzerRollen) {
 
 		Set<GrantedAuthority> setAuths = new HashSet<GrantedAuthority>();
